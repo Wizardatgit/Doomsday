@@ -1,0 +1,446 @@
+import { useEffect, useMemo, useRef, useState } from 'react';
+import {
+  Clock,
+  Flame,
+  GitBranch,
+  Globe2,
+  Home,
+  Menu,
+  Network,
+  Search,
+  Settings,
+  Shield,
+  ShieldAlert,
+  Sparkles,
+  Users,
+  X,
+} from 'lucide-react';
+import { searchCatalog } from './data/index.ts';
+import type { AppView } from './data/index.ts';
+import { useAppState } from './state/useAppState.ts';
+import { TvaLogoMark } from './components/TvaArt.tsx';
+import { DossierDrawer } from './components/DossierDrawer.tsx';
+import { SettingsModal } from './components/SettingsModal.tsx';
+import { CommandHub } from './components/CommandHub.tsx';
+import { ConnectionGraph } from './components/ConnectionGraph.tsx';
+import { SacredTimeline } from './components/SacredTimeline.tsx';
+import { CharacterDirectory } from './components/CharacterDirectory.tsx';
+import { FactionsHub } from './components/FactionsHub.tsx';
+import { RealitiesAtlas } from './components/RealitiesAtlas.tsx';
+import { ThreadsTracker } from './components/ThreadsTracker.tsx';
+import { PathFinder } from './components/PathFinder.tsx';
+
+const NAV_ITEMS: { id: AppView; num: string; label: string; icon: typeof Home }[] = [
+  { id: 'hub', num: '01', label: 'Desk Overview', icon: Home },
+  { id: 'graph', num: '02', label: 'CRT Multiverse Web', icon: Network },
+  { id: 'timeline', num: '03', label: 'Timeline Reel', icon: Clock },
+  { id: 'dossiers', num: '04', label: 'Personnel Mugshots', icon: Users },
+  { id: 'factions', num: '05', label: 'Faction Dossiers', icon: Shield },
+  { id: 'realities', num: '06', label: 'Realities & Places', icon: Globe2 },
+  { id: 'threads', num: '07', label: 'Case Threads', icon: Flame },
+  { id: 'pathfinder', num: '08', label: 'Path Tracer', icon: GitBranch },
+];
+
+export function App() {
+  const {
+    activeView,
+    setActiveView,
+    selectedEntity,
+    setSelectedEntity,
+    graphFocusKey,
+    setGraphFocusKey,
+    pathOriginKey,
+    setPathOriginKey,
+    pathTargetKey,
+    setPathTargetKey,
+    watchedIds,
+    watchedSet,
+    spoilerShield,
+    showTheories,
+    tmdbApiKey,
+    toggleWatched,
+    markEraWatched,
+    toggleSpoilerShield,
+    toggleTheories,
+    setTmdbApiKey,
+    exportBackupJson,
+    importBackupJson,
+    resetProgress,
+    focusInGraph,
+    traceFromEntity,
+  } = useAppState();
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  const daysToDoomsday = useMemo(() => {
+    const release = new Date('2026-12-18T00:00:00').getTime();
+    return Math.max(0, Math.ceil((release - Date.now()) / 86_400_000));
+  }, []);
+
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setMobileMenuOpen(true);
+        setTimeout(() => {
+          searchInputRef.current?.focus();
+          setSearchOpen(true);
+        }, 20);
+      } else if (e.key === 'Escape') {
+        setSearchOpen(false);
+        setSelectedEntity(null);
+        setSettingsOpen(false);
+        setMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [setSelectedEntity]);
+
+  const searchHits = useMemo(
+    () => searchCatalog(searchQuery, showTheories, 12),
+    [searchQuery, showTheories],
+  );
+
+  const sidebarContent = (
+    <div className="flex flex-col h-full justify-between p-4 gap-4 text-[#f5e7c8]">
+      <div className="space-y-4">
+        {/* Hardware Unit Badge */}
+        <div className="flex items-center justify-between gap-2 border-b border-[#3a2c22] pb-3">
+          <button
+            type="button"
+            onClick={() => {
+              setActiveView('hub');
+              setMobileMenuOpen(false);
+            }}
+            className="flex items-center gap-2.5 text-left group"
+          >
+            <TvaLogoMark className="w-8 h-8 shrink-0" />
+            <div>
+              <div className="text-[9px] font-mono-code uppercase tracking-widest text-[#c58f36]">
+                TVA TEMPAD UNIT 07
+              </div>
+              <div className="text-sm font-bold text-[#faf3e3] group-hover:text-amber-400 transition-colors leading-tight">
+                Doomsday Desk
+              </div>
+            </div>
+          </button>
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen(false)}
+            className="lg:hidden p-1 text-[#a89984] hover:text-white"
+            aria-label="Close sidebar"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Amber LCD Readout */}
+        <div className="rounded border-2 border-[#3c2d22] bg-[#0b0806] px-3 py-2 shadow-inner">
+          <div className="flex items-center justify-between text-[9px] font-mono-code uppercase text-[#a88240]">
+            <span>CONVERGENCE</span>
+            <span>DEC 18, 2026</span>
+          </div>
+          <div className="mt-0.5 text-base font-mono-code font-bold text-[#f59e0b] tracking-wider">
+            T-MINUS {daysToDoomsday} DAYS
+          </div>
+        </div>
+
+        {/* Search Field */}
+        <div className="relative">
+          <Search className="w-3.5 h-3.5 text-[#a88240] absolute left-2.5 top-2.5" />
+          <input
+            ref={searchInputRef}
+            type="text"
+            value={searchQuery}
+            onFocus={() => setSearchOpen(true)}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+              setSearchOpen(true);
+            }}
+            placeholder="Search archives (⌘K)..."
+            className="w-full rounded border border-[#3c2d22] bg-[#110c09] pl-8 pr-2.5 py-1.5 text-xs text-[#faf3e3] placeholder-[#7c6a57] focus:border-[#f59e0b] focus:outline-none"
+          />
+          {searchOpen && searchHits.length > 0 && (
+            <div className="absolute left-0 right-0 mt-1 rounded border border-[#c58f36] bg-[#19120d] shadow-2xl max-h-72 overflow-y-auto z-50">
+              {searchHits.map((hit) => (
+                <button
+                  key={`${hit.ref.kind}:${hit.ref.id}`}
+                  type="button"
+                  onClick={() => {
+                    setSelectedEntity(hit.ref);
+                    setSearchOpen(false);
+                    setSearchQuery('');
+                    setMobileMenuOpen(false);
+                  }}
+                  className="w-full text-left px-3 py-2 border-b border-[#2c2118] last:border-none hover:bg-[#281e16] transition-colors"
+                >
+                  <div className="text-xs font-bold text-[#faf3e3] flex items-center gap-1.5">
+                    {hit.isTheory && <Sparkles className="w-3 h-3 text-purple-400" />}
+                    {hit.label}
+                  </div>
+                  <div className="text-[10px] font-mono-code text-[#b79f7d]">{hit.sublabel}</div>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Indexed Filing Tabs */}
+        <nav className="space-y-1">
+          {NAV_ITEMS.map(({ id, num, label, icon: Icon }) => {
+            const active = activeView === id;
+            return (
+              <button
+                key={id}
+                type="button"
+                onClick={() => {
+                  setActiveView(id);
+                  setMobileMenuOpen(false);
+                }}
+                className={`w-full flex items-center justify-between gap-2 rounded px-2.5 py-2 text-xs font-mono-code transition-colors ${
+                  active
+                    ? 'bg-[#f59e0b] text-[#17110c] font-bold shadow-sm'
+                    : 'text-[#d4c2a2] hover:bg-[#281f18] hover:text-[#faf3e3]'
+                }`}
+              >
+                <span className="flex items-center gap-2 truncate">
+                  <Icon className="w-3.5 h-3.5 shrink-0" />
+                  <span className="truncate">{label}</span>
+                </span>
+                <span className={`text-[10px] ${active ? 'text-[#17110c]/80' : 'text-[#7c6a57]'}`}>
+                  {num}
+                </span>
+              </button>
+            );
+          })}
+        </nav>
+      </div>
+
+      {/* Physical Rocker Switch Bank */}
+      <div className="space-y-2 border-t border-[#3a2c22] pt-3">
+        <div className="text-[9px] font-mono-code uppercase tracking-widest text-[#a88240]">
+          SECURITY SWITCHES
+        </div>
+
+        <button
+          type="button"
+          onClick={toggleSpoilerShield}
+          className={`w-full flex items-center justify-between rounded border px-2.5 py-2 text-[11px] font-mono-code font-semibold transition-colors ${
+            spoilerShield
+              ? 'border-amber-400 bg-amber-500 text-black'
+              : 'border-[#3c2d22] bg-[#120d09] text-[#d4c2a2] hover:border-[#c58f36]'
+          }`}
+          title="Hide summaries and character beats for unwatched titles"
+        >
+          <span className="flex items-center gap-1.5">
+            <ShieldAlert className="w-3.5 h-3.5" />
+            REDACT UNWATCHED
+          </span>
+          <span>{spoilerShield ? 'ON' : 'OFF'}</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={toggleTheories}
+          className={`w-full flex items-center justify-between rounded border px-2.5 py-2 text-[11px] font-mono-code font-semibold transition-colors ${
+            showTheories
+              ? 'border-purple-400 bg-purple-600/30 text-purple-200'
+              : 'border-[#3c2d22] bg-[#120d09] text-[#d4c2a2] hover:border-[#c58f36]'
+          }`}
+          title="Toggle unconfirmed theory layer"
+        >
+          <span className="flex items-center gap-1.5">
+            <Sparkles className="w-3.5 h-3.5" />
+            THEORY LAYER
+          </span>
+          <span>{showTheories ? 'ON' : 'OFF'}</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setSettingsOpen(true)}
+          className="w-full flex items-center justify-center gap-1.5 rounded border border-[#3c2d22] bg-[#241b15] px-2.5 py-1.5 text-[11px] font-mono-code text-[#c58f36] hover:border-[#f59e0b]"
+        >
+          <Settings className="w-3.5 h-3.5" /> Settings &amp; JSON Backup
+        </button>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen flex flex-col lg:flex-row">
+      {/* Mobile Top Hardware Strip */}
+      <header className="lg:hidden sticky top-0 z-30 flex items-center justify-between px-4 py-2.5 bg-[#1b1511] text-[#faf3e3] border-b border-[#3a2c22]">
+        <button
+          type="button"
+          onClick={() => setActiveView('hub')}
+          className="flex items-center gap-2"
+        >
+          <TvaLogoMark className="w-7 h-7" />
+          <span className="text-sm font-bold font-display">TVA Doomsday Desk</span>
+        </button>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={toggleSpoilerShield}
+            className={`rounded px-2 py-1 text-[10px] font-mono-code font-bold ${
+              spoilerShield ? 'bg-amber-500 text-black' : 'bg-[#2a2018] text-[#d4c2a2]'
+            }`}
+          >
+            {spoilerShield ? 'REDACTED' : 'REDACT'}
+          </button>
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen(true)}
+            className="p-1.5 rounded bg-[#2a2018] text-amber-400"
+            aria-label="Open menu"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+        </div>
+      </header>
+
+      {/* Mobile Drawer Overlay */}
+      {mobileMenuOpen && (
+        <div
+          className="lg:hidden fixed inset-0 z-40 bg-black/60 flex"
+          onClick={() => setMobileMenuOpen(false)}
+        >
+          <aside
+            className="w-72 h-full bg-[#1b1511] border-r-2 border-[#3c2d22] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {sidebarContent}
+          </aside>
+        </div>
+      )}
+
+      {/* Desktop Left Fixed Bakelite TemPad Hardware Console */}
+      <aside className="hidden lg:block w-64 shrink-0 bg-[#1b1511] border-r-2 border-[#3c2d22] sticky top-0 h-screen overflow-y-auto shadow-xl">
+        {sidebarContent}
+      </aside>
+
+      {/* Right Bright Cream Archival Desk Workspace */}
+      <main
+        className="flex-1 min-w-0 px-4 sm:px-6 lg:px-8 py-6 max-w-6xl mx-auto w-full"
+        onClick={() => setSearchOpen(false)}
+      >
+        {activeView === 'hub' && (
+          <CommandHub
+            watchedSet={watchedSet}
+            spoilerShield={spoilerShield}
+            showTheories={showTheories}
+            tmdbApiKey={tmdbApiKey}
+            onSelect={setSelectedEntity}
+            onNavigate={setActiveView}
+            onLaunchPresetPath={(fromKey, toKey) => {
+              setPathOriginKey(fromKey);
+              setPathTargetKey(toKey);
+              setActiveView('pathfinder');
+            }}
+          />
+        )}
+
+        {activeView === 'graph' && (
+          <ConnectionGraph
+            showTheories={showTheories}
+            focusKey={graphFocusKey}
+            onClearFocusKey={() => setGraphFocusKey(null)}
+            onSelect={setSelectedEntity}
+          />
+        )}
+
+        {activeView === 'timeline' && (
+          <SacredTimeline
+            watchedSet={watchedSet}
+            spoilerShield={spoilerShield}
+            tmdbApiKey={tmdbApiKey}
+            onToggleWatched={toggleWatched}
+            onMarkEraWatched={markEraWatched}
+            onSelect={setSelectedEntity}
+          />
+        )}
+
+        {activeView === 'dossiers' && (
+          <CharacterDirectory
+            watchedSet={watchedSet}
+            spoilerShield={spoilerShield}
+            tmdbApiKey={tmdbApiKey}
+            onSelect={setSelectedEntity}
+          />
+        )}
+
+        {activeView === 'factions' && (
+          <FactionsHub
+            watchedSet={watchedSet}
+            spoilerShield={spoilerShield}
+            tmdbApiKey={tmdbApiKey}
+            onSelect={setSelectedEntity}
+          />
+        )}
+
+        {activeView === 'realities' && (
+          <RealitiesAtlas
+            watchedSet={watchedSet}
+            spoilerShield={spoilerShield}
+            onSelect={setSelectedEntity}
+          />
+        )}
+
+        {activeView === 'threads' && (
+          <ThreadsTracker
+            watchedSet={watchedSet}
+            spoilerShield={spoilerShield}
+            showTheories={showTheories}
+            onSelect={setSelectedEntity}
+          />
+        )}
+
+        {activeView === 'pathfinder' && (
+          <PathFinder
+            originKey={pathOriginKey}
+            targetKey={pathTargetKey}
+            onChangeOrigin={setPathOriginKey}
+            onChangeTarget={setPathTargetKey}
+            showTheories={showTheories}
+            watchedSet={watchedSet}
+            spoilerShield={spoilerShield}
+            tmdbApiKey={tmdbApiKey}
+            onSelect={setSelectedEntity}
+          />
+        )}
+      </main>
+
+      <DossierDrawer
+        selected={selectedEntity}
+        onClose={() => setSelectedEntity(null)}
+        onSelect={setSelectedEntity}
+        onFocusGraph={focusInGraph}
+        onTracePath={traceFromEntity}
+        watchedSet={watchedSet}
+        onToggleWatched={toggleWatched}
+        spoilerShield={spoilerShield}
+        showTheories={showTheories}
+        tmdbApiKey={tmdbApiKey}
+      />
+
+      <SettingsModal
+        isOpen={settingsOpen}
+        onClose={() => setSettingsOpen(false)}
+        tmdbApiKey={tmdbApiKey}
+        onSaveTmdbKey={setTmdbApiKey}
+        watchedCount={watchedIds.length}
+        onExportBackup={exportBackupJson}
+        onImportBackup={importBackupJson}
+        onResetProgress={resetProgress}
+      />
+    </div>
+  );
+}
+
+export default App;

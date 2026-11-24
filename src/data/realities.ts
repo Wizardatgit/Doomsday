@@ -1,0 +1,403 @@
+import type { Place, Reality } from './types.ts';
+
+export const REALITIES: Reality[] = [
+  {
+    id: 'earth-616',
+    code: 'E-616',
+    name: 'Earth-616 (Sacred Timeline)',
+    designation: 'Primary MCU Continuity',
+    placeName: 'Watchtower / Manhattan',
+    wikiPage: 'Stark_Tower',
+    status: 'incursion-risk',
+    anchorBeingId: 'tony-stark',
+    summary:
+      'The core MCU timeline spanning Iron Man through Captain America: Brave New World, Thunderbolts*, and Spider-Man: Brand New Day. Repeated multiversal rifts and Kang/Doom anomalies leave it exposed to imminent incursions.',
+    color: '#c2410c',
+    notableEvents: [
+      '2023 Time Heist temporarily destabilizes branching timelines',
+      '2024 Statue of Liberty multiverse spell opens cracks into Earth-96283 and Earth-120703',
+      '2025/2026: A Fantastic Four vessel breaches Earth-616 airspace above New York',
+      'Peter Parker deep-space tracking anomaly signals cosmic escalation ahead of Doomsday',
+    ],
+  },
+  {
+    id: 'earth-828',
+    code: 'E-828',
+    name: 'Earth-828 (Retro-1960s FF)',
+    designation: 'Fantastic Four Home Reality',
+    placeName: 'Baxter Building (1960s NYC)',
+    wikiPage: 'Baxter_Building',
+    status: 'endangered',
+    anchorBeingId: 'franklin-richards',
+    summary:
+      'A sleek retro-futuristic 1960s world protected by Reed Richards, Sue Storm, Johnny Storm, and Ben Grimm. Threatened by Galactus over Franklin Richards’ cosmic power—and later infiltrated in secret by Victor von Doom.',
+    color: '#0369a1',
+    notableEvents: [
+      'Four astronauts gain cosmic powers and unite Earth-828 under Future Foundation science',
+      'Galactus targets infant Franklin Richards for his reality-shaping Power Cosmic',
+      'Mid-credits (~4 years later): Victor von Doom appears silently beside young Franklin',
+      'The Excelsior / FF rocket later breaches into Earth-616 (seen in Thunderbolts*)',
+    ],
+  },
+  {
+    id: 'earth-10005',
+    code: 'E-10005',
+    name: 'Earth-10005 (Fox X-Men & Deadpool)',
+    designation: 'Mutant Prime Reality',
+    placeName: "Xavier's School (X-Mansion)",
+    wikiPage: 'X-Mansion',
+    status: 'incursion-risk',
+    anchorBeingId: 'wolverine',
+    summary:
+      'The Fox X-Men timeline spanning First Class, the original trilogy, Days of Future Past, Logan, and Deadpool & Wolverine. After Logan’s death threatened to unravel the reality, Wade Wilson recruited a variant Wolverine to stabilize its Anchor Being.',
+    color: '#a16207',
+    notableEvents: [
+      '1973/2023 Days of Future Past reset rewrites Sentinel apocalypse',
+      '2029 Logan dies protecting Laura, triggering slow multiversal decay',
+      'Deadpool & Wolverine stop Cassandra Nova’s Time Ripper and stabilize the timeline',
+      'Classic X-Men leaders (Xavier, Magneto, Cyclops, Nightcrawler, Mystique) converge for Doomsday',
+    ],
+  },
+  {
+    id: 'earth-10005-x',
+    code: 'E-10005-X',
+    name: 'X-Men Incursion Branch',
+    designation: 'Monica Rambeau Landing Reality',
+    placeName: 'X-Mansion Medical Bay',
+    wikiPage: 'Hatley_Park_National_Historic_Site',
+    status: 'incursion-risk',
+    summary:
+      'The alternate X-Men universe revealed in The Marvels post-credits scene, where Monica Rambeau wakes inside the X-Mansion beside Binary (Maria Rambeau) and Hank McCoy / Beast—referencing Charles Xavier and a gaping spacetime rift.',
+    color: '#b45309',
+    notableEvents: [
+      'Monica seals a spacetime tear from the outside in The Marvels and is stranded across universes',
+      'Dr. Hank McCoy (Kelsey Grammer) confirms she crossed into a parallel universe',
+      'Directly links the Earth-616 Cosmic/Avengers side to the Fox X-Men ensemble in Doomsday',
+    ],
+  },
+  {
+    id: 'earth-838',
+    code: 'E-838',
+    name: 'Earth-838 (Illuminati Reality)',
+    designation: 'Ultron-Pacified Universe',
+    placeName: 'Illuminati Manhattan',
+    wikiPage: "1964_New_York_World's_Fair",
+    status: 'incursion-risk',
+    summary:
+      'A technologically advanced reality where Ultron succeeded and the Illuminati policed multiversal threats—until Wanda Maximoff dreamwalked into 838 and slaughtered most of the council, leaving Mordo and surviving forces aware of Earth-616.',
+    color: '#ea580c',
+    notableEvents: [
+      'Earth-838 Doctor Strange triggered an incursion destroying an entire parallel universe',
+      '838 Reed Richards warned that jumping between realities risks colliding universes',
+      'Wanda Maximoff massacred the 838 Illuminati (Xavier, Richards, Carter, Black Bolt, Rambeau)',
+    ],
+  },
+  {
+    id: 'earth-96283',
+    code: 'E-96283',
+    name: 'Earth-96283 (Raimi Spider-Man)',
+    designation: 'Tobey Maguire Continuity',
+    placeName: 'Raimi Midtown & Liberty Island',
+    wikiPage: 'Statue_of_Liberty',
+    status: 'intact',
+    anchorBeingId: 'peter-parker-96283',
+    summary:
+      'Sam Raimi’s New York where Tobey Maguire’s Peter Parker overcame Green Goblin, Doc Ock, Venom, and Sandman before being pulled into Earth-616 during No Way Home and returning cured of old tragedies.',
+    color: '#b91c1c',
+    notableEvents: [
+      '2002–2007: Peter battles Osborn, Octavius, Flint Marko, and Venom symbiote',
+      '2024: Transported to Earth-616, mentors MCU Peter Parker, and cures Norman Osborn',
+    ],
+  },
+  {
+    id: 'earth-120703',
+    code: 'E-120703',
+    name: 'Earth-120703 (Webb Spider-Man)',
+    designation: 'Andrew Garfield Continuity',
+    placeName: 'Oscorp / Midtown Manhattan',
+    wikiPage: 'Manhattan',
+    status: 'intact',
+    anchorBeingId: 'peter-parker-120703',
+    summary:
+      'Marc Webb’s universe where Andrew Garfield’s Peter Parker lost Gwen Stacy, grew bitter, and found redemption on Earth-616 by saving MJ during the Statue of Liberty battle.',
+    color: '#991b1b',
+    notableEvents: [
+      '2012–2014: Battles Lizard, Electro, and Harry Osborn; loses Gwen Stacy',
+      '2024: Pulled into Earth-616, saves MJ, and reconciles with his Spider-Man purpose',
+    ],
+  },
+  {
+    id: 'earth-688',
+    code: 'E-688',
+    name: 'Earth-688 (Sony Venomverse)',
+    designation: 'Eddie Brock / Symbiote World',
+    placeName: 'San Francisco Bay',
+    wikiPage: 'Golden_Gate_Bridge',
+    status: 'intact',
+    summary:
+      'Home to Eddie Brock and the Venom symbiote. Briefly pulled into Earth-616 after Let There Be Carnage, leaving behind a stray piece of the symbiote on a Mexican bar counter before returning for Venom: The Last Dance.',
+    color: '#57534e',
+    notableEvents: [
+      '2024: Venom’s multiversal hive-mind awareness pulls Eddie to Earth-616 and back',
+      'A sliver of Venom symbiote remains on Earth-616 (tracked later by Spider-Man lore)',
+    ],
+  },
+  {
+    id: 'earth-121698',
+    code: 'E-121698',
+    name: 'Earth-121698 (2005 Fantastic Four)',
+    designation: 'Legacy FF Continuity',
+    placeName: '2005 Baxter Building',
+    wikiPage: 'Baxter_Building',
+    status: 'pruned',
+    summary:
+      'Home to Tim Story’s 2005 Fantastic Four and Rise of the Silver Surfer. Chris Evans’ Johnny Storm was pruned into The Void, where he met Deadpool and Wolverine before being killed by Cassandra Nova.',
+    color: '#1d4ed8',
+    notableEvents: [
+      '2005–2007: Battles Victor Von Doom and Galactus/Silver Surfer',
+      'Johnny Storm ends up pruned to The Void (Deadpool & Wolverine)',
+    ],
+  },
+  {
+    id: 'earth-26320',
+    code: 'E-26320',
+    name: 'Earth-26320 (Blade Trilogy)',
+    designation: 'Daywalker Legacy Continuity',
+    placeName: 'Nocturnal Metropolis',
+    wikiPage: 'Grand_Central_Terminal',
+    status: 'pruned',
+    anchorBeingId: 'blade',
+    summary:
+      'The pre-MCU 1998–2004 Blade film continuity starring Wesley Snipes. Blade was later exiled into The Void, fought alongside Deadpool and Wolverine against Cassandra Nova, and returned to a restored existence.',
+    color: '#7f1d1d',
+    notableEvents: [
+      '1998–2004: Blade defeats Deacon Frost, Reapers, and Dracula',
+      '2024: Resurfaces in The Void as a Void Resistance veteran with Elektra and Gambit',
+    ],
+  },
+  {
+    id: 'earth-701306',
+    code: 'E-701306',
+    name: 'Earth-701306 (2003 Daredevil / Elektra)',
+    designation: 'Legacy Street Continuity',
+    placeName: "Hell's Kitchen Rooftops",
+    wikiPage: "Hell's_Kitchen,_Manhattan",
+    status: 'pruned',
+    anchorBeingId: 'elektra',
+    summary:
+      'The 2003 Daredevil and 2005 Elektra continuity. Jennifer Garner’s Elektra Natchios survived into The Void alongside Blade and Gambit to help overthrow Cassandra Nova.',
+    color: '#9f1239',
+    notableEvents: [
+      '2003–2005: Matt Murdock and Elektra Natchios battle Kingpin, Bullseye, and The Hand',
+      '2024: Elektra joins the Void Resistance before TVA intervention restores displaced heroes',
+    ],
+  },
+  {
+    id: 'earth-1610b',
+    code: 'E-1610B',
+    name: 'Earth-1610B (Spider-Verse)',
+    designation: 'Miles Morales / Spider-Society Hub',
+    placeName: 'Brooklyn / Spider-Society',
+    wikiPage: 'Brooklyn',
+    status: 'intact',
+    summary:
+      'The animated Spider-Verse multiverse tracked by Miguel O’Hara’s Spider-Society—explicitly referencing Doctor Strange and Peter Parker’s "little nerd back on Earth-199999/616" as a multiversal anomaly.',
+    color: '#be123c',
+    notableEvents: [
+      '2018–2023: Alchemax collider tears multiverse; Canon Events model exposed',
+      'Across the Spider-Verse references Earth-616’s No Way Home fracture directly',
+    ],
+  },
+  {
+    id: 'earth-92131',
+    code: 'E-92131',
+    name: "Earth-92131 (X-Men '97 / Animated)",
+    designation: 'Classic 90s Animated Reality',
+    placeName: "90s X-Mansion & Genosha",
+    wikiPage: 'Hatley_Park_National_Historic_Site',
+    status: 'intact',
+    summary:
+      "The 1990s X-Men: The Animated Series and X-Men '97 reality—key visual and thematic inspiration for Doomsday's comic-accurate X-Men revival (yellow-and-blue Cyclops, Gambit, and Magneto/Xavier dynamics).",
+    color: '#b45309',
+    notableEvents: [
+      "Genosha attack and Asteroid M crisis splinter the X-Men across time in X-Men '97",
+      'Watcher cameo and Captain America tie-ins establish shared multiverse rules',
+    ],
+  },
+  {
+    id: 'tva',
+    code: 'TVA-00',
+    name: 'Time Variance Authority & World Tree',
+    designation: 'Null-Time Citadel & Yggdrasil',
+    placeName: 'TVA Citadel & Yggdrasil',
+    wikiPage: 'Time_Variance_Authority',
+    status: 'outside-time',
+    anchorBeingId: 'loki',
+    summary:
+      'Exists completely outside normal time. After He Who Remains’ Temporal Loom collapsed, Loki took the throne at the End of Time—physically holding infinite living timeline branches together as Yggdrasil while B-15 and Mobius reform the TVA.',
+    color: '#b45309',
+    notableEvents: [
+      'Loki Season 1: Sylvie kills He Who Remains, unleashing the multiverse',
+      'Loki Season 2: Loki sacrifices his freedom to weave dying branches into Yggdrasil',
+      'Deadpool & Wolverine: Rogue TVA agent Paradox attempts premature timeline pruning',
+    ],
+  },
+  {
+    id: 'the-void',
+    code: 'VOID',
+    name: 'The Void at the End of Time',
+    designation: 'Pruned Reality Scrapyard',
+    placeName: 'The Void Wasteland',
+    wikiPage: 'Badlands',
+    status: 'outside-time',
+    summary:
+      'Where every pruned timeline, variant, and forgotten pre-MCU Marvel hero lands—guarded by Alioth and formerly ruled by Cassandra Nova. Home to Gambit (Channing Tatum) and the Void Resistance.',
+    color: '#57534e',
+    notableEvents: [
+      'Houses pruned Variants including Classic Loki, Kid Loki, and Alioth',
+      'Deadpool & Wolverine team up with Blade, Elektra, X-23, and Gambit against Cassandra Nova',
+      'Gambit survives and crosses directly into the confirmed Avengers: Doomsday roster',
+    ],
+  },
+  {
+    id: 'steve-branch',
+    code: 'E-616-B',
+    name: "Steve Rogers' Alternate Branch",
+    designation: 'Post-Endgame Peggy Carter Branch',
+    placeName: '1940s Homefront Branch',
+    wikiPage: 'V-J_Day_in_Times_Square',
+    status: 'endangered',
+    anchorBeingId: 'steve-rogers',
+    summary:
+      'The branched timeline created when Steve Rogers stayed in the late 1940s with Peggy Carter after returning the Infinity Stones in Avengers: Endgame—which Doctor Doom considers an unforgivable "stolen life" anomaly.',
+    color: '#1d4ed8',
+    notableEvents: [
+      '1949–present: Steve lives a quiet life married to Peggy Carter in an alternate branch',
+      '2023 (relative): Elderly Steve crosses back to Earth-616 to pass the shield to Sam Wilson',
+      '2026 Doomsday promos: Steve Rogers and Peggy Carter are pulled back into the multiversal crisis',
+    ],
+  },
+];
+
+export const ICONIC_PLACES: Place[] = [
+  {
+    id: 'place-watchtower',
+    name: 'Watchtower (Former Avengers Tower)',
+    realityId: 'earth-616',
+    wikiPage: 'Stark_Tower',
+    summary:
+      'Purchased by Valentina Allegra de Fontaine in Midtown Manhattan, serving as headquarters for the New Avengers (Thunderbolts*)—the exact roof from which they spot the Fantastic Four vessel entering Earth-616.',
+    keyTitleIds: ['the-avengers', 'thunderbolts', 'avengers-doomsday'],
+    keyCharacterIds: ['yelena-belova', 'bucky-barnes', 'sentry', 'valentina'],
+  },
+  {
+    id: 'place-baxter',
+    name: 'Baxter Building (Earth-828)',
+    realityId: 'earth-828',
+    wikiPage: 'Baxter_Building',
+    summary:
+      'Retro-1960s headquarters of Reed Richards, Sue Storm, Johnny Storm, Ben Grimm, and Franklin Richards—and the exact room Victor von Doom infiltrates in the First Steps mid-credits scene.',
+    keyTitleIds: ['fantastic-four-first-steps', 'avengers-doomsday'],
+    keyCharacterIds: ['reed-richards', 'sue-storm', 'franklin-richards', 'doctor-doom'],
+  },
+  {
+    id: 'place-xmansion',
+    name: "Xavier's School (X-Mansion)",
+    realityId: 'earth-10005',
+    wikiPage: 'X-Mansion',
+    summary:
+      'Westchester sanctuary restored by Wolverine’s 1973 Days of Future Past reset, and the mansion medical bay where Beast examines stranded Monica Rambeau in The Marvels.',
+    keyTitleIds: ['x-men-2000', 'x-men-dofp-2014', 'the-marvels', 'avengers-doomsday'],
+    keyCharacterIds: ['professor-x', 'cyclops', 'beast', 'monica-rambeau'],
+  },
+  {
+    id: 'place-tva',
+    name: 'TVA Citadel & Yggdrasil World Tree',
+    realityId: 'tva',
+    wikiPage: 'Time_Variance_Authority',
+    summary:
+      'Null-time bureaucracy monitoring Sacred Timeline branches while Loki holds infinite living timelines together as Yggdrasil at the End of Time.',
+    keyTitleIds: ['loki-s1', 'loki-s2', 'deadpool-wolverine', 'avengers-doomsday'],
+    keyCharacterIds: ['loki', 'deadpool'],
+  },
+  {
+    id: 'place-void',
+    name: 'The Void at the End of Time',
+    realityId: 'the-void',
+    wikiPage: 'Badlands',
+    summary:
+      'Pruned reality wasteland where Cassandra Nova reigned over discarded heroes—producing the Void Resistance (Gambit, Blade, Elektra) that fed Channing Tatum’s Gambit into Doomsday.',
+    keyTitleIds: ['loki-s1', 'deadpool-wolverine', 'blade-1998', 'elektra-2005'],
+    keyCharacterIds: ['gambit', 'blade', 'elektra', 'deadpool', 'wolverine'],
+  },
+  {
+    id: 'place-latveria',
+    name: 'Latveria / Castle Doom',
+    realityId: 'earth-828',
+    wikiPage: 'Latveria',
+    summary:
+      'Sovereign European domain of Victor von Doom—blending arcane mysticism with Stark-tier armor engineering behind Doomsday’s multiversal strike.',
+    keyTitleIds: ['fantastic-four-first-steps', 'avengers-doomsday'],
+    keyCharacterIds: ['doctor-doom', 'franklin-richards'],
+  },
+  {
+    id: 'place-wakanda',
+    name: 'Wakanda (Golden City & Warrior Falls)',
+    realityId: 'earth-616',
+    wikiPage: 'Iguazu_Falls',
+    summary:
+      'Vibranium-powered kingdom defended by Shuri (Black Panther) and King M’Baku—site of Infinity War’s final stand and strategic pillar of Earth-616’s defense.',
+    keyTitleIds: ['black-panther', 'avengers-infinity-war', 'black-panther-wakanda-forever', 'avengers-doomsday'],
+    keyCharacterIds: ['shuri', 'mbaku'],
+  },
+  {
+    id: 'place-talokan',
+    name: 'Talokan (Hidden Ocean Empire)',
+    realityId: 'earth-616',
+    wikiPage: 'Cenote',
+    summary:
+      'Submerged vibranium civilization beneath Mesoamerican cenotes led by Namor and Namora—bound to Wakanda by a mutual-defense pact entering Doomsday.',
+    keyTitleIds: ['black-panther-wakanda-forever', 'avengers-doomsday'],
+    keyCharacterIds: ['namor', 'namora', 'shuri'],
+  },
+  {
+    id: 'place-sanctum',
+    name: 'Sanctum Sanctorum (177A Bleecker St)',
+    realityId: 'earth-616',
+    wikiPage: 'Bleecker_Street',
+    summary:
+      'Greenwich Village nexus of Mystic Arts where Doctor Strange cast the fractured No Way Home memory spell and departed with Clea into the Dark Dimension.',
+    keyTitleIds: ['doctor-strange', 'spider-man-no-way-home', 'doctor-strange-mom'],
+    keyCharacterIds: ['doctor-strange', 'peter-parker-616'],
+  },
+  {
+    id: 'place-asgard',
+    name: 'Asgard & New Asgard',
+    realityId: 'earth-616',
+    wikiPage: 'Asgard_(comics)',
+    summary:
+      'Original celestial realm of Thor and Loki before Ragnarok’s destruction relocated surviving Asgardians to Tønsberg, Norway on Earth-616.',
+    keyTitleIds: ['thor', 'thor-ragnarok', 'avengers-endgame', 'thor-love-and-thunder'],
+    keyCharacterIds: ['thor', 'loki'],
+  },
+  {
+    id: 'place-steve-1940s',
+    name: "Steve & Peggy's 1940s Branch",
+    realityId: 'steve-branch',
+    wikiPage: 'V-J_Day_in_Times_Square',
+    summary:
+      'The post-war homefront branch Steve Rogers created by returning to dance with Peggy Carter—singled out by Doctor Doom as an intolerable "stolen life".',
+    keyTitleIds: ['captain-america-first-avenger', 'agent-carter-series', 'avengers-endgame', 'avengers-doomsday'],
+    keyCharacterIds: ['steve-rogers', 'peggy-carter', 'doctor-doom'],
+  },
+  {
+    id: 'place-liberty',
+    name: 'Statue of Liberty (Multiverse Fracture)',
+    realityId: 'earth-616',
+    wikiPage: 'Statue_of_Liberty',
+    summary:
+      'Site of the climactic No Way Home battle where three Spider-Men fought across realities—and Liberty Island in X-Men (2000) where Xavier’s team confronted Magneto.',
+    keyTitleIds: ['x-men-2000', 'spider-man-no-way-home', 'spider-man-brand-new-day'],
+    keyCharacterIds: ['peter-parker-616', 'peter-parker-96283', 'peter-parker-120703', 'magneto'],
+  },
+];

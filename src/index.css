@@ -1,0 +1,137 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Fraunces", Georgia, ui-serif, serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  color-scheme: light;
+  --desk-bg: #efe5d1;
+  --folder-bg: #faf4e6;
+  --card-bg: #fffaf0;
+  --paper-border: #cbb895;
+  --ink-primary: #1d1610;
+  --ink-muted: #61503e;
+  --tempad-bg: #1b1511;
+  --tempad-brass: #c58f36;
+  --phosphor-amber: #f59e0b;
+  --doom-emerald: #047857;
+  --theory-plum: #7e22ce;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--desk-bg);
+  color: var(--ink-primary);
+  background-image:
+    linear-gradient(to right, rgba(92, 72, 46, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(92, 72, 46, 0.08) 1px, transparent 1px);
+  background-size: 28px 28px;
+  min-height: 100vh;
+}
+
+h1, h2, h3, .font-display {
+  font-family: var(--font-display);
+}
+
+.font-mono-code {
+  font-family: var(--font-mono);
+}
+
+/* Manila Archival Folder Card */
+.tva-folder {
+  background-color: var(--folder-bg);
+  border: 1px solid var(--paper-border);
+  box-shadow:
+    0 2px 0 #c6b28d,
+    0 8px 20px rgba(35, 24, 12, 0.08);
+}
+
+/* Secondary Index Sheet */
+.tva-sheet {
+  background-color: var(--card-bg);
+  border: 1px solid #d7c7a7;
+  box-shadow: 0 1px 0 #d1bf9c, 0 3px 10px rgba(35, 24, 12, 0.05);
+}
+
+/* Tactile Off-White Polaroid Photo Mount */
+.tva-polaroid {
+  background-color: #fffdf7;
+  border: 1px solid #d3c4a7;
+  box-shadow:
+    0 2px 0 #c7b593,
+    0 6px 14px rgba(35, 24, 12, 0.12);
+}
+
+/* Physical Recessed Bakelite CRT Monitor Frame (for Graph & Scopes) */
+.tva-crt-bezel {
+  background: linear-gradient(145deg, #271e17, #16100c);
+  border: 3px solid #3c2e23;
+  box-shadow:
+    inset 0 2px 6px rgba(255, 210, 140, 0.12),
+    0 12px 28px rgba(25, 16, 8, 0.28);
+}
+
+.tva-crt-screen {
+  background-color: #0c0907;
+  border: 2px solid #060403;
+  box-shadow: inset 0 0 36px rgba(245, 158, 11, 0.08);
+}
+
+.tva-scanlines {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(245, 158, 11, 0.04) 0px,
+    rgba(245, 158, 11, 0.04) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tva-scanlines {
+    display: none;
+  }
+}
+
+/* Rubber Ink Stamp Badge */
+.tva-ink-stamp {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.5rem;
+  border-radius: 0.2rem;
+  border-width: 1.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  white-space: nowrap;
+}
+
+/* Sharpie / Black Tape Redaction Bar */
+.tva-redacted {
+  background-color: #16120f;
+  color: #f59e0b;
+  border: 1px solid #000000;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #e3d5ba;
+}
+::-webkit-scrollbar-thumb {
+  background: #b5a07a;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #8d6a38;
+}
