@@ -12,7 +12,7 @@ interface PendingRequest {
 let pendingQueue: PendingRequest[] = [];
 let flushTimer: ReturnType<typeof setTimeout> | null = null;
 
-export function buildWikiBatchUrl(pages: string[], thumbSize = 640): string {
+export function buildWikiBatchUrl(pages: string[], thumbSize = 800): string {
   const params = new URLSearchParams({
     action: 'query',
     titles: pages.join('|'),

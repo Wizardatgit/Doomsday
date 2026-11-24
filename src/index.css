@@ -91,9 +91,89 @@ h1, h2, h3, .font-display {
   pointer-events: none;
 }
 
+/* CRT Multiverse Web Tactile Motion Suite */
+.crt-camera {
+  transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.crt-node {
+  transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1), opacity 240ms ease;
+}
+
+.crt-node-inner {
+  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.crt-node:hover .crt-node-inner,
+.crt-node-active .crt-node-inner {
+  transform: scale(1.14);
+}
+
+.crt-edge-group {
+  transition: opacity 240ms ease;
+}
+
+@keyframes crt-beacon-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.72;
+  }
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
+@keyframes crt-reticle-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes crt-signal-flow {
+  from {
+    stroke-dashoffset: 32;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.crt-beacon {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: crt-beacon-pulse 2.6s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+.crt-reticle {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: crt-reticle-spin 9s linear infinite;
+}
+
+.crt-signal-flow {
+  animation: crt-signal-flow 1.15s linear infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .tva-scanlines {
     display: none;
+  }
+  .crt-camera,
+  .crt-node,
+  .crt-node-inner,
+  .crt-edge-group {
+    transition: none;
+  }
+  .crt-beacon,
+  .crt-reticle,
+  .crt-signal-flow {
+    animation: none;
   }
 }
 

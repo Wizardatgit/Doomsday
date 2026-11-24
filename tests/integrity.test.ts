@@ -2,9 +2,12 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import {
+  BEGINNER_12_IDS,
+  BEGINNER_PRIMER,
   CHARACTERS,
   CURATED_CONNECTIONS,
   FACTIONS,
+  GLOSSARY_TERMS,
   ICONIC_PLACES,
   REALITIES,
   THREADS,
@@ -234,4 +237,20 @@ test('spoiler shield redaction and watchlist import validation', () => {
 
   const badJson = parseImportedWatchlist('{invalid json', validTitleIds);
   assert.equal(badJson.ok, false);
+});
+
+test('newcomer 12-title catch-up list, primer, and glossary are valid', () => {
+  assert.equal(BEGINNER_12_IDS.length, 12);
+  assert.equal(new Set(BEGINNER_12_IDS).size, 12);
+  for (const id of BEGINNER_12_IDS) {
+    assert.ok(titlesById.has(id), `Beginner title missing: ${id}`);
+  }
+  assert.equal(BEGINNER_PRIMER.length, 3);
+  assert.equal(GLOSSARY_TERMS.length, 6);
+  for (const p of BEGINNER_PRIMER) {
+    assert.ok(p.title.trim().length > 0 && p.body.trim().length > 0);
+  }
+  for (const g of GLOSSARY_TERMS) {
+    assert.ok(g.term.trim().length > 0 && g.meaning.trim().length > 0);
+  }
 });

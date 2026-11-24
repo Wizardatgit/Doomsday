@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react';
-import { CheckSquare, Clock, Filter, Square } from 'lucide-react';
-import { TITLES, charactersById, realitiesById } from '../data/index.ts';
-import type { EntityRef, TitleEra, TitleImportance } from '../data/types.ts';
+import { CheckSquare, Clock, Compass, Filter, Square } from 'lucide-react';
+import { BEGINNER_12_IDS, TITLES, charactersById, realitiesById } from '../data/index.ts';
+import type { EntityRef, TitleEra } from '../data/types.ts';
+import type { TimelinePreset } from '../state/useAppState.ts';
 import { EntityVisual } from './TvaArt.tsx';
 import { Redactable } from './Redactable.tsx';
 
@@ -9,10 +10,14 @@ type OrderMode = 'chrono' | 'release';
 type EraFilter = 'all' | 'pre-phase-1' | 'infinity' | 'defenders' | 'multiverse';
 type WatchFilter = 'all' | 'unwatched' | 'watched';
 
+const BEGINNER_SET = new Set(BEGINNER_12_IDS);
+
 export function SacredTimeline({
   watchedSet,
   spoilerShield,
   tmdbApiKey,
+  timelinePreset,
+  onChangePreset,
   onToggleWatched,
   onMarkEraWatched,
   onSelect,
@@ -20,6 +25,8 @@ export function SacredTimeline({
   watchedSet: Set<string>;
   spoilerShield: boolean;
   tmdbApiKey: string;
+  timelinePreset: TimelinePreset;
+  onChangePreset: (preset: TimelinePreset) => void;
   onToggleWatched: (titleId: string) => void;
   onMarkEraWatched: (era: TitleEra, watched: boolean) => void;
   onSelect: (ref: EntityRef) => void;
@@ -27,7 +34,6 @@ export function SacredTimeline({
   const [orderMode, setOrderMode] = useState<OrderMode>('chrono');
   const [eraFilter, setEraFilter] = useState<EraFilter>('all');
   const [realityFilter, setRealityFilter] = useState<string>('all');
-  const [importanceFilter, setImportanceFilter] = useState<'all' | TitleImportance>('all');
   const [watchFilter, setWatchFilter] = useState<WatchFilter>('all');
 
   const uniqueRealities = useMemo(() => {
@@ -42,10 +48,9 @@ export function SacredTimeline({
       if (eraFilter === 'defenders' && t.era !== 'defenders') return false;
       if (eraFilter === 'multiverse' && !['phase-4', 'phase-5', 'phase-6'].includes(t.era)) return false;
       if (realityFilter !== 'all' && t.realityId !== realityFilter) return false;
-      if (importanceFilter !== 'all') {
-        if (importanceFilter === 'essential' && t.importance !== 'essential') return false;
-        if (importanceFilter === 'key' && t.importance === 'background') return false;
-      }
+      if (timelinePreset === 'beginner' && !BEGINNER_SET.has(t.id)) return false;
+      if (timelinePreset === 'essential' && t.importance !== 'essential') return false;
+      if (timelinePreset === 'key' && t.importance === 'background') return false;
       if (watchFilter === 'watched' && !watchedSet.has(t.id)) return false;
       if (watchFilter === 'unwatched' && watchedSet.has(t.id)) return false;
       return true;
@@ -56,7 +61,7 @@ export function SacredTimeline({
         ? a.chronoOrder - b.chronoOrder
         : a.releaseDate.localeCompare(b.releaseDate),
     );
-  }, [orderMode, eraFilter, realityFilter, importanceFilter, watchFilter, watchedSet]);
+  }, [orderMode, eraFilter, realityFilter, timelinePreset, watchFilter, watchedSet]);
 
   return (
     <div className="space-y-5">
@@ -121,11 +126,12 @@ export function SacredTimeline({
           </select>
 
           <select
-            value={importanceFilter}
-            onChange={(e) => setImportanceFilter(e.target.value as 'all' | TitleImportance)}
+            value={timelinePreset}
+            onChange={(e) => onChangePreset(e.target.value as TimelinePreset)}
             className="rounded border border-[#cbb895] bg-[#fffaf0] px-2.5 py-1.5 text-xs font-mono-code text-[#1d1610]"
           >
-            <option value="all">All Importance Tiers</option>
+            <option value="all">All Importance Tiers ({TITLES.length})</option>
+            <option value="beginner">Beginner 12-Title Catch-Up</option>
             <option value="essential">Essential Only</option>
             <option value="key">Essential + Key Context</option>
           </select>
@@ -154,6 +160,24 @@ export function SacredTimeline({
             ))}
           </div>
         </div>
+
+        {timelinePreset === 'beginner' && (
+          <div className="rounded border border-[#047857] bg-[#047857]/10 px-3 py-2 flex flex-wrap items-center justify-between gap-2 text-xs text-[#065f46]">
+            <span className="flex items-center gap-2">
+              <Compass className="w-4 h-4 shrink-0" />
+              <span>
+                <strong>Beginner 12-Title Catch-Up Active:</strong> The 12 fastest, story-ordered chapters to understand every major player in Avengers: Doomsday.
+              </span>
+            </span>
+            <button
+              type="button"
+              onClick={() => onChangePreset('all')}
+              className="font-mono-code font-bold underline hover:text-[#1d1610]"
+            >
+              Show all {TITLES.length} titles
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Archival Filmstrip Ledger */}

@@ -18,7 +18,7 @@ import {
 import { searchCatalog } from './data/index.ts';
 import type { AppView } from './data/index.ts';
 import { useAppState } from './state/useAppState.ts';
-import { TvaLogoMark } from './components/TvaArt.tsx';
+import { ImageLightboxProvider, TvaLogoMark } from './components/TvaArt.tsx';
 import { DossierDrawer } from './components/DossierDrawer.tsx';
 import { SettingsModal } from './components/SettingsModal.tsx';
 import { CommandHub } from './components/CommandHub.tsx';
@@ -58,11 +58,16 @@ export function App() {
     spoilerShield,
     showTheories,
     tmdbApiKey,
+    welcomeDismissed,
+    timelinePreset,
+    setTimelinePreset,
     toggleWatched,
     markEraWatched,
     toggleSpoilerShield,
     toggleTheories,
     setTmdbApiKey,
+    toggleWelcomeDismissed,
+    openBeginnerWatchPath,
     exportBackupJson,
     importBackupJson,
     resetProgress,
@@ -273,7 +278,8 @@ export function App() {
   );
 
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row">
+    <ImageLightboxProvider>
+      <div className="min-h-screen flex flex-col lg:flex-row">
       {/* Mobile Top Hardware Strip */}
       <header className="lg:hidden sticky top-0 z-30 flex items-center justify-between px-4 py-2.5 bg-[#1b1511] text-[#faf3e3] border-b border-[#3a2c22]">
         <button
@@ -336,6 +342,9 @@ export function App() {
             spoilerShield={spoilerShield}
             showTheories={showTheories}
             tmdbApiKey={tmdbApiKey}
+            welcomeDismissed={welcomeDismissed}
+            onToggleWelcome={toggleWelcomeDismissed}
+            onOpenBeginnerPath={openBeginnerWatchPath}
             onSelect={setSelectedEntity}
             onNavigate={setActiveView}
             onLaunchPresetPath={(fromKey, toKey) => {
@@ -360,6 +369,8 @@ export function App() {
             watchedSet={watchedSet}
             spoilerShield={spoilerShield}
             tmdbApiKey={tmdbApiKey}
+            timelinePreset={timelinePreset}
+            onChangePreset={setTimelinePreset}
             onToggleWatched={toggleWatched}
             onMarkEraWatched={markEraWatched}
             onSelect={setSelectedEntity}
@@ -439,7 +450,8 @@ export function App() {
         onImportBackup={importBackupJson}
         onResetProgress={resetProgress}
       />
-    </div>
+      </div>
+    </ImageLightboxProvider>
   );
 }
 

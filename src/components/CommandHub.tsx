@@ -1,7 +1,11 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import {
   ArrowRight,
+  BookOpen,
   CheckCircle2,
+  ChevronDown,
+  ChevronUp,
+  Compass,
   Flame,
   GitBranch,
   MapPin,
@@ -10,7 +14,9 @@ import {
   Users,
 } from 'lucide-react';
 import {
+  BEGINNER_PRIMER,
   CHARACTERS,
+  GLOSSARY_TERMS,
   ICONIC_PLACES,
   REALITIES,
   THREADS,
@@ -86,6 +92,9 @@ export function CommandHub({
   spoilerShield,
   showTheories,
   tmdbApiKey,
+  welcomeDismissed,
+  onToggleWelcome,
+  onOpenBeginnerPath,
   onSelect,
   onNavigate,
   onLaunchPresetPath,
@@ -94,10 +103,14 @@ export function CommandHub({
   spoilerShield: boolean;
   showTheories: boolean;
   tmdbApiKey: string;
+  welcomeDismissed: boolean;
+  onToggleWelcome: () => void;
+  onOpenBeginnerPath: () => void;
   onSelect: (ref: EntityRef) => void;
   onNavigate: (view: AppView) => void;
   onLaunchPresetPath: (fromKey: string, toKey: string) => void;
 }) {
+  const [glossaryOpen, setGlossaryOpen] = useState(false);
   const essentialTitles = useMemo(() => TITLES.filter((t) => t.importance === 'essential'), []);
   const watchedEssential = useMemo(
     () => essentialTitles.filter((t) => watchedSet.has(t.id)).length,
@@ -132,6 +145,97 @@ export function CommandHub({
 
   return (
     <div className="space-y-7">
+      {/* New to Marvel? Start Here Onboarding Briefing */}
+      <section className="tva-folder rounded-md p-4 sm:p-5 border-l-4 border-l-[#047857]">
+        {welcomeDismissed ? (
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-2.5 text-xs">
+              <Compass className="w-4 h-4 text-[#047857] shrink-0" />
+              <span className="font-bold text-[#1d1610]">New to Marvel?</span>
+              <span className="text-[#61503e]">
+                Open the 30-second plain-English starter guide, 12-movie catch-up path, and glossary.
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={onToggleWelcome}
+              className="inline-flex items-center gap-1 rounded border border-[#cbb895] bg-[#fffaf0] px-2.5 py-1 text-xs font-mono-code font-semibold text-[#047857] hover:border-[#047857]"
+            >
+              Open Starter Guide <ChevronDown className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <div className="flex flex-wrap items-start justify-between gap-3 border-b border-[#cbb895] pb-3">
+              <div className="space-y-1">
+                <span className="tva-ink-stamp border-[#047857] bg-[#047857]/10 text-[#065f46]">
+                  <Compass className="w-3 h-3" /> VISITOR ORIENTATION // ZERO MARVEL KNOWLEDGE NEEDED
+                </span>
+                <h2 className="text-xl font-bold text-[#1d1610]">
+                  New to Marvel? Start Here in 30 Seconds
+                </h2>
+                <p className="text-xs text-[#61503e]">
+                  Never seen all 90+ titles? No problem—this short briefing explains the entire setup for <strong>Avengers: Doomsday</strong> without jargon.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={onToggleWelcome}
+                className="inline-flex items-center gap-1 rounded border border-[#cbb895] bg-[#fffaf0] px-2.5 py-1 text-[11px] font-mono-code text-[#61503e] hover:text-[#1d1610]"
+              >
+                Collapse <ChevronUp className="w-3.5 h-3.5" />
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              {BEGINNER_PRIMER.map((card) => (
+                <div key={card.step} className="tva-sheet rounded p-3.5 space-y-1.5">
+                  <div className="text-[10px] font-mono-code font-bold text-[#047857]">
+                    BRIEFING {card.step}
+                  </div>
+                  <h3 className="text-sm font-bold text-[#1d1610]">{card.title}</h3>
+                  <p className="text-xs text-[#61503e] leading-relaxed">{card.body}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
+              <div className="flex flex-wrap items-center gap-2.5">
+                <button
+                  type="button"
+                  onClick={onOpenBeginnerPath}
+                  className="inline-flex items-center gap-1.5 rounded bg-[#047857] px-3.5 py-2 text-xs font-mono-code font-bold uppercase text-white hover:bg-[#065f46] transition-colors"
+                >
+                  Beginner 12-Title Catch-Up Path <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setGlossaryOpen((v) => !v)}
+                  className="inline-flex items-center gap-1.5 rounded border border-[#cbb895] bg-[#fffaf0] px-3 py-2 text-xs font-mono-code font-semibold text-[#1d1610] hover:border-[#b45309]"
+                >
+                  <BookOpen className="w-3.5 h-3.5 text-[#c2410c]" />
+                  {glossaryOpen ? 'Hide Marvel Glossary' : `Marvel Jargon Glossary (${GLOSSARY_TERMS.length} Terms)`}
+                </button>
+              </div>
+              <span className="text-[11px] font-mono-code text-[#61503e]">
+                Tip: Switch on <strong>REDACT UNWATCHED</strong> in the left console to avoid spoilers.
+              </span>
+            </div>
+
+            {glossaryOpen && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 border-t border-[#cbb895] pt-3">
+                {GLOSSARY_TERMS.map((g) => (
+                  <div key={g.term} className="rounded border border-[#d7c7a7] bg-[#fffdf7] p-2.5 space-y-1">
+                    <div className="text-xs font-mono-code font-bold text-[#9a3412]">{g.term}</div>
+                    <p className="text-[11px] text-[#61503e] leading-relaxed">{g.meaning}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </section>
+
       {/* Asymmetric Top Desk Spread: Left Master Manila Folder + Right Pinned Polaroid Mugshots */}
       <section className="grid grid-cols-1 xl:grid-cols-12 gap-5 items-stretch">
         <div className="xl:col-span-5 tva-folder rounded-md p-5 flex flex-col justify-between gap-4">

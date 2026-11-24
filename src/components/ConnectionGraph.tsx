@@ -189,6 +189,7 @@ export function ConnectionGraph({
 
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
   const dragRef = useRef<{ active: boolean; startX: number; startY: number; origX: number; origY: number }>({
     active: false,
     startX: 0,
@@ -348,6 +349,7 @@ export function ConnectionGraph({
           <div
             className="w-full h-full cursor-grab active:cursor-grabbing"
             onPointerDown={(e) => {
+              setIsDragging(true);
               dragRef.current = {
                 active: true,
                 startX: e.clientX,
@@ -365,9 +367,11 @@ export function ConnectionGraph({
             }}
             onPointerUp={() => {
               dragRef.current.active = false;
+              setIsDragging(false);
             }}
             onPointerLeave={() => {
               dragRef.current.active = false;
+              setIsDragging(false);
             }}
             onWheel={(e) => {
               e.preventDefault();
@@ -383,20 +387,37 @@ export function ConnectionGraph({
                 <pattern id="tva-grid" width="40" height="40" patternUnits="userSpaceOnUse">
                   <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#241c15" strokeWidth="1" />
                 </pattern>
+                <filter id="crt-glow-amber" x="-40%" y="-40%" width="180%" height="180%">
+                  <feGaussianBlur stdDeviation="3.5" result="blur" />
+                  <feMerge>
+                    <feMergeNode in="blur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+                <filter id="crt-glow-emerald" x="-40%" y="-40%" width="180%" height="180%">
+                  <feGaussianBlur stdDeviation="4" result="blur" />
+                  <feMerge>
+                    <feMergeNode in="blur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
               </defs>
               <rect width="1400" height="880" fill="url(#tva-grid)" />
 
               <g
-                transform={`translate(${700 + pan.x}, ${440 + pan.y}) scale(${zoom}) translate(-700, -440)`}
+                className={isDragging ? undefined : 'crt-camera'}
+                style={{
+                  transform: `translate(${700 + pan.x}px, ${440 + pan.y}px) scale(${zoom}) translate(-700px, -440px)`,
+                }}
               >
                 {visibleEdges.map((edge) => {
                   const a = posMap.get(edge.fromKey);
                   const b = posMap.get(edge.toKey);
                   if (!a || !b) return null;
-                  const isFocused =
-                    !activeHighlightKey ||
-                    edge.fromKey === activeHighlightKey ||
-                    edge.toKey === activeHighlightKey;
+                  const isDirectLink =
+                    activeHighlightKey !== null &&
+                    (edge.fromKey === activeHighlightKey || edge.toKey === activeHighlightKey);
+                  const isFocused = !activeHighlightKey || isDirectLink;
 
                   const stroke = edge.isTheory
                     ? '#c084fc'
@@ -408,30 +429,61 @@ export function ConnectionGraph({
 
                   const midX = (a.x + b.x) / 2;
                   const midY = (a.y + b.y) / 2;
+                  const labelW = Math.min(180, Math.max(64, edge.label.length * 6.4 + 14));
 
                   return (
-                    <g key={edge.id} opacity={isFocused ? 0.85 : 0.12}>
+                    <g
+                      key={edge.id}
+                      className="crt-edge-group"
+                      opacity={isFocused ? (isDirectLink ? 0.96 : 0.65) : 0.1}
+                    >
                       <line
                         x1={a.x}
                         y1={a.y}
                         x2={b.x}
                         y2={b.y}
                         stroke={stroke}
-                        strokeWidth={activeHighlightKey && isFocused ? 2 : 1.1}
+                        strokeWidth={isDirectLink ? 2.1 : 1.1}
                         strokeDasharray={edge.isTheory ? '5 4' : undefined}
                       />
-                      {activeHighlightKey && isFocused && (focusHops || edge.priority <= 2) && (
-                        <text
-                          x={midX}
-                          y={midY - 4}
-                          textAnchor="middle"
-                          fill="#f3e8d2"
-                          fontSize="10"
-                          fontFamily="IBM Plex Mono, monospace"
-                          className="pointer-events-none"
-                        >
-                          {edge.label}
-                        </text>
+                      {isDirectLink && (
+                        <line
+                          x1={a.x}
+                          y1={a.y}
+                          x2={b.x}
+                          y2={b.y}
+                          stroke="#fde68a"
+                          strokeWidth={2.2}
+                          strokeDasharray="6 10"
+                          className="crt-signal-flow"
+                          opacity={0.85}
+                        />
+                      )}
+                      {isDirectLink && (focusHops || edge.priority <= 2) && (
+                        <g className="pointer-events-none">
+                          <rect
+                            x={midX - labelW / 2}
+                            y={midY - 14}
+                            width={labelW}
+                            height="15"
+                            rx="3"
+                            fill="#0c0907"
+                            fillOpacity="0.9"
+                            stroke={stroke}
+                            strokeOpacity="0.5"
+                            strokeWidth="0.7"
+                          />
+                          <text
+                            x={midX}
+                            y={midY - 3.5}
+                            textAnchor="middle"
+                            fill="#fef3c7"
+                            fontSize="9.5"
+                            fontFamily="IBM Plex Mono, monospace"
+                          >
+                            {edge.label}
+                          </text>
+                        </g>
                       )}
                     </g>
                   );
@@ -439,24 +491,31 @@ export function ConnectionGraph({
 
                 {positioned.map(({ node, x, y }) => {
                   const isSelected = node.key === selectedNodeKey;
+                  const isHovered = node.key === hoveredKey;
+                  const isActive = isSelected || isHovered;
                   const isDimmed = activeHighlightKey !== null && !connectedToActive.has(node.key);
-                  const radius =
-                    node.key === 'title:avengers-doomsday' || node.key === 'character:doctor-doom'
-                      ? 19
-                      : node.kind === 'reality'
-                        ? 15
-                        : node.kind === 'thread'
-                          ? 13
-                          : 11;
+                  const isHubBeacon =
+                    node.key === 'title:avengers-doomsday' || node.key === 'character:doctor-doom';
+                  const radius = isHubBeacon
+                    ? 19
+                    : node.kind === 'reality'
+                      ? 15
+                      : node.kind === 'thread'
+                        ? 13
+                        : 11;
 
-                  const nodeColor = '#f59e0b';
+                  const nodeColor = node.isTheory
+                    ? '#c084fc'
+                    : node.key === 'character:doctor-doom'
+                      ? '#10b981'
+                      : '#f59e0b';
 
                   return (
                     <g
                       key={node.key}
-                      transform={`translate(${x}, ${y})`}
-                      opacity={isDimmed ? 0.2 : 1}
-                      className="cursor-pointer"
+                      style={{ transform: `translate(${x}px, ${y}px)` }}
+                      opacity={isDimmed ? 0.18 : 1}
+                      className={`crt-node cursor-pointer ${isActive ? 'crt-node-active' : ''}`}
                       onMouseEnter={() => setHoveredKey(node.key)}
                       onMouseLeave={() => setHoveredKey(null)}
                       onClick={(e) => {
@@ -464,54 +523,79 @@ export function ConnectionGraph({
                         setSelectedNodeKey(node.key);
                       }}
                     >
-                      {isSelected && (
-                        <circle r={radius + 6} fill="none" stroke="#10b981" strokeWidth="2" strokeDasharray="3 2" />
-                      )}
-                      <circle
-                        r={radius}
-                        fill="#16120e"
-                        stroke={node.isTheory ? '#c084fc' : nodeColor}
-                        strokeWidth={isSelected ? 3 : 2}
-                      />
-                      <text
-                        y={3}
-                        textAnchor="middle"
-                        fill={node.isTheory ? '#c084fc' : '#fbbf24'}
-                        fontSize="9"
-                        fontWeight="700"
-                        fontFamily="IBM Plex Mono, monospace"
-                        className="pointer-events-none"
-                      >
-                        {node.kind === 'character'
-                          ? 'C'
-                          : node.kind === 'title'
-                            ? 'F'
-                            : node.kind === 'reality'
-                              ? 'R'
-                              : 'T'}
-                      </text>
-                      <rect
-                        x={-68}
-                        y={radius + 4}
-                        width="136"
-                        height="17"
-                        rx="3"
-                        fill="#120f0c"
-                        fillOpacity="0.9"
-                        stroke={isSelected ? '#10b981' : '#3a2d22'}
-                        strokeWidth="0.8"
-                      />
-                      <text
-                        y={radius + 16}
-                        textAnchor="middle"
-                        fill="#f3e8d2"
-                        fontSize="10.5"
-                        fontWeight={isSelected ? '700' : '500'}
-                        fontFamily="Inter, sans-serif"
-                        className="pointer-events-none"
-                      >
-                        {node.label.length > 20 ? `${node.label.slice(0, 19)}…` : node.label}
-                      </text>
+                      <g className="crt-node-inner">
+                        {isHubBeacon && !isDimmed && (
+                          <circle
+                            r={radius}
+                            fill="none"
+                            stroke={nodeColor}
+                            strokeWidth="1.6"
+                            className="crt-beacon pointer-events-none"
+                          />
+                        )}
+                        {isActive && (
+                          <circle
+                            r={radius + 6}
+                            fill="none"
+                            stroke={isSelected ? '#10b981' : '#fbbf24'}
+                            strokeWidth="1.8"
+                            strokeDasharray="4 3"
+                            className="crt-reticle pointer-events-none"
+                          />
+                        )}
+                        <circle
+                          r={radius}
+                          fill="#16120e"
+                          stroke={isSelected ? '#10b981' : nodeColor}
+                          strokeWidth={isActive ? 2.8 : 2}
+                          filter={
+                            isSelected
+                              ? 'url(#crt-glow-emerald)'
+                              : isActive || isHubBeacon
+                                ? 'url(#crt-glow-amber)'
+                                : undefined
+                          }
+                        />
+                        <text
+                          y={3}
+                          textAnchor="middle"
+                          fill={node.isTheory ? '#c084fc' : isSelected ? '#6ee7b7' : '#fbbf24'}
+                          fontSize="9"
+                          fontWeight="700"
+                          fontFamily="IBM Plex Mono, monospace"
+                          className="pointer-events-none"
+                        >
+                          {node.kind === 'character'
+                            ? 'C'
+                            : node.kind === 'title'
+                              ? 'F'
+                              : node.kind === 'reality'
+                                ? 'R'
+                                : 'T'}
+                        </text>
+                        <rect
+                          x={-68}
+                          y={radius + 4}
+                          width="136"
+                          height="17"
+                          rx="3"
+                          fill="#120f0c"
+                          fillOpacity="0.92"
+                          stroke={isSelected ? '#10b981' : isHovered ? '#f59e0b' : '#3a2d22'}
+                          strokeWidth={isActive ? 1.2 : 0.8}
+                        />
+                        <text
+                          y={radius + 16}
+                          textAnchor="middle"
+                          fill="#f3e8d2"
+                          fontSize="10.5"
+                          fontWeight={isActive ? '700' : '500'}
+                          fontFamily="Inter, sans-serif"
+                          className="pointer-events-none"
+                        >
+                          {node.label.length > 20 ? `${node.label.slice(0, 19)}…` : node.label}
+                        </text>
+                      </g>
                     </g>
                   );
                 })}

@@ -1,7 +1,90 @@
-import { useEffect, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react';
+import { Maximize2, X } from 'lucide-react';
 import type { FactionEmblem } from '../data/types.ts';
 import { fetchTmdbImage, getEffectiveTmdbKey } from '../lib/tmdb.ts';
 import { fetchWikiThumbnail } from '../lib/wikiImages.ts';
+
+export interface LightboxPayload {
+  url: string;
+  code: string;
+  title: string;
+  subtitle: string;
+  accentColor: string;
+}
+
+const ImageLightboxContext = createContext<{
+  openLightbox: (payload: LightboxPayload) => void;
+}>({
+  openLightbox: () => {},
+});
+
+export function useImageLightbox() {
+  return useContext(ImageLightboxContext);
+}
+
+export function ImageLightboxProvider({ children }: { children: ReactNode }) {
+  const [payload, setPayload] = useState<LightboxPayload | null>(null);
+
+  const openLightbox = useCallback((next: LightboxPayload) => {
+    setPayload(next);
+  }, []);
+
+  useEffect(() => {
+    if (!payload) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.stopPropagation();
+        setPayload(null);
+      }
+    };
+    window.addEventListener('keydown', onKeyDown, true);
+    return () => window.removeEventListener('keydown', onKeyDown, true);
+  }, [payload]);
+
+  return (
+    <ImageLightboxContext.Provider value={{ openLightbox }}>
+      {children}
+      {payload && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-xs p-4"
+          onClick={() => setPayload(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Full image preview: ${payload.title}`}
+        >
+          <div
+            className="relative max-w-[94vw] max-h-[92vh] flex flex-col items-center gap-3"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setPayload(null)}
+              className="self-end inline-flex items-center gap-1.5 rounded border border-[#cbb895]/60 bg-[#1b1511] px-3 py-1.5 text-xs font-mono-code text-[#f5e7c8] hover:border-amber-400 hover:text-amber-300"
+              aria-label="Close full image preview"
+            >
+              <X className="w-4 h-4" /> Close (Esc)
+            </button>
+            <img
+              src={payload.url}
+              alt={payload.title}
+              referrerPolicy="no-referrer"
+              className="max-w-[92vw] max-h-[78vh] w-auto h-auto object-contain bg-[#140f0c] border-2 border-[#cbb895] rounded shadow-2xl"
+            />
+            <div className="tva-folder rounded px-4 py-2 text-center max-w-xl">
+              <div className="text-[10px] font-mono-code font-bold uppercase tracking-widest" style={{ color: payload.accentColor }}>
+                {payload.code}
+              </div>
+              <div className="text-sm font-bold text-[#1d1610]">{payload.title}</div>
+              {payload.subtitle !== payload.title && (
+                <div className="text-xs text-[#61503e]">{payload.subtitle}</div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </ImageLightboxContext.Provider>
+  );
+}
 
 export function TvaLogoMark({ className = 'w-8 h-8' }: { className?: string }) {
   return (
@@ -92,6 +175,7 @@ export function EntityVisual({
   tmdbQuery,
   tmdbApiKey = '',
   compact = false,
+  clickImageToZoom = false,
   className = '',
 }: {
   code: string;
@@ -106,9 +190,11 @@ export function EntityVisual({
     | { kind: 'person'; id: number };
   tmdbApiKey?: string;
   compact?: boolean;
+  clickImageToZoom?: boolean;
   className?: string;
 }) {
   const effectiveKey = getEffectiveTmdbKey(tmdbApiKey);
+  const { openLightbox } = useImageLightbox();
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [imgFailed, setImgFailed] = useState(false);
 
@@ -147,11 +233,44 @@ export function EntityVisual({
 
   const showImage = Boolean(imageUrl && !imgFailed);
 
+  const handleOpenLightbox = () => {
+    if (!showImage || !imageUrl) return;
+    openLightbox({ url: imageUrl, code, title, subtitle, accentColor });
+  };
+
+  const zoomTrigger = showImage ? (
+    <span
+      role="button"
+      tabIndex={0}
+      aria-label={`Inspect full image: ${title}`}
+      title="View full uncropped image"
+      onClick={(e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        handleOpenLightbox();
+      }}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.stopPropagation();
+          e.preventDefault();
+          handleOpenLightbox();
+        }
+      }}
+      className="absolute top-1.5 right-1.5 z-10 inline-flex items-center justify-center rounded bg-[#140f0c]/85 p-1 text-[#f5e7c8] border border-[#cbb895]/40 opacity-80 hover:opacity-100 hover:border-amber-400 hover:text-amber-300 transition-opacity cursor-zoom-in"
+    >
+      <Maximize2 className={compact ? 'w-2.5 h-2.5' : 'w-3 h-3'} />
+    </span>
+  ) : null;
+
   if (variant === 'plate') {
     return (
       <div
-        className={`relative aspect-[16/9] w-full overflow-hidden rounded border border-[#cbb895] bg-[#1e1712] ${className}`}
+        onClick={clickImageToZoom && showImage ? handleOpenLightbox : undefined}
+        className={`relative aspect-[16/9] w-full overflow-hidden rounded border border-[#cbb895] bg-[#1e1712] ${
+          clickImageToZoom && showImage ? 'cursor-zoom-in' : ''
+        } ${className}`}
       >
+        {zoomTrigger}
         {showImage ? (
           <img
             src={imageUrl!}
@@ -188,12 +307,18 @@ export function EntityVisual({
   if (variant === 'polaroid') {
     const sizeCls = compact ? 'w-16' : 'w-24 sm:w-28';
     return (
-      <div className={`tva-polaroid rounded-sm p-1.5 pb-2 shrink-0 flex flex-col gap-1.5 ${sizeCls} ${className}`}>
+      <div
+        onClick={clickImageToZoom && showImage ? handleOpenLightbox : undefined}
+        className={`tva-polaroid rounded-sm p-1.5 pb-2 shrink-0 flex flex-col gap-1.5 ${sizeCls} ${
+          clickImageToZoom && showImage ? 'cursor-zoom-in' : ''
+        } ${className}`}
+      >
         <div
           className={`relative overflow-hidden bg-[#1e1712] border border-[#d6c7aa] ${
             compact ? 'h-16' : 'h-24 sm:h-28'
           }`}
         >
+          {zoomTrigger}
           {showImage ? (
             <img
               src={imageUrl!}
@@ -224,12 +349,16 @@ export function EntityVisual({
     );
   }
 
-  // Poster variant (movies/shows)
+  // Poster variant (movies/shows) — uncropped object-contain on dark matte
   const posterSize = compact ? 'w-12 h-16' : 'w-20 h-28';
   return (
     <div
-      className={`relative overflow-hidden rounded-sm border border-[#cbb895] bg-[#1e1712] shrink-0 shadow-sm ${posterSize} ${className}`}
+      onClick={clickImageToZoom && showImage ? handleOpenLightbox : undefined}
+      className={`relative overflow-hidden rounded-sm border border-[#cbb895] bg-[#140f0c] shrink-0 shadow-sm ${posterSize} ${
+        clickImageToZoom && showImage ? 'cursor-zoom-in' : ''
+      } ${className}`}
     >
+      {zoomTrigger}
       {showImage ? (
         <img
           src={imageUrl!}
@@ -237,7 +366,7 @@ export function EntityVisual({
           referrerPolicy="no-referrer"
           loading="lazy"
           onError={() => setImgFailed(true)}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-contain bg-[#140f0c] pb-3.5"
         />
       ) : (
         <div className="w-full h-full p-1.5 flex flex-col justify-between bg-[#241b14]">
@@ -249,7 +378,7 @@ export function EntityVisual({
         </div>
       )}
       <span
-        className="absolute bottom-0 inset-x-0 px-1 py-0.5 text-[8px] font-mono-code font-bold uppercase text-center bg-[#18120e]/85 text-[#f7ebd4] truncate"
+        className="absolute bottom-0 inset-x-0 px-1 py-0.5 text-[8px] font-mono-code font-bold uppercase text-center bg-[#18120e]/90 text-[#f7ebd4] truncate"
         style={{ borderTop: `2px solid ${accentColor}` }}
       >
         {code}

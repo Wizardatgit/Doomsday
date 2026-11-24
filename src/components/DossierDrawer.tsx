@@ -112,6 +112,7 @@ export function DossierDrawer({
                     wikiPage={c.wikiPage}
                     tmdbQuery={c.tmdbPersonId ? { kind: 'person', id: c.tmdbPersonId } : undefined}
                     tmdbApiKey={tmdbApiKey}
+                    clickImageToZoom
                   />
                   <div className="min-w-0 flex-1 space-y-1.5">
                     <div className="flex flex-wrap items-center gap-1.5">
@@ -302,6 +303,7 @@ export function DossierDrawer({
                         : undefined
                     }
                     tmdbApiKey={tmdbApiKey}
+                    clickImageToZoom
                   />
                   <div className="min-w-0 flex-1 space-y-2">
                     <div className="flex flex-wrap items-center gap-1.5">
@@ -475,6 +477,7 @@ export function DossierDrawer({
                   subtitle={r.placeName}
                   accentColor={r.color}
                   wikiPage={r.wikiPage}
+                  clickImageToZoom
                 />
 
                 <div className="space-y-1.5">

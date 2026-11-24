@@ -11,11 +11,14 @@ import { parseImportedWatchlist, serializeWatchlistBackup } from '../lib/spoiler
 
 const STORAGE_KEY = 'tva-doomsday-state-v1';
 
+export type TimelinePreset = 'all' | 'beginner' | 'essential' | 'key';
+
 interface StoredState {
   watchedIds: string[];
   spoilerShield: boolean;
   showTheories: boolean;
   tmdbApiKey: string;
+  welcomeDismissed: boolean;
 }
 
 const DEFAULT_STORED: StoredState = {
@@ -23,6 +26,7 @@ const DEFAULT_STORED: StoredState = {
   spoilerShield: false,
   showTheories: false,
   tmdbApiKey: '',
+  welcomeDismissed: false,
 };
 
 const VALID_VIEWS = new Set<AppView>([
@@ -48,6 +52,7 @@ function readInitialStorage(): StoredState {
       spoilerShield: Boolean(parsed.spoilerShield),
       showTheories: Boolean(parsed.showTheories),
       tmdbApiKey: typeof parsed.tmdbApiKey === 'string' ? parsed.tmdbApiKey : '',
+      welcomeDismissed: Boolean(parsed.welcomeDismissed),
     };
   } catch {
     return DEFAULT_STORED;
@@ -75,6 +80,7 @@ export function useAppState() {
   const [graphFocusKey, setGraphFocusKey] = useState<string | null>(null);
   const [pathOriginKey, setPathOriginKey] = useState<string>('title:x-men-2000');
   const [pathTargetKey, setPathTargetKey] = useState<string>('title:avengers-doomsday');
+  const [timelinePreset, setTimelinePreset] = useState<TimelinePreset>('all');
 
   useEffect(() => {
     try {
@@ -137,6 +143,15 @@ export function useAppState() {
     setStored((prev) => ({ ...prev, tmdbApiKey }));
   }, []);
 
+  const toggleWelcomeDismissed = useCallback(() => {
+    setStored((prev) => ({ ...prev, welcomeDismissed: !prev.welcomeDismissed }));
+  }, []);
+
+  const openBeginnerWatchPath = useCallback(() => {
+    setTimelinePreset('beginner');
+    setActiveView('timeline');
+  }, []);
+
   const exportBackupJson = useCallback(() => {
     return serializeWatchlistBackup(stored.watchedIds);
   }, [stored.watchedIds]);
@@ -183,11 +198,16 @@ export function useAppState() {
     spoilerShield: stored.spoilerShield,
     showTheories: stored.showTheories,
     tmdbApiKey: stored.tmdbApiKey,
+    welcomeDismissed: stored.welcomeDismissed,
+    timelinePreset,
+    setTimelinePreset,
     toggleWatched,
     markEraWatched,
     toggleSpoilerShield,
     toggleTheories,
     setTmdbApiKey,
+    toggleWelcomeDismissed,
+    openBeginnerWatchPath,
     exportBackupJson,
     importBackupJson,
     resetProgress,

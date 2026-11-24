@@ -11,6 +11,7 @@ import type {
   Title,
 } from './types.ts';
 import { ICONIC_PLACES, REALITIES } from './realities.ts';
+import { BEGINNER_12_IDS, BEGINNER_PRIMER, GLOSSARY_TERMS } from './beginner.ts';
 import { FACTIONS } from './factions.ts';
 import { LEGACY_TITLES } from './titles-legacy.ts';
 import { INFINITY_TITLES } from './titles-infinity.ts';
@@ -35,6 +36,9 @@ export {
   CHARACTERS,
   THREADS,
   CURATED_CONNECTIONS,
+  BEGINNER_12_IDS,
+  BEGINNER_PRIMER,
+  GLOSSARY_TERMS,
 };
 
 export const realitiesById = new Map<string, Reality>(REALITIES.map((r) => [r.id, r]));
