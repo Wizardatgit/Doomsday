@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowRight, ChevronDown, ChevronUp, Globe2, MapPin } from 'lucide-react';
+import { ArrowRight, ChevronDown, ChevronUp, MapPin } from 'lucide-react';
 import {
   CHARACTERS,
   ICONIC_PLACES,
@@ -10,7 +10,7 @@ import {
   titlesById,
 } from '../data/index.ts';
 import type { EntityRef } from '../data/index.ts';
-import { EntityVisual } from './TvaArt.tsx';
+import { EntityVisual, ViewHeroBanner } from './TvaArt.tsx';
 import { Redactable } from './Redactable.tsx';
 
 export function RealitiesAtlas({
@@ -36,14 +36,14 @@ export function RealitiesAtlas({
 
   return (
     <div className="space-y-7">
-      <div className="tva-folder rounded-md p-4 space-y-1">
-        <h1 className="text-2xl font-bold text-[#1d1610] flex items-center gap-2">
-          <Globe2 className="w-5 h-5 text-[#c2410c]" /> Realities &amp; Places Atlas
-        </h1>
-        <p className="text-xs text-[#61503e]">
-          Surveillance photographs of {ICONIC_PLACES.length} key landmarks and {REALITIES.length} multiverse planes feeding into Doomsday.
-        </p>
-      </div>
+      <ViewHeroBanner
+        wikiPage="X-Mansion"
+        catalogStamp="TVA MULTIVERSE CARTOGRAPHY // REALITY PLATES"
+        title="Realities & Places Atlas"
+        subtitle={`Surveillance photographs of ${ICONIC_PLACES.length} key landmarks and ${REALITIES.length} multiverse planes feeding into Doomsday.`}
+        accentColor="#7c3aed"
+        emblem="xmen"
+      />
 
       {/* Iconic Places Surveillance Gallery */}
       <section className="space-y-3">

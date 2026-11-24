@@ -2,173 +2,35 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   Crosshair,
   ExternalLink,
-  Maximize2,
   Network,
+  Plus,
   RotateCcw,
+  Search,
+  Shrink,
+  X,
   ZoomIn,
   ZoomOut,
 } from 'lucide-react';
 import type { EntityRef } from '../data/index.ts';
-import { FACTIONS, REALITIES } from '../data/index.ts';
+import { buildUnifiedGraph, type GraphNode } from '../lib/graph.ts';
 import {
-  buildUnifiedGraph,
-  getNeighborhood,
-  type GraphEdge,
-  type GraphNode,
-} from '../lib/graph.ts';
+  CORE_HUB_KEYS,
+  collapseBranchMap,
+  collectVisibleTree,
+  computeExploreTreeLayout,
+  getVisibleTreeEdges,
+  pickNextNeighbors,
+  shortenGraphLabel,
+} from '../lib/graphTree.ts';
 
-type GraphPreset =
-  | 'convergence'
-  | 'by-reality'
-  | 'by-faction'
-  | 'phase-5-6'
-  | 'legacy-bridges'
-  | 'all';
+const CORE_HUB_SET = new Set<string>(CORE_HUB_KEYS);
 
-const CONVERGENCE_NODE_KEYS = new Set([
-  'title:avengers-doomsday',
-  'character:doctor-doom',
-  'character:tony-stark',
-  'character:steve-rogers',
-  'character:peggy-carter',
-  'character:sam-wilson',
-  'character:thor',
-  'character:shang-chi',
-  'character:scott-lang',
-  'character:kate-bishop',
-  'character:yelena-belova',
-  'character:bucky-barnes',
-  'character:sentry',
-  'character:reed-richards',
-  'character:sue-storm',
-  'character:johnny-storm',
-  'character:ben-grimm',
-  'character:franklin-richards',
-  'character:professor-x',
-  'character:magneto',
-  'character:cyclops',
-  'character:beast',
-  'character:gambit',
-  'character:shuri',
-  'character:namor',
-  'character:loki',
-  'character:monica-rambeau',
-  'character:peter-parker-616',
-  'character:deadpool',
-  'character:wolverine',
-  'title:thunderbolts',
-  'title:fantastic-four-first-steps',
-  'title:the-marvels',
-  'title:deadpool-wolverine',
-  'title:loki-s2',
-  'title:spider-man-brand-new-day',
-  'reality:earth-616',
-  'reality:earth-828',
-  'reality:earth-10005',
-  'thread:thread-doom-franklin',
-  'thread:thread-f4-breach',
-  'thread:thread-loki-world-tree',
-  'thread:thread-theory-stark-face',
-]);
-
-interface PositionedNode {
-  node: GraphNode;
-  x: number;
-  y: number;
-}
-
-function computeLayout(
-  nodes: GraphNode[],
-  preset: GraphPreset,
-  focusCenterKey: string | null,
-  focusHops: 1 | 2 | null,
-  graphAdjacency: Map<string, { neighborKey: string; edge: GraphEdge }[]>,
-): PositionedNode[] {
-  const cx = 700;
-  const cy = 440;
-
-  if (focusCenterKey && focusHops) {
-    const center = nodes.find((n) => n.key === focusCenterKey);
-    if (center) {
-      const result: PositionedNode[] = [{ node: center, x: cx, y: cy }];
-      const hop1Keys = new Set(
-        (graphAdjacency.get(focusCenterKey) ?? []).map((x) => x.neighborKey),
-      );
-      const ring1 = nodes.filter((n) => n.key !== focusCenterKey && hop1Keys.has(n.key));
-      const ring2 = nodes.filter((n) => n.key !== focusCenterKey && !hop1Keys.has(n.key));
-
-      ring1.forEach((n, i) => {
-        const angle = (i / Math.max(1, ring1.length)) * Math.PI * 2 - Math.PI / 2;
-        const r = ring1.length > 14 ? 255 : 215;
-        result.push({ node: n, x: cx + Math.cos(angle) * r * 1.18, y: cy + Math.sin(angle) * r * 0.92 });
-      });
-
-      ring2.forEach((n, i) => {
-        const angle = (i / Math.max(1, ring2.length)) * Math.PI * 2 - Math.PI / 2;
-        const r = 415;
-        result.push({ node: n, x: cx + Math.cos(angle) * r * 1.28, y: cy + Math.sin(angle) * r * 0.9 });
-      });
-      return result;
-    }
-  }
-
-  const clusterOrder =
-    preset === 'by-reality'
-      ? REALITIES.map((r) => r.id)
-      : FACTIONS.map((f) => f.id);
-
-  const buckets = new Map<string, GraphNode[]>();
-  const pinnedCenter: GraphNode[] = [];
-
-  for (const n of nodes) {
-    if (n.key === 'title:avengers-doomsday' || n.key === 'character:doctor-doom') {
-      pinnedCenter.push(n);
-      continue;
-    }
-    const groupKey =
-      preset === 'by-reality'
-        ? n.realityId ?? 'other'
-        : n.factionId ?? n.realityId ?? n.kind;
-    if (!buckets.has(groupKey)) buckets.set(groupKey, []);
-    buckets.get(groupKey)!.push(n);
-  }
-
-  const result: PositionedNode[] = [];
-  pinnedCenter.forEach((n) => {
-    if (n.key === 'title:avengers-doomsday') result.push({ node: n, x: cx, y: cy + 35 });
-    else result.push({ node: n, x: cx, y: cy - 65 });
-  });
-
-  const groupKeys = Array.from(buckets.keys()).sort((a, b) => {
-    const ia = clusterOrder.indexOf(a);
-    const ib = clusterOrder.indexOf(b);
-    return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
-  });
-
-  groupKeys.forEach((gKey, gIdx) => {
-    const items = buckets.get(gKey)!;
-    const sectorAngle = (gIdx / Math.max(1, groupKeys.length)) * Math.PI * 2 - Math.PI / 2;
-    const baseRx = nodes.length > 70 ? 450 : 370;
-    const baseRy = nodes.length > 70 ? 295 : 250;
-    const anchorX = cx + Math.cos(sectorAngle) * baseRx;
-    const anchorY = cy + Math.sin(sectorAngle) * baseRy;
-
-    items.forEach((item, idx) => {
-      const localRing = Math.floor(idx / 6);
-      const posInRing = idx % 6;
-      const localCount = Math.min(6, items.length - localRing * 6);
-      const angle = (posInRing / Math.max(1, localCount)) * Math.PI * 2 + gIdx * 0.4;
-      const spread = items.length === 1 ? 0 : 58 + localRing * 54;
-      result.push({
-        node: item,
-        x: anchorX + Math.cos(angle) * spread * 1.15,
-        y: anchorY + Math.sin(angle) * spread * 0.85,
-      });
-    });
-  });
-
-  return result;
-}
+const KIND_GROUPS: { kind: GraphNode['kind']; heading: string; badge: string }[] = [
+  { kind: 'reality', heading: 'Realities & Timelines', badge: 'R' },
+  { kind: 'title', heading: 'Films & Series', badge: 'F' },
+  { kind: 'character', heading: 'Key Characters', badge: 'C' },
+  { kind: 'thread', heading: 'Plot Threads', badge: 'T' },
+];
 
 export function ConnectionGraph({
   showTheories,
@@ -182,15 +44,33 @@ export function ConnectionGraph({
   onSelect: (ref: EntityRef) => void;
 }) {
   const graph = useMemo(() => buildUnifiedGraph(showTheories), [showTheories]);
-  const [preset, setPreset] = useState<GraphPreset>('convergence');
+
+  const [roots, setRoots] = useState<string[]>(() =>
+    focusKey ? [focusKey] : [...CORE_HUB_KEYS],
+  );
+  const [expandedChildren, setExpandedChildren] = useState<Map<string, string[]>>(() => {
+    const map = new Map<string, string[]>();
+    if (focusKey) {
+      const { nextKeys } = pickNextNeighbors(graph, focusKey, new Set([focusKey]), 6);
+      map.set(focusKey, nextKeys);
+    }
+    return map;
+  });
   const [selectedNodeKey, setSelectedNodeKey] = useState<string | null>(focusKey);
   const [hoveredKey, setHoveredKey] = useState<string | null>(null);
-  const [focusHops, setFocusHops] = useState<1 | 2 | null>(focusKey ? 1 : null);
+  const [jumpOpen, setJumpOpen] = useState(false);
+  const [jumpQuery, setJumpQuery] = useState('');
 
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
-  const dragRef = useRef<{ active: boolean; startX: number; startY: number; origX: number; origY: number }>({
+  const dragRef = useRef<{
+    active: boolean;
+    startX: number;
+    startY: number;
+    origX: number;
+    origY: number;
+  }>({
     active: false,
     startX: 0,
     startY: 0,
@@ -198,81 +78,56 @@ export function ConnectionGraph({
     origY: 0,
   });
 
+  const resetCamera = () => {
+    setZoom(1);
+    setPan({ x: 0, y: 0 });
+  };
+
   useEffect(() => {
     if (focusKey && graph.nodes.has(focusKey)) {
+      const { nextKeys } = pickNextNeighbors(graph, focusKey, new Set([focusKey]), 6);
+      setRoots([focusKey]);
+      setExpandedChildren(new Map([[focusKey, nextKeys]]));
       setSelectedNodeKey(focusKey);
-      setFocusHops(1);
-      setZoom(1);
-      setPan({ x: 0, y: 0 });
+      resetCamera();
     }
   }, [focusKey, graph]);
 
-  const { visibleNodes, visibleEdges } = useMemo(() => {
-    let candidateKeys: Set<string>;
+  const { visibleKeys } = useMemo(
+    () => collectVisibleTree(roots, expandedChildren, graph),
+    [roots, expandedChildren, graph],
+  );
 
-    if (selectedNodeKey && focusHops && graph.nodes.has(selectedNodeKey)) {
-      const hood = getNeighborhood(graph, selectedNodeKey, focusHops);
-      candidateKeys = hood.nodeKeys;
-    } else {
-      candidateKeys = new Set<string>();
-      for (const n of graph.nodes.values()) {
-        if (preset === 'convergence') {
-          if (CONVERGENCE_NODE_KEYS.has(n.key)) candidateKeys.add(n.key);
-        } else if (preset === 'phase-5-6') {
-          if (
-            n.era === 'phase-5' ||
-            n.era === 'phase-6' ||
-            n.doomsdayStatus === 'confirmed' ||
-            n.kind === 'reality' ||
-            n.kind === 'thread'
-          ) {
-            candidateKeys.add(n.key);
-          }
-        } else if (preset === 'legacy-bridges') {
-          if (
-            n.era === 'pre-phase-1' ||
-            n.doomsdayStatus === 'legacy' ||
-            n.key === 'title:deadpool-wolverine' ||
-            n.key === 'title:spider-man-no-way-home' ||
-            n.key === 'title:the-marvels' ||
-            n.key === 'title:avengers-doomsday' ||
-            n.kind === 'reality'
-          ) {
-            candidateKeys.add(n.key);
-          }
-        } else {
-          candidateKeys.add(n.key);
-        }
-      }
-    }
+  const visibleNodes = useMemo(
+    () =>
+      Array.from(visibleKeys)
+        .map((k) => graph.nodes.get(k))
+        .filter((n): n is GraphNode => Boolean(n)),
+    [visibleKeys, graph],
+  );
 
-    const nodesList = Array.from(candidateKeys)
-      .map((k) => graph.nodes.get(k)!)
-      .filter(Boolean);
-
-    const edgesList = graph.edges.filter(
-      (e) => candidateKeys.has(e.fromKey) && candidateKeys.has(e.toKey) && (preset !== 'all' || e.priority <= 2),
-    );
-
-    return { visibleNodes: nodesList, visibleEdges: edgesList };
-  }, [graph, preset, selectedNodeKey, focusHops]);
+  const visibleEdges = useMemo(
+    () => getVisibleTreeEdges(graph, visibleKeys),
+    [graph, visibleKeys],
+  );
 
   const positioned = useMemo(
-    () =>
-      computeLayout(
-        visibleNodes,
-        preset,
-        selectedNodeKey && focusHops ? selectedNodeKey : null,
-        focusHops,
-        graph.adjacency,
-      ),
-    [visibleNodes, preset, selectedNodeKey, focusHops, graph.adjacency],
+    () => computeExploreTreeLayout(roots, expandedChildren, graph),
+    [roots, expandedChildren, graph],
   );
 
   const posMap = useMemo(
     () => new Map(positioned.map((p) => [p.node.key, p])),
     [positioned],
   );
+
+  const hiddenCountByNode = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const n of visibleNodes) {
+      counts.set(n.key, pickNextNeighbors(graph, n.key, visibleKeys, 1).totalRemaining);
+    }
+    return counts;
+  }, [visibleNodes, visibleKeys, graph]);
 
   const activeHighlightKey = hoveredKey ?? selectedNodeKey;
   const connectedToActive = useMemo(() => {
@@ -287,11 +142,77 @@ export function ConnectionGraph({
   }, [activeHighlightKey, visibleEdges]);
 
   const selectedNode = selectedNodeKey ? graph.nodes.get(selectedNodeKey) ?? null : null;
+  const selectedIsExpanded = selectedNodeKey ? expandedChildren.has(selectedNodeKey) : false;
+  const selectedHiddenCount = selectedNodeKey ? hiddenCountByNode.get(selectedNodeKey) ?? 0 : 0;
 
-  const resetCamera = () => {
-    setZoom(1);
-    setPan({ x: 0, y: 0 });
+  const isDefaultCoreView =
+    roots.length === CORE_HUB_KEYS.length &&
+    CORE_HUB_KEYS.every((k, i) => roots[i] === k) &&
+    expandedChildren.size === 0;
+
+  const handleNodeClick = (nodeKey: string) => {
+    setSelectedNodeKey(nodeKey);
+    if (!expandedChildren.has(nodeKey)) {
+      const { nextKeys } = pickNextNeighbors(graph, nodeKey, visibleKeys, 6);
+      setExpandedChildren((prev) => {
+        const next = new Map(prev);
+        next.set(nodeKey, nextKeys);
+        return next;
+      });
+    }
   };
+
+  const handleExpandMore = (nodeKey: string) => {
+    const { nextKeys } = pickNextNeighbors(graph, nodeKey, visibleKeys, 6);
+    if (nextKeys.length === 0) return;
+    setExpandedChildren((prev) => {
+      const next = new Map(prev);
+      const existing = next.get(nodeKey) ?? [];
+      next.set(nodeKey, [...existing, ...nextKeys]);
+      return next;
+    });
+  };
+
+  const handleCollapseBranch = (nodeKey: string) => {
+    setExpandedChildren((prev) => collapseBranchMap(roots, prev, nodeKey, graph));
+  };
+
+  const handleSoloFocus = (nodeKey: string) => {
+    const { nextKeys } = pickNextNeighbors(graph, nodeKey, new Set([nodeKey]), 6);
+    setRoots([nodeKey]);
+    setExpandedChildren(new Map([[nodeKey, nextKeys]]));
+    setSelectedNodeKey(nodeKey);
+    setJumpOpen(false);
+    setJumpQuery('');
+    onClearFocusKey();
+    resetCamera();
+  };
+
+  const handleResetToCoreHubs = () => {
+    setRoots([...CORE_HUB_KEYS]);
+    setExpandedChildren(new Map());
+    setSelectedNodeKey(null);
+    setHoveredKey(null);
+    setJumpOpen(false);
+    setJumpQuery('');
+    onClearFocusKey();
+    resetCamera();
+  };
+
+  const groupedJumpNodes = useMemo(() => {
+    const q = jumpQuery.trim().toLowerCase();
+    const all = Array.from(graph.nodes.values());
+    return KIND_GROUPS.map((g) => ({
+      ...g,
+      items: all
+        .filter((n) => n.kind === g.kind)
+        .filter(
+          (n) =>
+            !q || n.label.toLowerCase().includes(q) || n.sublabel.toLowerCase().includes(q),
+        )
+        .sort((a, b) => a.label.localeCompare(b.label)),
+    })).filter((g) => g.items.length > 0);
+  }, [graph.nodes, jumpQuery]);
 
   return (
     <div className="space-y-4">
@@ -301,46 +222,113 @@ export function ConnectionGraph({
             <Network className="w-5 h-5 text-[#c2410c]" /> TemPad CRT Multiverse Scope
           </h1>
           <p className="text-xs text-[#61503e]">
-            Showing {visibleNodes.length} nodes &amp; {visibleEdges.length} links. Drag to pan, scroll to zoom, click any blip for 1–2 hop isolation.
+            Showing {visibleNodes.length} active nodes &amp; {visibleEdges.length} links. Click any
+            node with a <strong className="text-[#9a3412]">+N</strong> badge to branch outward.
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-1.5">
-          {(
-            [
-              ['convergence', 'CH-01 Convergence'],
-              ['by-faction', 'CH-02 Factions'],
-              ['by-reality', 'CH-03 Realities'],
-              ['phase-5-6', 'CH-04 Phase 5–6'],
-              ['legacy-bridges', 'CH-05 Pre-Phase 1'],
-              ['all', 'CH-06 Full Web'],
-            ] as [GraphPreset, string][]
-          ).map(([id, label]) => (
+        <div className="flex flex-wrap items-center gap-2">
+          {/* Active Count Pill */}
+          <span className="rounded border border-[#cbb895] bg-[#f4ebd9] px-2.5 py-1.5 text-xs font-mono-code text-[#3f3122]">
+            {visibleNodes.length}/{graph.nodes.size} nodes active
+          </span>
+
+          {/* Searchable Grouped "Jump / Start From..." Selector */}
+          <div className="relative">
             <button
-              key={id}
               type="button"
-              onClick={() => {
-                setPreset(id);
-                setFocusHops(null);
-                onClearFocusKey();
-              }}
-              className={`rounded px-2.5 py-1.5 text-xs font-mono-code border transition-colors ${
-                preset === id && !focusHops
+              onClick={() => setJumpOpen((v) => !v)}
+              className={`inline-flex items-center gap-1.5 rounded px-3 py-1.5 text-xs font-mono-code border transition-colors ${
+                jumpOpen
                   ? 'border-[#1d1610] bg-[#1d1610] text-[#f59e0b] font-bold'
-                  : 'border-[#cbb895] bg-[#fffaf0] text-[#61503e] hover:text-[#1d1610]'
+                  : 'border-[#cbb895] bg-[#fffaf0] text-[#1d1610] hover:border-[#9a3412]'
               }`}
             >
-              {label}
+              <Search className="w-3.5 h-3.5" /> Jump / Start From...
             </button>
-          ))}
+
+            {jumpOpen && (
+              <div
+                className="absolute right-0 mt-1.5 w-80 max-w-[90vw] rounded-md border border-[#3c2d22] bg-[#1b1511] text-[#faf3e3] shadow-2xl z-40 overflow-hidden"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="p-2 border-b border-[#3a2d22] flex items-center gap-1.5">
+                  <Search className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                  <input
+                    type="text"
+                    value={jumpQuery}
+                    onChange={(e) => setJumpQuery(e.target.value)}
+                    placeholder="Filter reality, film, character, thread..."
+                    autoFocus
+                    className="w-full bg-transparent text-xs text-[#faf3e3] placeholder-[#8c7a62] focus:outline-none"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setJumpOpen(false);
+                      setJumpQuery('');
+                    }}
+                    className="p-0.5 text-[#a89984] hover:text-amber-400"
+                    aria-label="Close selector"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+
+                <div className="max-h-72 overflow-y-auto p-1.5 space-y-2">
+                  {groupedJumpNodes.length === 0 ? (
+                    <p className="px-2 py-3 text-xs font-mono-code text-[#a89984] text-center">
+                      No matching dossier nodes.
+                    </p>
+                  ) : (
+                    groupedJumpNodes.map((group) => (
+                      <div key={group.kind}>
+                        <div className="px-2 py-1 text-[10px] font-mono-code uppercase tracking-widest text-amber-400/90 font-bold">
+                          [{group.badge}] {group.heading} ({group.items.length})
+                        </div>
+                        <div className="space-y-0.5">
+                          {group.items.map((n) => (
+                            <button
+                              key={n.key}
+                              type="button"
+                              onClick={() => handleSoloFocus(n.key)}
+                              className="w-full text-left px-2 py-1.5 rounded text-xs hover:bg-[#2c2119] flex items-center justify-between gap-2 transition-colors"
+                            >
+                              <span className="truncate font-medium text-[#faf3e3]">{n.label}</span>
+                              <span className="text-[10px] font-mono-code text-[#a89984] truncate max-w-[110px]">
+                                {n.sublabel}
+                              </span>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <button
+            type="button"
+            onClick={handleResetToCoreHubs}
+            disabled={isDefaultCoreView && !selectedNodeKey}
+            className={`inline-flex items-center gap-1.5 rounded px-3 py-1.5 text-xs font-mono-code border transition-colors ${
+              isDefaultCoreView && !selectedNodeKey
+                ? 'border-[#d6c7aa] bg-[#f4ebd9] text-[#8f7c66] cursor-default'
+                : 'border-[#1d1610] bg-[#1d1610] text-[#f59e0b] font-bold hover:bg-[#2c2219]'
+            }`}
+          >
+            <RotateCcw className="w-3.5 h-3.5" /> Reset to 6 Core Hubs
+          </button>
         </div>
       </div>
 
       {/* Recessed Bakelite CRT Monitor Frame */}
       <div className="tva-crt-bezel rounded-xl p-3 sm:p-4 space-y-2">
         <div className="flex items-center justify-between text-[10px] font-mono-code uppercase tracking-widest text-[#d4a44a] px-1">
-          <span>MODEL TMP-77 // PHOSPHOR TIMELINE OSCILLOSCOPE</span>
-          <span>SIGNAL: LOCKED</span>
+          <span>MODEL TMP-77 // EXPLORE-AS-YOU-GO BRANCH SCOPE</span>
+          <span>{selectedNode ? `LOCKED: ${shortenGraphLabel(selectedNode.label, 22)}` : 'SIGNAL: 6-HUB STANDBY'}</span>
         </div>
 
         <div className="relative tva-crt-screen rounded-lg overflow-hidden h-[540px] sm:h-[620px] select-none">
@@ -381,7 +369,10 @@ export function ConnectionGraph({
             <svg
               viewBox="0 0 1400 880"
               className="w-full h-full bg-[#0c0907]"
-              onClick={() => setSelectedNodeKey(null)}
+              onClick={() => {
+                setSelectedNodeKey(null);
+                setJumpOpen(false);
+              }}
             >
               <defs>
                 <pattern id="tva-grid" width="40" height="40" patternUnits="userSpaceOnUse">
@@ -435,7 +426,7 @@ export function ConnectionGraph({
                     <g
                       key={edge.id}
                       className="crt-edge-group"
-                      opacity={isFocused ? (isDirectLink ? 0.96 : 0.65) : 0.1}
+                      opacity={isFocused ? (isDirectLink ? 0.96 : 0.72) : 0.14}
                     >
                       <line
                         x1={a.x}
@@ -443,7 +434,7 @@ export function ConnectionGraph({
                         x2={b.x}
                         y2={b.y}
                         stroke={stroke}
-                        strokeWidth={isDirectLink ? 2.1 : 1.1}
+                        strokeWidth={isDirectLink ? 2.2 : 1.2}
                         strokeDasharray={edge.isTheory ? '5 4' : undefined}
                       />
                       {isDirectLink && (
@@ -459,7 +450,7 @@ export function ConnectionGraph({
                           opacity={0.85}
                         />
                       )}
-                      {isDirectLink && (focusHops || edge.priority <= 2) && (
+                      {isDirectLink && (
                         <g className="pointer-events-none">
                           <rect
                             x={midX - labelW / 2}
@@ -468,9 +459,9 @@ export function ConnectionGraph({
                             height="15"
                             rx="3"
                             fill="#0c0907"
-                            fillOpacity="0.9"
+                            fillOpacity="0.92"
                             stroke={stroke}
-                            strokeOpacity="0.5"
+                            strokeOpacity="0.55"
                             strokeWidth="0.7"
                           />
                           <text
@@ -494,33 +485,40 @@ export function ConnectionGraph({
                   const isHovered = node.key === hoveredKey;
                   const isActive = isSelected || isHovered;
                   const isDimmed = activeHighlightKey !== null && !connectedToActive.has(node.key);
-                  const isHubBeacon =
-                    node.key === 'title:avengers-doomsday' || node.key === 'character:doctor-doom';
-                  const radius = isHubBeacon
-                    ? 19
-                    : node.kind === 'reality'
-                      ? 15
-                      : node.kind === 'thread'
-                        ? 13
-                        : 11;
+                  const isHubBeacon = CORE_HUB_SET.has(node.key) || roots.includes(node.key);
+                  const isExpanded = expandedChildren.has(node.key);
+                  const hiddenCount = hiddenCountByNode.get(node.key) ?? 0;
+
+                  const radius =
+                    node.key === 'title:avengers-doomsday' || node.key === 'character:doctor-doom'
+                      ? 20
+                      : node.kind === 'reality'
+                        ? 16
+                        : node.kind === 'thread'
+                          ? 14
+                          : 12;
 
                   const nodeColor = node.isTheory
                     ? '#c084fc'
                     : node.key === 'character:doctor-doom'
                       ? '#10b981'
-                      : '#f59e0b';
+                      : isExpanded
+                        ? '#38bdf8'
+                        : '#f59e0b';
+
+                  const shortLabel = shortenGraphLabel(node.label);
 
                   return (
                     <g
                       key={node.key}
                       style={{ transform: `translate(${x}px, ${y}px)` }}
-                      opacity={isDimmed ? 0.18 : 1}
+                      opacity={isDimmed ? 0.2 : 1}
                       className={`crt-node cursor-pointer ${isActive ? 'crt-node-active' : ''}`}
                       onMouseEnter={() => setHoveredKey(node.key)}
                       onMouseLeave={() => setHoveredKey(null)}
                       onClick={(e) => {
                         e.stopPropagation();
-                        setSelectedNodeKey(node.key);
+                        handleNodeClick(node.key);
                       }}
                     >
                       <g className="crt-node-inner">
@@ -573,19 +571,57 @@ export function ConnectionGraph({
                                 ? 'R'
                                 : 'T'}
                         </text>
+
+                        {hiddenCount > 0 && !isDimmed && (
+                          <g
+                            transform={`translate(${radius + 4}, ${-radius + 2})`}
+                            className="pointer-events-none"
+                          >
+                            <rect
+                              x={-11}
+                              y={-8}
+                              width={hiddenCount >= 10 ? 26 : 21}
+                              height="15"
+                              rx="7.5"
+                              fill="#f59e0b"
+                              stroke="#120f0c"
+                              strokeWidth="1.2"
+                            />
+                            <text
+                              x={hiddenCount >= 10 ? 2 : -0.5}
+                              y={2.8}
+                              textAnchor="middle"
+                              fill="#120f0c"
+                              fontSize="8.5"
+                              fontWeight="800"
+                              fontFamily="IBM Plex Mono, monospace"
+                            >
+                              +{hiddenCount}
+                            </text>
+                          </g>
+                        )}
+
                         <rect
-                          x={-68}
-                          y={radius + 4}
-                          width="136"
+                          x={-70}
+                          y={radius + 5}
+                          width="140"
                           height="17"
                           rx="3"
                           fill="#120f0c"
                           fillOpacity="0.92"
-                          stroke={isSelected ? '#10b981' : isHovered ? '#f59e0b' : '#3a2d22'}
+                          stroke={
+                            isSelected
+                              ? '#10b981'
+                              : isHovered
+                                ? '#f59e0b'
+                                : isExpanded
+                                  ? '#38bdf8'
+                                  : '#3a2d22'
+                          }
                           strokeWidth={isActive ? 1.2 : 0.8}
                         />
                         <text
-                          y={radius + 16}
+                          y={radius + 17}
                           textAnchor="middle"
                           fill="#f3e8d2"
                           fontSize="10.5"
@@ -593,7 +629,7 @@ export function ConnectionGraph({
                           fontFamily="Inter, sans-serif"
                           className="pointer-events-none"
                         >
-                          {node.label.length > 20 ? `${node.label.slice(0, 19)}…` : node.label}
+                          {shortLabel}
                         </text>
                       </g>
                     </g>
@@ -635,96 +671,94 @@ export function ConnectionGraph({
             <span><strong className="text-amber-400">F</strong> Film/Show</span>
             <span><strong className="text-amber-400">R</strong> Reality</span>
             <span><strong className="text-amber-400">T</strong> Thread</span>
+            <span><strong className="text-sky-400">●</strong> Expanded</span>
           </div>
 
-          {selectedNode && (
-            <div className="absolute bottom-3 left-3 right-3 z-20 sm:right-auto sm:max-w-lg rounded border border-amber-500/70 bg-[#14100d]/95 p-3 shadow-2xl flex flex-wrap items-center justify-between gap-3">
+        </div>
+
+        {/* Bakelite Bezel Lock-On Telemetry Strip — never obscures CRT nodes */}
+        <div className="rounded border border-[#3a2d22] bg-[#14100d]/95 px-3 py-2.5 flex flex-wrap items-center justify-between gap-3">
+          {selectedNode ? (
+            <>
               <div className="min-w-0">
                 <div className="text-[10px] font-mono-code uppercase text-amber-400">
-                  {selectedNode.kind} locked
+                  {selectedNode.kind} locked · {selectedIsExpanded ? 'branch open' : 'unexpanded'}
                 </div>
                 <div className="text-sm font-bold text-[#f3e8d2] truncate">{selectedNode.label}</div>
                 <div className="text-[11px] text-[#a89984] truncate">{selectedNode.sublabel}</div>
               </div>
 
               <div className="flex flex-wrap items-center gap-1.5">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setFocusHops(1);
-                    resetCamera();
-                  }}
-                  className={`inline-flex items-center gap-1 rounded px-2.5 py-1.5 text-xs font-mono-code border ${
-                    focusHops === 1
-                      ? 'border-amber-500 bg-amber-500 text-black font-bold'
-                      : 'border-[#3a2d22] bg-[#211b16] text-[#f3e8d2] hover:border-amber-500'
-                  }`}
-                >
-                  <Crosshair className="w-3.5 h-3.5" /> 1-Hop
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setFocusHops(2);
-                    resetCamera();
-                  }}
-                  className={`inline-flex items-center gap-1 rounded px-2.5 py-1.5 text-xs font-mono-code border ${
-                    focusHops === 2
-                      ? 'border-amber-500 bg-amber-500 text-black font-bold'
-                      : 'border-[#3a2d22] bg-[#211b16] text-[#f3e8d2] hover:border-amber-500'
-                  }`}
-                >
-                  <Maximize2 className="w-3.5 h-3.5" /> 2-Hop
-                </button>
-                {focusHops && (
+                {selectedHiddenCount > 0 && (
                   <button
                     type="button"
-                    onClick={() => {
-                      setFocusHops(null);
-                      onClearFocusKey();
-                    }}
-                    className="rounded border border-[#3a2d22] bg-[#14100d] px-2.5 py-1.5 text-xs font-mono-code text-[#a89984] hover:text-[#f3e8d2]"
+                    onClick={() => handleExpandMore(selectedNode.key)}
+                    className="inline-flex items-center gap-1 rounded border border-amber-500 bg-amber-500/20 px-2.5 py-1.5 text-xs font-mono-code font-bold text-amber-300 hover:bg-amber-500 hover:text-black transition-colors"
                   >
-                    Exit Focus
+                    <Plus className="w-3.5 h-3.5" /> More ({selectedHiddenCount})
+                  </button>
+                )}
+                {selectedIsExpanded && (
+                  <button
+                    type="button"
+                    onClick={() => handleCollapseBranch(selectedNode.key)}
+                    className="inline-flex items-center gap-1 rounded border border-[#3a2d22] bg-[#211b16] px-2.5 py-1.5 text-xs font-mono-code text-[#f3e8d2] hover:border-amber-500 transition-colors"
+                  >
+                    <Shrink className="w-3.5 h-3.5" /> Collapse Branch
                   </button>
                 )}
                 <button
                   type="button"
+                  onClick={() => handleSoloFocus(selectedNode.key)}
+                  className="inline-flex items-center gap-1 rounded border border-[#3a2d22] bg-[#211b16] px-2.5 py-1.5 text-xs font-mono-code text-[#f3e8d2] hover:border-amber-500 transition-colors"
+                >
+                  <Crosshair className="w-3.5 h-3.5" /> Solo Focus
+                </button>
+                <button
+                  type="button"
                   onClick={() => onSelect(selectedNode.ref)}
-                  className="inline-flex items-center gap-1 rounded bg-emerald-500 px-2.5 py-1.5 text-xs font-mono-code font-bold text-black hover:bg-emerald-400"
+                  className="inline-flex items-center gap-1 rounded bg-emerald-500 px-2.5 py-1.5 text-xs font-mono-code font-bold text-black hover:bg-emerald-400 transition-colors"
                 >
                   <ExternalLink className="w-3.5 h-3.5" /> Open Dossier
                 </button>
               </div>
+            </>
+          ) : (
+            <div className="text-xs font-mono-code text-[#a89984]">
+              STANDBY // Click any CRT node with a <strong className="text-amber-400">+N</strong> badge to branch connections outward and inspect telemetry.
             </div>
           )}
         </div>
       </div>
 
-      {/* Index Strip */}
+      {/* Quick Index Strip for active nodes */}
       <div className="tva-folder rounded-md p-4 space-y-2">
         <div className="text-[11px] font-mono-code uppercase tracking-widest font-bold text-[#61503e]">
-          Quick Scope Index ({visibleNodes.length} visible)
+          Active Branch Nodes ({visibleNodes.length} on scope)
         </div>
         <div className="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto">
-          {visibleNodes.map((n) => (
-            <button
-              key={n.key}
-              type="button"
-              onClick={() => {
-                setSelectedNodeKey(n.key);
-                setFocusHops(1);
-                resetCamera();
-              }}
-              className={`rounded border px-2 py-1 text-[11px] transition-colors ${
-                selectedNodeKey === n.key
-                  ? 'border-[#1d1610] bg-[#1d1610] text-[#f59e0b] font-semibold'
-                  : 'border-[#cbb895] bg-[#fffaf0] text-[#61503e] hover:border-[#b45309] hover:text-[#1d1610]'
-              }`}
-            >
-              {n.label}
-            </button>
-          ))}
+          {visibleNodes.map((n) => {
+            const hidden = hiddenCountByNode.get(n.key) ?? 0;
+            return (
+              <button
+                key={n.key}
+                type="button"
+                onClick={() => handleNodeClick(n.key)}
+                className={`rounded border px-2 py-1 text-[11px] transition-colors inline-flex items-center gap-1 ${
+                  selectedNodeKey === n.key
+                    ? 'border-[#1d1610] bg-[#1d1610] text-[#f59e0b] font-semibold'
+                    : 'border-[#cbb895] bg-[#fffaf0] text-[#61503e] hover:border-[#b45309] hover:text-[#1d1610]'
+                }`}
+              >
+                <span>{n.label}</span>
+                {hidden > 0 && (
+                  <span className="text-[10px] font-mono-code text-[#b45309] font-bold">
+                    +{hidden}
+                  </span>
+                )}
+              </button>
+            );
+          })}
         </div>
       </div>
     </div>

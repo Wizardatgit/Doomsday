@@ -79,6 +79,7 @@ export function App() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [focusedFactionId, setFocusedFactionId] = useState<string | null>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   const daysToDoomsday = useMemo(() => {
@@ -279,7 +280,25 @@ export function App() {
 
   return (
     <ImageLightboxProvider>
-      <div className="min-h-screen flex flex-col lg:flex-row">
+      <div className="min-h-screen flex flex-col lg:flex-row relative">
+      {/* Faint Archival TVA Drafting-Ring & Chronology Vector Watermark */}
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 1000 800"
+        preserveAspectRatio="xMidYMid slice"
+        className="pointer-events-none fixed inset-0 lg:left-64 w-full lg:w-[calc(100%-16rem)] h-full opacity-[0.045] text-[#5a3d1e] z-0"
+      >
+        <g fill="none" stroke="currentColor">
+          <circle cx="760" cy="210" r="240" strokeWidth="1.2" strokeDasharray="8 6" />
+          <circle cx="760" cy="210" r="185" strokeWidth="0.9" />
+          <circle cx="760" cy="210" r="115" strokeWidth="0.8" strokeDasharray="3 5" />
+          <circle cx="240" cy="610" r="165" strokeWidth="1" strokeDasharray="6 6" />
+          <path d="M-40 430 Q 260 430 430 330 T 1040 160" strokeWidth="1.5" />
+          <path d="M180 420 Q 410 530 690 560 T 1040 595" strokeWidth="1.1" strokeDasharray="5 5" />
+          <path d="M510 210 L 1010 210 M760 -30 L 760 450" strokeWidth="0.8" />
+        </g>
+      </svg>
+
       {/* Mobile Top Hardware Strip */}
       <header className="lg:hidden sticky top-0 z-30 flex items-center justify-between px-4 py-2.5 bg-[#1b1511] text-[#faf3e3] border-b border-[#3a2c22]">
         <button
@@ -327,13 +346,13 @@ export function App() {
       )}
 
       {/* Desktop Left Fixed Bakelite TemPad Hardware Console */}
-      <aside className="hidden lg:block w-64 shrink-0 bg-[#1b1511] border-r-2 border-[#3c2d22] sticky top-0 h-screen overflow-y-auto shadow-xl">
+      <aside className="hidden lg:block w-64 shrink-0 bg-[#1b1511] border-r-2 border-[#3c2d22] sticky top-0 h-screen overflow-y-auto shadow-xl z-20">
         {sidebarContent}
       </aside>
 
       {/* Right Bright Cream Archival Desk Workspace */}
       <main
-        className="flex-1 min-w-0 px-4 sm:px-6 lg:px-8 py-6 max-w-6xl mx-auto w-full"
+        className="relative z-10 flex-1 min-w-0 px-4 sm:px-6 lg:px-8 py-6 max-w-6xl mx-auto w-full"
         onClick={() => setSearchOpen(false)}
       >
         {activeView === 'hub' && (
@@ -347,6 +366,10 @@ export function App() {
             onOpenBeginnerPath={openBeginnerWatchPath}
             onSelect={setSelectedEntity}
             onNavigate={setActiveView}
+            onOpenFaction={(factionId) => {
+              setFocusedFactionId(factionId);
+              setActiveView('factions');
+            }}
             onLaunchPresetPath={(fromKey, toKey) => {
               setPathOriginKey(fromKey);
               setPathTargetKey(toKey);
@@ -391,6 +414,8 @@ export function App() {
             watchedSet={watchedSet}
             spoilerShield={spoilerShield}
             tmdbApiKey={tmdbApiKey}
+            initialExpandedFactionId={focusedFactionId}
+            onClearInitialFaction={() => setFocusedFactionId(null)}
             onSelect={setSelectedEntity}
           />
         )}

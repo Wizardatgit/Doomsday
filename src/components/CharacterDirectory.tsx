@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { ArrowRight, Search, Users } from 'lucide-react';
+import { ArrowRight, Search } from 'lucide-react';
 import {
   CHARACTERS,
   FACTIONS,
@@ -9,7 +9,7 @@ import {
   titlesById,
 } from '../data/index.ts';
 import type { DoomsdayStatus, EntityRef } from '../data/types.ts';
-import { EntityVisual } from './TvaArt.tsx';
+import { EntityVisual, ViewHeroBanner } from './TvaArt.tsx';
 import { Redactable } from './Redactable.tsx';
 
 export function CharacterDirectory({
@@ -43,16 +43,16 @@ export function CharacterDirectory({
 
   return (
     <div className="space-y-5">
-      <div className="tva-folder rounded-md p-4 space-y-3">
-        <div>
-          <h1 className="text-2xl font-bold text-[#1d1610] flex items-center gap-2">
-            <Users className="w-5 h-5 text-[#c2410c]" /> Personnel Mugshots & Dossiers ({filtered.length})
-          </h1>
-          <p className="text-xs text-[#61503e] mt-0.5">
-            Every player’s archival Polaroid, origin reality, and step-by-step path into Avengers: Doomsday.
-          </p>
-        </div>
+      <ViewHeroBanner
+        wikiPage="The_Avengers_(2012_film)"
+        catalogStamp="TVA PERSONNEL ARCHIVE // SUBJECT ROSTER"
+        title={`Personnel Mugshots & Dossiers (${filtered.length})`}
+        subtitle="Every player’s archival Polaroid, origin reality, and step-by-step path into Avengers: Doomsday."
+        accentColor="#1d4ed8"
+        emblem="avengers"
+      />
 
+      <div className="tva-folder rounded-md p-4">
         <div className="flex flex-wrap gap-2.5">
           <div className="relative flex-1 min-w-[200px]">
             <Search className="w-4 h-4 text-[#61503e] absolute left-3 top-2.5" />

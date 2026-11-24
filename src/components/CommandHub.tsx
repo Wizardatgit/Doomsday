@@ -16,6 +16,7 @@ import {
 import {
   BEGINNER_PRIMER,
   CHARACTERS,
+  FACTIONS,
   GLOSSARY_TERMS,
   ICONIC_PLACES,
   REALITIES,
@@ -26,7 +27,7 @@ import {
   realitiesById,
 } from '../data/index.ts';
 import type { AppView, EntityRef } from '../data/index.ts';
-import { EntityVisual } from './TvaArt.tsx';
+import { EntityVisual, FactionEmblemIcon } from './TvaArt.tsx';
 import { Redactable } from './Redactable.tsx';
 
 const FLAGSHIP_CHARACTER_IDS = [
@@ -97,6 +98,7 @@ export function CommandHub({
   onOpenBeginnerPath,
   onSelect,
   onNavigate,
+  onOpenFaction,
   onLaunchPresetPath,
 }: {
   watchedSet: Set<string>;
@@ -108,9 +110,17 @@ export function CommandHub({
   onOpenBeginnerPath: () => void;
   onSelect: (ref: EntityRef) => void;
   onNavigate: (view: AppView) => void;
+  onOpenFaction: (factionId: string) => void;
   onLaunchPresetPath: (fromKey: string, toKey: string) => void;
 }) {
   const [glossaryOpen, setGlossaryOpen] = useState(false);
+  const factionCounts = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const c of CHARACTERS) {
+      counts.set(c.factionId, (counts.get(c.factionId) ?? 0) + 1);
+    }
+    return counts;
+  }, []);
   const essentialTitles = useMemo(() => TITLES.filter((t) => t.importance === 'essential'), []);
   const watchedEssential = useMemo(
     () => essentialTitles.filter((t) => watchedSet.has(t.id)).length,
@@ -314,54 +324,107 @@ export function CommandHub({
           </div>
         </div>
 
-        {/* Right: Pinned Polaroid Evidence Mugshots */}
-        <div className="xl:col-span-7 tva-folder rounded-md p-5 flex flex-col gap-4">
-          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#cbb895] pb-3">
-            <div>
-              <span className="text-[10px] font-mono-code uppercase tracking-widest text-[#9a3412] font-bold">
-                EVIDENCE PINBOARD // CONFIRMED PLAYERS
-              </span>
-              <h2 className="text-lg font-bold text-[#1d1610]">Key Doomsday Personnel</h2>
+        {/* Right: Pinned Polaroid Evidence Mugshots + Confirmed Factions Strip */}
+        <div className="xl:col-span-7 flex flex-col gap-5">
+          <div className="tva-folder rounded-md p-5 flex flex-col gap-4">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#cbb895] pb-3">
+              <div>
+                <span className="text-[10px] font-mono-code uppercase tracking-widest text-[#9a3412] font-bold">
+                  EVIDENCE PINBOARD // CONFIRMED PLAYERS
+                </span>
+                <h2 className="text-lg font-bold text-[#1d1610]">Key Doomsday Personnel</h2>
+              </div>
+              <button
+                type="button"
+                onClick={() => onNavigate('dossiers')}
+                className="text-xs font-mono-code font-semibold text-[#9a3412] hover:underline inline-flex items-center gap-1"
+              >
+                <Users className="w-3.5 h-3.5" /> All {CHARACTERS.length} Mugshots <ArrowRight className="w-3.5 h-3.5" />
+              </button>
             </div>
-            <button
-              type="button"
-              onClick={() => onNavigate('dossiers')}
-              className="text-xs font-mono-code font-semibold text-[#9a3412] hover:underline inline-flex items-center gap-1"
-            >
-              <Users className="w-3.5 h-3.5" /> All {CHARACTERS.length} Mugshots <ArrowRight className="w-3.5 h-3.5" />
-            </button>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {flagshipChars.map((c, idx) => {
+                const faction = factionsById.get(c.factionId);
+                return (
+                  <button
+                    key={c.id}
+                    type="button"
+                    onClick={() => onSelect({ kind: 'character', id: c.id })}
+                    className={`group text-left transition-transform hover:-translate-y-1 flex flex-col items-center ${
+                      idx % 2 === 0 ? '-rotate-1 hover:rotate-0' : 'rotate-1 hover:rotate-0'
+                    }`}
+                  >
+                    <EntityVisual
+                      variant="polaroid"
+                      code={c.catalogCode}
+                      title={c.name}
+                      subtitle={c.name}
+                      accentColor={faction?.color ?? '#c2410c'}
+                      emblem={faction?.emblem ?? 'tva'}
+                      wikiPage={c.wikiPage}
+                      tmdbQuery={c.tmdbPersonId ? { kind: 'person', id: c.tmdbPersonId } : undefined}
+                      tmdbApiKey={tmdbApiKey}
+                      className="w-full"
+                    />
+                    <span className="mt-1 text-[10px] font-mono-code text-[#61503e] truncate max-w-full">
+                      {faction?.shortName}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {flagshipChars.map((c, idx) => {
-              const faction = factionsById.get(c.factionId);
-              return (
-                <button
-                  key={c.id}
-                  type="button"
-                  onClick={() => onSelect({ kind: 'character', id: c.id })}
-                  className={`group text-left transition-transform hover:-translate-y-1 flex flex-col items-center ${
-                    idx % 2 === 0 ? '-rotate-1 hover:rotate-0' : 'rotate-1 hover:rotate-0'
-                  }`}
-                >
-                  <EntityVisual
-                    variant="polaroid"
-                    code={c.catalogCode}
-                    title={c.name}
-                    subtitle={c.name}
-                    accentColor={faction?.color ?? '#c2410c'}
-                    emblem={faction?.emblem ?? 'tva'}
-                    wikiPage={c.wikiPage}
-                    tmdbQuery={c.tmdbPersonId ? { kind: 'person', id: c.tmdbPersonId } : undefined}
-                    tmdbApiKey={tmdbApiKey}
-                    className="w-full"
-                  />
-                  <span className="mt-1 text-[10px] font-mono-code text-[#61503e] truncate max-w-full">
-                    {faction?.shortName}
-                  </span>
-                </button>
-              );
-            })}
+          <div className="tva-folder rounded-md p-4 flex flex-col gap-3">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#cbb895] pb-2">
+              <div>
+                <span className="text-[10px] font-mono-code uppercase tracking-widest text-[#9a3412] font-bold">
+                  ACTIVE COALITIONS // JUMP TO DOSSIER
+                </span>
+                <h3 className="text-sm font-bold text-[#1d1610]">
+                  Confirmed Factions ({FACTIONS.length})
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => onNavigate('factions')}
+                className="text-xs font-mono-code font-semibold text-[#9a3412] hover:underline inline-flex items-center gap-1"
+              >
+                All Dossiers <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              {FACTIONS.map((faction) => {
+                const count = factionCounts.get(faction.id) ?? 0;
+                return (
+                  <button
+                    key={faction.id}
+                    type="button"
+                    onClick={() => onOpenFaction(faction.id)}
+                    className="tva-sheet rounded p-2 text-left flex items-center gap-2 hover:border-[#9a3412] hover:-translate-y-0.5 transition-all group"
+                    style={{ borderTop: `3px solid ${faction.color}` }}
+                  >
+                    <span className="w-7 h-7 rounded flex items-center justify-center shrink-0 border border-[#cbb895]/70 bg-[#231a13]">
+                      <FactionEmblemIcon
+                        emblem={faction.emblem}
+                        color={faction.color}
+                        className="w-4 h-4"
+                      />
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <div className="text-[11px] font-bold text-[#1d1610] truncate group-hover:text-[#9a3412]">
+                        {faction.shortName}
+                      </div>
+                      <div className="text-[10px] font-mono-code text-[#61503e]">
+                        {count} {count === 1 ? 'agent' : 'agents'}
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>

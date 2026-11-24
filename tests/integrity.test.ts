@@ -22,6 +22,14 @@ import {
   titlesById,
 } from '../src/data/index.ts';
 import { buildUnifiedGraph, findShortestPath, getNeighborhood } from '../src/lib/graph.ts';
+import {
+  CORE_HUB_KEYS,
+  GRAPH_BOUNDS,
+  collapseBranchMap,
+  computeExploreTreeLayout,
+  pickNextNeighbors,
+  shortenGraphLabel,
+} from '../src/lib/graphTree.ts';
 import { isRedacted, parseImportedWatchlist, serializeWatchlistBackup } from '../src/lib/spoiler.ts';
 import { buildWikiBatchUrl } from '../src/lib/wikiImages.ts';
 
@@ -253,4 +261,46 @@ test('newcomer 12-title catch-up list, primer, and glossary are valid', () => {
   for (const g of GLOSSARY_TERMS) {
     assert.ok(g.term.trim().length > 0 && g.meaning.trim().length > 0);
   }
+});
+
+test('explore-as-you-go tree hubs, label shortening, separation bounds, and collapse work', () => {
+  const graph = buildUnifiedGraph(false);
+  assert.equal(CORE_HUB_KEYS.length, 6);
+  for (const key of CORE_HUB_KEYS) {
+    assert.ok(graph.nodes.has(key), `Core hub missing from graph: ${key}`);
+  }
+
+  assert.equal(shortenGraphLabel('Sam Wilson (Captain America)'), 'Sam Wilson');
+  const truncated = shortenGraphLabel('X-Men / Revised Fox Universe (Earth-10005)', 19);
+  assert.ok(truncated.length <= 19);
+  assert.ok(!truncated.includes('('));
+
+  const exclude = new Set<string>(CORE_HUB_KEYS);
+  const { nextKeys } = pickNextNeighbors(graph, 'reality:earth-828', exclude, 6);
+  assert.ok(nextKeys.length >= 1 && nextKeys.length <= 6);
+
+  const expanded = new Map<string, string[]>([['reality:earth-828', nextKeys]]);
+  const positions = computeExploreTreeLayout(CORE_HUB_KEYS, expanded, graph);
+  assert.equal(positions.length, CORE_HUB_KEYS.length + nextKeys.length);
+
+  for (const p of positions) {
+    assert.ok(p.x >= GRAPH_BOUNDS.minX && p.x <= GRAPH_BOUNDS.maxX, `x out of bounds: ${p.x}`);
+    assert.ok(p.y >= GRAPH_BOUNDS.minY && p.y <= GRAPH_BOUNDS.maxY, `y out of bounds: ${p.y}`);
+  }
+
+  for (let i = 0; i < positions.length; i++) {
+    for (let j = i + 1; j < positions.length; j++) {
+      const a = positions[i]!;
+      const b = positions[j]!;
+      const clearX = Math.abs(a.x - b.x) >= GRAPH_BOUNDS.sepX - 1;
+      const clearY = Math.abs(a.y - b.y) >= GRAPH_BOUNDS.sepY - 1;
+      assert.ok(
+        clearX || clearY,
+        `Overlap between ${a.node.key} (${a.x.toFixed(1)},${a.y.toFixed(1)}) and ${b.node.key} (${b.x.toFixed(1)},${b.y.toFixed(1)})`,
+      );
+    }
+  }
+
+  const collapsed = collapseBranchMap(CORE_HUB_KEYS, expanded, 'reality:earth-828', graph);
+  assert.equal(collapsed.size, 0);
 });

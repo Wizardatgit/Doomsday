@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
-import { ArrowDown, ArrowLeftRight, GitBranch, Sparkles } from 'lucide-react';
+import { ArrowDown, ArrowLeftRight, Sparkles } from 'lucide-react';
 import { charactersById, realitiesById, titlesById } from '../data/index.ts';
 import type { EntityRef } from '../data/index.ts';
 import { buildUnifiedGraph, findShortestPath } from '../lib/graph.ts';
-import { EntityVisual } from './TvaArt.tsx';
+import { EntityVisual, ViewHeroBanner } from './TvaArt.tsx';
 import { Redactable } from './Redactable.tsx';
 
 const QUICK_PAIRS = [
@@ -51,15 +51,16 @@ export function PathFinder({
 
   return (
     <div className="space-y-5">
+      <ViewHeroBanner
+        wikiPage="Time_Variance_Authority"
+        catalogStamp="TVA CHRONOLOGY VECTOR TRACER"
+        title='Path Tracer ("Connect Any Two Dots")'
+        subtitle="Pick any two characters, films, realities, or threads to trace the chain linking them into Avengers: Doomsday."
+        accentColor="#d97706"
+        emblem="tva"
+      />
+
       <div className="tva-folder rounded-md p-5 space-y-4">
-        <div>
-          <h1 className="text-2xl font-bold text-[#1d1610] flex items-center gap-2">
-            <GitBranch className="w-5 h-5 text-[#c2410c]" /> Path Tracer (&quot;Connect Any Two Dots&quot;)
-          </h1>
-          <p className="text-xs text-[#61503e] mt-1">
-            Pick any two characters, films, realities, or threads to trace the chain linking them into Avengers: Doomsday.
-          </p>
-        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-3 items-end">
           <div className="space-y-1">

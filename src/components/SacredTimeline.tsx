@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react';
-import { CheckSquare, Clock, Compass, Filter, Square } from 'lucide-react';
+import { CheckSquare, Compass, Filter, Square } from 'lucide-react';
 import { BEGINNER_12_IDS, TITLES, charactersById, realitiesById } from '../data/index.ts';
 import type { EntityRef, TitleEra } from '../data/types.ts';
 import type { TimelinePreset } from '../state/useAppState.ts';
-import { EntityVisual } from './TvaArt.tsx';
+import { EntityVisual, ViewHeroBanner } from './TvaArt.tsx';
 import { Redactable } from './Redactable.tsx';
 
 type OrderMode = 'chrono' | 'release';
@@ -75,38 +75,41 @@ export function SacredTimeline({
 
   return (
     <div className="space-y-5">
-      <div className="tva-folder rounded-md p-4 space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <h1 className="text-2xl font-bold text-[#1d1610] flex items-center gap-2">
-              <Clock className="w-5 h-5 text-[#c2410c]" /> Archival Timeline Reel ({filteredTitles.length})
-            </h1>
-            <p className="text-xs text-[#61503e]">
-              Pre-Phase-1 legacy foundations, Phases 1–3, Canon Defenders Saga, and Phases 4–6 leading to Dec 18, 2026.
-            </p>
-          </div>
-
-          <div className="flex items-center gap-1 rounded border border-[#cbb895] bg-[#fffaf0] p-1">
-            <button
-              type="button"
-              onClick={() => setOrderMode('chrono')}
-              className={`rounded px-3 py-1.5 text-xs font-mono-code font-semibold ${
-                orderMode === 'chrono' ? 'bg-[#1d1610] text-[#f59e0b]' : 'text-[#61503e] hover:text-[#1d1610]'
-              }`}
-            >
-              Story Chronological
-            </button>
-            <button
-              type="button"
-              onClick={() => setOrderMode('release')}
-              className={`rounded px-3 py-1.5 text-xs font-mono-code font-semibold ${
-                orderMode === 'release' ? 'bg-[#1d1610] text-[#f59e0b]' : 'text-[#61503e] hover:text-[#1d1610]'
-              }`}
-            >
-              Release Order
-            </button>
-          </div>
+      <ViewHeroBanner
+        wikiPage="Avengers:_Doomsday"
+        catalogStamp="TVA CHRONOLOGY REEL // FULL WATCH ORDER"
+        title={`Archival Timeline Reel (${filteredTitles.length})`}
+        subtitle="Pre-Phase-1 legacy foundations, Phases 1–3, Canon Defenders Saga, and Phases 4–6 leading to Dec 18, 2026."
+        accentColor="#c2410c"
+        emblem="tva"
+      >
+        <div className="flex items-center gap-1 rounded border border-[#cbb895]/40 bg-[#1a130e]/90 p-1">
+          <button
+            type="button"
+            onClick={() => setOrderMode('chrono')}
+            className={`rounded px-3 py-1.5 text-xs font-mono-code font-semibold ${
+              orderMode === 'chrono'
+                ? 'bg-amber-400 text-[#1a130e]'
+                : 'text-[#dfd1b5] hover:text-amber-300'
+            }`}
+          >
+            Story Chronological
+          </button>
+          <button
+            type="button"
+            onClick={() => setOrderMode('release')}
+            className={`rounded px-3 py-1.5 text-xs font-mono-code font-semibold ${
+              orderMode === 'release'
+                ? 'bg-amber-400 text-[#1a130e]'
+                : 'text-[#dfd1b5] hover:text-amber-300'
+            }`}
+          >
+            Release Order
+          </button>
         </div>
+      </ViewHeroBanner>
+
+      <div className="tva-folder rounded-md p-4 space-y-4">
 
         <div className="flex flex-wrap items-center gap-2.5 text-xs">
           <Filter className="w-4 h-4 text-[#c2410c] shrink-0" />

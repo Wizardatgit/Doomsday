@@ -1,8 +1,9 @@
 import { useMemo, useState } from 'react';
-import { ChevronDown, ChevronUp, Flame, Sparkles } from 'lucide-react';
+import { ChevronDown, ChevronUp, Sparkles } from 'lucide-react';
 import { THREADS, charactersById, titlesById } from '../data/index.ts';
 import type { EntityRef, ThreadCategory } from '../data/types.ts';
 import { Redactable } from './Redactable.tsx';
+import { ViewHeroBanner } from './TvaArt.tsx';
 
 export function ThreadsTracker({
   watchedSet,
@@ -37,22 +38,21 @@ export function ThreadsTracker({
 
   return (
     <div className="space-y-5">
-      <div className="tva-folder rounded-md p-4 space-y-3">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <h1 className="text-2xl font-bold text-[#1d1610] flex items-center gap-2">
-              <Flame className="w-5 h-5 text-[#c2410c]" /> Case Threads &amp; Post-Credits Ledger
-            </h1>
-            <p className="text-xs text-[#61503e]">
-              Track unresolved stingers, artifacts, and multiverse fractures. Expand any folder inline or click to open its full Dossier.
-            </p>
-          </div>
-          {!showTheories && (
-            <span className="text-[11px] font-mono-code text-[#61503e]">
-              Theory Layer OFF (enable switch in left TemPad console)
-            </span>
-          )}
-        </div>
+      <ViewHeroBanner
+        wikiPage="The_Fantastic_Four:_First_Steps"
+        catalogStamp="TVA CONVERGENCE DESK // PLOT THREAD LEDGER"
+        title="Case Threads & Post-Credits Ledger"
+        subtitle="Track unresolved stingers, artifacts, and multiverse fractures threading straight into Avengers: Doomsday."
+        accentColor="#0f766e"
+        emblem="f4"
+      >
+        {!showTheories && (
+          <span className="rounded border border-[#cbb895]/40 bg-[#1a130e]/90 px-2.5 py-1 text-[11px] font-mono-code text-amber-300">
+            Theory Layer OFF
+          </span>
+        )}
+      </ViewHeroBanner>
+      <div className="tva-folder rounded-md p-4">
 
         <div className="flex flex-wrap gap-1.5">
           {(['all', 'incursion', 'post-credits', 'faction', 'artifact', 'mystery'] as const).map((cat) => (

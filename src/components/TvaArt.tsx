@@ -386,3 +386,158 @@ export function EntityVisual({
     </div>
   );
 }
+
+/** Atmospheric archival photo header banner with readable dark scrim and lightbox zoom. */
+export function ViewHeroBanner({
+  wikiPage,
+  staticImagePath,
+  catalogStamp,
+  title,
+  subtitle,
+  accentColor = '#c2410c',
+  emblem = 'tva',
+  compactBanner = false,
+  className = '',
+  children,
+}: {
+  wikiPage?: string;
+  staticImagePath?: string;
+  catalogStamp: string;
+  title: string;
+  subtitle: string;
+  accentColor?: string;
+  emblem?: Parameters<typeof FactionEmblemIcon>[0]['emblem'];
+  compactBanner?: boolean;
+  className?: string;
+  children?: import('react').ReactNode;
+}) {
+  const { openLightbox } = useImageLightbox();
+  const [wikiUrl, setWikiUrl] = useState<string | null>(null);
+  const [imgFailed, setImgFailed] = useState(false);
+
+  useEffect(() => {
+    setImgFailed(false);
+    setWikiUrl(null);
+    if (staticImagePath || !wikiPage) return;
+    let active = true;
+    fetchWikiThumbnail(wikiPage).then((url) => {
+      if (active) setWikiUrl(url);
+    });
+    return () => {
+      active = false;
+    };
+  }, [wikiPage, staticImagePath]);
+
+  const resolvedUrl = staticImagePath || wikiUrl;
+  const showImage = Boolean(resolvedUrl && !imgFailed);
+
+  const handleOpen = () => {
+    if (!showImage || !resolvedUrl) return;
+    openLightbox({
+      url: resolvedUrl,
+      code: catalogStamp,
+      title,
+      subtitle,
+      accentColor,
+    });
+  };
+
+  return (
+    <div
+      className={`relative overflow-hidden rounded-md border border-[#3d2d20] bg-[#1b140f] text-[#faf3e3] shadow-sm ${
+        compactBanner ? 'h-20' : 'min-h-[124px] sm:min-h-[140px]'
+      } ${className}`}
+      style={{ borderLeft: `4px solid ${accentColor}` }}
+    >
+      {showImage ? (
+        <img
+          src={resolvedUrl!}
+          alt={title}
+          referrerPolicy="no-referrer"
+          loading="lazy"
+          onError={() => setImgFailed(true)}
+          className="absolute inset-0 w-full h-full object-cover object-center sepia-[0.22] contrast-[1.06] opacity-70"
+        />
+      ) : (
+        <div
+          className="absolute inset-0 flex items-center justify-end pr-8 opacity-20"
+          style={{
+            background: `radial-gradient(circle at 80% 45%, ${accentColor}44, #1b140f 70%)`,
+          }}
+        >
+          <FactionEmblemIcon
+            emblem={emblem}
+            color={accentColor}
+            className={compactBanner ? 'w-14 h-14' : 'w-24 h-24'}
+          />
+        </div>
+      )}
+
+      <div
+        className={`absolute inset-0 ${
+          compactBanner
+            ? 'bg-gradient-to-r from-[#16100c]/95 via-[#16100c]/80 to-[#16100c]/35'
+            : 'bg-gradient-to-r from-[#16100c]/95 via-[#16100c]/82 to-[#16100c]/50'
+        }`}
+      />
+
+      {showImage && (
+        <span
+          role="button"
+          tabIndex={0}
+          title={`Expand ${title} image`}
+          aria-label={`Expand ${title} image`}
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            handleOpen();
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.stopPropagation();
+              e.preventDefault();
+              handleOpen();
+            }
+          }}
+          className="absolute top-2 right-2 z-20 inline-flex items-center justify-center rounded bg-[#140f0c]/85 p-1 text-[#f5e7c8] border border-[#cbb895]/40 opacity-80 hover:opacity-100 hover:border-amber-400 hover:text-amber-300 transition-opacity cursor-zoom-in"
+        >
+          <Maximize2 className="w-3 h-3" />
+        </span>
+      )}
+
+      <div
+        className={`relative z-10 h-full flex flex-col sm:flex-row sm:items-end justify-between gap-3 ${
+          compactBanner ? 'px-4 py-2.5 pr-9' : 'p-4 sm:p-5 pr-10'
+        }`}
+      >
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-2 text-[10px] font-mono-code uppercase tracking-widest text-amber-300/90">
+            <span
+              className="w-2 h-2 rounded-full shrink-0"
+              style={{ backgroundColor: accentColor }}
+            />
+            <span className="truncate">{catalogStamp}</span>
+          </div>
+          {compactBanner ? (
+            <h2 className="font-serif-display font-bold text-[#fcf6e8] leading-tight truncate text-base sm:text-lg mt-0.5">
+              {title}
+            </h2>
+          ) : (
+            <h1 className="font-serif-display font-bold text-[#fcf6e8] leading-tight truncate text-xl sm:text-2xl mt-1">
+              {title}
+            </h1>
+          )}
+          <p
+            className={`text-[#dfd1b5] leading-snug ${
+              compactBanner ? 'text-[11px] truncate' : 'text-xs sm:text-sm mt-1 max-w-2xl'
+            }`}
+          >
+            {subtitle}
+          </p>
+        </div>
+
+        {children && <div className="shrink-0 flex flex-wrap items-center gap-2">{children}</div>}
+      </div>
+    </div>
+  );
+}
