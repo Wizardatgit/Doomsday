@@ -58,7 +58,7 @@ export function App() {
     spoilerShield,
     showTheories,
     tmdbApiKey,
-    welcomeDismissed,
+    welcomeExpanded,
     timelinePreset,
     setTimelinePreset,
     toggleWatched,
@@ -66,7 +66,7 @@ export function App() {
     toggleSpoilerShield,
     toggleTheories,
     setTmdbApiKey,
-    toggleWelcomeDismissed,
+    toggleWelcomeExpanded,
     openBeginnerWatchPath,
     exportBackupJson,
     importBackupJson,
@@ -342,8 +342,8 @@ export function App() {
             spoilerShield={spoilerShield}
             showTheories={showTheories}
             tmdbApiKey={tmdbApiKey}
-            welcomeDismissed={welcomeDismissed}
-            onToggleWelcome={toggleWelcomeDismissed}
+            welcomeExpanded={welcomeExpanded}
+            onToggleWelcome={toggleWelcomeExpanded}
             onOpenBeginnerPath={openBeginnerWatchPath}
             onSelect={setSelectedEntity}
             onNavigate={setActiveView}

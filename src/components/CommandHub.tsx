@@ -92,7 +92,7 @@ export function CommandHub({
   spoilerShield,
   showTheories,
   tmdbApiKey,
-  welcomeDismissed,
+  welcomeExpanded,
   onToggleWelcome,
   onOpenBeginnerPath,
   onSelect,
@@ -103,7 +103,7 @@ export function CommandHub({
   spoilerShield: boolean;
   showTheories: boolean;
   tmdbApiKey: string;
-  welcomeDismissed: boolean;
+  welcomeExpanded: boolean;
   onToggleWelcome: () => void;
   onOpenBeginnerPath: () => void;
   onSelect: (ref: EntityRef) => void;
@@ -145,24 +145,33 @@ export function CommandHub({
 
   return (
     <div className="space-y-7">
-      {/* New to Marvel? Start Here Onboarding Briefing */}
-      <section className="tva-folder rounded-md p-4 sm:p-5 border-l-4 border-l-[#047857]">
-        {welcomeDismissed ? (
+      {/* New to Marvel? Compact Bar / Expandable Briefing */}
+      <section className="tva-folder rounded-md p-3.5 sm:p-4 border-l-4 border-l-[#047857]">
+        {!welcomeExpanded ? (
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-2.5 text-xs">
               <Compass className="w-4 h-4 text-[#047857] shrink-0" />
               <span className="font-bold text-[#1d1610]">New to Marvel?</span>
               <span className="text-[#61503e]">
-                Open the 30-second plain-English starter guide, 12-movie catch-up path, and glossary.
+                30-second starter guide, 12-movie catch-up path, and jargon glossary.
               </span>
             </div>
-            <button
-              type="button"
-              onClick={onToggleWelcome}
-              className="inline-flex items-center gap-1 rounded border border-[#cbb895] bg-[#fffaf0] px-2.5 py-1 text-xs font-mono-code font-semibold text-[#047857] hover:border-[#047857]"
-            >
-              Open Starter Guide <ChevronDown className="w-3.5 h-3.5" />
-            </button>
+            <div className="flex flex-wrap items-center gap-2">
+              <button
+                type="button"
+                onClick={onOpenBeginnerPath}
+                className="inline-flex items-center gap-1 rounded bg-[#047857] px-2.5 py-1 text-xs font-mono-code font-bold text-white hover:bg-[#065f46]"
+              >
+                Beginner 12-Title Path <ArrowRight className="w-3 h-3" />
+              </button>
+              <button
+                type="button"
+                onClick={onToggleWelcome}
+                className="inline-flex items-center gap-1 rounded border border-[#cbb895] bg-[#fffaf0] px-2.5 py-1 text-xs font-mono-code font-semibold text-[#047857] hover:border-[#047857]"
+              >
+                30-Sec Guide &amp; Glossary <ChevronDown className="w-3.5 h-3.5" />
+              </button>
+            </div>
           </div>
         ) : (
           <div className="space-y-4">
@@ -237,8 +246,8 @@ export function CommandHub({
       </section>
 
       {/* Asymmetric Top Desk Spread: Left Master Manila Folder + Right Pinned Polaroid Mugshots */}
-      <section className="grid grid-cols-1 xl:grid-cols-12 gap-5 items-stretch">
-        <div className="xl:col-span-5 tva-folder rounded-md p-5 flex flex-col justify-between gap-4">
+      <section className="grid grid-cols-1 xl:grid-cols-12 gap-5 items-start">
+        <div className="xl:col-span-5 tva-folder rounded-md p-5 flex flex-col gap-4">
           <div className="space-y-3">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <span className="tva-ink-stamp border-[#9a3412] bg-[#9a3412]/10 text-[#9a3412]">
@@ -306,7 +315,7 @@ export function CommandHub({
         </div>
 
         {/* Right: Pinned Polaroid Evidence Mugshots */}
-        <div className="xl:col-span-7 tva-folder rounded-md p-5 flex flex-col justify-between gap-4">
+        <div className="xl:col-span-7 tva-folder rounded-md p-5 flex flex-col gap-4">
           <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#cbb895] pb-3">
             <div>
               <span className="text-[10px] font-mono-code uppercase tracking-widest text-[#9a3412] font-bold">
@@ -390,7 +399,7 @@ export function CommandHub({
                   accentColor={reality?.color ?? '#c2410c'}
                   wikiPage={place.wikiPage}
                 />
-                <p className="text-[11px] text-[#61503e] line-clamp-2 leading-relaxed px-0.5">
+                <p className="text-[11px] text-[#61503e] line-clamp-1 leading-relaxed px-0.5">
                   {place.summary}
                 </p>
               </button>
@@ -433,7 +442,7 @@ export function CommandHub({
                 </div>
                 <h3 className="text-base font-bold text-[#1d1610]">{th.title}</h3>
                 <Redactable titleIds={th.keyTitleIds} watchedSet={watchedSet} spoilerShield={spoilerShield}>
-                  <p className="text-xs text-[#61503e] leading-relaxed line-clamp-3">{th.summary}</p>
+                  <p className="text-xs text-[#61503e] leading-relaxed line-clamp-2">{th.summary}</p>
                 </Redactable>
               </div>
               <div className="flex items-center justify-between text-[11px] font-mono-code font-semibold text-[#9a3412] border-t border-[#e1d4b9] pt-2">

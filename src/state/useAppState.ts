@@ -18,7 +18,7 @@ interface StoredState {
   spoilerShield: boolean;
   showTheories: boolean;
   tmdbApiKey: string;
-  welcomeDismissed: boolean;
+  welcomeExpanded: boolean;
 }
 
 const DEFAULT_STORED: StoredState = {
@@ -26,7 +26,7 @@ const DEFAULT_STORED: StoredState = {
   spoilerShield: false,
   showTheories: false,
   tmdbApiKey: '',
-  welcomeDismissed: false,
+  welcomeExpanded: false,
 };
 
 const VALID_VIEWS = new Set<AppView>([
@@ -52,7 +52,7 @@ function readInitialStorage(): StoredState {
       spoilerShield: Boolean(parsed.spoilerShield),
       showTheories: Boolean(parsed.showTheories),
       tmdbApiKey: typeof parsed.tmdbApiKey === 'string' ? parsed.tmdbApiKey : '',
-      welcomeDismissed: Boolean(parsed.welcomeDismissed),
+      welcomeExpanded: Boolean(parsed.welcomeExpanded),
     };
   } catch {
     return DEFAULT_STORED;
@@ -143,8 +143,8 @@ export function useAppState() {
     setStored((prev) => ({ ...prev, tmdbApiKey }));
   }, []);
 
-  const toggleWelcomeDismissed = useCallback(() => {
-    setStored((prev) => ({ ...prev, welcomeDismissed: !prev.welcomeDismissed }));
+  const toggleWelcomeExpanded = useCallback(() => {
+    setStored((prev) => ({ ...prev, welcomeExpanded: !prev.welcomeExpanded }));
   }, []);
 
   const openBeginnerWatchPath = useCallback(() => {
@@ -198,7 +198,7 @@ export function useAppState() {
     spoilerShield: stored.spoilerShield,
     showTheories: stored.showTheories,
     tmdbApiKey: stored.tmdbApiKey,
-    welcomeDismissed: stored.welcomeDismissed,
+    welcomeExpanded: stored.welcomeExpanded,
     timelinePreset,
     setTimelinePreset,
     toggleWatched,
@@ -206,7 +206,7 @@ export function useAppState() {
     toggleSpoilerShield,
     toggleTheories,
     setTmdbApiKey,
-    toggleWelcomeDismissed,
+    toggleWelcomeExpanded,
     openBeginnerWatchPath,
     exportBackupJson,
     importBackupJson,

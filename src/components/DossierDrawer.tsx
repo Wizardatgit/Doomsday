@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import {
   ArrowRight,
   CheckSquare,
@@ -22,6 +23,40 @@ import type { EntityRef } from '../data/index.ts';
 import { EntityVisual } from './TvaArt.tsx';
 import { Redactable } from './Redactable.tsx';
 
+type DossierTab = 'briefing' | 'timeline' | 'connections';
+
+function DossierTabBar({
+  tabs,
+  activeTab,
+  onChange,
+}: {
+  tabs: { id: DossierTab; label: string }[];
+  activeTab: DossierTab;
+  onChange: (tab: DossierTab) => void;
+}) {
+  return (
+    <div className="flex flex-wrap gap-1.5 border-b-2 border-[#cbb895] pt-1">
+      {tabs.map((tab) => {
+        const active = activeTab === tab.id;
+        return (
+          <button
+            key={tab.id}
+            type="button"
+            onClick={() => onChange(tab.id)}
+            className={`px-3 py-1.5 text-xs font-mono-code font-bold rounded-t border border-b-0 -mb-[2px] transition-colors ${
+              active
+                ? 'bg-[#fffaf0] text-[#9a3412] border-[#cbb895] border-b-2 border-b-[#fffaf0]'
+                : 'bg-[#eadbc0] text-[#61503e] border-transparent hover:text-[#1d1610]'
+            }`}
+          >
+            {tab.label}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
 export function DossierDrawer({
   selected,
   onClose,
@@ -45,6 +80,12 @@ export function DossierDrawer({
   showTheories: boolean;
   tmdbApiKey: string;
 }) {
+  const [activeTab, setActiveTab] = useState<DossierTab>('briefing');
+
+  useEffect(() => {
+    setActiveTab('briefing');
+  }, [selected?.kind, selected?.id]);
+
   if (!selected) return null;
 
   return (
@@ -96,6 +137,7 @@ export function DossierDrawer({
             const relatedThreads = THREADS.filter(
               (th) => (showTheories || !th.isTheory) && th.characterIds.includes(c.id),
             );
+            const visibleJourney = c.journey.filter((j) => showTheories || !j.isTheory);
             const firstTitle = titlesById.get(c.firstAppearanceTitleId);
             const lastTitle = titlesById.get(c.lastSeenTitleId);
 
@@ -158,118 +200,138 @@ export function DossierDrawer({
                   </div>
                 </div>
 
-                <div className="tva-sheet rounded-md p-4 space-y-3">
-                  <div>
-                    <h3 className="text-[11px] font-mono-code uppercase tracking-widest text-[#9a3412] font-bold">
-                      Who Are They?
-                    </h3>
-                    <p className="mt-1 text-sm text-[#1d1610] leading-relaxed">{c.whoAreThey}</p>
-                  </div>
+                <DossierTabBar
+                  activeTab={activeTab}
+                  onChange={setActiveTab}
+                  tabs={[
+                    { id: 'briefing', label: 'Briefing' },
+                    { id: 'timeline', label: `Journey (${visibleJourney.length})` },
+                    { id: 'connections', label: `Threads (${relatedThreads.length})` },
+                  ]}
+                />
 
-                  <div className="border-t border-[#e1d4b9] pt-3">
-                    <h3 className="text-[11px] font-mono-code uppercase tracking-widest text-[#9a3412] font-bold">
-                      How Did They Get Here?
-                    </h3>
-                    <div className="mt-1">
+                {activeTab === 'briefing' && (
+                  <div className="tva-sheet rounded-md p-4 space-y-3">
+                    <div>
+                      <h3 className="text-[11px] font-mono-code uppercase tracking-widest text-[#9a3412] font-bold">
+                        Who Are They?
+                      </h3>
+                      <p className="mt-1 text-sm text-[#1d1610] leading-relaxed">{c.whoAreThey}</p>
+                    </div>
+
+                    <div className="border-t border-[#e1d4b9] pt-3">
+                      <h3 className="text-[11px] font-mono-code uppercase tracking-widest text-[#9a3412] font-bold">
+                        How Did They Get Here?
+                      </h3>
+                      <div className="mt-1">
+                        <Redactable
+                          titleIds={[c.lastSeenTitleId]}
+                          watchedSet={watchedSet}
+                          spoilerShield={spoilerShield}
+                          label="Journey Summary"
+                        >
+                          <p className="text-sm text-[#1d1610] leading-relaxed">{c.howTheyGotHere}</p>
+                        </Redactable>
+                      </div>
+                    </div>
+
+                    <div className="border-t border-[#e1d4b9] pt-3 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                      <div>
+                        <span className="font-mono-code uppercase text-[#61503e]">First Appearance</span>
+                        {firstTitle && (
+                          <button
+                            type="button"
+                            onClick={() => onSelect({ kind: 'title', id: firstTitle.id })}
+                            className="block mt-0.5 text-[#9a3412] hover:underline text-left font-semibold"
+                          >
+                            {firstTitle.title} ({firstTitle.year})
+                          </button>
+                        )}
+                      </div>
+                      <div>
+                        <span className="font-mono-code uppercase text-[#61503e]">Last Seen</span>
+                        {lastTitle && (
+                          <button
+                            type="button"
+                            onClick={() => onSelect({ kind: 'title', id: lastTitle.id })}
+                            className="block mt-0.5 text-[#9a3412] hover:underline text-left font-semibold"
+                          >
+                            {lastTitle.title} ({lastTitle.year})
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === 'timeline' && (
+                  <div className="space-y-2.5 border-l-2 border-[#cbb895] pl-4 ml-1.5">
+                    {visibleJourney.map((j, idx) => {
+                      const title = titlesById.get(j.titleId);
+                      return (
+                        <div key={`${j.titleId}-${idx}`} className="relative tva-sheet rounded p-3 space-y-1.5">
+                          <span className="absolute -left-[23px] top-4 w-2.5 h-2.5 rounded-full bg-[#c2410c] ring-4 ring-[#f6ecd7]" />
+                          <div className="flex items-center justify-between gap-2">
+                            <button
+                              type="button"
+                              onClick={() => onSelect({ kind: 'title', id: j.titleId })}
+                              className="text-xs font-bold text-[#9a3412] hover:underline text-left"
+                            >
+                              {title?.title ?? j.titleId} ({title?.year})
+                            </button>
+                            {j.realityShiftTo && (
+                              <span className="tva-ink-stamp border-[#c2410c] bg-[#c2410c]/10 text-[#9a3412]">
+                                → {realitiesById.get(j.realityShiftTo)?.code}
+                              </span>
+                            )}
+                          </div>
+                          <Redactable
+                            titleIds={[j.titleId]}
+                            watchedSet={watchedSet}
+                            spoilerShield={spoilerShield}
+                          >
+                            <p className="text-xs text-[#1d1610]/90 leading-relaxed">{j.beat}</p>
+                          </Redactable>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {activeTab === 'connections' && (
+                  <div className="space-y-4">
+                    {relatedThreads.length === 0 ? (
+                      <p className="text-xs text-[#61503e]">No active plot threads linked directly.</p>
+                    ) : (
+                      <div className="flex flex-wrap gap-2">
+                        {relatedThreads.map((th) => (
+                          <button
+                            key={th.id}
+                            type="button"
+                            onClick={() => onSelect({ kind: 'thread', id: th.id })}
+                            className={`rounded border px-3 py-2 text-xs text-left transition-colors ${
+                              th.isTheory
+                                ? 'border-[#7e22ce] bg-[#7e22ce]/10 text-[#581c87] hover:bg-[#7e22ce]/20'
+                                : 'border-[#cbb895] bg-[#fffaf0] text-[#1d1610] hover:border-[#b45309]'
+                            }`}
+                          >
+                            {th.isTheory && <Sparkles className="w-3 h-3 inline mr-1 text-[#7e22ce]" />}
+                            {th.title}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                    <div className="tva-sheet rounded p-3 text-xs space-y-1">
+                      <span className="font-mono-code uppercase text-[10px] text-[#61503e] font-bold">
+                        Last Known Status
+                      </span>
                       <Redactable
                         titleIds={[c.lastSeenTitleId]}
                         watchedSet={watchedSet}
                         spoilerShield={spoilerShield}
-                        label="Journey Summary"
                       >
-                        <p className="text-sm text-[#1d1610] leading-relaxed">{c.howTheyGotHere}</p>
+                        <p className="text-[#047857] font-medium">{c.lastKnownStatus}</p>
                       </Redactable>
-                    </div>
-                  </div>
-
-                  <div className="border-t border-[#e1d4b9] pt-3 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                    <div>
-                      <span className="font-mono-code uppercase text-[#61503e]">First Appearance</span>
-                      {firstTitle && (
-                        <button
-                          type="button"
-                          onClick={() => onSelect({ kind: 'title', id: firstTitle.id })}
-                          className="block mt-0.5 text-[#9a3412] hover:underline text-left font-semibold"
-                        >
-                          {firstTitle.title} ({firstTitle.year})
-                        </button>
-                      )}
-                    </div>
-                    <div>
-                      <span className="font-mono-code uppercase text-[#61503e]">Last Seen</span>
-                      {lastTitle && (
-                        <button
-                          type="button"
-                          onClick={() => onSelect({ kind: 'title', id: lastTitle.id })}
-                          className="block mt-0.5 text-[#9a3412] hover:underline text-left font-semibold"
-                        >
-                          {lastTitle.title} ({lastTitle.year})
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="space-y-2.5">
-                  <h3 className="text-xs font-mono-code uppercase tracking-widest text-[#61503e] font-bold">
-                    Timeline Beats ({c.journey.filter((j) => showTheories || !j.isTheory).length})
-                  </h3>
-                  <div className="space-y-2 border-l-2 border-[#cbb895] pl-4 ml-1.5">
-                    {c.journey
-                      .filter((j) => showTheories || !j.isTheory)
-                      .map((j, idx) => {
-                        const title = titlesById.get(j.titleId);
-                        return (
-                          <div key={`${j.titleId}-${idx}`} className="relative tva-sheet rounded p-3 space-y-1.5">
-                            <span className="absolute -left-[23px] top-4 w-2.5 h-2.5 rounded-full bg-[#c2410c] ring-4 ring-[#f6ecd7]" />
-                            <div className="flex items-center justify-between gap-2">
-                              <button
-                                type="button"
-                                onClick={() => onSelect({ kind: 'title', id: j.titleId })}
-                                className="text-xs font-bold text-[#9a3412] hover:underline text-left"
-                              >
-                                {title?.title ?? j.titleId} ({title?.year})
-                              </button>
-                              {j.realityShiftTo && (
-                                <span className="tva-ink-stamp border-[#c2410c] bg-[#c2410c]/10 text-[#9a3412]">
-                                  → {realitiesById.get(j.realityShiftTo)?.code}
-                                </span>
-                              )}
-                            </div>
-                            <Redactable
-                              titleIds={[j.titleId]}
-                              watchedSet={watchedSet}
-                              spoilerShield={spoilerShield}
-                            >
-                              <p className="text-xs text-[#1d1610]/90 leading-relaxed">{j.beat}</p>
-                            </Redactable>
-                          </div>
-                        );
-                      })}
-                  </div>
-                </div>
-
-                {relatedThreads.length > 0 && (
-                  <div className="space-y-2">
-                    <h3 className="text-xs font-mono-code uppercase tracking-widest text-[#61503e] font-bold">
-                      Connected Plot Threads
-                    </h3>
-                    <div className="flex flex-wrap gap-2">
-                      {relatedThreads.map((th) => (
-                        <button
-                          key={th.id}
-                          type="button"
-                          onClick={() => onSelect({ kind: 'thread', id: th.id })}
-                          className={`rounded border px-2.5 py-1.5 text-xs text-left transition-colors ${
-                            th.isTheory
-                              ? 'border-[#7e22ce] bg-[#7e22ce]/10 text-[#581c87] hover:bg-[#7e22ce]/20'
-                              : 'border-[#cbb895] bg-[#fffaf0] text-[#1d1610] hover:border-[#b45309]'
-                          }`}
-                        >
-                          {th.isTheory && <Sparkles className="w-3 h-3 inline mr-1 text-[#7e22ce]" />}
-                          {th.title}
-                        </button>
-                      ))}
                     </div>
                   </div>
                 )}
@@ -285,6 +347,7 @@ export function DossierDrawer({
             const titleThreads = THREADS.filter(
               (th) => (showTheories || !th.isTheory) && th.keyTitleIds.includes(t.id),
             );
+            const postCreditsCount = t.postCredits?.length ?? 0;
 
             return (
               <>
@@ -341,118 +404,137 @@ export function DossierDrawer({
                   </div>
                 </div>
 
-                <div className="tva-sheet rounded-md p-4 space-y-3">
-                  <div>
-                    <h3 className="text-[11px] font-mono-code uppercase tracking-widest text-[#9a3412] font-bold">
-                      Case Summary
-                    </h3>
-                    <div className="mt-1">
-                      <Redactable titleIds={[t.id]} watchedSet={watchedSet} spoilerShield={spoilerShield}>
-                        <p className="text-sm text-[#1d1610] leading-relaxed">{t.summary}</p>
-                      </Redactable>
-                    </div>
-                  </div>
-                  <div className="border-t border-[#e1d4b9] pt-3">
-                    <h3 className="text-[11px] font-mono-code uppercase tracking-widest text-[#047857] font-bold">
-                      Road to Doomsday Connection
-                    </h3>
-                    <div className="mt-1">
-                      <Redactable
-                        titleIds={[t.id]}
-                        watchedSet={watchedSet}
-                        spoilerShield={spoilerShield}
-                        label="Doomsday Link"
-                      >
-                        <p className="text-sm text-[#1d1610] leading-relaxed">{t.doomsdayConnection}</p>
-                      </Redactable>
-                    </div>
-                  </div>
-                </div>
+                <DossierTabBar
+                  activeTab={activeTab}
+                  onChange={setActiveTab}
+                  tabs={[
+                    { id: 'briefing', label: 'Briefing' },
+                    { id: 'timeline', label: `Post-Credits (${postCreditsCount})` },
+                    { id: 'connections', label: `Cast & Threads (${t.keyCharacterIds.length + titleThreads.length})` },
+                  ]}
+                />
 
-                {t.postCredits && t.postCredits.length > 0 && (
-                  <div className="space-y-2">
-                    <h3 className="text-xs font-mono-code uppercase tracking-widest text-[#c2410c] font-bold">
-                      Post-Credits Stingers
-                    </h3>
-                    {t.postCredits.map((pc, idx) => (
-                      <div key={idx} className="tva-sheet rounded p-3 space-y-2 border-[#ea580c]/40">
-                        <span className="tva-ink-stamp border-[#c2410c] bg-[#c2410c]/10 text-[#9a3412]">
-                          {pc.label}
-                        </span>
+                {activeTab === 'briefing' && (
+                  <div className="tva-sheet rounded-md p-4 space-y-3">
+                    <div>
+                      <h3 className="text-[11px] font-mono-code uppercase tracking-widest text-[#9a3412] font-bold">
+                        Case Summary
+                      </h3>
+                      <div className="mt-1">
+                        <Redactable titleIds={[t.id]} watchedSet={watchedSet} spoilerShield={spoilerShield}>
+                          <p className="text-sm text-[#1d1610] leading-relaxed">{t.summary}</p>
+                        </Redactable>
+                      </div>
+                    </div>
+                    <div className="border-t border-[#e1d4b9] pt-3">
+                      <h3 className="text-[11px] font-mono-code uppercase tracking-widest text-[#047857] font-bold">
+                        Road to Doomsday Connection
+                      </h3>
+                      <div className="mt-1">
                         <Redactable
                           titleIds={[t.id]}
                           watchedSet={watchedSet}
                           spoilerShield={spoilerShield}
-                          label="Post-Credits"
+                          label="Doomsday Link"
                         >
-                          <p className="text-xs text-[#1d1610] leading-relaxed">{pc.summary}</p>
+                          <p className="text-sm text-[#1d1610] leading-relaxed">{t.doomsdayConnection}</p>
                         </Redactable>
-                        <div className="flex flex-wrap gap-2">
-                          {pc.leadsToTitleId && (
-                            <button
-                              type="button"
-                              onClick={() => onSelect({ kind: 'title', id: pc.leadsToTitleId! })}
-                              className="text-xs font-mono-code font-semibold text-[#9a3412] hover:underline"
-                            >
-                              Leads to → {titlesById.get(pc.leadsToTitleId)?.title}
-                            </button>
-                          )}
-                          {pc.threadId && (
-                            <button
-                              type="button"
-                              onClick={() => onSelect({ kind: 'thread', id: pc.threadId! })}
-                              className="text-xs font-mono-code font-semibold text-[#c2410c] hover:underline"
-                            >
-                              Thread → {threadsById.get(pc.threadId)?.title}
-                            </button>
-                          )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === 'timeline' && (
+                  <div className="space-y-2">
+                    {postCreditsCount === 0 ? (
+                      <div className="tva-sheet rounded p-4 text-xs text-[#61503e]">
+                        No major multiverse/Doomsday post-credits stinger logged for this entry.
+                      </div>
+                    ) : (
+                      t.postCredits!.map((pc, idx) => (
+                        <div key={idx} className="tva-sheet rounded p-3 space-y-2 border-[#ea580c]/40">
+                          <span className="tva-ink-stamp border-[#c2410c] bg-[#c2410c]/10 text-[#9a3412]">
+                            {pc.label}
+                          </span>
+                          <Redactable
+                            titleIds={[t.id]}
+                            watchedSet={watchedSet}
+                            spoilerShield={spoilerShield}
+                            label="Post-Credits"
+                          >
+                            <p className="text-xs text-[#1d1610] leading-relaxed">{pc.summary}</p>
+                          </Redactable>
+                          <div className="flex flex-wrap gap-2">
+                            {pc.leadsToTitleId && (
+                              <button
+                                type="button"
+                                onClick={() => onSelect({ kind: 'title', id: pc.leadsToTitleId! })}
+                                className="text-xs font-mono-code font-semibold text-[#9a3412] hover:underline"
+                              >
+                                Leads to → {titlesById.get(pc.leadsToTitleId)?.title}
+                              </button>
+                            )}
+                            {pc.threadId && (
+                              <button
+                                type="button"
+                                onClick={() => onSelect({ kind: 'thread', id: pc.threadId! })}
+                                className="text-xs font-mono-code font-semibold text-[#c2410c] hover:underline"
+                              >
+                                Thread → {threadsById.get(pc.threadId)?.title}
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                )}
+
+                {activeTab === 'connections' && (
+                  <div className="space-y-4">
+                    {t.keyCharacterIds.length > 0 && (
+                      <div className="space-y-2">
+                        <h3 className="text-xs font-mono-code uppercase tracking-widest text-[#61503e] font-bold">
+                          Key Characters ({t.keyCharacterIds.length})
+                        </h3>
+                        <div className="flex flex-wrap gap-1.5">
+                          {t.keyCharacterIds.map((cId) => {
+                            const ch = charactersById.get(cId);
+                            if (!ch) return null;
+                            return (
+                              <button
+                                key={cId}
+                                type="button"
+                                onClick={() => onSelect({ kind: 'character', id: cId })}
+                                className="rounded border border-[#cbb895] bg-[#fffaf0] px-2.5 py-1 text-xs font-medium text-[#1d1610] hover:border-[#b45309]"
+                              >
+                                {ch.name}
+                              </button>
+                            );
+                          })}
                         </div>
                       </div>
-                    ))}
-                  </div>
-                )}
+                    )}
 
-                {t.keyCharacterIds.length > 0 && (
-                  <div className="space-y-2">
-                    <h3 className="text-xs font-mono-code uppercase tracking-widest text-[#61503e] font-bold">
-                      Key Characters ({t.keyCharacterIds.length})
-                    </h3>
-                    <div className="flex flex-wrap gap-1.5">
-                      {t.keyCharacterIds.map((cId) => {
-                        const ch = charactersById.get(cId);
-                        if (!ch) return null;
-                        return (
-                          <button
-                            key={cId}
-                            type="button"
-                            onClick={() => onSelect({ kind: 'character', id: cId })}
-                            className="rounded border border-[#cbb895] bg-[#fffaf0] px-2.5 py-1 text-xs font-medium text-[#1d1610] hover:border-[#b45309]"
-                          >
-                            {ch.name}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-
-                {titleThreads.length > 0 && (
-                  <div className="space-y-2">
-                    <h3 className="text-xs font-mono-code uppercase tracking-widest text-[#61503e] font-bold">
-                      Plot Threads Touched
-                    </h3>
-                    <div className="flex flex-wrap gap-2">
-                      {titleThreads.map((th) => (
-                        <button
-                          key={th.id}
-                          type="button"
-                          onClick={() => onSelect({ kind: 'thread', id: th.id })}
-                          className="rounded border border-[#cbb895] bg-[#fffaf0] px-2.5 py-1 text-xs font-semibold text-[#9a3412] hover:border-[#b45309]"
-                        >
-                          {th.title}
-                        </button>
-                      ))}
-                    </div>
+                    {titleThreads.length > 0 && (
+                      <div className="space-y-2">
+                        <h3 className="text-xs font-mono-code uppercase tracking-widest text-[#61503e] font-bold">
+                          Plot Threads Touched ({titleThreads.length})
+                        </h3>
+                        <div className="flex flex-wrap gap-2">
+                          {titleThreads.map((th) => (
+                            <button
+                              key={th.id}
+                              type="button"
+                              onClick={() => onSelect({ kind: 'thread', id: th.id })}
+                              className="rounded border border-[#cbb895] bg-[#fffaf0] px-2.5 py-1 text-xs font-semibold text-[#9a3412] hover:border-[#b45309]"
+                            >
+                              {th.title}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
               </>
@@ -493,69 +575,84 @@ export function DossierDrawer({
                   </p>
                 </div>
 
-                <div className="tva-sheet rounded-md p-4 space-y-3">
-                  <p className="text-sm text-[#1d1610] leading-relaxed">{r.summary}</p>
-                  {anchor && (
-                    <div className="border-t border-[#e1d4b9] pt-3">
+                <DossierTabBar
+                  activeTab={activeTab}
+                  onChange={setActiveTab}
+                  tabs={[
+                    { id: 'briefing', label: 'Overview' },
+                    { id: 'connections', label: `Players & Titles (${residents.length + rTitles.length})` },
+                  ]}
+                />
+
+                {activeTab === 'briefing' && (
+                  <div className="tva-sheet rounded-md p-4 space-y-3">
+                    <p className="text-sm text-[#1d1610] leading-relaxed">{r.summary}</p>
+                    {anchor && (
+                      <div className="border-t border-[#e1d4b9] pt-3">
+                        <span className="text-[11px] font-mono-code uppercase text-[#9a3412] font-bold">
+                          Anchor Being / Keystone
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => onSelect({ kind: 'character', id: anchor.id })}
+                          className="block mt-1 text-sm font-semibold text-[#9a3412] hover:underline"
+                        >
+                          {anchor.name} ({anchor.alias})
+                        </button>
+                      </div>
+                    )}
+                    <div className="border-t border-[#e1d4b9] pt-3 space-y-1.5">
                       <span className="text-[11px] font-mono-code uppercase text-[#9a3412] font-bold">
-                        Anchor Being / Keystone
+                        Notable Multiversal Events
                       </span>
-                      <button
-                        type="button"
-                        onClick={() => onSelect({ kind: 'character', id: anchor.id })}
-                        className="block mt-1 text-sm font-semibold text-[#9a3412] hover:underline"
-                      >
-                        {anchor.name} ({anchor.alias})
-                      </button>
+                      <ul className="space-y-1 text-xs text-[#1d1610]/90 list-disc pl-4">
+                        {r.notableEvents.map((ev, i) => (
+                          <li key={i}>{ev}</li>
+                        ))}
+                      </ul>
                     </div>
-                  )}
-                  <div className="border-t border-[#e1d4b9] pt-3 space-y-1.5">
-                    <span className="text-[11px] font-mono-code uppercase text-[#9a3412] font-bold">
-                      Notable Multiversal Events
-                    </span>
-                    <ul className="space-y-1 text-xs text-[#1d1610]/90 list-disc pl-4">
-                      {r.notableEvents.map((ev, i) => (
-                        <li key={i}>{ev}</li>
-                      ))}
-                    </ul>
                   </div>
-                </div>
+                )}
 
-                <div className="space-y-2">
-                  <h3 className="text-xs font-mono-code uppercase tracking-widest text-[#61503e] font-bold">
-                    Connected Players ({residents.length})
-                  </h3>
-                  <div className="flex flex-wrap gap-1.5">
-                    {residents.map((c) => (
-                      <button
-                        key={c.id}
-                        type="button"
-                        onClick={() => onSelect({ kind: 'character', id: c.id })}
-                        className="rounded border border-[#cbb895] bg-[#fffaf0] px-2.5 py-1 text-xs text-[#1d1610] hover:border-[#b45309]"
-                      >
-                        {c.name}
-                      </button>
-                    ))}
-                  </div>
-                </div>
+                {activeTab === 'connections' && (
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <h3 className="text-xs font-mono-code uppercase tracking-widest text-[#61503e] font-bold">
+                        Connected Players ({residents.length})
+                      </h3>
+                      <div className="flex flex-wrap gap-1.5">
+                        {residents.map((c) => (
+                          <button
+                            key={c.id}
+                            type="button"
+                            onClick={() => onSelect({ kind: 'character', id: c.id })}
+                            className="rounded border border-[#cbb895] bg-[#fffaf0] px-2.5 py-1 text-xs text-[#1d1610] hover:border-[#b45309]"
+                          >
+                            {c.name}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
 
-                <div className="space-y-2">
-                  <h3 className="text-xs font-mono-code uppercase tracking-widest text-[#61503e] font-bold">
-                    Titles Set Here ({rTitles.length})
-                  </h3>
-                  <div className="flex flex-wrap gap-1.5">
-                    {rTitles.map((t) => (
-                      <button
-                        key={t.id}
-                        type="button"
-                        onClick={() => onSelect({ kind: 'title', id: t.id })}
-                        className="rounded border border-[#cbb895] bg-[#fffaf0] px-2.5 py-1 text-xs font-semibold text-[#9a3412] hover:border-[#b45309]"
-                      >
-                        {t.title} ({t.year})
-                      </button>
-                    ))}
+                    <div className="space-y-2">
+                      <h3 className="text-xs font-mono-code uppercase tracking-widest text-[#61503e] font-bold">
+                        Titles Set Here ({rTitles.length})
+                      </h3>
+                      <div className="flex flex-wrap gap-1.5">
+                        {rTitles.map((t) => (
+                          <button
+                            key={t.id}
+                            type="button"
+                            onClick={() => onSelect({ kind: 'title', id: t.id })}
+                            className="rounded border border-[#cbb895] bg-[#fffaf0] px-2.5 py-1 text-xs font-semibold text-[#9a3412] hover:border-[#b45309]"
+                          >
+                            {t.title} ({t.year})
+                          </button>
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                </div>
+                )}
               </>
             );
           })()}
@@ -579,27 +676,36 @@ export function DossierDrawer({
                   <h2 className="text-2xl font-bold text-[#1d1610]">{th.title}</h2>
                 </div>
 
-                <div className="tva-sheet rounded-md p-4 space-y-3">
-                  <Redactable
-                    titleIds={th.keyTitleIds}
-                    watchedSet={watchedSet}
-                    spoilerShield={spoilerShield}
-                    label="Plot Thread"
-                  >
-                    <p className="text-sm text-[#1d1610] leading-relaxed">{th.summary}</p>
-                    <div className="border-t border-[#e1d4b9] pt-3 mt-3">
-                      <h3 className="text-[11px] font-mono-code uppercase tracking-widest text-[#047857] font-bold">
-                        Doomsday Impact
-                      </h3>
-                      <p className="mt-1 text-sm text-[#1d1610] leading-relaxed">{th.doomsdayImpact}</p>
-                    </div>
-                  </Redactable>
-                </div>
+                <DossierTabBar
+                  activeTab={activeTab}
+                  onChange={setActiveTab}
+                  tabs={[
+                    { id: 'briefing', label: 'Briefing' },
+                    { id: 'timeline', label: `Progression (${th.beats.length})` },
+                    { id: 'connections', label: `Players & Scope (${th.characterIds.length + th.keyTitleIds.length})` },
+                  ]}
+                />
 
-                <div className="space-y-2">
-                  <h3 className="text-xs font-mono-code uppercase tracking-widest text-[#61503e] font-bold">
-                    Step-by-Step Progression
-                  </h3>
+                {activeTab === 'briefing' && (
+                  <div className="tva-sheet rounded-md p-4 space-y-3">
+                    <Redactable
+                      titleIds={th.keyTitleIds}
+                      watchedSet={watchedSet}
+                      spoilerShield={spoilerShield}
+                      label="Plot Thread"
+                    >
+                      <p className="text-sm text-[#1d1610] leading-relaxed">{th.summary}</p>
+                      <div className="border-t border-[#e1d4b9] pt-3 mt-3">
+                        <h3 className="text-[11px] font-mono-code uppercase tracking-widest text-[#047857] font-bold">
+                          Doomsday Impact
+                        </h3>
+                        <p className="mt-1 text-sm text-[#1d1610] leading-relaxed">{th.doomsdayImpact}</p>
+                      </div>
+                    </Redactable>
+                  </div>
+                )}
+
+                {activeTab === 'timeline' && (
                   <div className="space-y-2">
                     {th.beats.map((b, i) => {
                       const t = titlesById.get(b.titleId);
@@ -619,29 +725,55 @@ export function DossierDrawer({
                       );
                     })}
                   </div>
-                </div>
+                )}
 
-                <div className="space-y-2">
-                  <h3 className="text-xs font-mono-code uppercase tracking-widest text-[#61503e] font-bold">
-                    Key Players
-                  </h3>
-                  <div className="flex flex-wrap gap-1.5">
-                    {th.characterIds.map((cId) => {
-                      const c = charactersById.get(cId);
-                      if (!c) return null;
-                      return (
-                        <button
-                          key={cId}
-                          type="button"
-                          onClick={() => onSelect({ kind: 'character', id: cId })}
-                          className="rounded border border-[#cbb895] bg-[#fffaf0] px-2.5 py-1 text-xs text-[#1d1610] hover:border-[#b45309]"
-                        >
-                          {c.name}
-                        </button>
-                      );
-                    })}
+                {activeTab === 'connections' && (
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <h3 className="text-xs font-mono-code uppercase tracking-widest text-[#61503e] font-bold">
+                        Key Players ({th.characterIds.length})
+                      </h3>
+                      <div className="flex flex-wrap gap-1.5">
+                        {th.characterIds.map((cId) => {
+                          const c = charactersById.get(cId);
+                          if (!c) return null;
+                          return (
+                            <button
+                              key={cId}
+                              type="button"
+                              onClick={() => onSelect({ kind: 'character', id: cId })}
+                              className="rounded border border-[#cbb895] bg-[#fffaf0] px-2.5 py-1 text-xs text-[#1d1610] hover:border-[#b45309]"
+                            >
+                              {c.name}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <h3 className="text-xs font-mono-code uppercase tracking-widest text-[#61503e] font-bold">
+                        Related Releases ({th.keyTitleIds.length})
+                      </h3>
+                      <div className="flex flex-wrap gap-1.5">
+                        {th.keyTitleIds.map((tId) => {
+                          const t = titlesById.get(tId);
+                          if (!t) return null;
+                          return (
+                            <button
+                              key={tId}
+                              type="button"
+                              onClick={() => onSelect({ kind: 'title', id: tId })}
+                              className="rounded border border-[#cbb895] bg-[#fffaf0] px-2.5 py-1 text-xs font-semibold text-[#9a3412] hover:border-[#b45309]"
+                            >
+                              {t.title} ({t.year})
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
                   </div>
-                </div>
+                )}
               </>
             );
           })()}

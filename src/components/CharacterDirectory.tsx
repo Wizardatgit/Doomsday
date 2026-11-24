@@ -151,7 +151,6 @@ export function CharacterDirectory({
                     {c.alias} · <span className="text-[#61503e]">{c.actor}</span>
                   </p>
                 </div>
-                <p className="text-xs text-[#1d1610]/85 line-clamp-2">{c.whoAreThey}</p>
 
                 <div className="pt-1 border-t border-[#e1d4b9] space-y-1 text-[11px] font-mono-code">
                   <div className="flex items-center gap-1 text-[#61503e] flex-wrap">

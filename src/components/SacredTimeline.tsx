@@ -35,6 +35,16 @@ export function SacredTimeline({
   const [eraFilter, setEraFilter] = useState<EraFilter>('all');
   const [realityFilter, setRealityFilter] = useState<string>('all');
   const [watchFilter, setWatchFilter] = useState<WatchFilter>('all');
+  const [expandedIds, setExpandedIds] = useState<Set<string>>(() => new Set());
+
+  const toggleExpanded = (id: string) => {
+    setExpandedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
 
   const uniqueRealities = useMemo(() => {
     const ids = Array.from(new Set(TITLES.map((t) => t.realityId)));
@@ -188,6 +198,7 @@ export function SacredTimeline({
           const reality = realitiesById.get(t.realityId);
           const watched = watchedSet.has(t.id);
           const color = reality?.color ?? '#c2410c';
+          const isOpen = expandedIds.has(t.id);
 
           return (
             <div
@@ -260,9 +271,6 @@ export function SacredTimeline({
                       >
                         {t.importance}
                       </span>
-                      <span className="tva-ink-stamp border-[#cbb895] bg-[#fffaf0] text-[#61503e]">
-                        {t.eraLabel}
-                      </span>
                     </div>
                   </div>
 
@@ -272,7 +280,7 @@ export function SacredTimeline({
                     spoilerShield={spoilerShield}
                     label="Timeline Beat"
                   >
-                    <p className="text-xs text-[#1d1610]/90 leading-relaxed">
+                    <p className={`text-xs text-[#1d1610]/90 leading-relaxed ${isOpen ? '' : 'line-clamp-1'}`}>
                       <span className="font-mono-code font-bold text-[#047857] uppercase text-[10px] mr-1.5">
                         Doomsday Link:
                       </span>
@@ -280,23 +288,41 @@ export function SacredTimeline({
                     </p>
                   </Redactable>
 
-                  {t.keyCharacterIds.length > 0 && (
-                    <div className="flex flex-wrap items-center gap-1 pt-0.5">
-                      {t.keyCharacterIds.slice(0, 6).map((cId) => (
-                        <span
-                          key={cId}
-                          className="rounded bg-[#fffaf0] border border-[#cbb895] px-2 py-0.5 text-[11px] text-[#1d1610]"
-                        >
-                          {charactersById.get(cId)?.name}
-                        </span>
-                      ))}
-                      {t.keyCharacterIds.length > 6 && (
-                        <span className="text-[11px] font-mono-code text-[#61503e]">
-                          +{t.keyCharacterIds.length - 6} more
-                        </span>
+                  {isOpen && (
+                    <div className="pt-1 space-y-1.5">
+                      <div className="text-[10px] font-mono-code text-[#61503e] uppercase">
+                        {t.eraLabel}{t.runtime ? ` · ${t.runtime}` : ''}
+                      </div>
+                      {t.keyCharacterIds.length > 0 && (
+                        <div className="flex flex-wrap items-center gap-1">
+                          {t.keyCharacterIds.map((cId) => (
+                            <span
+                              key={cId}
+                              className="rounded bg-[#fffaf0] border border-[#cbb895] px-2 py-0.5 text-[11px] text-[#1d1610]"
+                            >
+                              {charactersById.get(cId)?.name}
+                            </span>
+                          ))}
+                        </div>
                       )}
                     </div>
                   )}
+
+                  <div className="flex items-center justify-between text-[11px] font-mono-code pt-0.5">
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleExpanded(t.id);
+                      }}
+                      className="text-[#9a3412] font-semibold hover:underline"
+                    >
+                      {isOpen
+                        ? '− Less'
+                        : `+ Details${t.keyCharacterIds.length > 0 ? ` & Cast (${t.keyCharacterIds.length})` : ''}`}
+                    </button>
+                    <span className="text-[#61503e]">Open Folder →</span>
+                  </div>
                 </div>
               </div>
             </div>

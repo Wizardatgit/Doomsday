@@ -1,4 +1,5 @@
-import { ArrowRight, Globe2, MapPin } from 'lucide-react';
+import { useState } from 'react';
+import { ArrowRight, ChevronDown, ChevronUp, Globe2, MapPin } from 'lucide-react';
 import {
   CHARACTERS,
   ICONIC_PLACES,
@@ -22,6 +23,16 @@ export function RealitiesAtlas({
   onSelect: (ref: EntityRef) => void;
 }) {
   const crossUniverseHops = CHARACTERS.filter((c) => c.originRealityId !== c.currentRealityId);
+  const [expandedPlaces, setExpandedPlaces] = useState<Set<string>>(() => new Set());
+
+  const togglePlace = (id: string) => {
+    setExpandedPlaces((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
 
   return (
     <div className="space-y-7">
@@ -30,7 +41,7 @@ export function RealitiesAtlas({
           <Globe2 className="w-5 h-5 text-[#c2410c]" /> Realities &amp; Places Atlas
         </h1>
         <p className="text-xs text-[#61503e]">
-          Surveillance photographs of every major location ({ICONIC_PLACES.length} landmarks) and every multiverse plane ({REALITIES.length} realities) feeding into Doomsday.
+          Surveillance photographs of {ICONIC_PLACES.length} key landmarks and {REALITIES.length} multiverse planes feeding into Doomsday.
         </p>
       </div>
 
@@ -39,71 +50,93 @@ export function RealitiesAtlas({
         <h2 className="text-sm font-mono-code uppercase tracking-widest text-[#1d1610] font-bold flex items-center gap-2">
           <MapPin className="w-4 h-4 text-[#c2410c]" /> Key Places Mentioned Across the Lore ({ICONIC_PLACES.length})
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 items-start">
           {ICONIC_PLACES.map((place) => {
             const reality = realitiesById.get(place.realityId);
+            const isOpen = expandedPlaces.has(place.id);
             return (
-              <div key={place.id} className="tva-folder rounded-md p-3.5 space-y-3 flex flex-col justify-between">
-                <div className="space-y-2.5">
+              <div key={place.id} className="tva-folder rounded-md p-3.5 space-y-2.5">
+                <button
+                  type="button"
+                  onClick={() => onSelect({ kind: 'reality', id: place.realityId })}
+                  className="w-full text-left block hover:opacity-95 transition-opacity"
+                >
+                  <EntityVisual
+                    variant="plate"
+                    code={reality?.code ?? 'SECTOR'}
+                    title={place.name}
+                    subtitle={place.name}
+                    accentColor={reality?.color ?? '#c2410c'}
+                    wikiPage={place.wikiPage}
+                  />
+                </button>
+                <div className="flex items-center justify-between gap-2">
+                  <h3 className="text-base font-bold text-[#1d1610]">{place.name}</h3>
                   <button
                     type="button"
                     onClick={() => onSelect({ kind: 'reality', id: place.realityId })}
-                    className="w-full text-left block hover:opacity-95 transition-opacity"
+                    className="text-[11px] font-mono-code font-bold hover:underline shrink-0"
+                    style={{ color: reality?.color }}
                   >
-                    <EntityVisual
-                      variant="plate"
-                      code={reality?.code ?? 'SECTOR'}
-                      title={place.name}
-                      subtitle={place.name}
-                      accentColor={reality?.color ?? '#c2410c'}
-                      wikiPage={place.wikiPage}
-                    />
+                    {reality?.code}
                   </button>
-                  <div className="flex items-center justify-between gap-2">
-                    <h3 className="text-base font-bold text-[#1d1610]">{place.name}</h3>
-                    <button
-                      type="button"
-                      onClick={() => onSelect({ kind: 'reality', id: place.realityId })}
-                      className="text-[11px] font-mono-code font-bold hover:underline shrink-0"
-                      style={{ color: reality?.color }}
-                    >
-                      {reality?.code}
-                    </button>
-                  </div>
-                  <Redactable titleIds={place.keyTitleIds} watchedSet={watchedSet} spoilerShield={spoilerShield}>
-                    <p className="text-xs text-[#61503e] leading-relaxed">{place.summary}</p>
-                  </Redactable>
                 </div>
+                <Redactable titleIds={place.keyTitleIds} watchedSet={watchedSet} spoilerShield={spoilerShield}>
+                  <p className={`text-xs text-[#61503e] leading-relaxed ${isOpen ? '' : 'line-clamp-2'}`}>
+                    {place.summary}
+                  </p>
+                </Redactable>
 
-                <div className="border-t border-[#e1d4b9] pt-2.5 space-y-1.5">
-                  <div className="flex flex-wrap gap-1">
-                    {place.keyCharacterIds.map((cId) => {
-                      const ch = charactersById.get(cId);
-                      if (!ch) return null;
-                      return (
+                {isOpen && (
+                  <div className="border-t border-[#e1d4b9] pt-2.5 space-y-1.5">
+                    <div className="flex flex-wrap gap-1">
+                      {place.keyCharacterIds.map((cId) => {
+                        const ch = charactersById.get(cId);
+                        if (!ch) return null;
+                        return (
+                          <button
+                            key={cId}
+                            type="button"
+                            onClick={() => onSelect({ kind: 'character', id: cId })}
+                            className="rounded border border-[#cbb895] bg-[#fffaf0] px-2 py-0.5 text-[11px] font-medium text-[#1d1610] hover:border-[#b45309]"
+                          >
+                            {ch.name}
+                          </button>
+                        );
+                      })}
+                    </div>
+                    <div className="flex flex-wrap gap-1.5 text-[10px] font-mono-code text-[#9a3412]">
+                      {place.keyTitleIds.map((tId) => (
                         <button
-                          key={cId}
+                          key={tId}
                           type="button"
-                          onClick={() => onSelect({ kind: 'character', id: cId })}
-                          className="rounded border border-[#cbb895] bg-[#fffaf0] px-2 py-0.5 text-[11px] font-medium text-[#1d1610] hover:border-[#b45309]"
+                          onClick={() => onSelect({ kind: 'title', id: tId })}
+                          className="hover:underline"
                         >
-                          {ch.name}
+                          [{titlesById.get(tId)?.title}]
                         </button>
-                      );
-                    })}
+                      ))}
+                    </div>
                   </div>
-                  <div className="flex flex-wrap gap-1.5 text-[10px] font-mono-code text-[#9a3412]">
-                    {place.keyTitleIds.map((tId) => (
-                      <button
-                        key={tId}
-                        type="button"
-                        onClick={() => onSelect({ kind: 'title', id: tId })}
-                        className="hover:underline"
-                      >
-                        [{titlesById.get(tId)?.title}]
-                      </button>
-                    ))}
-                  </div>
+                )}
+
+                <div className="border-t border-[#e1d4b9] pt-2">
+                  <button
+                    type="button"
+                    onClick={() => togglePlace(place.id)}
+                    className="inline-flex items-center gap-1 text-[11px] font-mono-code font-semibold text-[#9a3412] hover:underline"
+                  >
+                    {isOpen ? (
+                      <>
+                        Hide linked cast &amp; titles <ChevronUp className="w-3.5 h-3.5" />
+                      </>
+                    ) : (
+                      <>
+                        {place.keyCharacterIds.length} players · {place.keyTitleIds.length} titles{' '}
+                        <ChevronDown className="w-3.5 h-3.5" />
+                      </>
+                    )}
+                  </button>
                 </div>
               </div>
             );
@@ -134,7 +167,7 @@ export function RealitiesAtlas({
                   <span style={{ color: toR?.color }}>{toR?.code}</span>
                 </div>
                 <Redactable titleIds={[c.lastSeenTitleId]} watchedSet={watchedSet} spoilerShield={spoilerShield}>
-                  <p className="text-[11px] text-[#61503e] line-clamp-2">{c.lastKnownStatus}</p>
+                  <p className="text-[11px] text-[#61503e] line-clamp-1">{c.lastKnownStatus}</p>
                 </Redactable>
               </button>
             );
@@ -191,7 +224,7 @@ export function RealitiesAtlas({
                   </span>
                 </div>
 
-                <p className="text-xs text-[#1d1610]/85 leading-relaxed">{r.summary}</p>
+                <p className="text-xs text-[#1d1610]/85 leading-relaxed line-clamp-2">{r.summary}</p>
 
                 <div className="flex flex-wrap items-center justify-between gap-2 border-t border-[#e1d4b9] pt-2.5 text-[11px] font-mono-code">
                   <span className="text-[#61503e]">
