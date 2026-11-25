@@ -59,28 +59,29 @@ export function RealitiesAtlas({
             const reality = realitiesById.get(place.realityId);
             const isOpen = expandedPlaces.has(place.id);
             return (
-              <div key={place.id} className="tva-folder tva-comic-corner rounded-md p-3.5 space-y-2.5">
-                <button
-                  type="button"
-                  onClick={() => onSelect({ kind: 'reality', id: place.realityId })}
-                  className="w-full text-left block hover:opacity-95 transition-opacity"
-                >
-                  <EntityVisual
-                    variant="plate"
-                    code={reality?.code ?? 'SECTOR'}
-                    title={place.name}
-                    subtitle={place.name}
-                    accentColor={reality?.color ?? '#c2410c'}
-                    staticImagePath={place.imagePath}
-                    wikiPage={place.wikiPage}
-                    preferWikiOverStatic={place.preferGenuineWiki}
-                  />
-                </button>
+              <div
+                key={place.id}
+                onClick={() => onSelect({ kind: 'place', id: place.id })}
+                className="tva-folder tva-comic-corner rounded-md p-3.5 space-y-2.5 cursor-pointer hover:border-[#b45309] transition-colors"
+              >
+                <EntityVisual
+                  variant="plate"
+                  code={reality?.code ?? 'SECTOR'}
+                  title={place.name}
+                  subtitle={place.name}
+                  accentColor={reality?.color ?? '#c2410c'}
+                  staticImagePath={place.imagePath}
+                  wikiPage={place.wikiPage}
+                  preferWikiOverStatic={place.preferGenuineWiki}
+                />
                 <div className="flex items-center justify-between gap-2">
                   <h3 className="text-base font-bold text-[#1d1610]">{place.name}</h3>
                   <button
                     type="button"
-                    onClick={() => onSelect({ kind: 'reality', id: place.realityId })}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onSelect({ kind: 'reality', id: place.realityId });
+                    }}
                     className="text-[11px] font-mono-code font-bold hover:underline shrink-0"
                     style={{ color: reality?.color }}
                   >
@@ -103,7 +104,10 @@ export function RealitiesAtlas({
                           <button
                             key={cId}
                             type="button"
-                            onClick={() => onSelect({ kind: 'character', id: cId })}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onSelect({ kind: 'character', id: cId });
+                            }}
                             className="rounded border border-[#cbb895] bg-[#fffaf0] px-2 py-0.5 text-[11px] font-medium text-[#1d1610] hover:border-[#b45309]"
                           >
                             {ch.name}
@@ -116,7 +120,10 @@ export function RealitiesAtlas({
                         <button
                           key={tId}
                           type="button"
-                          onClick={() => onSelect({ kind: 'title', id: tId })}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onSelect({ kind: 'title', id: tId });
+                          }}
                           className="hover:underline"
                         >
                           [{titlesById.get(tId)?.title}]
@@ -126,10 +133,13 @@ export function RealitiesAtlas({
                   </div>
                 )}
 
-                <div className="border-t border-[#e1d4b9] pt-2">
+                <div className="border-t border-[#e1d4b9] pt-2 flex items-center justify-between">
                   <button
                     type="button"
-                    onClick={() => togglePlace(place.id)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      togglePlace(place.id);
+                    }}
                     className="inline-flex items-center gap-1 text-[11px] font-mono-code font-semibold text-[#9a3412] hover:underline"
                   >
                     {isOpen ? (
@@ -143,6 +153,7 @@ export function RealitiesAtlas({
                       </>
                     )}
                   </button>
+                  <span className="text-[11px] font-mono-code text-[#61503e]">Open Dossier →</span>
                 </div>
               </div>
             );

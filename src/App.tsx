@@ -565,16 +565,17 @@ export function App() {
         tmdbApiKey={tmdbApiKey}
       />
 
-      <SettingsModal
-        isOpen={settingsOpen}
-        onClose={() => setSettingsOpen(false)}
-        tmdbApiKey={tmdbApiKey}
-        onSaveTmdbKey={setTmdbApiKey}
-        watchedCount={watchedIds.length}
-        onExportBackup={exportBackupJson}
-        onImportBackup={importBackupJson}
-        onResetProgress={resetProgress}
-      />
+      {settingsOpen && (
+        <SettingsModal
+          onClose={() => setSettingsOpen(false)}
+          tmdbApiKey={tmdbApiKey}
+          onSaveTmdbKey={setTmdbApiKey}
+          watchedCount={watchedIds.length}
+          onExportBackup={exportBackupJson}
+          onImportBackup={importBackupJson}
+          onResetProgress={resetProgress}
+        />
+      )}
       </div>
     </ImageLightboxProvider>
   );

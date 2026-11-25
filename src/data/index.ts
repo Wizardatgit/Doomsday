@@ -42,6 +42,7 @@ export {
 };
 
 export const realitiesById = new Map<string, Reality>(REALITIES.map((r) => [r.id, r]));
+export const placesById = new Map<string, Place>(ICONIC_PLACES.map((p) => [p.id, p]));
 export const factionsById = new Map<string, Faction>(FACTIONS.map((f) => [f.id, f]));
 export const titlesById = new Map<string, Title>(TITLES.map((t) => [t.id, t]));
 export const charactersById = new Map<string, Character>(CHARACTERS.map((c) => [c.id, c]));
@@ -56,7 +57,13 @@ export function parseEntityKey(key: string): EntityRef | null {
   if (idx <= 0) return null;
   const kind = key.slice(0, idx) as EntityKind;
   const id = key.slice(idx + 1);
-  if (kind !== 'character' && kind !== 'title' && kind !== 'reality' && kind !== 'thread') {
+  if (
+    kind !== 'character' &&
+    kind !== 'title' &&
+    kind !== 'reality' &&
+    kind !== 'thread' &&
+    kind !== 'place'
+  ) {
     return null;
   }
   return { kind, id };
@@ -72,6 +79,8 @@ export function getEntityLabel(ref: EntityRef): string {
       return titlesById.get(ref.id)?.title ?? ref.id;
     case 'reality':
       return realitiesById.get(ref.id)?.name ?? ref.id;
+    case 'place':
+      return placesById.get(ref.id)?.name ?? ref.id;
     case 'thread':
       return threadsById.get(ref.id)?.title ?? ref.id;
   }
@@ -85,6 +94,8 @@ export function entityExists(ref: EntityRef): boolean {
       return titlesById.has(ref.id);
     case 'reality':
       return realitiesById.has(ref.id);
+    case 'place':
+      return placesById.has(ref.id);
     case 'thread':
       return threadsById.has(ref.id);
   }
@@ -148,6 +159,18 @@ export function searchCatalog(query: string, showTheories: boolean, limit = 16):
         label: r.name,
         sublabel: `Reality · ${r.code}`,
         isTheory: r.isTheory,
+      });
+    }
+  }
+
+  for (const p of ICONIC_PLACES) {
+    const parentR = realitiesById.get(p.realityId);
+    const hay = `${p.name} ${p.summary} ${parentR?.code ?? ''} ${parentR?.name ?? ''}`.toLowerCase();
+    if (hay.includes(q)) {
+      hits.push({
+        ref: { kind: 'place', id: p.id },
+        label: p.name,
+        sublabel: `Place · ${parentR?.code ?? p.realityId}`,
       });
     }
   }

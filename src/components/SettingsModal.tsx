@@ -3,7 +3,6 @@ import { Download, KeyRound, RotateCcw, Upload, X } from 'lucide-react';
 import { TITLES } from '../data/index.ts';
 
 export function SettingsModal({
-  isOpen,
   onClose,
   tmdbApiKey,
   onSaveTmdbKey,
@@ -12,7 +11,6 @@ export function SettingsModal({
   onImportBackup,
   onResetProgress,
 }: {
-  isOpen: boolean;
   onClose: () => void;
   tmdbApiKey: string;
   onSaveTmdbKey: (key: string) => void;
@@ -24,8 +22,6 @@ export function SettingsModal({
   const [keyDraft, setKeyDraft] = useState(tmdbApiKey);
   const [importText, setImportText] = useState('');
   const [statusMsg, setStatusMsg] = useState<string | null>(null);
-
-  if (!isOpen) return null;
 
   const handleDownload = () => {
     const json = onExportBackup();

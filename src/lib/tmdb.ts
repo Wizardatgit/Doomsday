@@ -9,11 +9,16 @@ export function titleTmdbQuery(item: {
   kind: string;
   title: string;
   year: number;
+  runtime?: string;
 }): TmdbQuery {
+  const isTv =
+    item.kind === 'series' ||
+    (item.kind === 'animated' && /\beps\b|\bseason/i.test(item.runtime ?? ''));
+  const cleanTitle = item.title.replace(/(\s*\([^)]*\))+$/g, '').trim() || item.title;
   return {
     kind: 'title',
-    mediaType: item.kind === 'series' ? 'tv' : 'movie',
-    title: item.title,
+    mediaType: isTv ? 'tv' : 'movie',
+    title: cleanTitle,
     year: item.year,
   };
 }

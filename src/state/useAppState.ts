@@ -3,6 +3,7 @@ import {
   TITLES,
   entityKey,
   parseEntityKey,
+  placesById,
   titlesById,
 } from '../data/index.ts';
 import type { AppView, EntityRef } from '../data/index.ts';
@@ -168,19 +169,32 @@ export function useAppState() {
     setStored((prev) => ({ ...prev, watchedIds: [] }));
   }, []);
 
-  const focusInGraph = useCallback((ref: EntityRef) => {
-    setGraphFocusKey(entityKey(ref));
-    setSelectedEntity(ref);
-    setActiveView('graph');
+  const toGraphRef = useCallback((ref: EntityRef): EntityRef => {
+    if (ref.kind !== 'place') return ref;
+    return { kind: 'reality', id: placesById.get(ref.id)?.realityId ?? 'earth-616' };
   }, []);
 
-  const traceFromEntity = useCallback((ref: EntityRef) => {
-    const key = entityKey(ref);
-    setPathOriginKey(key);
-    setPathTargetKey(key === 'title:avengers-doomsday' ? 'character:doctor-doom' : 'title:avengers-doomsday');
-    setSelectedEntity(null);
-    setActiveView('pathfinder');
-  }, []);
+  const focusInGraph = useCallback(
+    (ref: EntityRef) => {
+      setGraphFocusKey(entityKey(toGraphRef(ref)));
+      setSelectedEntity(null);
+      setActiveView('graph');
+    },
+    [toGraphRef],
+  );
+
+  const traceFromEntity = useCallback(
+    (ref: EntityRef) => {
+      const key = entityKey(toGraphRef(ref));
+      setPathOriginKey(key);
+      setPathTargetKey(
+        key === 'title:avengers-doomsday' ? 'character:doctor-doom' : 'title:avengers-doomsday',
+      );
+      setSelectedEntity(null);
+      setActiveView('pathfinder');
+    },
+    [toGraphRef],
+  );
 
   return {
     activeView,

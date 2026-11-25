@@ -9,12 +9,14 @@ import {
   realitiesById,
   titlesById,
 } from '../data/index.ts';
-import type { EntityKind, EntityRef } from '../data/index.ts';
+import type { EntityRef } from '../data/index.ts';
+
+export type GraphNodeKind = 'character' | 'title' | 'reality' | 'thread';
 
 export interface GraphNode {
   key: string;
   ref: EntityRef;
-  kind: EntityKind;
+  kind: GraphNodeKind;
   label: string;
   sublabel: string;
   color: string;

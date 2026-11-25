@@ -454,7 +454,7 @@ export function CommandHub({
               <button
                 key={place.id}
                 type="button"
-                onClick={() => onSelect({ kind: 'reality', id: place.realityId })}
+                onClick={() => onSelect({ kind: 'place', id: place.id })}
                 className="relative tva-folder rounded-md p-2.5 text-left hover:border-[#b45309] hover:-translate-y-0.5 transition-all space-y-2"
               >
                 <span aria-hidden="true" className="tva-tape pointer-events-none" />

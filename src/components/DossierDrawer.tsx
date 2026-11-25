@@ -5,6 +5,7 @@ import {
   ExternalLink,
   GitBranch,
   Globe2,
+  MapPin,
   Network,
   Sparkles,
   Square,
@@ -16,6 +17,7 @@ import {
   TITLES,
   charactersById,
   factionsById,
+  placesById,
   realitiesById,
   threadsById,
   titlesById,
@@ -847,6 +849,142 @@ export function DossierDrawer({
                       </h3>
                       <div className="flex flex-wrap gap-1.5">
                         {th.keyTitleIds.map((tId) => {
+                          const t = titlesById.get(tId);
+                          if (!t) return null;
+                          return (
+                            <button
+                              key={tId}
+                              type="button"
+                              onClick={() => onSelect({ kind: 'title', id: tId })}
+                              className="rounded border border-[#cbb895] bg-[#fffaf0] px-2.5 py-1 text-xs font-semibold text-[#9a3412] hover:border-[#b45309]"
+                            >
+                              {t.title} ({t.year})
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </>
+            );
+          })()}
+
+          {selected.kind === 'place' && (() => {
+            const p = placesById.get(selected.id);
+            if (!p) return <p className="text-sm text-[#61503e]">Place not found.</p>;
+            const parentReality = realitiesById.get(p.realityId);
+            const accent = parentReality?.color ?? '#c2410c';
+
+            return (
+              <>
+                <EntityVisual
+                  variant="plate"
+                  code={parentReality?.code ?? 'SECTOR'}
+                  title={p.name}
+                  subtitle={parentReality ? `${parentReality.code} · ${parentReality.name}` : p.name}
+                  accentColor={accent}
+                  staticImagePath={p.imagePath}
+                  wikiPage={p.wikiPage}
+                  preferWikiOverStatic={p.preferGenuineWiki}
+                  clickImageToZoom
+                />
+
+                <div className="space-y-1.5">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <MapPin className="w-5 h-5" style={{ color: accent }} />
+                    {parentReality && (
+                      <button
+                        type="button"
+                        onClick={() => onSelect({ kind: 'reality', id: parentReality.id })}
+                        className="tva-ink-stamp hover:underline"
+                        style={{ borderColor: accent, color: accent }}
+                      >
+                        {parentReality.code} · {parentReality.name}
+                      </button>
+                    )}
+                  </div>
+                  <h2 className="text-2xl font-bold text-[#1d1610]">{p.name}</h2>
+                  <p className="text-xs font-mono-code text-[#61503e]">
+                    {p.keyCharacterIds.length} key players · {p.keyTitleIds.length} linked releases
+                  </p>
+                </div>
+
+                <DossierTabBar
+                  activeTab={activeTab}
+                  onChange={setActiveTab}
+                  tabs={[
+                    { id: 'briefing', label: 'Overview' },
+                    {
+                      id: 'connections',
+                      label: `Players & Titles (${p.keyCharacterIds.length + p.keyTitleIds.length})`,
+                    },
+                  ]}
+                />
+
+                {activeTab === 'briefing' && (
+                  <div className="tva-sheet rounded-md p-4 space-y-3">
+                    <Redactable
+                      titleIds={p.keyTitleIds}
+                      watchedSet={watchedSet}
+                      spoilerShield={spoilerShield}
+                      label="Location Details"
+                    >
+                      <p className="text-sm text-[#1d1610] leading-relaxed">{p.summary}</p>
+                    </Redactable>
+
+                    {parentReality && (
+                      <div className="border-t border-[#e1d4b9] pt-3">
+                        <span className="text-[11px] font-mono-code uppercase text-[#9a3412] font-bold">
+                          Parent Reality Plane
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => onSelect({ kind: 'reality', id: parentReality.id })}
+                          className="block mt-1 text-sm font-semibold text-[#9a3412] hover:underline"
+                        >
+                          {parentReality.code} — {parentReality.name} →
+                        </button>
+                      </div>
+                    )}
+
+                    <SourceCitationsBlock
+                      confidence="official"
+                      wikiPage={p.preferGenuineWiki ? p.wikiPage : undefined}
+                    />
+                  </div>
+                )}
+
+                {activeTab === 'connections' && (
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <h3 className="text-xs font-mono-code uppercase tracking-widest text-[#61503e] font-bold">
+                        Connected Players ({p.keyCharacterIds.length})
+                      </h3>
+                      <div className="flex flex-wrap gap-1.5">
+                        {p.keyCharacterIds.map((cId) => {
+                          const c = charactersById.get(cId);
+                          if (!c) return null;
+                          return (
+                            <button
+                              key={cId}
+                              type="button"
+                              onClick={() => onSelect({ kind: 'character', id: cId })}
+                              className="rounded border border-[#cbb895] bg-[#fffaf0] px-2.5 py-1 text-xs text-[#1d1610] hover:border-[#b45309]"
+                            >
+                              {c.name}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <h3 className="text-xs font-mono-code uppercase tracking-widest text-[#61503e] font-bold">
+                        Key Appearances ({p.keyTitleIds.length})
+                      </h3>
+                      <div className="flex flex-wrap gap-1.5">
+                        {p.keyTitleIds.map((tId) => {
                           const t = titlesById.get(tId);
                           if (!t) return null;
                           return (

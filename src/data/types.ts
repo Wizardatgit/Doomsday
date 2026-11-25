@@ -1,4 +1,4 @@
-export type EntityKind = 'character' | 'title' | 'reality' | 'thread';
+export type EntityKind = 'character' | 'title' | 'reality' | 'thread' | 'place';
 
 export interface EntityRef {
   kind: EntityKind;

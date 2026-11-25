@@ -18,6 +18,9 @@ import {
   entityExists,
   entityKey,
   factionsById,
+  getEntityLabel,
+  parseEntityKey,
+  placesById,
   realitiesById,
   searchCatalog,
   threadsById,
@@ -33,7 +36,7 @@ import {
   shortenGraphLabel,
 } from '../src/lib/graphTree.ts';
 import { isRedacted, parseImportedWatchlist, serializeWatchlistBackup } from '../src/lib/spoiler.ts';
-import { buildTmdbSearchUrl } from '../src/lib/tmdb.ts';
+import { buildTmdbSearchUrl, titleTmdbQuery } from '../src/lib/tmdb.ts';
 import { buildWikiBatchUrl } from '../src/lib/wikiImages.ts';
 
 function assertUniqueIds(items: { id: string }[], label: string) {
@@ -367,5 +370,40 @@ test('all titles carry wikiPage slugs, local custom place & comic art exists, TM
   for (const charId of ['doctor-doom', 'steve-rogers', 'jean-grey-616', 'white-vision']) {
     const c = charactersById.get(charId);
     assert.ok(c?.sources && c.sources.length > 0, `2026 character ${charId} missing sources`);
+  }
+});
+
+test('place dossiers resolve uniquely via placesById & searchCatalog, and titleTmdbQuery handles animated TV & parentheticals', () => {
+  const wakandaRef = parseEntityKey('place:place-wakanda');
+  assert.deepEqual(wakandaRef, { kind: 'place', id: 'place-wakanda' });
+  assert.equal(entityExists(wakandaRef!), true);
+  assert.equal(placesById.get('place-wakanda')?.realityId, 'earth-616');
+  assert.ok(getEntityLabel(wakandaRef!).includes('Wakanda'));
+
+  const hits = searchCatalog('Wakanda', false);
+  assert.ok(
+    hits.some((h) => h.ref.kind === 'place' && h.ref.id === 'place-wakanda'),
+    'Expected Wakanda place in searchCatalog',
+  );
+
+  const xmen97 = titlesById.get('x-men-97')!;
+  const q97 = titleTmdbQuery(xmen97);
+  assert.equal(q97.kind, 'title');
+  if (q97.kind === 'title') {
+    assert.equal(q97.mediaType, 'tv');
+    assert.equal(q97.title, "X-Men '97");
+  }
+
+  const spiderVerse = titlesById.get('spider-verse-2018')!;
+  const qSv = titleTmdbQuery(spiderVerse);
+  if (qSv.kind === 'title') {
+    assert.equal(qSv.mediaType, 'movie');
+  }
+
+  const ddSaga = titlesById.get('daredevil-saga')!;
+  const qDd = titleTmdbQuery(ddSaga);
+  if (qDd.kind === 'title') {
+    assert.equal(qDd.mediaType, 'tv');
+    assert.equal(qDd.title, 'Daredevil');
   }
 });
