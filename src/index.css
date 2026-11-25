@@ -226,15 +226,6 @@ h1, h2, h3, .font-display {
   }
 }
 
-@keyframes crt-radar-sweep {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 @keyframes crt-spark-twinkle {
   0%, 100% {
     opacity: 0.16;
@@ -260,12 +251,6 @@ h1, h2, h3, .font-display {
   animation: crt-signal-flow 1.15s linear infinite;
 }
 
-.crt-radar-sweep {
-  transform-box: view-box;
-  transform-origin: 700px 440px;
-  animation: crt-radar-sweep 22s linear infinite;
-}
-
 .crt-spark {
   animation: crt-spark-twinkle 4.4s ease-in-out infinite;
 }
@@ -283,7 +268,6 @@ h1, h2, h3, .font-display {
   .crt-beacon,
   .crt-reticle,
   .crt-signal-flow,
-  .crt-radar-sweep,
   .crt-spark {
     animation: none;
   }

@@ -313,6 +313,29 @@ test('explore-as-you-go tree hubs, label shortening, separation bounds, and coll
 
   const collapsed = collapseBranchMap(CORE_HUB_KEYS, expanded, 'reality:earth-828', graph);
   assert.equal(collapsed.size, 0);
+
+  // Multi-branch expansion stress check: 3 core hubs expanded simultaneously with zero label overlap
+  let multiVisible = new Set<string>(CORE_HUB_KEYS);
+  const multiExpanded = new Map<string, string[]>();
+  for (const hubKey of ['reality:earth-616', 'reality:earth-828', 'title:avengers-doomsday']) {
+    const { nextKeys: hubKids } = pickNextNeighbors(graph, hubKey, multiVisible, 6);
+    multiExpanded.set(hubKey, hubKids);
+    for (const k of hubKids) multiVisible.add(k);
+  }
+  const multiPositions = computeExploreTreeLayout(CORE_HUB_KEYS, multiExpanded, graph);
+  assert.ok(multiPositions.length >= 20, `Expected >= 20 multi-branch nodes, got ${multiPositions.length}`);
+  for (let i = 0; i < multiPositions.length; i++) {
+    for (let j = i + 1; j < multiPositions.length; j++) {
+      const a = multiPositions[i]!;
+      const b = multiPositions[j]!;
+      const clearX = Math.abs(a.x - b.x) >= GRAPH_BOUNDS.sepX - 1;
+      const clearY = Math.abs(a.y - b.y) >= GRAPH_BOUNDS.sepY - 1;
+      assert.ok(
+        clearX || clearY,
+        `Multi-branch overlap between ${a.node.key} (${a.x.toFixed(1)},${a.y.toFixed(1)}) and ${b.node.key} (${b.x.toFixed(1)},${b.y.toFixed(1)})`,
+      );
+    }
+  }
 });
 
 test('all titles carry wikiPage slugs, local custom place & comic art exists, TMDB uses search endpoints, and 2025-2026 entries carry citations', () => {
@@ -431,9 +454,9 @@ test('CRT camera helpers clamp wheel zoom and fit off-center clusters', () => {
     { x: 400, y: 250 },
   ];
   const fit = computeFitCamera(pts);
-  assert.ok(fit.zoom >= 0.55 && fit.zoom <= 1.55);
+  assert.ok(fit.zoom >= CRT_ZOOM_MIN && fit.zoom <= 1.35);
   const midX = 300;
-  const midY = 205;
+  const midY = 206;
   const projectedX = 700 + fit.pan.x + (midX - 700) * fit.zoom;
   const projectedY = 440 + fit.pan.y + (midY - 440) * fit.zoom;
   assert.ok(Math.abs(projectedX - 700) <= 1.5, `Expected centered X, got ${projectedX}`);

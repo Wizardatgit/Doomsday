@@ -10,12 +10,12 @@ export const CORE_HUB_KEYS = [
 ] as const;
 
 export const GRAPH_BOUNDS = {
-  minX: 90,
-  maxX: 1310,
-  minY: 75,
-  maxY: 790,
-  sepX: 152,
-  sepY: 64,
+  minX: -900,
+  maxX: 2300,
+  minY: -520,
+  maxY: 1400,
+  sepX: 186,
+  sepY: 84,
 } as const;
 
 export interface TreePosition {
@@ -128,8 +128,8 @@ export function computeExploreTreeLayout(
       return;
     }
     const angle = (i / validRoots.length) * Math.PI * 2 - Math.PI / 2;
-    const rx = validRoots.length <= 4 ? 220 : 265;
-    const ry = validRoots.length <= 4 ? 150 : 175;
+    const rx = validRoots.length <= 4 ? 230 : 275;
+    const ry = validRoots.length <= 4 ? 155 : 185;
     posByKey.set(rootKey, {
       x: cx + Math.cos(angle) * rx,
       y: cy + Math.sin(angle) * ry,
@@ -159,20 +159,20 @@ export function computeExploreTreeLayout(
       const ring = Math.floor(cIdx / 6);
       const inRingIdx = cIdx % 6;
       const inRingCount = Math.min(6, rawChildren.length - ring * 6);
-      const radius = (fullCircle ? 210 : 185) + ring * 105;
+      const radius = (fullCircle ? 235 : 225) + ring * 135;
 
       let angle: number;
       if (fullCircle) {
         angle = outAngle + (inRingIdx / Math.max(1, inRingCount)) * Math.PI * 2 + ring * 0.35;
       } else {
-        const arc = inRingCount <= 2 ? Math.PI * 0.45 : Math.PI * 0.78;
+        const arc = inRingCount <= 2 ? Math.PI * 0.5 : Math.PI * 0.92;
         const frac = inRingCount === 1 ? 0 : inRingIdx / (inRingCount - 1) - 0.5;
-        angle = outAngle + frac * arc + ring * 0.12;
+        angle = outAngle + frac * arc + ring * 0.14;
       }
 
       posByKey.set(childKey, {
-        x: parentPos.x + Math.cos(angle) * radius * 1.15,
-        y: parentPos.y + Math.sin(angle) * radius * 0.9,
+        x: parentPos.x + Math.cos(angle) * radius * 1.2,
+        y: parentPos.y + Math.sin(angle) * radius * 0.95,
         isRoot: false,
       });
       bfsQueue.push(childKey);
@@ -189,8 +189,8 @@ export function computeExploreTreeLayout(
     return { key, pos };
   });
 
-  // 20-iteration deterministic minimum-box separation pass (152px X, 64px Y)
-  for (let iter = 0; iter < 20; iter++) {
+  // 45-iteration deterministic minimum-box separation pass (186px X, 84px Y)
+  for (let iter = 0; iter < 45; iter++) {
     for (let i = 0; i < ordered.length; i++) {
       for (let j = i + 1; j < ordered.length; j++) {
         const a = ordered[i]!.pos;
@@ -227,7 +227,7 @@ export function computeExploreTreeLayout(
     .filter((item): item is TreePosition => item !== null);
 }
 
-export const CRT_ZOOM_MIN = 0.45;
+export const CRT_ZOOM_MIN = 0.35;
 export const CRT_ZOOM_MAX = 2.6;
 
 /** Computes the next clamped CRT zoom factor from a mouse-wheel or trackpad event. */
@@ -253,14 +253,14 @@ export function computeFitCamera(
     if (p.y < rawMinY) rawMinY = p.y;
     if (p.y > rawMaxY) rawMaxY = p.y;
   }
-  const minX = rawMinX - 95;
-  const maxX = rawMaxX + 95;
-  const minY = rawMinY - 55;
-  const maxY = rawMaxY + 65;
+  const minX = rawMinX - 105;
+  const maxX = rawMaxX + 105;
+  const minY = rawMinY - 60;
+  const maxY = rawMaxY + 72;
   const spanW = Math.max(1, maxX - minX);
   const spanH = Math.max(1, maxY - minY);
   const zoom = Number(
-    Math.min(1.55, Math.max(0.55, Math.min(1320 / spanW, 800 / spanH))).toFixed(4),
+    Math.min(1.35, Math.max(CRT_ZOOM_MIN, Math.min(1320 / spanW, 800 / spanH))).toFixed(4),
   );
   const midX = (minX + maxX) / 2;
   const midY = (minY + maxY) / 2;

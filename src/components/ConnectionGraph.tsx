@@ -69,9 +69,6 @@ const CRT_SPARKS = [
   { x: 1310, y: 446, r: 1.7, color: '#f59e0b', delay: '2.9s' },
 ] as const;
 
-const SWEEP_END_X = 700 + Math.cos((-48 * Math.PI) / 180) * 520;
-const SWEEP_END_Y = 440 + Math.sin((-48 * Math.PI) / 180) * 520;
-
 const KIND_GROUPS: { kind: GraphNode['kind']; heading: string; badge: string }[] = [
   { kind: 'reality', heading: 'Realities & Timelines', badge: 'R' },
   { kind: 'title', heading: 'Films & Series', badge: 'F' },
@@ -105,6 +102,8 @@ export function ConnectionGraph({
   });
   const [selectedNodeKey, setSelectedNodeKey] = useState<string | null>(focusKey);
   const [hoveredKey, setHoveredKey] = useState<string | null>(null);
+  const [hoveredEdgeId, setHoveredEdgeId] = useState<string | null>(null);
+  const [layoutRevision, setLayoutRevision] = useState(0);
   const [jumpOpen, setJumpOpen] = useState(false);
   const [jumpQuery, setJumpQuery] = useState('');
 
@@ -177,10 +176,33 @@ export function ConnectionGraph({
     [roots, expandedChildren, graph],
   );
 
+  useEffect(() => {
+    if (layoutRevision === 0) return;
+    const next = computeFitCamera(positioned);
+    setZoom(next.zoom);
+    setPan(next.pan);
+  }, [layoutRevision]);
+
   const posMap = useMemo(
     () => new Map(positioned.map((p) => [p.node.key, p])),
     [positioned],
   );
+
+  const activeEdge = useMemo(() => {
+    if (hoveredEdgeId) {
+      return visibleEdges.find((e) => e.id === hoveredEdgeId) ?? null;
+    }
+    if (selectedNodeKey && hoveredKey && hoveredKey !== selectedNodeKey) {
+      return (
+        visibleEdges.find(
+          (e) =>
+            (e.fromKey === selectedNodeKey && e.toKey === hoveredKey) ||
+            (e.toKey === selectedNodeKey && e.fromKey === hoveredKey),
+        ) ?? null
+      );
+    }
+    return null;
+  }, [hoveredEdgeId, selectedNodeKey, hoveredKey, visibleEdges]);
 
   const hiddenCountByNode = useMemo(() => {
     const counts = new Map<string, number>();
@@ -220,6 +242,7 @@ export function ConnectionGraph({
         next.set(nodeKey, nextKeys);
         return next;
       });
+      if (nextKeys.length > 0) setLayoutRevision((n) => n + 1);
     }
   };
 
@@ -232,10 +255,12 @@ export function ConnectionGraph({
       next.set(nodeKey, [...existing, ...nextKeys]);
       return next;
     });
+    setLayoutRevision((n) => n + 1);
   };
 
   const handleCollapseBranch = (nodeKey: string) => {
     setExpandedChildren((prev) => collapseBranchMap(roots, prev, nodeKey, graph));
+    setLayoutRevision((n) => n + 1);
   };
 
   const handleSoloFocus = (nodeKey: string) => {
@@ -276,30 +301,25 @@ export function ConnectionGraph({
   }, [graph.nodes, jumpQuery]);
 
   return (
-    <div className="space-y-4">
-      <div className="tva-folder rounded-md p-4 flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-bold text-[#1d1610] flex items-center gap-2">
-            <Network className="w-5 h-5 text-[#c2410c]" /> TemPad CRT Multiverse Scope
+    <div className="space-y-2.5">
+      <div className="tva-folder rounded-md px-3.5 py-2 flex flex-wrap items-center justify-between gap-2">
+        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-0.5 min-w-0">
+          <h1 className="text-lg sm:text-xl font-bold text-[#1d1610] flex items-center gap-2">
+            <Network className="w-4 h-4 text-[#c2410c] shrink-0" /> TemPad CRT Multiverse Scope
           </h1>
-          <p className="text-xs text-[#61503e]">
-            Showing {visibleNodes.length} active nodes &amp; {visibleEdges.length} links. Click any
-            node with a <strong className="text-[#9a3412]">+N</strong> badge to branch outward.
+          <p className="text-[11px] text-[#61503e]">
+            {visibleNodes.length}/{graph.nodes.size} active nodes · {visibleEdges.length} links ·
+            click <strong className="text-[#9a3412]">+N</strong> to expand
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
-          {/* Active Count Pill */}
-          <span className="rounded border border-[#cbb895] bg-[#f4ebd9] px-2.5 py-1.5 text-xs font-mono-code text-[#3f3122]">
-            {visibleNodes.length}/{graph.nodes.size} nodes active
-          </span>
-
+        <div className="flex flex-wrap items-center gap-1.5">
           {/* Searchable Grouped "Jump / Start From..." Selector */}
           <div className="relative">
             <button
               type="button"
               onClick={() => setJumpOpen((v) => !v)}
-              className={`inline-flex items-center gap-1.5 rounded px-3 py-1.5 text-xs font-mono-code border transition-colors ${
+              className={`inline-flex items-center gap-1.5 rounded px-2.5 py-1 text-xs font-mono-code border transition-colors ${
                 jumpOpen
                   ? 'border-[#1d1610] bg-[#1d1610] text-[#f59e0b] font-bold'
                   : 'border-[#cbb895] bg-[#fffaf0] text-[#1d1610] hover:border-[#9a3412]'
@@ -374,7 +394,7 @@ export function ConnectionGraph({
             type="button"
             onClick={handleResetToCoreHubs}
             disabled={isDefaultCoreView && !selectedNodeKey}
-            className={`inline-flex items-center gap-1.5 rounded px-3 py-1.5 text-xs font-mono-code border transition-colors ${
+            className={`inline-flex items-center gap-1.5 rounded px-2.5 py-1 text-xs font-mono-code border transition-colors ${
               isDefaultCoreView && !selectedNodeKey
                 ? 'border-[#d6c7aa] bg-[#f4ebd9] text-[#8f7c66] cursor-default'
                 : 'border-[#1d1610] bg-[#1d1610] text-[#f59e0b] font-bold hover:bg-[#2c2219]'
@@ -386,13 +406,13 @@ export function ConnectionGraph({
       </div>
 
       {/* Recessed Bakelite CRT Monitor Frame */}
-      <div className="tva-crt-bezel rounded-xl p-3 sm:p-4 space-y-2">
+      <div className="tva-crt-bezel rounded-xl p-2.5 sm:p-3 space-y-1.5">
         <div className="flex items-center justify-between text-[10px] font-mono-code uppercase tracking-widest text-[#d4a44a] px-1">
           <span>MODEL TMP-77 // EXPLORE-AS-YOU-GO BRANCH SCOPE</span>
           <span>{selectedNode ? `LOCKED: ${shortenGraphLabel(selectedNode.label, 22)}` : 'SIGNAL: 6-HUB STANDBY'}</span>
         </div>
 
-        <div className="relative tva-crt-screen rounded-lg overflow-hidden h-[540px] sm:h-[620px] select-none">
+        <div className="relative tva-crt-screen rounded-lg overflow-hidden h-[clamp(300px,calc(100vh-250px),580px)] select-none">
           <div className="tva-scanlines absolute inset-0 z-10 opacity-40" />
           <div className="tva-crt-vignette absolute inset-0 z-10" />
 
@@ -453,11 +473,6 @@ export function ConnectionGraph({
                   <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.075" />
                   <stop offset="100%" stopColor="#0c0907" stopOpacity="0" />
                 </radialGradient>
-                <linearGradient id="crt-sweep-grad" x1="0%" y1="100%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#f59e0b" stopOpacity="0.16" />
-                  <stop offset="70%" stopColor="#f59e0b" stopOpacity="0.04" />
-                  <stop offset="100%" stopColor="#f59e0b" stopOpacity="0" />
-                </linearGradient>
                 <filter id="crt-glow-amber" x="-40%" y="-40%" width="180%" height="180%">
                   <feGaussianBlur stdDeviation="3.5" result="blur" />
                   <feMerge>
@@ -568,23 +583,6 @@ export function ConnectionGraph({
                   </g>
                 </g>
 
-                {/* Rotating Phosphor Radar Sweep */}
-                <g className="crt-radar-sweep">
-                  <path
-                    d={`M 700 440 L 700 -80 A 520 520 0 0 1 ${SWEEP_END_X} ${SWEEP_END_Y} Z`}
-                    fill="url(#crt-sweep-grad)"
-                  />
-                  <line
-                    x1="700"
-                    y1="440"
-                    x2="700"
-                    y2="-80"
-                    stroke="#fbbf24"
-                    strokeOpacity="0.28"
-                    strokeWidth="1.2"
-                  />
-                </g>
-
                 {/* Ambient Temporal Sparks */}
                 {CRT_SPARKS.map((s, idx) => (
                   <circle
@@ -617,9 +615,11 @@ export function ConnectionGraph({
                   const a = posMap.get(edge.fromKey);
                   const b = posMap.get(edge.toKey);
                   if (!a || !b) return null;
+                  const isEdgeActive = activeEdge?.id === edge.id;
                   const isDirectLink =
-                    activeHighlightKey !== null &&
-                    (edge.fromKey === activeHighlightKey || edge.toKey === activeHighlightKey);
+                    isEdgeActive ||
+                    (activeHighlightKey !== null &&
+                      (edge.fromKey === activeHighlightKey || edge.toKey === activeHighlightKey));
                   const isFocused = !activeHighlightKey || isDirectLink;
 
                   const stroke = edge.isTheory
@@ -630,15 +630,11 @@ export function ConnectionGraph({
                         ? '#38bdf8'
                         : '#f59e0b';
 
-                  const midX = (a.x + b.x) / 2;
-                  const midY = (a.y + b.y) / 2;
-                  const labelW = Math.min(180, Math.max(64, edge.label.length * 6.4 + 14));
-
                   return (
                     <g
                       key={edge.id}
                       className="crt-edge-group"
-                      opacity={isFocused ? (isDirectLink ? 0.96 : 0.72) : 0.14}
+                      opacity={isEdgeActive ? 1 : isFocused ? (isDirectLink ? 0.94 : 0.68) : 0.14}
                     >
                       <line
                         x1={a.x}
@@ -646,7 +642,7 @@ export function ConnectionGraph({
                         x2={b.x}
                         y2={b.y}
                         stroke={stroke}
-                        strokeWidth={isDirectLink ? 2.2 : 1.2}
+                        strokeWidth={isEdgeActive ? 2.8 : isDirectLink ? 2.1 : 1.2}
                         strokeDasharray={edge.isTheory ? '5 4' : undefined}
                       />
                       {isDirectLink && (
@@ -656,38 +652,24 @@ export function ConnectionGraph({
                           x2={b.x}
                           y2={b.y}
                           stroke="#fde68a"
-                          strokeWidth={2.2}
+                          strokeWidth={isEdgeActive ? 2.6 : 2.1}
                           strokeDasharray="6 10"
                           className="crt-signal-flow"
                           opacity={0.85}
                         />
                       )}
-                      {isDirectLink && (
-                        <g className="pointer-events-none">
-                          <rect
-                            x={midX - labelW / 2}
-                            y={midY - 14}
-                            width={labelW}
-                            height="15"
-                            rx="3"
-                            fill="#0c0907"
-                            fillOpacity="0.92"
-                            stroke={stroke}
-                            strokeOpacity="0.55"
-                            strokeWidth="0.7"
-                          />
-                          <text
-                            x={midX}
-                            y={midY - 3.5}
-                            textAnchor="middle"
-                            fill="#fef3c7"
-                            fontSize="9.5"
-                            fontFamily="IBM Plex Mono, monospace"
-                          >
-                            {edge.label}
-                          </text>
-                        </g>
-                      )}
+                      {/* Invisible wider hit target so hovering a line reveals its single pill */}
+                      <line
+                        x1={a.x}
+                        y1={a.y}
+                        x2={b.x}
+                        y2={b.y}
+                        stroke="transparent"
+                        strokeWidth={14}
+                        className="cursor-pointer"
+                        onMouseEnter={() => setHoveredEdgeId(edge.id)}
+                        onMouseLeave={() => setHoveredEdgeId(null)}
+                      />
                     </g>
                   );
                 })}
@@ -847,6 +829,49 @@ export function ConnectionGraph({
                     </g>
                   );
                 })}
+
+                {activeEdge && (() => {
+                  const a = posMap.get(activeEdge.fromKey);
+                  const b = posMap.get(activeEdge.toKey);
+                  if (!a || !b) return null;
+                  const midX = (a.x + b.x) / 2;
+                  const midY = (a.y + b.y) / 2;
+                  const labelW = Math.min(230, Math.max(82, activeEdge.label.length * 6.5 + 18));
+                  const pillStroke = activeEdge.isTheory
+                    ? '#c084fc'
+                    : activeEdge.kind === 'incursion' || activeEdge.kind === 'conflict'
+                      ? '#f97316'
+                      : activeEdge.kind === 'variant'
+                        ? '#38bdf8'
+                        : '#f59e0b';
+                  return (
+                    <g className="pointer-events-none">
+                      <rect
+                        x={midX - labelW / 2}
+                        y={midY - 16}
+                        width={labelW}
+                        height="18"
+                        rx="4"
+                        fill="#0c0907"
+                        fillOpacity="0.96"
+                        stroke={pillStroke}
+                        strokeOpacity="0.85"
+                        strokeWidth="1"
+                      />
+                      <text
+                        x={midX}
+                        y={midY - 4}
+                        textAnchor="middle"
+                        fill="#fef3c7"
+                        fontSize="10"
+                        fontWeight="600"
+                        fontFamily="IBM Plex Mono, monospace"
+                      >
+                        {activeEdge.label}
+                      </text>
+                    </g>
+                  );
+                })()}
               </g>
             </svg>
           </div>
@@ -918,7 +943,7 @@ export function ConnectionGraph({
         </div>
 
         {/* Bakelite Bezel Lock-On Telemetry Strip — never obscures CRT nodes */}
-        <div className="rounded border border-[#3a2d22] bg-[#14100d]/95 px-3 py-2.5 flex flex-wrap items-center justify-between gap-3">
+        <div className="rounded border border-[#3a2d22] bg-[#14100d]/95 px-3 py-2 flex flex-wrap items-center justify-between gap-2">
           {selectedNode ? (
             <>
               <div className="min-w-0">
