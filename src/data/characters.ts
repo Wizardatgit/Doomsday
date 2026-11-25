@@ -108,17 +108,18 @@ export const CHARACTERS: Character[] = [
     factionId: 'avengers',
     originRealityId: 'earth-616',
     currentRealityId: 'steve-branch',
-    doomsdayStatus: 'confirmed',
+    doomsdayStatus: 'likely',
     catalogCode: 'TVA-616-SSR',
     whoAreThey:
       'SSR war hero, S.H.I.E.L.D. co-founder, and Steve Rogers’ lifelong partner.',
     howTheyGotHere:
       'In Prime Earth-616 Peggy died of old age in 2016, while Captain Carter variants fought in What If…? and Earth-838. In Steve Rogers’ Endgame branch, Peggy reunited with Steve in the late 1940s—putting her directly inside the branch timeline thrust into Doomsday.',
-    lastKnownStatus: 'Married to Steve Rogers in Steve’s Alternate Branch; confirmed for Doomsday.',
+    lastKnownStatus: 'Married to Steve Rogers in Steve’s Alternate Branch; widely reported to appear alongside Steve Rogers.',
     firstAppearanceTitleId: 'captain-america-first-avenger',
     lastSeenTitleId: 'avengers-endgame',
-    tags: ['Branch Timeline', 'Confirmed Doomsday', 'S.H.I.E.L.D. Founder'],
+    tags: ['Branch Timeline', 'Reported Return', 'S.H.I.E.L.D. Founder'],
     wikiPage: "Peggy_Carter_(Marvel_Cinematic_Universe)",
+    confidence: 'reported',
     journey: [
       { titleId: 'captain-america-first-avenger', beat: 'Guides Project Rebirth and mourns Steve’s 1945 crash.' },
       { titleId: 'agent-carter-series', beat: 'Leads SSR missions in post-war New York and Los Angeles.' },
@@ -242,17 +243,18 @@ export const CHARACTERS: Character[] = [
     factionId: 'avengers',
     originRealityId: 'earth-616',
     currentRealityId: 'earth-616',
-    doomsdayStatus: 'confirmed',
+    doomsdayStatus: 'likely',
     catalogCode: 'TVA-616-STG',
     whoAreThey:
       'Scott Lang’s tech-prodigy daughter who built a Quantum Realm satellite beacon and fought beside her father in her own purple Pym-tech suit.',
     howTheyGotHere:
-      'Grew up during the five-year Blip studying Hank Pym’s journals, inadvertently pulled the Ant-family into the Quantum Realm, and proved herself in combat before joining Doomsday’s roster.',
+      'Grew up during the five-year Blip studying Hank Pym’s journals, inadvertently pulled the Ant-family into the Quantum Realm, and proved herself in combat ahead of Doomsday.',
     lastKnownStatus: 'Active Pym-tech hero alongside Scott Lang on Earth-616.',
     firstAppearanceTitleId: 'ant-man',
     lastSeenTitleId: 'ant-man-quantumania',
-    tags: ['Young Hero', 'Confirmed Doomsday'],
+    tags: ['Young Hero', 'Likely Return'],
     wikiPage: "Cassie_Lang",
+    confidence: 'reported',
     journey: [
       { titleId: 'ant-man-quantumania', beat: 'Dons her Quantum suit and leads freedom fighters against MODOK and Kang.' },
       { titleId: 'avengers-doomsday', beat: 'Joins Scott Lang and Earth-616’s defense.' },
@@ -290,17 +292,18 @@ export const CHARACTERS: Character[] = [
     factionId: 'avengers',
     originRealityId: 'earth-616',
     currentRealityId: 'earth-616',
-    doomsdayStatus: 'confirmed',
+    doomsdayStatus: 'likely',
     catalogCode: 'TVA-616-HKE',
     whoAreThey:
       'Champion archer and Clint Barton’s protégé who thwarted Tracksuit Mafia and Kingpin plots in New York and forged an unlikely rapport with Yelena Belova.',
     howTheyGotHere:
       'At the end of The Marvels, Kamala Khan tracked Kate down in New York to recruit her into a next-generation hero team (citing Cassie Lang too).',
-    lastKnownStatus: 'Recruited by Ms. Marvel; confirmed in the Doomsday ensemble.',
+    lastKnownStatus: 'Recruited by Ms. Marvel; reported as part of the Doomsday ensemble.',
     firstAppearanceTitleId: 'hawkeye',
     lastSeenTitleId: 'the-marvels',
-    tags: ['Young Avengers Setup', 'Confirmed Doomsday'],
+    tags: ['Young Avengers Setup', 'Likely Return'],
     wikiPage: "Kate_Bishop",
+    confidence: 'reported',
     journey: [
       { titleId: 'hawkeye', beat: 'Trained by Clint Barton and shares macaroni & cheese truce with Yelena Belova.' },
       { titleId: 'the-marvels', beat: 'Approached in her apartment by Kamala Khan ("Did you think you were the only kid superhero?").' },
@@ -502,9 +505,9 @@ export const CHARACTERS: Character[] = [
       'Brilliant scientist and leader of Earth-828’s Fantastic Four, whose hyper-elastic body and multiversal intellect drive Earth-828’s survival.',
     howTheyGotHere:
       'After stopping Galactus in First Steps and later encountering Victor von Doom targeting his son Franklin, Reed pilots/launches the Fantastic Four rocket across dimensional barriers—entering Earth-616 at the end of Thunderbolts*.',
-    lastKnownStatus: 'Crossing from Earth-828 into Earth-616 orbit (Thunderbolts* post-credits); confirmed for Doomsday.',
+    lastKnownStatus: 'Protects Franklin on Earth-828 before the Fantastic Four rocket enters Earth-616 space; confirmed for Doomsday.',
     firstAppearanceTitleId: 'fantastic-four-first-steps',
-    lastSeenTitleId: 'thunderbolts',
+    lastSeenTitleId: 'fantastic-four-first-steps',
     tags: ['First Family', 'Universe Jumper', 'Confirmed Doomsday'],
     wikiPage: "Mister_Fantastic",
     journey: [
@@ -879,17 +882,18 @@ export const CHARACTERS: Character[] = [
     factionId: 'wakanda-talokan',
     originRealityId: 'earth-616',
     currentRealityId: 'earth-616',
-    doomsdayStatus: 'confirmed',
+    doomsdayStatus: 'likely',
     catalogCode: 'TVA-616-TAL2',
     whoAreThey:
       'Fierce Talokanil general and Namor’s closest lieutenant.',
     howTheyGotHere:
-      'Led Talokan’s assault squads in Wakanda Forever and accompanies Namor into the Doomsday conflict.',
+      'Led Talokan’s assault squads in Wakanda Forever and stands alongside Namor as Talokan enters the Doomsday conflict.',
     lastKnownStatus: 'Serving Talokan’s defense forces.',
     firstAppearanceTitleId: 'black-panther-wakanda-forever',
     lastSeenTitleId: 'black-panther-wakanda-forever',
-    tags: ['Talokan', 'Confirmed Doomsday'],
+    tags: ['Talokan', 'Likely Return'],
     wikiPage: "Namora",
+    confidence: 'reported',
     journey: [
       { titleId: 'black-panther-wakanda-forever', beat: 'Fights Wakanda’s warriors and questions Namor’s truce.' },
       { titleId: 'avengers-doomsday', beat: 'Joins Namor and Wakanda in battle.' },
@@ -1175,15 +1179,16 @@ export const CHARACTERS: Character[] = [
       'Blind Hell’s Kitchen trial lawyer and vigilante hero whose Defenders Saga history is canonized inside Earth-616.',
     howTheyGotHere:
       'Advised Peter Parker legally in No Way Home, teamed up with She-Hulk, and resisted Mayor Wilson Fisk’s anti-vigilante crackdown in Daredevil: Born Again.',
-    lastKnownStatus: 'Opposing Mayor Fisk’s crackdown in New York (Born Again).',
+    lastKnownStatus: 'Leading underground resistance against Mayor Fisk in New York (Born Again S2).',
     firstAppearanceTitleId: 'daredevil-saga',
-    lastSeenTitleId: 'daredevil-born-again',
+    lastSeenTitleId: 'daredevil-born-again-s2',
     tags: ['Defenders Canon', 'Street Level'],
     wikiPage: "Matt_Murdock_(Marvel_Cinematic_Universe)",
     journey: [
       { titleId: 'daredevil-saga', beat: 'Fights Kingpin, Bullseye, and The Hand in Hell’s Kitchen.' },
       { titleId: 'spider-man-no-way-home', beat: 'Defends Peter Parker ("I’m a really good lawyer").' },
       { titleId: 'daredevil-born-again', beat: 'Confronts Mayor Wilson Fisk alongside Frank Castle.' },
+      { titleId: 'daredevil-born-again-s2', beat: 'Leads underground street-level resistance alongside Karen Page and Jessica Jones.' },
     ],
   },
   {
@@ -1207,8 +1212,9 @@ export const CHARACTERS: Character[] = [
     wikiPage: "Frank_Castle_(Marvel_Cinematic_Universe)",
     confidence: 'official',
     sources: [
+      { label: 'Marvel.com — The Punisher: One Last Kill', url: 'https://www.marvel.com/tv-shows/the-punisher-one-last-kill/1' },
+      { label: 'Marvel.com — Spider-Man: Brand New Day', url: 'https://www.marvel.com/movies/spider-man-brand-new-day' },
       { label: 'Wikipedia — The Punisher: One Last Kill', url: 'https://en.wikipedia.org/wiki/The_Punisher:_One_Last_Kill' },
-      { label: 'Wikipedia — Spider-Man: Brand New Day', url: 'https://en.wikipedia.org/wiki/Spider-Man:_Brand_New_Day' },
     ],
     journey: [
       { titleId: 'daredevil-saga', beat: 'Emerges in Hell’s Kitchen and crosses paths with Matt Murdock.' },
@@ -1238,6 +1244,7 @@ export const CHARACTERS: Character[] = [
     wikiPage: "Jean_Grey",
     confidence: 'official',
     sources: [
+      { label: 'Marvel.com — Spider-Man: Brand New Day', url: 'https://www.marvel.com/movies/spider-man-brand-new-day' },
       { label: 'Wikipedia — Spider-Man: Brand New Day', url: 'https://en.wikipedia.org/wiki/Spider-Man:_Brand_New_Day' },
     ],
     journey: [

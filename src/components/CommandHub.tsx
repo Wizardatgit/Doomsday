@@ -366,6 +366,7 @@ export function CommandHub({
                       wikiPage={c.wikiPage}
                       tmdbQuery={personTmdbQuery(c.actor)}
                       tmdbApiKey={tmdbApiKey}
+                      hideZoomTrigger
                       className="w-full"
                     />
                     <span className="mt-1 text-[10px] font-mono-code text-[#61503e] truncate max-w-full">
@@ -467,6 +468,7 @@ export function CommandHub({
                   staticImagePath={place.imagePath}
                   wikiPage={place.wikiPage}
                   preferWikiOverStatic={place.preferGenuineWiki}
+                  hideZoomTrigger
                 />
                 <p className="text-[11px] text-[#61503e] line-clamp-1 leading-relaxed px-0.5">
                   {place.summary}

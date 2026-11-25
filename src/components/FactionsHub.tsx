@@ -294,6 +294,7 @@ export function FactionsHub({
                             wikiPage={c.wikiPage}
                             tmdbQuery={personTmdbQuery(c.actor)}
                             tmdbApiKey={tmdbApiKey}
+                            hideZoomTrigger
                           />
 
                           <div className="min-w-0 flex-1 space-y-1.5">

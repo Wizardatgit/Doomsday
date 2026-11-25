@@ -61,9 +61,9 @@ export function RealitiesAtlas({
         emblem="xmen"
       />
 
-      {/* Apple-HIG Segmented Filter Bar */}
+      {/* Segmented Filter Bar (WAI-ARIA toggle-button group) */}
       <div className="tva-folder rounded-md p-2.5 flex flex-wrap items-center justify-between gap-2">
-        <div className="flex flex-wrap items-center gap-1 bg-[#efe3c8] p-1 rounded border border-[#cbb895]" role="tablist" aria-label="Atlas sections">
+        <div className="flex flex-wrap items-center gap-1 bg-[#efe3c8] p-1 rounded border border-[#cbb895]" role="group" aria-label="Atlas sections">
           {(
             [
               { id: 'all', label: 'All' },
@@ -75,8 +75,7 @@ export function RealitiesAtlas({
             <button
               key={item.id}
               type="button"
-              role="tab"
-              aria-selected={tab === item.id}
+              aria-pressed={tab === item.id}
               onClick={() => setTab(item.id)}
               className={`px-2.5 py-1 rounded text-xs font-mono-code font-semibold transition-colors ${
                 tab === item.id

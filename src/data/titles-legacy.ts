@@ -370,25 +370,6 @@ export const LEGACY_TITLES: Title[] = [
     wikiPage: 'X-Men:_Days_of_Future_Past',
   },
   {
-    id: 'agent-carter-series',
-    title: 'Agent Carter (One-Shot & S1–S2)',
-    year: 2015,
-    releaseDate: '2015-01-06',
-    chronoOrder: 15,
-    kind: 'series',
-    era: 'pre-phase-1',
-    eraLabel: 'Legacy: Before 1950 (MCU)',
-    realityId: 'earth-616',
-    importance: 'key',
-    runtime: '18 eps + One-Shot',
-    summary:
-      'In the late 1940s, Peggy Carter navigates SSR espionage, Howard Stark’s tech, and Zero Matter anomalies while founding S.H.I.E.L.D.',
-    doomsdayConnection:
-      'Fleshes out Peggy Carter’s post-WWII era—vital context for Steve Rogers’ alternate 1940s branch timeline spotlighted in Doomsday.',
-    keyCharacterIds: ['peggy-carter'],
-    wikiPage: "Agent_Carter_(TV_series)",
-  },
-  {
     id: 'deadpool-2016',
     title: 'Deadpool',
     year: 2016,

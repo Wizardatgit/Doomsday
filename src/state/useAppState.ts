@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   TITLES,
+  entityExists,
   entityKey,
   parseEntityKey,
   placesById,
@@ -60,14 +61,39 @@ function readInitialStorage(): StoredState {
   }
 }
 
-function readInitialUrl(): { view: AppView; selected: EntityRef | null } {
+export function parseInitialUrlSearch(search: string): {
+  view: AppView;
+  selected: EntityRef | null;
+} {
   try {
-    const params = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(search);
     const v = params.get('view') as AppView | null;
     const view = v && VALID_VIEWS.has(v) ? v : 'hub';
     const e = params.get('entity');
-    const selected = e ? parseEntityKey(e) : null;
+    const parsed = e ? parseEntityKey(e) : null;
+    const selected = parsed && entityExists(parsed) ? parsed : null;
     return { view, selected };
+  } catch {
+    return { view: 'hub', selected: null };
+  }
+}
+
+export function resolveEscapeDismissal(state: {
+  settingsOpen: boolean;
+  searchOpen: boolean;
+  hasSelectedEntity: boolean;
+  mobileMenuOpen: boolean;
+}): 'settings' | 'search' | 'dossier' | 'mobileMenu' | null {
+  if (state.settingsOpen) return 'settings';
+  if (state.searchOpen) return 'search';
+  if (state.hasSelectedEntity) return 'dossier';
+  if (state.mobileMenuOpen) return 'mobileMenu';
+  return null;
+}
+
+function readInitialUrl(): { view: AppView; selected: EntityRef | null } {
+  try {
+    return parseInitialUrlSearch(window.location.search);
   } catch {
     return { view: 'hub', selected: null };
   }

@@ -14,7 +14,12 @@ export function titleTmdbQuery(item: {
   const isTv =
     item.kind === 'series' ||
     (item.kind === 'animated' && /\beps\b|\bseason/i.test(item.runtime ?? ''));
-  const cleanTitle = item.title.replace(/(\s*\([^)]*\))+$/g, '').trim() || item.title;
+  const cleanTitle =
+    item.title
+      .replace(/(\s*\([^)]*\))+$/g, '')
+      .replace(/\*+$/g, '')
+      .replace(/\u2026/g, '...')
+      .trim() || item.title;
   return {
     kind: 'title',
     mediaType: isTv ? 'tv' : 'movie',
@@ -25,8 +30,14 @@ export function titleTmdbQuery(item: {
 
 export function personTmdbQuery(actor: string): TmdbQuery | undefined {
   const clean = actor.trim();
-  if (!clean || /^(tba|various|unknown)/i.test(clean)) return undefined;
+  if (!clean || /^(tba|various|unknown|uncredited|young\s+cast|child\s+actor)/i.test(clean)) {
+    return undefined;
+  }
   return { kind: 'person', name: clean };
+}
+
+export function _resetTmdbCacheForTests() {
+  sessionCache.clear();
 }
 
 export function getEffectiveTmdbKey(userKey: string): string {
@@ -44,7 +55,7 @@ export function buildTmdbSearchUrl(params: TmdbQuery, apiKey: string): string {
       api_key: key,
       query: params.title,
       ...(params.mediaType === 'movie'
-        ? { year: String(params.year) }
+        ? { primary_release_year: String(params.year) }
         : { first_air_date_year: String(params.year) }),
     });
     return `https://api.themoviedb.org/3/search/${params.mediaType}?${qs.toString()}`;
@@ -90,8 +101,8 @@ export async function fetchTmdbImage(
 
   try {
     const res = await fetch(endpoint);
+    // Do not negative-cache transient HTTP failures (429/5xx)
     if (!res.ok) {
-      sessionCache.set(cacheKey, null);
       return null;
     }
     const data = (await res.json()) as {
@@ -110,7 +121,7 @@ export async function fetchTmdbImage(
     }
     return url;
   } catch {
-    sessionCache.set(cacheKey, null);
+    // Do not poison session cache on transient network errors
     return null;
   }
 }

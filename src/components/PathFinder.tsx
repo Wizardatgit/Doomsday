@@ -191,6 +191,7 @@ export function PathFinder({
                         }
                         tmdbApiKey={tmdbApiKey}
                         compact
+                        hideZoomTrigger
                       />
                     )}
                     <div className="min-w-0 flex-1 space-y-1">

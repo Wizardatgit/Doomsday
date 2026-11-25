@@ -1,7 +1,8 @@
-import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react';
+import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from 'react';
 import { Maximize2, X } from 'lucide-react';
 import type { FactionEmblem } from '../data/types.ts';
 import { fetchTmdbImage, getEffectiveTmdbKey, type TmdbQuery } from '../lib/tmdb.ts';
+import { useDialogA11y } from '../lib/useDialogA11y.ts';
 import { fetchWikiThumbnail } from '../lib/wikiImages.ts';
 
 export interface LightboxPayload {
@@ -24,6 +25,8 @@ export function useImageLightbox() {
 
 export function ImageLightboxProvider({ children }: { children: ReactNode }) {
   const [payload, setPayload] = useState<LightboxPayload | null>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useDialogA11y(dialogRef, Boolean(payload));
 
   const openLightbox = useCallback((next: LightboxPayload) => {
     setPayload(next);
@@ -46,6 +49,8 @@ export function ImageLightboxProvider({ children }: { children: ReactNode }) {
       {children}
       {payload && (
         <div
+          ref={dialogRef}
+          tabIndex={-1}
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-xs p-4"
           onClick={() => setPayload(null)}
           role="dialog"
@@ -178,6 +183,7 @@ export function EntityVisual({
   tmdbApiKey = '',
   compact = false,
   clickImageToZoom = false,
+  hideZoomTrigger = false,
   className = '',
 }: {
   code: string;
@@ -193,6 +199,7 @@ export function EntityVisual({
   tmdbApiKey?: string;
   compact?: boolean;
   clickImageToZoom?: boolean;
+  hideZoomTrigger?: boolean;
   className?: string;
 }) {
   const effectiveKey = getEffectiveTmdbKey(tmdbApiKey);
@@ -250,7 +257,8 @@ export function EntityVisual({
     openLightbox({ url: imageUrl, code, title, subtitle, accentColor });
   };
 
-  const zoomTrigger = showImage ? (
+  const zoomTrigger =
+    showImage && !hideZoomTrigger ? (
     <span
       role="button"
       tabIndex={0}

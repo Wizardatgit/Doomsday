@@ -96,7 +96,7 @@ export function buildUnifiedGraph(showTheories: boolean): UnifiedGraph {
       key: entityKey({ kind: 'character', id: c.id }),
       ref: { kind: 'character', id: c.id },
       kind: 'character',
-      label: c.alias && c.alias !== c.name && c.name.length < 18 ? `${c.name}` : c.name,
+      label: c.name,
       sublabel: `${c.alias} · ${c.actor}`,
       color: f?.color ?? '#f59e0b',
       factionId: c.factionId,

@@ -233,7 +233,8 @@ export const CRT_ZOOM_MAX = 2.6;
 /** Computes the next clamped CRT zoom factor from a mouse-wheel or trackpad event. */
 export function nextWheelZoom(currentZoom: number, deltaY: number, deltaMode = 0): number {
   if (deltaY === 0) return currentZoom;
-  const step = deltaMode === 1 ? deltaY * 16 : deltaY;
+  // Convert MDN WheelEvent.deltaMode units (0=pixel, 1=line, 2=page)
+  const step = deltaMode === 1 ? deltaY * 16 : deltaMode === 2 ? deltaY * 240 : deltaY;
   const delta = -Math.max(-0.22, Math.min(0.22, step * 0.0014));
   return Math.min(CRT_ZOOM_MAX, Math.max(CRT_ZOOM_MIN, Number((currentZoom + delta).toFixed(4))));
 }

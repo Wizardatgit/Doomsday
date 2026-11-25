@@ -239,6 +239,25 @@ export const INFINITY_TITLES: Title[] = [
     keyCharacterIds: ['scott-lang', 'cassie-lang', 'sam-wilson'],
     wikiPage: "Ant-Man_(film)",
   },
+  {
+    id: 'agent-carter-series',
+    title: 'Agent Carter (One-Shot & S1–S2)',
+    year: 2015,
+    releaseDate: '2015-01-06',
+    chronoOrder: 15,
+    kind: 'series',
+    era: 'phase-2',
+    eraLabel: 'Phase 2: MCU Television (1940s Setting)',
+    realityId: 'earth-616',
+    importance: 'key',
+    runtime: '18 eps + One-Shot',
+    summary:
+      'In the late 1940s, Peggy Carter navigates SSR espionage, Howard Stark’s tech, and Zero Matter anomalies while founding S.H.I.E.L.D.',
+    doomsdayConnection:
+      'Fleshes out Peggy Carter’s post-WWII era—vital context for Steve Rogers’ alternate 1940s branch timeline spotlighted in Doomsday.',
+    keyCharacterIds: ['peggy-carter'],
+    wikiPage: "Agent_Carter_(TV_series)",
+  },
 
   // CANONIZED DEFENDERS SAGA
   {

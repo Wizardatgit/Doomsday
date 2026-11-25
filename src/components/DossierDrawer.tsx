@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   ArrowRight,
   CheckSquare,
@@ -25,6 +25,7 @@ import {
 } from '../data/index.ts';
 import type { EntityRef, LoreConfidence, SourceCitation } from '../data/types.ts';
 import { personTmdbQuery, titleTmdbQuery } from '../lib/tmdb.ts';
+import { useDialogA11y } from '../lib/useDialogA11y.ts';
 import { fetchWikiImageMeta, type WikiImageMeta } from '../lib/wikiImages.ts';
 import { EntityVisual, useImageLightbox } from './TvaArt.tsx';
 import { Redactable } from './Redactable.tsx';
@@ -223,6 +224,8 @@ export function DossierDrawer({
   tmdbApiKey: string;
 }) {
   const [activeTab, setActiveTab] = useState<DossierTab>('briefing');
+  const drawerRef = useRef<HTMLElement>(null);
+  useDialogA11y(drawerRef, Boolean(selected));
 
   useEffect(() => {
     setActiveTab('briefing');
@@ -236,6 +239,11 @@ export function DossierDrawer({
       onClick={onClose}
     >
       <aside
+        ref={drawerRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label={`Case file dossier: ${selected.kind} ${selected.id}`}
+        tabIndex={-1}
         className="w-full max-w-xl h-full overflow-y-auto bg-[#f6ecd7] border-l-2 border-[#bfa982] shadow-2xl flex flex-col text-[#1d1610]"
         onClick={(e) => e.stopPropagation()}
       >

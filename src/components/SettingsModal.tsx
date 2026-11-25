@@ -1,6 +1,7 @@
-import { useState, type ChangeEvent } from 'react';
+import { useRef, useState, type ChangeEvent } from 'react';
 import { Download, KeyRound, RotateCcw, Upload, X } from 'lucide-react';
 import { TITLES } from '../data/index.ts';
+import { useDialogA11y } from '../lib/useDialogA11y.ts';
 
 export function SettingsModal({
   onClose,
@@ -22,6 +23,8 @@ export function SettingsModal({
   const [keyDraft, setKeyDraft] = useState(tmdbApiKey);
   const [importText, setImportText] = useState('');
   const [statusMsg, setStatusMsg] = useState<string | null>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useDialogA11y(dialogRef, true);
 
   const handleDownload = () => {
     const json = onExportBackup();
@@ -59,6 +62,11 @@ export function SettingsModal({
       onClick={onClose}
     >
       <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="settings-modal-title"
+        tabIndex={-1}
         className="tva-folder w-full max-w-lg rounded-md p-6 space-y-5"
         onClick={(e) => e.stopPropagation()}
       >
@@ -67,7 +75,9 @@ export function SettingsModal({
             <p className="text-[11px] font-mono-code uppercase tracking-widest text-[#b45309] font-semibold">
               TVA Terminal Configuration
             </p>
-            <h2 className="text-xl font-bold text-[#1d1610]">Settings & Watchlist Backup</h2>
+            <h2 id="settings-modal-title" className="text-xl font-bold text-[#1d1610]">
+              Settings &amp; Watchlist Backup
+            </h2>
           </div>
           <button
             type="button"

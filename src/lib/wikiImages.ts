@@ -126,11 +126,18 @@ async function flushBatch(batch: PendingRequest[]) {
   }
 
   for (const item of batch) {
-    const val = resolvedByPage.get(item.page) ?? null;
-    if (!resolvedByPage.has(item.page)) {
-      memoryCache.set(item.page, null);
-    }
-    item.resolve(val);
+    // Only return resolved entries; skip caching null when batch request failed transiently
+    item.resolve(resolvedByPage.get(item.page) ?? null);
+  }
+}
+
+export function _resetWikiCacheForTests() {
+  memoryCache.clear();
+  inflightMap.clear();
+  pendingQueue = [];
+  if (flushTimer !== null) {
+    clearTimeout(flushTimer);
+    flushTimer = null;
   }
 }
 
