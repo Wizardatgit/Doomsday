@@ -135,7 +135,8 @@ export function CharacterDirectory({
             <div
               key={c.id}
               onClick={() => onSelect({ kind: 'character', id: c.id })}
-              className="tva-folder rounded-md p-3.5 cursor-pointer hover:border-[#b45309] transition-colors flex gap-3.5 items-start"
+              className="tva-folder tva-comic-corner rounded-md p-3.5 cursor-pointer hover:border-[#b45309] transition-colors flex gap-3.5 items-start border-t-[3px]"
+              style={{ borderTopColor: faction?.color ?? '#c2410c' }}
             >
               <EntityVisual
                 variant="polaroid"
@@ -152,7 +153,7 @@ export function CharacterDirectory({
               <div className="min-w-0 flex-1 space-y-1.5">
                 <div className="flex flex-wrap items-center justify-between gap-1">
                   <span
-                    className="tva-ink-stamp"
+                    className="tva-ink-stamp tva-stamp-angled"
                     style={{
                       borderColor: faction?.color ?? '#b45309',
                       color: faction?.color ?? '#b45309',

@@ -635,6 +635,7 @@ export function DossierDrawer({
                   accentColor={r.color}
                   staticImagePath={r.imagePath}
                   wikiPage={r.wikiPage}
+                  preferWikiOverStatic={r.preferGenuineWiki}
                   clickImageToZoom
                 />
 

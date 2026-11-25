@@ -27,6 +27,7 @@ export interface Reality {
   placeName: string;
   wikiPage: string;
   imagePath?: string;
+  preferGenuineWiki?: boolean;
   status: RealityStatus;
   anchorBeingId?: string;
   summary: string;
@@ -43,6 +44,7 @@ export interface Place {
   realityId: string;
   wikiPage: string;
   imagePath?: string;
+  preferGenuineWiki?: boolean;
   summary: string;
   keyTitleIds: string[];
   keyCharacterIds: string[];

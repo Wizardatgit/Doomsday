@@ -53,8 +53,9 @@ export function PathFinder({
   return (
     <div className="space-y-5">
       <ViewHeroBanner
-        wikiPage="Time_Variance_Authority"
+        wikiPage="Multiverse_(Marvel_Cinematic_Universe)"
         staticImagePath="./places/tva-yggdrasil.jpg"
+        preferWikiOverStatic
         catalogStamp="TVA CHRONOLOGY VECTOR TRACER"
         title='Path Tracer ("Connect Any Two Dots")'
         subtitle="Pick any two characters, films, realities, or threads to trace the chain linking them into Avengers: Doomsday."
@@ -164,7 +165,7 @@ export function PathFinder({
                   <button
                     type="button"
                     onClick={() => onSelect(step.node.ref)}
-                    className="w-full text-left tva-sheet rounded-md p-3.5 hover:border-[#b45309] transition-colors flex gap-3.5 items-center"
+                    className="w-full text-left tva-sheet tva-comic-corner rounded-md p-3.5 hover:border-[#b45309] transition-colors flex gap-3.5 items-center"
                     style={{ borderLeft: `4px solid ${step.node.color}` }}
                   >
                     {(char || title || reality) && (
@@ -175,6 +176,7 @@ export function PathFinder({
                         subtitle={char?.alias ?? reality?.placeName ?? `${title?.year}`}
                         accentColor={step.node.color}
                         staticImagePath={reality?.imagePath}
+                        preferWikiOverStatic={reality?.preferGenuineWiki}
                         wikiPage={
                           char?.wikiPage ??
                           reality?.wikiPage ??
@@ -193,10 +195,12 @@ export function PathFinder({
                     )}
                     <div className="min-w-0 flex-1 space-y-1">
                       <div className="flex items-center justify-between gap-2">
-                        <span className="tva-ink-stamp" style={{ borderColor: step.node.color, color: step.node.color }}>
+                        <span className="tva-ink-stamp tva-stamp-angled" style={{ borderColor: step.node.color, color: step.node.color }}>
                           {step.node.kind}
                         </span>
-                        <span className="text-[10px] font-mono-code font-semibold text-[#61503e]">STEP {i + 1}</span>
+                        <span className="text-[10px] font-mono-code font-bold text-[#9a3412]">
+                          HOP {String(i + 1).padStart(2, '0')}
+                        </span>
                       </div>
                       <div className="text-base font-bold text-[#1d1610] truncate">{step.node.label}</div>
                       <Redactable

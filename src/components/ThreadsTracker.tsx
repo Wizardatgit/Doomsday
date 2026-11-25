@@ -5,6 +5,14 @@ import type { EntityRef, ThreadCategory } from '../data/types.ts';
 import { Redactable } from './Redactable.tsx';
 import { ViewHeroBanner } from './TvaArt.tsx';
 
+const CATEGORY_ACCENT: Record<ThreadCategory, string> = {
+  incursion: '#b91c1c',
+  'post-credits': '#c2410c',
+  faction: '#1d4ed8',
+  artifact: '#047857',
+  mystery: '#7e22ce',
+};
+
 export function ThreadsTracker({
   watchedSet,
   spoilerShield,
@@ -82,22 +90,30 @@ export function ThreadsTracker({
       </div>
 
       <div className="space-y-3.5">
-        {visibleThreads.map((th) => {
+        {visibleThreads.map((th, idx) => {
           const isOpen = expandedIds.has(th.id);
+          const accent = CATEGORY_ACCENT[th.category] ?? '#c2410c';
           return (
             <article
               key={th.id}
               onClick={() => onSelect({ kind: 'thread', id: th.id })}
-              className={`tva-folder rounded-md p-4 sm:p-5 cursor-pointer hover:border-[#b45309] transition-colors space-y-3 ${
+              className={`tva-folder tva-comic-corner rounded-md p-4 sm:p-5 cursor-pointer hover:border-[#b45309] transition-colors space-y-3 border-l-4 ${
                 th.isTheory ? 'border-[#7e22ce]' : ''
               }`}
+              style={{ borderLeftColor: accent }}
             >
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="tva-ink-stamp border-[#c2410c] bg-[#c2410c]/10 text-[#9a3412]">
+                  <span className="text-[10px] font-mono-code font-bold text-[#61503e]">
+                    CASE #{String(idx + 1).padStart(2, '0')}
+                  </span>
+                  <span
+                    className="tva-ink-stamp tva-stamp-angled"
+                    style={{ borderColor: accent, color: accent, backgroundColor: `${accent}14` }}
+                  >
                     {th.category}
                   </span>
-                  <span className="tva-ink-stamp border-[#047857] bg-[#047857]/10 text-[#065f46]">
+                  <span className="tva-ink-stamp tva-stamp-angled border-[#047857] bg-[#047857]/10 text-[#065f46]">
                     {th.status}
                   </span>
                   {th.isTheory && (

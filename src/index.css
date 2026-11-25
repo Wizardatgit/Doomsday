@@ -48,20 +48,76 @@ h1, h2, h3, .font-display {
   background-color: var(--folder-bg);
   border: 1px solid var(--paper-border);
   box-shadow:
-    0 2px 0 #c6b28d,
-    0 8px 20px rgba(35, 24, 12, 0.08);
+    3px 3px 0 rgba(45, 31, 18, 0.14),
+    0 6px 16px rgba(35, 24, 12, 0.08);
 }
 
 /* Secondary Index Sheet */
 .tva-sheet {
   background-color: var(--card-bg);
   border: 1px solid #d7c7a7;
-  box-shadow: 0 1px 0 #d1bf9c, 0 3px 10px rgba(35, 24, 12, 0.05);
+  box-shadow: 2px 2px 0 rgba(45, 31, 18, 0.09), 0 3px 10px rgba(35, 24, 12, 0.05);
 }
 
 .tva-halftone-dot {
   background-image: radial-gradient(circle, rgba(45, 31, 18, 0.24) 1.25px, transparent 1.25px);
   background-size: 9px 9px;
+}
+
+.tva-comic-corner {
+  position: relative;
+  overflow: hidden;
+}
+
+.tva-comic-corner::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 68px;
+  height: 68px;
+  pointer-events: none;
+  background-image: radial-gradient(circle, rgba(130, 62, 18, 0.16) 1.2px, transparent 1.2px);
+  background-size: 7px 7px;
+  mask-image: linear-gradient(225deg, rgba(0, 0, 0, 0.9) 0%, transparent 70%);
+  -webkit-mask-image: linear-gradient(225deg, rgba(0, 0, 0, 0.9) 0%, transparent 70%);
+}
+
+.tva-tape {
+  position: absolute;
+  top: -7px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-2deg);
+  width: 38px;
+  height: 12px;
+  background-color: rgba(235, 217, 178, 0.82);
+  border-left: 1px dashed rgba(140, 106, 56, 0.35);
+  border-right: 1px dashed rgba(140, 106, 56, 0.35);
+  box-shadow: 0 1px 2px rgba(29, 22, 16, 0.16);
+  z-index: 15;
+}
+
+.tva-stamp-angled {
+  transform: rotate(-1.5deg);
+}
+
+@keyframes tvaLoomPulse {
+  0%, 100% {
+    opacity: 0.72;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.tva-loom-pulse {
+  animation: tvaLoomPulse 3s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tva-loom-pulse {
+    animation: none;
+  }
 }
 
 /* Tactile Off-White Polaroid Photo Mount */

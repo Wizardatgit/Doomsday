@@ -315,12 +315,18 @@ test('all titles carry wikiPage slugs, local custom place & comic art exists, TM
 
   for (const r of REALITIES) {
     assert.ok(r.imagePath && r.imagePath.startsWith('./places/'), `Reality ${r.id} missing local imagePath`);
+    if (r.preferGenuineWiki) {
+      assert.ok(r.wikiPage && r.wikiPage.trim().length > 0, `Reality ${r.id} preferGenuineWiki missing wikiPage`);
+    }
     const diskPath = path.join(process.cwd(), 'public', r.imagePath.replace(/^\.\//, ''));
     assert.ok(fs.existsSync(diskPath), `Missing generated place asset for reality ${r.id}: ${diskPath}`);
   }
 
   for (const p of ICONIC_PLACES) {
     assert.ok(p.imagePath && p.imagePath.startsWith('./places/'), `Place ${p.id} missing local imagePath`);
+    if (p.preferGenuineWiki) {
+      assert.ok(p.wikiPage && p.wikiPage.trim().length > 0, `Place ${p.id} preferGenuineWiki missing wikiPage`);
+    }
     const diskPath = path.join(process.cwd(), 'public', p.imagePath.replace(/^\.\//, ''));
     assert.ok(fs.existsSync(diskPath), `Missing generated place asset for place ${p.id}: ${diskPath}`);
   }

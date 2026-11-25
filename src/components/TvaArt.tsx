@@ -173,6 +173,7 @@ export function EntityVisual({
   variant = 'poster',
   wikiPage,
   staticImagePath,
+  preferWikiOverStatic = false,
   tmdbQuery,
   tmdbApiKey = '',
   compact = false,
@@ -187,6 +188,7 @@ export function EntityVisual({
   variant?: 'polaroid' | 'poster' | 'plate';
   wikiPage?: string;
   staticImagePath?: string;
+  preferWikiOverStatic?: boolean;
   tmdbQuery?: TmdbQuery;
   tmdbApiKey?: string;
   compact?: boolean;
@@ -207,11 +209,8 @@ export function EntityVisual({
   useEffect(() => {
     let active = true;
     setImgFailed(false);
-    if (staticImagePath) {
-      setImageUrl(staticImagePath);
-      return;
-    }
-    setImageUrl(null);
+    setImageUrl(staticImagePath ?? null);
+    if (staticImagePath && !preferWikiOverStatic) return;
 
     async function load() {
       if (effectiveKey && tmdbQuery) {
@@ -233,7 +232,15 @@ export function EntityVisual({
     return () => {
       active = false;
     };
-  }, [effectiveKey, staticImagePath, wikiPage, tmdbCacheId]);
+  }, [effectiveKey, staticImagePath, preferWikiOverStatic, wikiPage, tmdbCacheId]);
+
+  const handleImgError = () => {
+    if (staticImagePath && imageUrl !== staticImagePath) {
+      setImageUrl(staticImagePath);
+    } else {
+      setImgFailed(true);
+    }
+  };
 
   const showImage = Boolean(imageUrl && !imgFailed);
 
@@ -281,7 +288,7 @@ export function EntityVisual({
             alt={title}
             referrerPolicy="no-referrer"
             loading="lazy"
-            onError={() => setImgFailed(true)}
+            onError={handleImgError}
             className="w-full h-full object-cover sepia-[0.18] contrast-[1.04]"
           />
         ) : (
@@ -313,10 +320,11 @@ export function EntityVisual({
     return (
       <div
         onClick={clickImageToZoom && showImage ? handleOpenLightbox : undefined}
-        className={`tva-polaroid rounded-sm p-1.5 pb-2 shrink-0 flex flex-col gap-1.5 ${sizeCls} ${
+        className={`relative tva-polaroid rounded-sm p-1.5 pb-2 shrink-0 flex flex-col gap-1.5 ${sizeCls} ${
           clickImageToZoom && showImage ? 'cursor-zoom-in' : ''
         } ${className}`}
       >
+        <span aria-hidden="true" className="tva-tape pointer-events-none" />
         <div
           className={`relative overflow-hidden bg-[#1e1712] border border-[#d6c7aa] ${
             compact ? 'h-16' : 'h-24 sm:h-28'
@@ -329,7 +337,7 @@ export function EntityVisual({
               alt={title}
               referrerPolicy="no-referrer"
               loading="lazy"
-              onError={() => setImgFailed(true)}
+              onError={handleImgError}
               className="w-full h-full object-cover object-top"
             />
           ) : (
@@ -369,7 +377,7 @@ export function EntityVisual({
           alt={title}
           referrerPolicy="no-referrer"
           loading="lazy"
-          onError={() => setImgFailed(true)}
+          onError={handleImgError}
           className="w-full h-full object-contain bg-[#140f0c] pb-3.5"
         />
       ) : (
@@ -395,6 +403,7 @@ export function EntityVisual({
 export function ViewHeroBanner({
   wikiPage,
   staticImagePath,
+  preferWikiOverStatic = false,
   catalogStamp,
   title,
   subtitle,
@@ -406,6 +415,7 @@ export function ViewHeroBanner({
 }: {
   wikiPage?: string;
   staticImagePath?: string;
+  preferWikiOverStatic?: boolean;
   catalogStamp: string;
   title: string;
   subtitle: string;
@@ -417,12 +427,14 @@ export function ViewHeroBanner({
 }) {
   const { openLightbox } = useImageLightbox();
   const [wikiUrl, setWikiUrl] = useState<string | null>(null);
-  const [imgFailed, setImgFailed] = useState(false);
+  const [wikiFailed, setWikiFailed] = useState(false);
+  const [staticFailed, setStaticFailed] = useState(false);
 
   useEffect(() => {
-    setImgFailed(false);
+    setWikiFailed(false);
+    setStaticFailed(false);
     setWikiUrl(null);
-    if (staticImagePath || !wikiPage) return;
+    if ((staticImagePath && !preferWikiOverStatic) || !wikiPage) return;
     let active = true;
     fetchWikiThumbnail(wikiPage).then((url) => {
       if (active) setWikiUrl(url);
@@ -430,10 +442,13 @@ export function ViewHeroBanner({
     return () => {
       active = false;
     };
-  }, [wikiPage, staticImagePath]);
+  }, [wikiPage, staticImagePath, preferWikiOverStatic]);
 
-  const resolvedUrl = staticImagePath || wikiUrl;
-  const showImage = Boolean(resolvedUrl && !imgFailed);
+  const activeWiki = !wikiFailed ? wikiUrl : null;
+  const resolvedUrl = preferWikiOverStatic
+    ? activeWiki || (!staticFailed ? staticImagePath : null)
+    : (!staticFailed ? staticImagePath : null) || activeWiki;
+  const showImage = Boolean(resolvedUrl);
 
   const handleOpen = () => {
     if (!showImage || !resolvedUrl) return;
@@ -459,7 +474,10 @@ export function ViewHeroBanner({
           alt={title}
           referrerPolicy="no-referrer"
           loading="lazy"
-          onError={() => setImgFailed(true)}
+          onError={() => {
+            if (resolvedUrl && resolvedUrl === wikiUrl) setWikiFailed(true);
+            else setStaticFailed(true);
+          }}
           className="absolute inset-0 w-full h-full object-cover object-center sepia-[0.22] contrast-[1.06] opacity-70"
         />
       ) : (
@@ -542,6 +560,41 @@ export function ViewHeroBanner({
 
         {children && <div className="shrink-0 flex flex-wrap items-center gap-2">{children}</div>}
       </div>
+    </div>
+  );
+}
+
+/** Tactile comic-archive section header strip with dark issue pill, divider line, and right action slot. */
+export function SectionDivider({
+  badge,
+  title,
+  accentColor = '#c2410c',
+  rightSlot,
+}: {
+  badge: string;
+  title: string;
+  accentColor?: string;
+  rightSlot?: import('react').ReactNode;
+}) {
+  return (
+    <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
+      <div className="flex items-center gap-2.5 min-w-0 flex-1">
+        <span
+          className="shrink-0 rounded-sm bg-[#1d1610] px-2 py-0.5 text-[10px] font-mono-code font-bold uppercase tracking-widest text-[#f59e0b] shadow-[2px_2px_0_rgba(29,22,16,0.25)]"
+          style={{ borderLeft: `3px solid ${accentColor}` }}
+        >
+          {badge}
+        </span>
+        <h2 className="text-sm sm:text-base font-display font-bold text-[#1d1610] truncate">
+          {title}
+        </h2>
+        <span
+          aria-hidden="true"
+          className="hidden sm:block h-[2px] flex-1 min-w-[24px] rounded-full opacity-45"
+          style={{ background: `linear-gradient(to right, ${accentColor}, transparent)` }}
+        />
+      </div>
+      {rightSlot && <div className="shrink-0">{rightSlot}</div>}
     </div>
   );
 }

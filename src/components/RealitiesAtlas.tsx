@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowRight, ChevronDown, ChevronUp, MapPin } from 'lucide-react';
+import { ArrowRight, ChevronDown, ChevronUp } from 'lucide-react';
 import {
   CHARACTERS,
   ICONIC_PLACES,
@@ -10,7 +10,7 @@ import {
   titlesById,
 } from '../data/index.ts';
 import type { EntityRef } from '../data/index.ts';
-import { EntityVisual, ViewHeroBanner } from './TvaArt.tsx';
+import { EntityVisual, SectionDivider, ViewHeroBanner } from './TvaArt.tsx';
 import { Redactable } from './Redactable.tsx';
 
 export function RealitiesAtlas({
@@ -39,6 +39,7 @@ export function RealitiesAtlas({
       <ViewHeroBanner
         wikiPage="X-Mansion"
         staticImagePath="./places/xmansion-10005.jpg"
+        preferWikiOverStatic
         catalogStamp="TVA MULTIVERSE CARTOGRAPHY // REALITY PLATES"
         title="Realities & Places Atlas"
         subtitle={`Surveillance photographs of ${ICONIC_PLACES.length} key landmarks and ${REALITIES.length} multiverse planes feeding into Doomsday.`}
@@ -48,15 +49,17 @@ export function RealitiesAtlas({
 
       {/* Iconic Places Surveillance Gallery */}
       <section className="space-y-3">
-        <h2 className="text-sm font-mono-code uppercase tracking-widest text-[#1d1610] font-bold flex items-center gap-2">
-          <MapPin className="w-4 h-4 text-[#c2410c]" /> Key Places Mentioned Across the Lore ({ICONIC_PLACES.length})
-        </h2>
+        <SectionDivider
+          badge="SURVEILLANCE // 01"
+          title={`Key Places Mentioned Across the Lore (${ICONIC_PLACES.length})`}
+          accentColor="#c2410c"
+        />
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 items-start">
           {ICONIC_PLACES.map((place) => {
             const reality = realitiesById.get(place.realityId);
             const isOpen = expandedPlaces.has(place.id);
             return (
-              <div key={place.id} className="tva-folder rounded-md p-3.5 space-y-2.5">
+              <div key={place.id} className="tva-folder tva-comic-corner rounded-md p-3.5 space-y-2.5">
                 <button
                   type="button"
                   onClick={() => onSelect({ kind: 'reality', id: place.realityId })}
@@ -70,6 +73,7 @@ export function RealitiesAtlas({
                     accentColor={reality?.color ?? '#c2410c'}
                     staticImagePath={place.imagePath}
                     wikiPage={place.wikiPage}
+                    preferWikiOverStatic={place.preferGenuineWiki}
                   />
                 </button>
                 <div className="flex items-center justify-between gap-2">
@@ -147,10 +151,12 @@ export function RealitiesAtlas({
       </section>
 
       {/* Active Cross-Universe Jumps */}
-      <section className="tva-folder rounded-md p-4 space-y-3">
-        <h2 className="text-xs font-mono-code uppercase tracking-widest text-[#9a3412] font-bold">
-          Documented Cross-Universe Jumps ({crossUniverseHops.length})
-        </h2>
+      <section className="tva-folder tva-comic-corner rounded-md p-4 space-y-3">
+        <SectionDivider
+          badge="DISPLACEMENT // 02"
+          title={`Documented Cross-Universe Jumps (${crossUniverseHops.length})`}
+          accentColor="#9a3412"
+        />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5">
           {crossUniverseHops.map((c) => {
             const fromR = realitiesById.get(c.originRealityId);
@@ -179,9 +185,11 @@ export function RealitiesAtlas({
 
       {/* 16 Realities Dossiers */}
       <section className="space-y-3">
-        <h2 className="text-sm font-mono-code uppercase tracking-widest text-[#1d1610] font-bold">
-          Tracked Multiverse Realities ({REALITIES.length})
-        </h2>
+        <SectionDivider
+          badge="PLANES // 03"
+          title={`Tracked Multiverse Realities (${REALITIES.length})`}
+          accentColor="#0369a1"
+        />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {REALITIES.map((r) => {
             const anchor = r.anchorBeingId ? charactersById.get(r.anchorBeingId) : null;
@@ -194,7 +202,7 @@ export function RealitiesAtlas({
               <div
                 key={r.id}
                 onClick={() => onSelect({ kind: 'reality', id: r.id })}
-                className="tva-folder rounded-md p-4 cursor-pointer hover:border-[#b45309] transition-colors space-y-3"
+                className="tva-folder tva-comic-corner rounded-md p-4 cursor-pointer hover:border-[#b45309] transition-colors space-y-3"
                 style={{ borderLeft: `4px solid ${r.color}` }}
               >
                 <EntityVisual
@@ -205,6 +213,7 @@ export function RealitiesAtlas({
                   accentColor={r.color}
                   staticImagePath={r.imagePath}
                   wikiPage={r.wikiPage}
+                  preferWikiOverStatic={r.preferGenuineWiki}
                 />
 
                 <div className="flex items-start justify-between gap-2">

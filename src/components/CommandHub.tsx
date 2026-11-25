@@ -7,8 +7,6 @@ import {
   ChevronUp,
   Compass,
   Flame,
-  GitBranch,
-  MapPin,
   Network,
   Sparkles,
   Users,
@@ -28,7 +26,7 @@ import {
 } from '../data/index.ts';
 import type { AppView, EntityRef } from '../data/index.ts';
 import { personTmdbQuery } from '../lib/tmdb.ts';
-import { EntityVisual, FactionEmblemIcon } from './TvaArt.tsx';
+import { EntityVisual, FactionEmblemIcon, SectionDivider } from './TvaArt.tsx';
 import { Redactable } from './Redactable.tsx';
 
 const FLAGSHIP_CHARACTER_IDS = [
@@ -276,7 +274,8 @@ export function CommandHub({
               subtitle="Yggdrasil Multiverse Loom — Active Monitoring"
               accentColor="#c2410c"
               staticImagePath="./places/tva-yggdrasil.jpg"
-              wikiPage="Time_Variance_Authority"
+              wikiPage="Multiverse_(Marvel_Cinematic_Universe)"
+              preferWikiOverStatic
             />
 
             <h1 className="text-2xl sm:text-3xl font-bold text-[#1d1610] tracking-tight leading-tight">
@@ -433,20 +432,22 @@ export function CommandHub({
 
       {/* Iconic Locations & Realities Filmstrip */}
       <section className="space-y-3">
-        <div className="flex items-center justify-between">
-          <h2 className="text-sm font-mono-code uppercase tracking-widest text-[#1d1610] font-bold flex items-center gap-2">
-            <MapPin className="w-4 h-4 text-[#c2410c]" /> Surveillance Plates: Key Places & Realities
-          </h2>
-          <button
-            type="button"
-            onClick={() => onNavigate('realities')}
-            className="text-xs font-mono-code font-semibold text-[#9a3412] hover:underline inline-flex items-center gap-1"
-          >
-            All {ICONIC_PLACES.length} Places & {REALITIES.length} Realities <ArrowRight className="w-3.5 h-3.5" />
-          </button>
-        </div>
+        <SectionDivider
+          badge="SECTOR // 01"
+          title="Surveillance Plates: Key Places & Realities"
+          accentColor="#c2410c"
+          rightSlot={
+            <button
+              type="button"
+              onClick={() => onNavigate('realities')}
+              className="text-xs font-mono-code font-semibold text-[#9a3412] hover:underline inline-flex items-center gap-1"
+            >
+              All {ICONIC_PLACES.length} Places &amp; {REALITIES.length} Realities <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          }
+        />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 pt-1">
           {featuredPlaces.map((place) => {
             const reality = realitiesById.get(place.realityId);
             return (
@@ -454,8 +455,9 @@ export function CommandHub({
                 key={place.id}
                 type="button"
                 onClick={() => onSelect({ kind: 'reality', id: place.realityId })}
-                className="tva-folder rounded-md p-2.5 text-left hover:border-[#b45309] transition-colors space-y-2"
+                className="relative tva-folder rounded-md p-2.5 text-left hover:border-[#b45309] hover:-translate-y-0.5 transition-all space-y-2"
               >
+                <span aria-hidden="true" className="tva-tape pointer-events-none" />
                 <EntityVisual
                   variant="plate"
                   code={reality?.code ?? 'PLACE'}
@@ -464,6 +466,7 @@ export function CommandHub({
                   accentColor={reality?.color ?? '#c2410c'}
                   staticImagePath={place.imagePath}
                   wikiPage={place.wikiPage}
+                  preferWikiOverStatic={place.preferGenuineWiki}
                 />
                 <p className="text-[11px] text-[#61503e] line-clamp-1 leading-relaxed px-0.5">
                   {place.summary}
@@ -476,32 +479,39 @@ export function CommandHub({
 
       {/* Core 6 Convergence Threads */}
       <section className="space-y-3">
-        <div className="flex items-center justify-between">
-          <h2 className="text-sm font-mono-code uppercase tracking-widest text-[#1d1610] font-bold">
-            Start Here: 6 Core Convergence Case Files
-          </h2>
-          <button
-            type="button"
-            onClick={() => onNavigate('threads')}
-            className="text-xs font-mono-code font-semibold text-[#9a3412] hover:underline inline-flex items-center gap-1"
-          >
-            All Case Threads ({THREADS.filter((t) => showTheories || !t.isTheory).length}){' '}
-            <ArrowRight className="w-3.5 h-3.5" />
-          </button>
-        </div>
+        <SectionDivider
+          badge="DOSSIER // 02"
+          title="Start Here: 6 Core Convergence Case Files"
+          accentColor="#9a3412"
+          rightSlot={
+            <button
+              type="button"
+              onClick={() => onNavigate('threads')}
+              className="text-xs font-mono-code font-semibold text-[#9a3412] hover:underline inline-flex items-center gap-1"
+            >
+              All Case Threads ({THREADS.filter((t) => showTheories || !t.isTheory).length}){' '}
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          }
+        />
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3.5">
-          {coreThreads.map((th) => (
+          {coreThreads.map((th, idx) => (
             <div
               key={th.id}
               onClick={() => onSelect({ kind: 'thread', id: th.id })}
-              className="tva-folder rounded-md p-4 cursor-pointer hover:border-[#b45309] transition-colors flex flex-col justify-between gap-3"
+              className="tva-folder tva-comic-corner rounded-md p-4 cursor-pointer hover:border-[#b45309] hover:-translate-y-0.5 transition-all flex flex-col justify-between gap-3 border-l-4 border-l-[#c2410c]"
             >
               <div className="space-y-2">
                 <div className="flex items-center justify-between gap-2">
-                  <span className="tva-ink-stamp border-[#c2410c] bg-[#c2410c]/10 text-[#9a3412]">
-                    {th.category}
-                  </span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[10px] font-mono-code font-bold text-[#61503e]">
+                      FILE #{String(idx + 1).padStart(2, '0')}
+                    </span>
+                    <span className="tva-ink-stamp tva-stamp-angled border-[#c2410c] bg-[#c2410c]/10 text-[#9a3412]">
+                      {th.category}
+                    </span>
+                  </div>
                   <span className="text-[10px] font-mono-code uppercase font-bold text-[#047857]">
                     {th.status}
                   </span>
@@ -511,7 +521,7 @@ export function CommandHub({
                   <p className="text-xs text-[#61503e] leading-relaxed line-clamp-2">{th.summary}</p>
                 </Redactable>
               </div>
-              <div className="flex items-center justify-between text-[11px] font-mono-code font-semibold text-[#9a3412] border-t border-[#e1d4b9] pt-2">
+              <div className="flex items-center justify-between text-[11px] font-mono-code font-semibold text-[#9a3412] border-t border-dashed border-[#d4c3a3] pt-2">
                 <span>
                   {th.characterIds.length} players · {th.keyTitleIds.length} titles
                 </span>
@@ -523,35 +533,39 @@ export function CommandHub({
       </section>
 
       {/* Path Finder Quick Slips */}
-      <section className="tva-folder rounded-md p-5 space-y-3">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <div>
-            <h2 className="text-sm font-mono-code uppercase tracking-widest text-[#1d1610] font-bold flex items-center gap-2">
-              <GitBranch className="w-4 h-4 text-[#c2410c]" /> Connect Any Two Dots (Path Tracer)
-            </h2>
-            <p className="text-xs text-[#61503e] mt-0.5">
-              Trace the shortest documented chain linking any legacy movie or Phase 5 stinger straight into Doomsday.
-            </p>
-          </div>
-          <button
-            type="button"
-            onClick={() => onNavigate('pathfinder')}
-            className="text-xs font-mono-code font-semibold text-[#9a3412] hover:underline inline-flex items-center gap-1"
-          >
-            Custom Path Tracer <ArrowRight className="w-3.5 h-3.5" />
-          </button>
-        </div>
+      <section className="tva-folder tva-comic-corner rounded-md p-5 space-y-3 border-l-4 border-l-[#d97706]">
+        <SectionDivider
+          badge="VECTOR // 03"
+          title="Connect Any Two Dots (Path Tracer)"
+          accentColor="#d97706"
+          rightSlot={
+            <button
+              type="button"
+              onClick={() => onNavigate('pathfinder')}
+              className="text-xs font-mono-code font-semibold text-[#9a3412] hover:underline inline-flex items-center gap-1"
+            >
+              Custom Path Tracer <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          }
+        />
+        <p className="text-xs text-[#61503e]">
+          Trace the shortest documented chain linking any legacy movie or Phase 5 stinger straight into Doomsday.
+        </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-          {PATH_PRESETS.map((p) => (
+          {PATH_PRESETS.map((p, idx) => (
             <button
               key={p.label}
               type="button"
               onClick={() => onLaunchPresetPath(p.fromKey, p.toKey)}
-              className="tva-sheet rounded p-3 text-left hover:border-[#b45309] transition-colors space-y-1"
+              className="tva-sheet rounded p-3 text-left hover:border-[#b45309] hover:-translate-y-0.5 transition-all space-y-1.5 border-t-2 border-t-[#c2410c]"
             >
+              <div className="flex items-center justify-between text-[9px] font-mono-code uppercase text-[#9a3412] font-bold">
+                <span>ROUTE 0{idx + 1}</span>
+                <span>TRACE →</span>
+              </div>
               <div className="text-xs font-bold text-[#1d1610]">{p.label}</div>
-              <div className="text-[11px] text-[#61503e]">{p.note}</div>
+              <div className="text-[11px] text-[#61503e] border-t border-dashed border-[#dfd2b8] pt-1.5">{p.note}</div>
             </button>
           ))}
         </div>

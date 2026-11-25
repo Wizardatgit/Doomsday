@@ -1,10 +1,10 @@
-import { useMemo, useState } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 import { CheckSquare, Compass, Filter, RotateCcw, Square } from 'lucide-react';
 import { BEGINNER_12_IDS, TITLES, charactersById, realitiesById } from '../data/index.ts';
 import type { EntityRef, TitleEra } from '../data/types.ts';
 import { titleTmdbQuery } from '../lib/tmdb.ts';
 import type { TimelinePreset } from '../state/useAppState.ts';
-import { EntityVisual, ViewHeroBanner } from './TvaArt.tsx';
+import { EntityVisual, SectionDivider, ViewHeroBanner } from './TvaArt.tsx';
 import { Redactable } from './Redactable.tsx';
 
 type OrderMode = 'chrono' | 'release';
@@ -223,20 +223,38 @@ export function SacredTimeline({
           const watched = watchedSet.has(t.id);
           const color = reality?.color ?? '#c2410c';
           const isOpen = expandedIds.has(t.id);
+          const prevEra = index > 0 ? filteredTitles[index - 1]!.eraLabel : null;
+          const showEraDivider = t.eraLabel !== prevEra;
+          const tierBorder =
+            t.importance === 'essential'
+              ? '#c2410c'
+              : t.importance === 'key'
+                ? '#1d4ed8'
+                : '#8c775c';
 
           return (
-            <div
-              key={t.id}
-              onClick={() => onSelect({ kind: 'title', id: t.id })}
-              className={`relative tva-folder rounded-md p-3.5 cursor-pointer hover:border-[#b45309] transition-colors ${
-                t.id === 'avengers-doomsday' ? 'ring-2 ring-[#047857]' : ''
-              }`}
-            >
-              <span
-                className="absolute -left-[22px] sm:-left-[24px] top-6 w-3 h-3 rounded-full ring-4 ring-[#efe5d1]"
-                style={{ backgroundColor: color }}
-                title={reality?.name}
-              />
+            <Fragment key={t.id}>
+              {showEraDivider && (
+                <div className="relative z-10 -ml-6 sm:-ml-8 bg-[#efe5d1] pt-2 pb-1.5 first:pt-0">
+                  <SectionDivider
+                    badge={t.era.toUpperCase()}
+                    title={t.eraLabel}
+                    accentColor={color}
+                  />
+                </div>
+              )}
+              <div
+                onClick={() => onSelect({ kind: 'title', id: t.id })}
+                className={`relative tva-folder tva-comic-corner rounded-md p-3.5 cursor-pointer hover:border-[#b45309] transition-colors border-l-4 ${
+                  t.id === 'avengers-doomsday' ? 'ring-2 ring-[#047857]' : ''
+                }`}
+                style={{ borderLeftColor: tierBorder }}
+              >
+                <span
+                  className="absolute -left-[25px] sm:-left-[27px] top-6 w-3 h-3 rounded-full ring-4 ring-[#efe5d1]"
+                  style={{ backgroundColor: color }}
+                  title={reality?.name}
+                />
 
               <div className="flex items-start gap-3">
                 <button
@@ -277,11 +295,11 @@ export function SacredTimeline({
                     </div>
 
                     <div className="flex flex-wrap items-center gap-1.5">
-                      <span className="tva-ink-stamp" style={{ borderColor: color, color }}>
+                      <span className="tva-ink-stamp tva-stamp-angled" style={{ borderColor: color, color }}>
                         {reality?.code}
                       </span>
                       <span
-                        className={`tva-ink-stamp ${
+                        className={`tva-ink-stamp tva-stamp-angled ${
                           t.importance === 'essential'
                             ? 'border-[#b45309] bg-[#b45309]/10 text-[#92400e]'
                             : t.importance === 'key'
@@ -346,6 +364,7 @@ export function SacredTimeline({
                 </div>
               </div>
             </div>
+            </Fragment>
           );
         })}
       </div>

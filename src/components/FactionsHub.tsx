@@ -149,6 +149,7 @@ export function FactionsHub({
                 compactBanner
                 staticImagePath={homeReality?.imagePath}
                 wikiPage={homeReality?.wikiPage}
+                preferWikiOverStatic={homeReality?.preferGenuineWiki}
                 catalogStamp={`${faction.code} // ${homeReality?.code ?? 'MULTIVERSE'}`}
                 title={faction.name}
                 subtitle={
@@ -279,7 +280,7 @@ export function FactionsHub({
                               onSelect({ kind: 'character', id: c.id });
                             }
                           }}
-                          className="tva-sheet rounded p-3 flex items-start gap-3 text-left cursor-pointer hover:border-[#9a3412] transition-colors group"
+                          className="tva-sheet tva-comic-corner rounded p-3 flex items-start gap-3 text-left cursor-pointer hover:border-[#9a3412] transition-colors group"
                         >
                           <EntityVisual
                             variant="polaroid"

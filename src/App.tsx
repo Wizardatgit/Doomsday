@@ -15,7 +15,7 @@ import {
   Users,
   X,
 } from 'lucide-react';
-import { searchCatalog } from './data/index.ts';
+import { CHARACTERS, REALITIES, TITLES, searchCatalog } from './data/index.ts';
 import type { AppView } from './data/index.ts';
 import { useAppState } from './state/useAppState.ts';
 import { ImageLightboxProvider, TvaLogoMark } from './components/TvaArt.tsx';
@@ -86,6 +86,13 @@ export function App() {
     const release = new Date('2026-12-18T00:00:00').getTime();
     return Math.max(0, Math.ceil((release - Date.now()) / 86_400_000));
   }, []);
+
+  const essentialProgress = useMemo(() => {
+    const essentials = TITLES.filter((t) => t.importance === 'essential');
+    const done = essentials.filter((t) => watchedSet.has(t.id)).length;
+    const pct = essentials.length ? Math.round((done / essentials.length) * 100) : 0;
+    return { done, total: essentials.length, pct };
+  }, [watchedSet]);
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -225,6 +232,53 @@ export function App() {
             );
           })}
         </nav>
+
+        {/* TemPad Loom Telemetry Widget — fills middle sidebar space cleanly */}
+        <div className="rounded border border-[#3c2d22] bg-[#0e0a07] p-2.5 space-y-2 shadow-inner">
+          <div className="flex items-center justify-between text-[9px] font-mono-code uppercase tracking-widest">
+            <span className="text-[#c58f36] font-semibold">LOOM TELEMETRY</span>
+            <span className="inline-flex items-center gap-1 text-emerald-400">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 tva-loom-pulse" />3 REALMS
+            </span>
+          </div>
+
+          <svg viewBox="0 0 180 42" className="w-full h-10 rounded bg-[#140f0b] border border-[#2a1f17]" aria-hidden="true">
+            <path d="M0 21 H180 M45 0 V42 M90 0 V42 M135 0 V42" stroke="#241b13" strokeWidth="0.7" />
+            <path d="M2 22 C30 22, 48 11, 86 20 C120 28, 145 11, 178 14" fill="none" stroke="#f59e0b" strokeWidth="1.6" className="tva-loom-pulse" />
+            <path d="M2 25 C38 26, 62 34, 98 22 C130 12, 152 29, 178 27" fill="none" stroke="#10b981" strokeWidth="1.2" strokeDasharray="3 2" opacity="0.85" />
+            <circle cx="86" cy="20" r="2.4" fill="#fbbf24" />
+            <circle cx="145" cy="18" r="2.2" fill="#34d399" />
+          </svg>
+
+          <div className="space-y-1">
+            <div className="flex items-center justify-between text-[10px] font-mono-code">
+              <span className="text-[#b79f7d]">ESSENTIAL PREP</span>
+              <span className="text-amber-400 font-bold">
+                {essentialProgress.done}/{essentialProgress.total} ({essentialProgress.pct}%)
+              </span>
+            </div>
+            <div className="h-1.5 rounded-full bg-[#241b14] overflow-hidden border border-[#3c2d22]">
+              <div
+                className="h-full bg-gradient-to-r from-[#c2410c] via-[#f59e0b] to-[#10b981] transition-all duration-300"
+                style={{ width: `${essentialProgress.pct}%` }}
+              />
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between gap-2 text-[9px] font-mono-code text-[#8c7862] border-t border-[#261c14] pt-1.5">
+            <span className="truncate">{TITLES.length}T · {CHARACTERS.length}C · {REALITIES.length}R</span>
+            <button
+              type="button"
+              onClick={() => {
+                setActiveView('timeline');
+                setMobileMenuOpen(false);
+              }}
+              className="text-amber-400 hover:underline font-semibold shrink-0"
+            >
+              Reel →
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Physical Rocker Switch Bank */}
@@ -292,22 +346,22 @@ export function App() {
         <img
           src="./comic/comic-portal.jpg"
           alt=""
-          className="hidden xl:block absolute top-10 right-6 w-36 h-36 object-cover rounded-sm border-2 border-[#3a2815]/40 opacity-[0.14] sepia contrast-125 mix-blend-multiply rotate-6 shadow-md"
+          className="hidden lg:block absolute top-10 right-6 w-36 h-36 object-cover rounded-sm border-2 border-[#3a2815]/45 opacity-[0.18] sepia contrast-125 mix-blend-multiply rotate-6 shadow-md"
         />
         <img
           src="./comic/comic-citadel.svg"
           alt=""
-          className="hidden xl:block absolute bottom-12 right-10 w-36 h-36 object-cover rounded-sm border-2 border-[#3a2815]/35 opacity-[0.13] mix-blend-multiply -rotate-6"
+          className="hidden lg:block absolute bottom-12 right-10 w-36 h-36 object-cover rounded-sm border-2 border-[#3a2815]/40 opacity-[0.16] mix-blend-multiply -rotate-6"
         />
         <img
           src="./comic/comic-clockwork.svg"
           alt=""
-          className="hidden 2xl:block absolute top-1/2 -translate-y-1/2 left-4 w-32 h-32 object-cover rounded-sm border-2 border-[#3a2815]/35 opacity-[0.13] mix-blend-multiply -rotate-12"
+          className="hidden xl:block absolute top-1/2 -translate-y-1/2 left-4 w-32 h-32 object-cover rounded-sm border-2 border-[#3a2815]/40 opacity-[0.15] mix-blend-multiply -rotate-12"
         />
         <img
           src="./comic/comic-starburst.svg"
           alt=""
-          className="hidden xl:block absolute bottom-8 left-12 w-32 h-32 object-cover rounded-sm border-2 border-[#3a2815]/30 opacity-[0.11] mix-blend-multiply rotate-12"
+          className="hidden lg:block absolute bottom-8 left-12 w-32 h-32 object-cover rounded-sm border-2 border-[#3a2815]/35 opacity-[0.14] mix-blend-multiply rotate-12"
         />
 
         <svg
