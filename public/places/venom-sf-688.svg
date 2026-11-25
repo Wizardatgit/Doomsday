@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" fill="none">
+  <defs>
+    <linearGradient id="sf-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#09090b"/>
+      <stop offset="55%" stop-color="#1c1917"/>
+      <stop offset="100%" stop-color="#292524"/>
+    </linearGradient>
+    <radialGradient id="sf-moon" cx="72%" cy="26%" r="28%">
+      <stop offset="0%" stop-color="#fef3c7" stop-opacity="0.62"/>
+      <stop offset="45%" stop-color="#d97706" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#09090b" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="sf-water" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#18181b"/>
+      <stop offset="100%" stop-color="#050506"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#sf-sky)"/>
+  <rect width="800" height="320" fill="url(#sf-moon)"/>
+  <circle cx="576" cy="116" r="34" fill="#fef3c7" opacity="0.24"/>
+  <!-- Mist hills -->
+  <path d="M0 305 Q 140 245 310 295 T 640 280 L 800 295 L 800 325 L 0 325 Z" fill="#18181b" opacity="0.85"/>
+  <!-- Bay Bridge Suspension Towers -->
+  <g stroke="#b91c1c" stroke-width="4" fill="none">
+    <path d="M195 322 V120 M215 322 V120 M191 155 H219 M191 210 H219 M191 265 H219"/>
+    <path d="M510 322 V138 M528 322 V138 M506 170 H532 M506 225 H532"/>
+  </g>
+  <line x1="0" y1="278" x2="800" y2="278" stroke="#dc2626" stroke-width="5"/>
+  <path d="M0 240 Q 100 265 195 124 Q 355 280 510 142 Q 655 268 800 220" stroke="#ef4444" stroke-width="2.5" opacity="0.8"/>
+  <g stroke="#ef4444" stroke-opacity="0.35" stroke-width="1">
+    <line x1="80" y1="252" x2="80" y2="278"/><line x1="130" y1="226" x2="130" y2="278"/>
+    <line x1="270" y1="205" x2="270" y2="278"/><line x1="350" y1="242" x2="350" y2="278"/>
+    <line x1="430" y1="215" x2="430" y2="278"/><line x1="600" y1="212" x2="600" y2="278"/>
+  </g>
+  <!-- Water & reflections -->
+  <rect x="0" y="320" width="800" height="130" fill="url(#sf-water)"/>
+  <g stroke="#fbbf24" stroke-opacity="0.22" stroke-width="2">
+    <line x1="540" y1="342" x2="610" y2="342"/><line x1="552" y1="362" x2="602" y2="362"/>
+    <line x1="560" y1="382" x2="594" y2="382"/>
+  </g>
+  <!-- Glossy Symbiote Tendrils & Venom Eyes -->
+  <path d="M60 450 C 90 360, 145 330, 118 238 C 145 290, 165 340, 210 380 C 235 315, 290 250, 272 175 C 310 245, 308 320, 345 450 Z" fill="#09090b" stroke="#e4e4e7" stroke-width="1.6"/>
+  <path d="M475 450 C 510 375, 560 355, 590 265 C 585 335, 625 365, 675 305 C 655 375, 695 405, 745 450 Z" fill="#09090b" stroke="#d4d4d8" stroke-width="1.4"/>
+  <!-- Stylized symbiote eye slash -->
+  <path d="M236 286 Q 262 274 282 294 Q 258 302 236 286 Z" fill="#f4f4f5"/>
+  <path d="M294 294 Q 312 274 334 286 Q 312 302 294 294 Z" fill="#f4f4f5"/>
+</svg>

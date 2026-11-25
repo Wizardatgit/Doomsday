@@ -17,7 +17,8 @@ import {
 } from 'lucide-react';
 import { CHARACTERS, REALITIES, TITLES, searchCatalog } from './data/index.ts';
 import type { AppView } from './data/index.ts';
-import { useAppState } from './state/useAppState.ts';
+import { resolveEscapeDismissal, useAppState } from './state/useAppState.ts';
+import { useDialogA11y } from './lib/useDialogA11y.ts';
 import { ImageLightboxProvider, TvaLogoMark } from './components/TvaArt.tsx';
 import { DossierDrawer } from './components/DossierDrawer.tsx';
 import { SettingsModal } from './components/SettingsModal.tsx';
@@ -30,15 +31,15 @@ import { RealitiesAtlas } from './components/RealitiesAtlas.tsx';
 import { ThreadsTracker } from './components/ThreadsTracker.tsx';
 import { PathFinder } from './components/PathFinder.tsx';
 
-const NAV_ITEMS: { id: AppView; num: string; label: string; icon: typeof Home }[] = [
-  { id: 'hub', num: '01', label: 'Desk Overview', icon: Home },
-  { id: 'graph', num: '02', label: 'CRT Multiverse Web', icon: Network },
-  { id: 'timeline', num: '03', label: 'Timeline Reel', icon: Clock },
-  { id: 'dossiers', num: '04', label: 'Personnel Mugshots', icon: Users },
-  { id: 'factions', num: '05', label: 'Faction Dossiers', icon: Shield },
-  { id: 'realities', num: '06', label: 'Realities & Places', icon: Globe2 },
-  { id: 'threads', num: '07', label: 'Case Threads', icon: Flame },
-  { id: 'pathfinder', num: '08', label: 'Path Tracer', icon: GitBranch },
+const NAV_ITEMS: { id: AppView; label: string; icon: typeof Home }[] = [
+  { id: 'hub', label: 'Desk Overview', icon: Home },
+  { id: 'graph', label: 'CRT Multiverse Web', icon: Network },
+  { id: 'timeline', label: 'Timeline Reel', icon: Clock },
+  { id: 'dossiers', label: 'Personnel Mugshots', icon: Users },
+  { id: 'factions', label: 'Faction Dossiers', icon: Shield },
+  { id: 'realities', label: 'Realities & Places', icon: Globe2 },
+  { id: 'threads', label: 'Case Threads', icon: Flame },
+  { id: 'pathfinder', label: 'Path Tracer', icon: GitBranch },
 ];
 
 export function App() {
@@ -81,6 +82,8 @@ export function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [focusedFactionId, setFocusedFactionId] = useState<string | null>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const mobileDrawerRef = useRef<HTMLElement>(null);
+  useDialogA11y(mobileDrawerRef, mobileMenuOpen);
 
   const daysToDoomsday = useMemo(() => {
     const release = new Date('2026-12-18T00:00:00').getTime();
@@ -104,15 +107,21 @@ export function App() {
           setSearchOpen(true);
         }, 20);
       } else if (e.key === 'Escape') {
-        setSearchOpen(false);
-        setSelectedEntity(null);
-        setSettingsOpen(false);
-        setMobileMenuOpen(false);
+        const target = resolveEscapeDismissal({
+          settingsOpen,
+          searchOpen,
+          hasSelectedEntity: Boolean(selectedEntity),
+          mobileMenuOpen,
+        });
+        if (target === 'settings') setSettingsOpen(false);
+        else if (target === 'search') setSearchOpen(false);
+        else if (target === 'dossier') setSelectedEntity(null);
+        else if (target === 'mobileMenu') setMobileMenuOpen(false);
       }
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [setSelectedEntity]);
+  }, [settingsOpen, searchOpen, selectedEntity, mobileMenuOpen, setSelectedEntity]);
 
   const searchHits = useMemo(
     () => searchCatalog(searchQuery, showTheories, 12),
@@ -120,21 +129,21 @@ export function App() {
   );
 
   const sidebarContent = (
-    <div className="flex flex-col h-full justify-between p-4 gap-4 text-[#f5e7c8]">
-      <div className="space-y-4">
+    <div className="flex flex-col h-full justify-between p-3 gap-2.5 text-[#f5e7c8]">
+      <div className="space-y-2.5">
         {/* Hardware Unit Badge */}
-        <div className="flex items-center justify-between gap-2 border-b border-[#3a2c22] pb-3">
+        <div className="flex items-center justify-between gap-2 border-b border-[#3a2c22] pb-2">
           <button
             type="button"
             onClick={() => {
               setActiveView('hub');
               setMobileMenuOpen(false);
             }}
-            className="flex items-center gap-2.5 text-left group"
+            className="flex items-center gap-2 text-left group"
           >
-            <TvaLogoMark className="w-8 h-8 shrink-0" />
+            <TvaLogoMark className="w-7 h-7 shrink-0" />
             <div>
-              <div className="text-[9px] font-mono-code uppercase tracking-widest text-[#c58f36]">
+              <div className="text-[10px] font-mono-code uppercase tracking-widest text-[#e5a93b]">
                 TVA TEMPAD UNIT 07
               </div>
               <div className="text-sm font-bold text-[#faf3e3] group-hover:text-amber-400 transition-colors leading-tight">
@@ -145,7 +154,7 @@ export function App() {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(false)}
-            className="lg:hidden p-1 text-[#a89984] hover:text-white"
+            className="lg:hidden p-1 text-[#b5a287] hover:text-white"
             aria-label="Close sidebar"
           >
             <X className="w-5 h-5" />
@@ -153,19 +162,19 @@ export function App() {
         </div>
 
         {/* Amber LCD Readout */}
-        <div className="rounded border-2 border-[#3c2d22] bg-[#0b0806] px-3 py-2 shadow-inner">
-          <div className="flex items-center justify-between text-[9px] font-mono-code uppercase text-[#a88240]">
-            <span>CONVERGENCE</span>
-            <span>DEC 18, 2026</span>
+        <div className="rounded border-2 border-[#3c2d22] bg-[#0b0806] px-2.5 py-1.5 shadow-inner flex items-center justify-between gap-2">
+          <div className="text-[10px] font-mono-code uppercase text-[#d6a34f] leading-tight">
+            <div>CONVERGENCE</div>
+            <div className="text-[#b5a287]">DEC 18, 2026</div>
           </div>
-          <div className="mt-0.5 text-base font-mono-code font-bold text-[#f59e0b] tracking-wider">
-            T-MINUS {daysToDoomsday} DAYS
+          <div className="text-sm font-mono-code font-bold text-[#f59e0b] tracking-wide tabular-nums">
+            T−{daysToDoomsday}D
           </div>
         </div>
 
         {/* Search Field */}
         <div className="relative">
-          <Search className="w-3.5 h-3.5 text-[#a88240] absolute left-2.5 top-2.5" />
+          <Search className="w-3.5 h-3.5 text-[#d6a34f] absolute left-2.5 top-2" />
           <input
             ref={searchInputRef}
             type="text"
@@ -176,7 +185,8 @@ export function App() {
               setSearchOpen(true);
             }}
             placeholder="Search archives (⌘K)..."
-            className="w-full rounded border border-[#3c2d22] bg-[#110c09] pl-8 pr-2.5 py-1.5 text-xs text-[#faf3e3] placeholder-[#7c6a57] focus:border-[#f59e0b] focus:outline-none"
+            aria-label="Search archives"
+            className="w-full rounded border border-[#3c2d22] bg-[#110c09] pl-8 pr-2.5 py-1.5 text-xs text-[#faf3e3] placeholder-[#a8947a] focus:border-[#f59e0b] focus:outline-none"
           />
           {searchOpen && searchHits.length > 0 && (
             <div className="absolute left-0 right-0 mt-1 rounded border border-[#c58f36] bg-[#19120d] shadow-2xl max-h-72 overflow-y-auto z-50">
@@ -196,7 +206,7 @@ export function App() {
                     {hit.isTheory && <Sparkles className="w-3 h-3 text-purple-400" />}
                     {hit.label}
                   </div>
-                  <div className="text-[10px] font-mono-code text-[#b79f7d]">{hit.sublabel}</div>
+                  <div className="text-[10px] font-mono-code text-[#c9b393]">{hit.sublabel}</div>
                 </button>
               ))}
             </div>
@@ -204,8 +214,8 @@ export function App() {
         </div>
 
         {/* Indexed Filing Tabs */}
-        <nav className="space-y-1">
-          {NAV_ITEMS.map(({ id, num, label, icon: Icon }) => {
+        <nav className="space-y-0.5" aria-label="Primary sections">
+          {NAV_ITEMS.map(({ id, label, icon: Icon }) => {
             const active = activeView === id;
             return (
               <button
@@ -215,44 +225,40 @@ export function App() {
                   setActiveView(id);
                   setMobileMenuOpen(false);
                 }}
-                className={`w-full flex items-center justify-between gap-2 rounded px-2.5 py-2 text-xs font-mono-code transition-colors ${
+                aria-current={active ? 'page' : undefined}
+                className={`w-full flex items-center gap-2 rounded px-2.5 py-1.5 text-xs font-mono-code transition-colors ${
                   active
                     ? 'bg-[#f59e0b] text-[#17110c] font-bold shadow-sm'
-                    : 'text-[#d4c2a2] hover:bg-[#281f18] hover:text-[#faf3e3]'
+                    : 'text-[#e0cfb0] hover:bg-[#281f18] hover:text-[#faf3e3]'
                 }`}
               >
-                <span className="flex items-center gap-2 truncate">
-                  <Icon className="w-3.5 h-3.5 shrink-0" />
-                  <span className="truncate">{label}</span>
-                </span>
-                <span className={`text-[10px] ${active ? 'text-[#17110c]/80' : 'text-[#7c6a57]'}`}>
-                  {num}
-                </span>
+                <Icon className="w-3.5 h-3.5 shrink-0" />
+                <span className="truncate">{label}</span>
               </button>
             );
           })}
         </nav>
 
-        {/* TemPad Loom Telemetry Widget — fills middle sidebar space cleanly */}
-        <div className="rounded border border-[#3c2d22] bg-[#0e0a07] p-2.5 space-y-2 shadow-inner">
-          <div className="flex items-center justify-between text-[9px] font-mono-code uppercase tracking-widest">
-            <span className="text-[#c58f36] font-semibold">LOOM TELEMETRY</span>
+        {/* TemPad Loom Telemetry Widget */}
+        <div className="rounded border border-[#3c2d22] bg-[#0e0a07] p-2 space-y-1.5 shadow-inner">
+          <div className="flex items-center justify-between text-[10px] font-mono-code uppercase tracking-wider">
+            <span className="text-[#d6a34f] font-semibold">LOOM TELEMETRY</span>
             <span className="inline-flex items-center gap-1 text-emerald-400">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 tva-loom-pulse" />3 REALMS
             </span>
           </div>
 
-          <svg viewBox="0 0 180 42" className="w-full h-10 rounded bg-[#140f0b] border border-[#2a1f17]" aria-hidden="true">
-            <path d="M0 21 H180 M45 0 V42 M90 0 V42 M135 0 V42" stroke="#241b13" strokeWidth="0.7" />
-            <path d="M2 22 C30 22, 48 11, 86 20 C120 28, 145 11, 178 14" fill="none" stroke="#f59e0b" strokeWidth="1.6" className="tva-loom-pulse" />
-            <path d="M2 25 C38 26, 62 34, 98 22 C130 12, 152 29, 178 27" fill="none" stroke="#10b981" strokeWidth="1.2" strokeDasharray="3 2" opacity="0.85" />
-            <circle cx="86" cy="20" r="2.4" fill="#fbbf24" />
-            <circle cx="145" cy="18" r="2.2" fill="#34d399" />
+          <svg viewBox="0 0 180 32" className="w-full h-7 rounded bg-[#140f0b] border border-[#2a1f17]" aria-hidden="true">
+            <path d="M0 16 H180 M45 0 V32 M90 0 V32 M135 0 V32" stroke="#241b13" strokeWidth="0.7" />
+            <path d="M2 17 C30 17, 48 8, 86 15 C120 22, 145 8, 178 11" fill="none" stroke="#f59e0b" strokeWidth="1.6" className="tva-loom-pulse" />
+            <path d="M2 20 C38 21, 62 27, 98 17 C130 9, 152 23, 178 21" fill="none" stroke="#10b981" strokeWidth="1.2" strokeDasharray="3 2" opacity="0.85" />
+            <circle cx="86" cy="15" r="2.2" fill="#fbbf24" />
+            <circle cx="145" cy="14" r="2.0" fill="#34d399" />
           </svg>
 
           <div className="space-y-1">
             <div className="flex items-center justify-between text-[10px] font-mono-code">
-              <span className="text-[#b79f7d]">ESSENTIAL PREP</span>
+              <span className="text-[#c9b393]">ESSENTIAL PREP</span>
               <span className="text-amber-400 font-bold">
                 {essentialProgress.done}/{essentialProgress.total} ({essentialProgress.pct}%)
               </span>
@@ -265,7 +271,7 @@ export function App() {
             </div>
           </div>
 
-          <div className="flex items-center justify-between gap-2 text-[9px] font-mono-code text-[#8c7862] border-t border-[#261c14] pt-1.5">
+          <div className="flex items-center justify-between gap-2 text-[10px] font-mono-code text-[#b5a287] border-t border-[#261c14] pt-1">
             <span className="truncate">{TITLES.length}T · {CHARACTERS.length}C · {REALITIES.length}R</span>
             <button
               type="button"
@@ -282,18 +288,19 @@ export function App() {
       </div>
 
       {/* Physical Rocker Switch Bank */}
-      <div className="space-y-2 border-t border-[#3a2c22] pt-3">
-        <div className="text-[9px] font-mono-code uppercase tracking-widest text-[#a88240]">
+      <div className="space-y-1.5 border-t border-[#3a2c22] pt-2">
+        <div className="text-[10px] font-mono-code uppercase tracking-widest text-[#d6a34f]">
           SECURITY SWITCHES
         </div>
 
         <button
           type="button"
           onClick={toggleSpoilerShield}
-          className={`w-full flex items-center justify-between rounded border px-2.5 py-2 text-[11px] font-mono-code font-semibold transition-colors ${
+          aria-pressed={spoilerShield}
+          className={`w-full flex items-center justify-between rounded border px-2.5 py-1.5 text-[11px] font-mono-code font-semibold transition-colors ${
             spoilerShield
               ? 'border-amber-400 bg-amber-500 text-black'
-              : 'border-[#3c2d22] bg-[#120d09] text-[#d4c2a2] hover:border-[#c58f36]'
+              : 'border-[#3c2d22] bg-[#120d09] text-[#e0cfb0] hover:border-[#c58f36]'
           }`}
           title="Hide summaries and character beats for unwatched titles"
         >
@@ -307,10 +314,11 @@ export function App() {
         <button
           type="button"
           onClick={toggleTheories}
-          className={`w-full flex items-center justify-between rounded border px-2.5 py-2 text-[11px] font-mono-code font-semibold transition-colors ${
+          aria-pressed={showTheories}
+          className={`w-full flex items-center justify-between rounded border px-2.5 py-1.5 text-[11px] font-mono-code font-semibold transition-colors ${
             showTheories
               ? 'border-purple-400 bg-purple-600/30 text-purple-200'
-              : 'border-[#3c2d22] bg-[#120d09] text-[#d4c2a2] hover:border-[#c58f36]'
+              : 'border-[#3c2d22] bg-[#120d09] text-[#e0cfb0] hover:border-[#c58f36]'
           }`}
           title="Toggle unconfirmed theory layer"
         >
@@ -324,7 +332,7 @@ export function App() {
         <button
           type="button"
           onClick={() => setSettingsOpen(true)}
-          className="w-full flex items-center justify-center gap-1.5 rounded border border-[#3c2d22] bg-[#241b15] px-2.5 py-1.5 text-[11px] font-mono-code text-[#c58f36] hover:border-[#f59e0b]"
+          className="w-full flex items-center justify-center gap-1.5 rounded border border-[#3c2d22] bg-[#241b15] px-2.5 py-1.5 text-[11px] font-mono-code text-[#e5a93b] hover:border-[#f59e0b]"
         >
           <Settings className="w-3.5 h-3.5" /> Settings &amp; JSON Backup
         </button>
@@ -354,7 +362,7 @@ export function App() {
           </span>
         </div>
 
-        <div className="hidden lg:flex flex-col gap-1.5 tva-bg-polaroid rounded-sm p-1.5 pb-2 w-28 absolute bottom-10 right-7 -rotate-6 opacity-[0.24]">
+        <div className="hidden lg:flex flex-col gap-1.5 tva-bg-polaroid rounded-sm p-1.5 pb-2 w-28 absolute bottom-10 right-7 -rotate-6 opacity-[0.22]">
           <span className="tva-tape pointer-events-none" />
           <div className="w-full aspect-square overflow-hidden border border-[#d6c7aa] bg-[#1e1712]">
             <img src="./comic/comic-citadel.svg" alt="" className="w-full h-full object-cover" />
@@ -364,30 +372,10 @@ export function App() {
           </span>
         </div>
 
-        <div className="hidden xl:flex flex-col gap-1.5 tva-bg-polaroid rounded-sm p-1.5 pb-2 w-28 absolute top-[44%] left-3 -rotate-12 opacity-[0.24]">
-          <span className="tva-tape pointer-events-none" />
-          <div className="w-full aspect-square overflow-hidden border border-[#d6c7aa] bg-[#1e1712]">
-            <img src="./comic/comic-clockwork.svg" alt="" className="w-full h-full object-cover" />
-          </div>
-          <span className="text-[8px] font-mono-code font-bold tracking-wider text-[#1d1610] uppercase truncate">
-            LOOM NEXUS
-          </span>
-        </div>
-
-        <div className="hidden lg:flex flex-col gap-1.5 tva-bg-polaroid rounded-sm p-1.5 pb-2 w-28 absolute bottom-8 left-8 rotate-12 opacity-[0.23]">
-          <span className="tva-tape pointer-events-none" />
-          <div className="w-full aspect-square overflow-hidden border border-[#d6c7aa] bg-[#1e1712]">
-            <img src="./comic/comic-starburst.svg" alt="" className="w-full h-full object-cover" />
-          </div>
-          <span className="text-[8px] font-mono-code font-bold tracking-wider text-[#1d1610] uppercase truncate">
-            MULTIVERSE IMPACT
-          </span>
-        </div>
-
         <svg
           viewBox="0 0 1200 840"
           preserveAspectRatio="xMidYMid slice"
-          className="w-full h-full"
+          className="w-full h-full opacity-75"
         >
           {/* Drafting rings & timeline arcs */}
           <g fill="none" stroke="#5a3d1e" opacity="0.065">
@@ -468,6 +456,11 @@ export function App() {
           onClick={() => setMobileMenuOpen(false)}
         >
           <aside
+            ref={mobileDrawerRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Navigation menu"
+            tabIndex={-1}
             className="w-72 h-full bg-[#1b1511] border-r-2 border-[#3c2d22] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >

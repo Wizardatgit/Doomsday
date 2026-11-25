@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" fill="none">
+  <defs>
+    <linearGradient id="blade-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#140406"/>
+      <stop offset="55%" stop-color="#3f0912"/>
+      <stop offset="100%" stop-color="#1c080b"/>
+    </linearGradient>
+    <radialGradient id="blood-moon" cx="50%" cy="34%" r="28%">
+      <stop offset="0%" stop-color="#ef4444" stop-opacity="0.9"/>
+      <stop offset="52%" stop-color="#991b1b" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#140406" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#blade-sky)"/>
+  <rect width="800" height="450" fill="url(#blood-moon)"/>
+  <circle cx="400" cy="148" r="78" fill="#b91c1c" stroke="#fca5a5" stroke-opacity="0.35" stroke-width="1.5"/>
+  <!-- Gothic Industrial Spires & Cathedrals -->
+  <g fill="#0c0507" stroke="#7f1d1d" stroke-width="1.2">
+    <path d="M0 450 V220 L48 165 L96 220 V450 Z"/>
+    <path d="M96 450 V260 H188 V450 Z"/>
+    <path d="M210 450 V190 L248 92 L286 190 V450 Z"/>
+    <path d="M512 450 V185 L550 88 L588 185 V450 Z"/>
+    <path d="M610 450 V248 H704 V450 Z"/>
+    <path d="M704 450 V210 L752 155 L800 210 V450 Z"/>
+    <rect x="290" y="310" width="220" height="140"/>
+  </g>
+  <!-- Gothic lancet windows glowing faintly -->
+  <g fill="#ef4444" opacity="0.45">
+    <path d="M238 220 Q 248 200 258 220 V260 H238 Z"/>
+    <path d="M540 215 Q 550 195 560 215 V255 H540 Z"/>
+  </g>
+  <!-- Daywalker trench silhouette & silver blade glint -->
+  <path d="M372 450 L382 325 L368 296 L390 278 L410 278 L432 296 L418 325 L428 450 Z" fill="#050203" stroke="#dc2626" stroke-width="1.2"/>
+  <circle cx="400" cy="260" r="14" fill="#050203"/>
+  <line x1="340" y1="365" x2="495" y2="210" stroke="#f8fafc" stroke-width="2.6" stroke-linecap="round"/>
+  <line x1="340" y1="365" x2="495" y2="210" stroke="#ef4444" stroke-width="6" opacity="0.28" stroke-linecap="round"/>
+</svg>

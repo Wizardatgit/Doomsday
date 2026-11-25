@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" fill="none">
+  <defs>
+    <linearGradient id="bx5-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="52%" stop-color="#1d4ed8"/>
+      <stop offset="100%" stop-color="#ea580c"/>
+    </linearGradient>
+    <radialGradient id="bx5-flare" cx="46%" cy="48%" r="32%">
+      <stop offset="0%" stop-color="#fde047" stop-opacity="0.85"/>
+      <stop offset="45%" stop-color="#f97316" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#1d4ed8" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bx5-sky)"/>
+  <rect width="800" height="450" fill="url(#bx5-flare)"/>
+  <!-- Silver Cosmic Surfboard Contrail -->
+  <path d="M 35 125 Q 340 42 765 112" stroke="#e2e8f0" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M 35 125 Q 340 42 765 112" stroke="#93c5fd" stroke-width="10" opacity="0.28" stroke-linecap="round"/>
+  <ellipse cx="695" cy="98" rx="22" ry="4.5" transform="rotate(8 695 98)" fill="#f8fafc"/>
+  <!-- 2000s Steel & Glass Manhattan Skyline -->
+  <g fill="#0b1529" stroke="#38bdf8" stroke-opacity="0.35" stroke-width="1.2">
+    <rect x="35" y="235" width="95" height="215"/>
+    <rect x="148" y="275" width="84" height="175"/>
+    <rect x="530" y="255" width="96" height="195"/>
+    <rect x="642" y="198" width="110" height="252"/>
+  </g>
+  <!-- 2005 Baxter Tower Penthouse Terrace -->
+  <rect x="292" y="196" width="216" height="254" fill="#132242" stroke="#60a5fa" stroke-width="2"/>
+  <rect x="276" y="182" width="248" height="18" rx="3" fill="#1e3a8a" stroke="#93c5fd" stroke-width="1.5"/>
+  <!-- Fiery Torch Spiral Signal -->
+  <path d="M400 182 C 378 138, 430 105, 394 58 C 415 88, 434 128, 408 182 Z" fill="#fb923c" stroke="#fef08a" stroke-width="1.6"/>
+  <g fill="#60a5fa" opacity="0.55">
+    <rect x="318" y="224" width="38" height="28"/><rect x="381" y="224" width="38" height="28"/><rect x="444" y="224" width="38" height="28"/>
+    <rect x="318" y="274" width="38" height="28"/><rect x="381" y="274" width="38" height="28"/><rect x="444" y="274" width="38" height="28"/>
+  </g>
+</svg>

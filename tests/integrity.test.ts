@@ -344,8 +344,11 @@ test('all titles carry wikiPage slugs, local custom place & comic art exists, TM
     assert.ok(t.wikiPage && t.wikiPage.trim().length > 0, `Title ${t.id} missing wikiPage`);
   }
 
+  const realityImagePaths = new Set<string>();
   for (const r of REALITIES) {
     assert.ok(r.imagePath && r.imagePath.startsWith('./places/'), `Reality ${r.id} missing local imagePath`);
+    assert.equal(realityImagePaths.has(r.imagePath), false, `Duplicate reality imagePath on ${r.id}: ${r.imagePath}`);
+    realityImagePaths.add(r.imagePath);
     if (r.preferGenuineWiki) {
       assert.ok(r.wikiPage && r.wikiPage.trim().length > 0, `Reality ${r.id} preferGenuineWiki missing wikiPage`);
     }
@@ -372,7 +375,7 @@ test('all titles carry wikiPage slugs, local custom place & comic art exists, TM
     'test-key',
   );
   assert.ok(movieSearch.includes('/3/search/movie?'));
-  assert.ok(movieSearch.includes('year=2026'));
+  assert.ok(movieSearch.includes('primary_release_year=2026'));
 
   const tvSearch = buildTmdbSearchUrl(
     { kind: 'title', mediaType: 'tv', title: 'VisionQuest', year: 2026 },

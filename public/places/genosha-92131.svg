@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" fill="none">
+  <defs>
+    <linearGradient id="gen-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3b0764"/>
+      <stop offset="52%" stop-color="#9333ea"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#gen-sky)"/>
+  <!-- Classic 90s Sunset Sun -->
+  <circle cx="400" cy="245" r="88" fill="#fde047" opacity="0.88"/>
+  <!-- Searchlight beams -->
+  <polygon points="150,360 65,0 130,0" fill="#fef08a" opacity="0.16"/>
+  <polygon points="650,360 675,0 740,0" fill="#fef08a" opacity="0.16"/>
+  <!-- Giant Sentinel Silhouette in Twilight Clouds -->
+  <g fill="#1e1b4b" stroke="#c084fc" stroke-width="2" opacity="0.9">
+    <path d="M510 340 L525 180 L555 152 L572 108 L636 108 L652 152 L684 180 L700 340 Z"/>
+    <polygon points="582,146 600,146 594,158 584,158" fill="#f43f5e"/>
+    <polygon points="610,146 628,146 624,158 614,158" fill="#f43f5e"/>
+  </g>
+  <!-- Genosha Stepped Citadel & Ocean Skyline -->
+  <g fill="#0f071c" stroke="#f59e0b" stroke-width="1.6">
+    <polygon points="90,360 135,235 205,235 250,360"/>
+    <rect x="265" y="210" width="68" height="150"/>
+    <polygon points="348,360 375,180 425,180 452,360"/>
+    <rect x="468" y="245" width="58" height="115"/>
+  </g>
+  <rect x="0" y="360" width="800" height="90" fill="#140926"/>
+  <path d="M0 372 H800" stroke="#fbbf24" stroke-width="2" opacity="0.55"/>
+</svg>

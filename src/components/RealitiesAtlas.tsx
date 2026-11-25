@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { ArrowRight, ChevronDown, ChevronUp } from 'lucide-react';
+import { useMemo, useState } from 'react';
+import { ArrowRight, ChevronDown, ChevronUp, RotateCcw } from 'lucide-react';
 import {
   CHARACTERS,
   ICONIC_PLACES,
@@ -10,9 +10,12 @@ import {
   realitiesById,
   titlesById,
 } from '../data/index.ts';
-import type { EntityRef } from '../data/index.ts';
+import type { EntityRef, Reality } from '../data/index.ts';
 import { EntityVisual, SectionDivider, ViewHeroBanner } from './TvaArt.tsx';
 import { Redactable } from './Redactable.tsx';
+
+type AtlasTab = 'all' | 'places' | 'realities' | 'jumps';
+type RealityStatus = Reality['status'];
 
 export function RealitiesAtlas({
   watchedSet,
@@ -25,6 +28,16 @@ export function RealitiesAtlas({
 }) {
   const crossUniverseHops = CHARACTERS.filter((c) => c.originRealityId !== c.currentRealityId);
   const [expandedPlaces, setExpandedPlaces] = useState<Set<string>>(() => new Set());
+  const [tab, setTab] = useState<AtlasTab>('all');
+  const [statusFilter, setStatusFilter] = useState<'all' | RealityStatus>('all');
+
+  const filteredRealities = useMemo(
+    () =>
+      statusFilter === 'all'
+        ? REALITIES
+        : REALITIES.filter((r) => r.status === statusFilter),
+    [statusFilter],
+  );
 
   const togglePlace = (id: string) => {
     setExpandedPlaces((prev) => {
@@ -36,7 +49,7 @@ export function RealitiesAtlas({
   };
 
   return (
-    <div className="space-y-7">
+    <div className="space-y-6">
       <ViewHeroBanner
         wikiPage="X-Mansion"
         staticImagePath="./places/xmansion-10005.jpg"
@@ -48,7 +61,67 @@ export function RealitiesAtlas({
         emblem="xmen"
       />
 
+      {/* Apple-HIG Segmented Filter Bar */}
+      <div className="tva-folder rounded-md p-2.5 flex flex-wrap items-center justify-between gap-2">
+        <div className="flex flex-wrap items-center gap-1 bg-[#efe3c8] p-1 rounded border border-[#cbb895]" role="tablist" aria-label="Atlas sections">
+          {(
+            [
+              { id: 'all', label: 'All' },
+              { id: 'places', label: `Key Places (${ICONIC_PLACES.length})` },
+              { id: 'realities', label: `Realities (${REALITIES.length})` },
+              { id: 'jumps', label: `Jumps (${crossUniverseHops.length})` },
+            ] as const
+          ).map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              role="tab"
+              aria-selected={tab === item.id}
+              onClick={() => setTab(item.id)}
+              className={`px-2.5 py-1 rounded text-xs font-mono-code font-semibold transition-colors ${
+                tab === item.id
+                  ? 'bg-[#1d1610] text-[#f59e0b] shadow-xs'
+                  : 'text-[#61503e] hover:text-[#1d1610]'
+              }`}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+
+        <div className="flex flex-wrap items-center gap-2">
+          {(tab === 'all' || tab === 'realities') && (
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value as 'all' | RealityStatus)}
+              aria-label="Filter reality status"
+              className="rounded border border-[#cbb895] bg-[#fffaf0] px-2.5 py-1.5 text-xs font-mono-code text-[#1d1610]"
+            >
+              <option value="all">All Statuses ({REALITIES.length})</option>
+              <option value="incursion-risk">Incursion Risk</option>
+              <option value="endangered">Endangered</option>
+              <option value="intact">Intact</option>
+              <option value="pruned">Pruned</option>
+              <option value="outside-time">Outside Time</option>
+            </select>
+          )}
+          {(tab !== 'all' || statusFilter !== 'all') && (
+            <button
+              type="button"
+              onClick={() => {
+                setTab('all');
+                setStatusFilter('all');
+              }}
+              className="inline-flex items-center gap-1 rounded border border-[#cbb895] bg-[#fffaf0] px-2.5 py-1.5 text-xs font-mono-code text-[#9a3412] hover:border-[#9a3412]"
+            >
+              <RotateCcw className="w-3 h-3" /> Reset
+            </button>
+          )}
+        </div>
+      </div>
+
       {/* Iconic Places Surveillance Gallery */}
+      {(tab === 'all' || tab === 'places') && (
       <section className="space-y-3">
         <SectionDivider
           badge="SURVEILLANCE // 01"
@@ -63,7 +136,7 @@ export function RealitiesAtlas({
               <div
                 key={place.id}
                 onClick={() => onSelect({ kind: 'place', id: place.id })}
-                className="tva-folder tva-comic-corner rounded-md p-3.5 space-y-2.5 cursor-pointer hover:border-[#b45309] transition-colors"
+                className="tva-folder rounded-md p-3.5 space-y-2.5 cursor-pointer hover:border-[#b45309] transition-colors"
               >
                 <EntityVisual
                   variant="plate"
@@ -154,16 +227,27 @@ export function RealitiesAtlas({
                       </>
                     )}
                   </button>
-                  <span className="text-[11px] font-mono-code text-[#61503e]">Open Dossier →</span>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onSelect({ kind: 'place', id: place.id });
+                    }}
+                    className="text-[11px] font-mono-code font-semibold text-[#61503e] hover:text-[#1d1610] hover:underline"
+                  >
+                    Open Dossier →
+                  </button>
                 </div>
               </div>
             );
           })}
         </div>
       </section>
+      )}
 
       {/* Active Cross-Universe Jumps */}
-      <section className="tva-folder tva-comic-corner rounded-md p-4 space-y-3">
+      {(tab === 'all' || tab === 'jumps') && (
+      <section className="tva-folder rounded-md p-4 space-y-3">
         <SectionDivider
           badge="DISPLACEMENT // 02"
           title={`Documented Cross-Universe Jumps (${crossUniverseHops.length})`}
@@ -194,16 +278,18 @@ export function RealitiesAtlas({
           })}
         </div>
       </section>
+      )}
 
       {/* 16 Realities Dossiers */}
+      {(tab === 'all' || tab === 'realities') && (
       <section className="space-y-3">
         <SectionDivider
           badge="PLANES // 03"
-          title={`Tracked Multiverse Realities (${REALITIES.length})`}
+          title={`Tracked Multiverse Realities (${filteredRealities.length}${statusFilter !== 'all' ? ` of ${REALITIES.length}` : ''})`}
           accentColor="#0369a1"
         />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {REALITIES.map((r) => {
+          {filteredRealities.map((r) => {
             const anchor = r.anchorBeingId ? charactersById.get(r.anchorBeingId) : null;
             const titleCount = TITLES.filter((t) => t.realityId === r.id).length;
             const residentCount = CHARACTERS.filter(
@@ -214,7 +300,7 @@ export function RealitiesAtlas({
               <div
                 key={r.id}
                 onClick={() => onSelect({ kind: 'reality', id: r.id })}
-                className="tva-folder tva-comic-corner rounded-md p-4 cursor-pointer hover:border-[#b45309] transition-colors space-y-3"
+                className="tva-folder rounded-md p-4 cursor-pointer hover:border-[#b45309] transition-colors space-y-3"
                 style={{ borderLeft: `4px solid ${r.color}` }}
               >
                 <EntityVisual
@@ -230,7 +316,18 @@ export function RealitiesAtlas({
 
                 <div className="flex items-start justify-between gap-2">
                   <div>
-                    <h3 className="text-lg font-bold text-[#1d1610]">{r.name}</h3>
+                    <h3 className="text-lg font-bold text-[#1d1610]">
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onSelect({ kind: 'reality', id: r.id });
+                        }}
+                        className="text-left hover:text-[#9a3412] hover:underline"
+                      >
+                        {r.name}
+                      </button>
+                    </h3>
                     <p className="text-[11px] font-mono-code text-[#61503e]">{r.designation}</p>
                   </div>
                   <span
@@ -261,6 +358,7 @@ export function RealitiesAtlas({
           })}
         </div>
       </section>
+      )}
     </div>
   );
 }

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" fill="none">
+  <defs>
+    <linearGradient id="mb-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#111827"/>
+      <stop offset="100%" stop-color="#1c140d"/>
+    </linearGradient>
+    <radialGradient id="mb-rift" cx="50%" cy="38%" r="40%">
+      <stop offset="0%" stop-color="#e0f2fe" stop-opacity="0.92"/>
+      <stop offset="35%" stop-color="#38bdf8" stop-opacity="0.58"/>
+      <stop offset="70%" stop-color="#f59e0b" stop-opacity="0.24"/>
+      <stop offset="100%" stop-color="#111827" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#mb-bg)"/>
+  <!-- Tall Arched Gothic Lab Windows revealing Quantum Rift -->
+  <g fill="#0c1524" stroke="#785630" stroke-width="4">
+    <path d="M180 315 V130 Q260 55 340 130 V315 Z"/>
+    <path d="M460 315 V130 Q540 55 620 130 V315 Z"/>
+  </g>
+  <rect x="140" y="40" width="520" height="290" fill="url(#mb-rift)" opacity="0.88"/>
+  <!-- Spacetime tear lightning -->
+  <path d="M235 280 L258 210 L244 195 L278 118" stroke="#bae6fd" stroke-width="3" stroke-linecap="round"/>
+  <path d="M565 275 L538 205 L552 188 L518 112" stroke="#fde68a" stroke-width="3" stroke-linecap="round"/>
+  <!-- Med-bay floor & biometric table -->
+  <rect x="0" y="315" width="800" height="135" fill="#17110c" stroke="#5a3e22" stroke-width="2"/>
+  <rect x="275" y="325" width="250" height="32" rx="4" fill="#2b2118" stroke="#c58f36" stroke-width="1.8"/>
+  <!-- Amber & cyan EKG Holo-Monitor -->
+  <rect x="82" y="218" width="128" height="76" rx="4" fill="#0b1218" stroke="#f59e0b" stroke-width="2"/>
+  <path d="M94 256 H122 L132 232 L144 278 L156 244 L166 256 H198" stroke="#34d399" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="590" y="218" width="128" height="76" rx="4" fill="#0b1218" stroke="#38bdf8" stroke-width="2"/>
+  <circle cx="654" cy="256" r="22" stroke="#38bdf8" stroke-width="1.6" stroke-dasharray="5 3"/>
+  <circle cx="654" cy="256" r="9" fill="#f59e0b" opacity="0.75"/>
+</svg>
