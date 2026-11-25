@@ -111,14 +111,17 @@ export function ConnectionGraph({
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const viewportRef = useRef<HTMLDivElement | null>(null);
+  const suppressClickRef = useRef(false);
   const dragRef = useRef<{
     active: boolean;
+    moved: boolean;
     startX: number;
     startY: number;
     origX: number;
     origY: number;
   }>({
     active: false,
+    moved: false,
     startX: 0,
     startY: 0,
     origX: 0,
@@ -420,9 +423,10 @@ export function ConnectionGraph({
             ref={viewportRef}
             className="w-full h-full cursor-grab active:cursor-grabbing overscroll-contain touch-none"
             onPointerDown={(e) => {
-              setIsDragging(true);
+              suppressClickRef.current = false;
               dragRef.current = {
                 active: true,
+                moved: false,
                 startX: e.clientX,
                 startY: e.clientY,
                 origX: pan.x,
@@ -431,12 +435,27 @@ export function ConnectionGraph({
             }}
             onPointerMove={(e) => {
               if (!dragRef.current.active) return;
-              setPan({
-                x: dragRef.current.origX + (e.clientX - dragRef.current.startX),
-                y: dragRef.current.origY + (e.clientY - dragRef.current.startY),
-              });
+              const dx = e.clientX - dragRef.current.startX;
+              const dy = e.clientY - dragRef.current.startY;
+              if (!dragRef.current.moved && Math.hypot(dx, dy) > 5) {
+                dragRef.current.moved = true;
+                suppressClickRef.current = true;
+                setIsDragging(true);
+                setHoveredKey(null);
+                setHoveredEdgeId(null);
+              }
+              if (dragRef.current.moved) {
+                setPan({
+                  x: dragRef.current.origX + dx,
+                  y: dragRef.current.origY + dy,
+                });
+              }
             }}
             onPointerUp={() => {
+              dragRef.current.active = false;
+              setIsDragging(false);
+            }}
+            onPointerCancel={() => {
               dragRef.current.active = false;
               setIsDragging(false);
             }}
@@ -449,6 +468,10 @@ export function ConnectionGraph({
               viewBox="0 0 1400 880"
               className="w-full h-full bg-[#0c0907]"
               onClick={() => {
+                if (suppressClickRef.current) {
+                  suppressClickRef.current = false;
+                  return;
+                }
                 setSelectedNodeKey(null);
                 setJumpOpen(false);
               }}
@@ -634,7 +657,7 @@ export function ConnectionGraph({
                     <g
                       key={edge.id}
                       className="crt-edge-group"
-                      opacity={isEdgeActive ? 1 : isFocused ? (isDirectLink ? 0.94 : 0.68) : 0.14}
+                      opacity={isEdgeActive ? 1 : isFocused ? (isDirectLink ? 0.94 : 0.36) : 0.14}
                     >
                       <line
                         x1={a.x}
@@ -667,7 +690,9 @@ export function ConnectionGraph({
                         stroke="transparent"
                         strokeWidth={14}
                         className="cursor-pointer"
-                        onMouseEnter={() => setHoveredEdgeId(edge.id)}
+                        onMouseEnter={() => {
+                          if (!dragRef.current.active) setHoveredEdgeId(edge.id);
+                        }}
                         onMouseLeave={() => setHoveredEdgeId(null)}
                       />
                     </g>
@@ -708,10 +733,16 @@ export function ConnectionGraph({
                       style={{ transform: `translate(${x}px, ${y}px)` }}
                       opacity={isDimmed ? 0.2 : 1}
                       className={`crt-node cursor-pointer ${isActive ? 'crt-node-active' : ''}`}
-                      onMouseEnter={() => setHoveredKey(node.key)}
+                      onMouseEnter={() => {
+                        if (!dragRef.current.active) setHoveredKey(node.key);
+                      }}
                       onMouseLeave={() => setHoveredKey(null)}
                       onClick={(e) => {
                         e.stopPropagation();
+                        if (suppressClickRef.current) {
+                          suppressClickRef.current = false;
+                          return;
+                        }
                         handleNodeClick(node.key);
                       }}
                     >
