@@ -37,7 +37,7 @@ import {
 } from '../src/lib/graphTree.ts';
 import { isRedacted, parseImportedWatchlist, serializeWatchlistBackup } from '../src/lib/spoiler.ts';
 import { buildTmdbSearchUrl, titleTmdbQuery } from '../src/lib/tmdb.ts';
-import { buildWikiBatchUrl } from '../src/lib/wikiImages.ts';
+import { buildWikiBatchUrl, fetchWikiThumbnail } from '../src/lib/wikiImages.ts';
 
 function assertUniqueIds(items: { id: string }[], label: string) {
   const seen = new Set<string>();
@@ -406,4 +406,9 @@ test('place dossiers resolve uniquely via placesById & searchCatalog, and titleT
     assert.equal(qDd.mediaType, 'tv');
     assert.equal(qDd.title, 'Daredevil');
   }
+
+  const wikiBatchUrl = buildWikiBatchUrl(['Stark_Tower']);
+  assert.ok(wikiBatchUrl.includes('pilicense=any'));
+  assert.ok(wikiBatchUrl.includes('piprop=thumbnail'));
+  assert.equal(typeof fetchWikiThumbnail, 'function');
 });

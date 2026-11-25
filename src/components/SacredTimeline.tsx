@@ -77,7 +77,8 @@ export function SacredTimeline({
   return (
     <div className="space-y-5">
       <ViewHeroBanner
-        wikiPage="Avengers:_Doomsday"
+        staticImagePath="./places/tva-yggdrasil.jpg"
+        posterInsetWikiPage="Avengers:_Doomsday"
         catalogStamp="TVA CHRONOLOGY REEL // FULL WATCH ORDER"
         title={`Archival Timeline Reel (${filteredTitles.length})`}
         subtitle="Pre-Phase-1 legacy foundations, Phases 1–3, Canon Defenders Saga, and Phases 4–6 leading to Dec 18, 2026."

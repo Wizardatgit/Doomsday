@@ -85,7 +85,8 @@ export function FactionsHub({
   return (
     <div className="space-y-6">
       <ViewHeroBanner
-        wikiPage="Thunderbolts*"
+        staticImagePath="./places/watchtower-616.jpg"
+        posterInsetWikiPage="Thunderbolts*"
         catalogStamp="TVA FACTION ARCHIVE // COALITION CASE FILES"
         title="Faction Case Dossiers"
         subtitle={`${FACTIONS.length} active factions & multiverse coalitions converging on December 18, 2026. Expand any folder full-width to inspect operatives.`}

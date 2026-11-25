@@ -64,6 +64,17 @@ h1, h2, h3, .font-display {
   background-size: 9px 9px;
 }
 
+.tva-halftone-teal {
+  background-image: radial-gradient(circle, rgba(15, 118, 110, 0.22) 1.35px, transparent 1.35px);
+  background-size: 9px 9px;
+}
+
+.tva-bg-polaroid {
+  background-color: #fffdf7;
+  border: 1px solid #cbb895;
+  box-shadow: 3px 3px 0 rgba(45, 31, 18, 0.16), 0 6px 14px rgba(35, 24, 12, 0.12);
+}
+
 .tva-comic-corner {
   position: relative;
   overflow: hidden;

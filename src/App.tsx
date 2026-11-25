@@ -335,48 +335,97 @@ export function App() {
   return (
     <ImageLightboxProvider>
       <div className="min-h-screen flex flex-col lg:flex-row relative">
-      {/* Faint Archival TVA Drafting-Ring Watermark & Subtle Margin Comic Clippings */}
+      {/* Faint Silver-Age Comic Vectors, Halftone Bands & Square Polaroid Comic Clippings */}
       <div
         aria-hidden="true"
         className="pointer-events-none fixed inset-0 lg:left-64 w-full lg:w-[calc(100%-16rem)] h-full overflow-hidden z-0"
       >
-        <div className="absolute top-6 right-8 w-36 h-36 tva-halftone-dot opacity-[0.22] rounded-full" />
-        <div className="absolute bottom-14 left-6 w-40 h-28 tva-halftone-dot opacity-[0.18]" />
+        <div className="absolute -top-6 right-4 w-48 h-48 tva-halftone-dot opacity-[0.26] rounded-full" />
+        <div className="absolute -bottom-8 left-4 w-52 h-36 tva-halftone-teal opacity-[0.22]" />
 
-        <img
-          src="./comic/comic-portal.jpg"
-          alt=""
-          className="hidden lg:block absolute top-10 right-6 w-36 h-36 object-cover rounded-sm border-2 border-[#3a2815]/45 opacity-[0.18] sepia contrast-125 mix-blend-multiply rotate-6 shadow-md"
-        />
-        <img
-          src="./comic/comic-citadel.svg"
-          alt=""
-          className="hidden lg:block absolute bottom-12 right-10 w-36 h-36 object-cover rounded-sm border-2 border-[#3a2815]/40 opacity-[0.16] mix-blend-multiply -rotate-6"
-        />
-        <img
-          src="./comic/comic-clockwork.svg"
-          alt=""
-          className="hidden xl:block absolute top-1/2 -translate-y-1/2 left-4 w-32 h-32 object-cover rounded-sm border-2 border-[#3a2815]/40 opacity-[0.15] mix-blend-multiply -rotate-12"
-        />
-        <img
-          src="./comic/comic-starburst.svg"
-          alt=""
-          className="hidden lg:block absolute bottom-8 left-12 w-32 h-32 object-cover rounded-sm border-2 border-[#3a2815]/35 opacity-[0.14] mix-blend-multiply rotate-12"
-        />
+        {/* Square Polaroid-style comic clippings pinned in outer margins */}
+        <div className="hidden lg:flex flex-col gap-1.5 tva-bg-polaroid rounded-sm p-1.5 pb-2 w-28 absolute top-8 right-5 rotate-6 opacity-[0.26]">
+          <span className="tva-tape pointer-events-none" />
+          <div className="w-full aspect-square overflow-hidden border border-[#d6c7aa] bg-[#1e1712]">
+            <img src="./comic/comic-portal.jpg" alt="" className="w-full h-full object-cover sepia-[0.25] contrast-125" />
+          </div>
+          <span className="text-[8px] font-mono-code font-bold tracking-wider text-[#1d1610] uppercase truncate">
+            KIRBY RIFT // 828
+          </span>
+        </div>
+
+        <div className="hidden lg:flex flex-col gap-1.5 tva-bg-polaroid rounded-sm p-1.5 pb-2 w-28 absolute bottom-10 right-7 -rotate-6 opacity-[0.24]">
+          <span className="tva-tape pointer-events-none" />
+          <div className="w-full aspect-square overflow-hidden border border-[#d6c7aa] bg-[#1e1712]">
+            <img src="./comic/comic-citadel.svg" alt="" className="w-full h-full object-cover" />
+          </div>
+          <span className="text-[8px] font-mono-code font-bold tracking-wider text-[#1d1610] uppercase truncate">
+            CASTLE DOOM
+          </span>
+        </div>
+
+        <div className="hidden xl:flex flex-col gap-1.5 tva-bg-polaroid rounded-sm p-1.5 pb-2 w-28 absolute top-[44%] left-3 -rotate-12 opacity-[0.24]">
+          <span className="tva-tape pointer-events-none" />
+          <div className="w-full aspect-square overflow-hidden border border-[#d6c7aa] bg-[#1e1712]">
+            <img src="./comic/comic-clockwork.svg" alt="" className="w-full h-full object-cover" />
+          </div>
+          <span className="text-[8px] font-mono-code font-bold tracking-wider text-[#1d1610] uppercase truncate">
+            LOOM NEXUS
+          </span>
+        </div>
+
+        <div className="hidden lg:flex flex-col gap-1.5 tva-bg-polaroid rounded-sm p-1.5 pb-2 w-28 absolute bottom-8 left-8 rotate-12 opacity-[0.23]">
+          <span className="tva-tape pointer-events-none" />
+          <div className="w-full aspect-square overflow-hidden border border-[#d6c7aa] bg-[#1e1712]">
+            <img src="./comic/comic-starburst.svg" alt="" className="w-full h-full object-cover" />
+          </div>
+          <span className="text-[8px] font-mono-code font-bold tracking-wider text-[#1d1610] uppercase truncate">
+            MULTIVERSE IMPACT
+          </span>
+        </div>
 
         <svg
-          viewBox="0 0 1000 800"
+          viewBox="0 0 1200 840"
           preserveAspectRatio="xMidYMid slice"
-          className="w-full h-full opacity-[0.045] text-[#5a3d1e]"
+          className="w-full h-full"
         >
-          <g fill="none" stroke="currentColor">
-            <circle cx="760" cy="210" r="240" strokeWidth="1.2" strokeDasharray="8 6" />
-            <circle cx="760" cy="210" r="185" strokeWidth="0.9" />
-            <circle cx="760" cy="210" r="115" strokeWidth="0.8" strokeDasharray="3 5" />
-            <circle cx="240" cy="610" r="165" strokeWidth="1" strokeDasharray="6 6" />
-            <path d="M-40 430 Q 260 430 430 330 T 1040 160" strokeWidth="1.5" />
-            <path d="M180 420 Q 410 530 690 560 T 1040 595" strokeWidth="1.1" strokeDasharray="5 5" />
-            <path d="M510 210 L 1010 210 M760 -30 L 760 450" strokeWidth="0.8" />
+          {/* Drafting rings & timeline arcs */}
+          <g fill="none" stroke="#5a3d1e" opacity="0.065">
+            <circle cx="880" cy="230" r="245" strokeWidth="1.2" strokeDasharray="8 6" />
+            <circle cx="880" cy="230" r="185" strokeWidth="0.9" />
+            <circle cx="270" cy="620" r="165" strokeWidth="1" strokeDasharray="6 6" />
+            <path d="M-40 440 Q 280 430 480 330 T 1240 160" strokeWidth="1.6" />
+            <path d="M180 420 Q 450 540 760 570 T 1240 605" strokeWidth="1.2" strokeDasharray="5 5" />
+          </g>
+
+          {/* Silver-Age Comic Shapes: Lightning bolts, Starburst, Speech Silhouette & Kirby Krackle */}
+          <g fill="none" stroke="#c2410c" opacity="0.11" strokeLinecap="round" strokeLinejoin="round">
+            {/* Comic lightning bolt top-left margin */}
+            <path d="M72 48 L44 102 H72 L52 154 L106 90 H78 Z" strokeWidth="2.4" fill="#c2410c" fillOpacity="0.08" />
+            {/* Jagged caption-box frame bottom-right */}
+            <polygon points="1040,565 1145,555 1138,610 1160,628 1055,638" strokeWidth="2" strokeDasharray="5 3" />
+          </g>
+
+          <g fill="none" stroke="#0f766e" opacity="0.11" strokeLinecap="round" strokeLinejoin="round">
+            {/* Empty vintage speech-bubble silhouette left mid */}
+            <path d="M36 285 Q36 250 88 250 Q140 250 140 285 Q140 318 96 320 L74 342 L78 320 Q36 318 36 285 Z" strokeWidth="2.2" />
+            {/* Action burst */}
+            <path d="M1070 390 L1085 422 L1118 408 L1098 438 L1132 454 L1094 460 L1106 492 L1076 472 L1052 496 L1060 462 L1026 452 L1058 436 Z" strokeWidth="1.8" />
+          </g>
+
+          {/* Kirby Krackle Energy Dot Clusters */}
+          <g fill="#2b1e12" opacity="0.12">
+            <circle cx="96" cy="198" r="7" /><circle cx="110" cy="190" r="4" /><circle cx="86" cy="212" r="5" /><circle cx="115" cy="206" r="3.5" /><circle cx="98" cy="182" r="3" />
+            <circle cx="1115" cy="285" r="8" /><circle cx="1132" cy="274" r="4.5" /><circle cx="1102" cy="300" r="5.5" /><circle cx="1136" cy="296" r="3.5" /><circle cx="1118" cy="264" r="3" />
+          </g>
+
+          {/* Print-proof Corner Crop Marks (+) & Vertical Comic Margin Ticks */}
+          <g stroke="#5a3d1e" strokeWidth="1.2" opacity="0.16">
+            <path d="M24 14 V34 M14 24 H34" />
+            <path d="M1176 14 V34 M1166 24 H1186" />
+            <path d="M24 806 V826 M14 816 H34" />
+            <path d="M1176 806 V826 M1166 816 H1186" />
+            <path d="M1190 120 H1200 M1190 180 H1200 M1190 240 H1200 M1190 300 H1200 M1190 360 H1200 M1190 420 H1200 M1190 480 H1200 M1190 540 H1200 M1190 600 H1200 M1190 660 H1200" />
           </g>
         </svg>
       </div>

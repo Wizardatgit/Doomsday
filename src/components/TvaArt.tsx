@@ -221,7 +221,8 @@ export function EntityVisual({
         }
       }
       if (wikiPage) {
-        const wikiUrl = await fetchWikiThumbnail(wikiPage);
+        const minW = variant === 'plate' && staticImagePath ? 600 : 0;
+        const wikiUrl = await fetchWikiThumbnail(wikiPage, minW);
         if (active && wikiUrl) {
           setImageUrl(wikiUrl);
         }
@@ -404,6 +405,7 @@ export function ViewHeroBanner({
   wikiPage,
   staticImagePath,
   preferWikiOverStatic = false,
+  posterInsetWikiPage,
   catalogStamp,
   title,
   subtitle,
@@ -416,6 +418,7 @@ export function ViewHeroBanner({
   wikiPage?: string;
   staticImagePath?: string;
   preferWikiOverStatic?: boolean;
+  posterInsetWikiPage?: string;
   catalogStamp: string;
   title: string;
   subtitle: string;
@@ -427,8 +430,10 @@ export function ViewHeroBanner({
 }) {
   const { openLightbox } = useImageLightbox();
   const [wikiUrl, setWikiUrl] = useState<string | null>(null);
+  const [posterUrl, setPosterUrl] = useState<string | null>(null);
   const [wikiFailed, setWikiFailed] = useState(false);
   const [staticFailed, setStaticFailed] = useState(false);
+  const [posterFailed, setPosterFailed] = useState(false);
 
   useEffect(() => {
     setWikiFailed(false);
@@ -436,13 +441,27 @@ export function ViewHeroBanner({
     setWikiUrl(null);
     if ((staticImagePath && !preferWikiOverStatic) || !wikiPage) return;
     let active = true;
-    fetchWikiThumbnail(wikiPage).then((url) => {
+    const minW = staticImagePath ? 800 : 0;
+    fetchWikiThumbnail(wikiPage, minW).then((url) => {
       if (active) setWikiUrl(url);
     });
     return () => {
       active = false;
     };
   }, [wikiPage, staticImagePath, preferWikiOverStatic]);
+
+  useEffect(() => {
+    setPosterFailed(false);
+    setPosterUrl(null);
+    if (!posterInsetWikiPage || compactBanner) return;
+    let active = true;
+    fetchWikiThumbnail(posterInsetWikiPage).then((url) => {
+      if (active) setPosterUrl(url);
+    });
+    return () => {
+      active = false;
+    };
+  }, [posterInsetWikiPage, compactBanner]);
 
   const activeWiki = !wikiFailed ? wikiUrl : null;
   const resolvedUrl = preferWikiOverStatic
@@ -532,30 +551,57 @@ export function ViewHeroBanner({
           compactBanner ? 'px-4 py-2.5 pr-9' : 'p-4 sm:p-5 pr-10'
         }`}
       >
-        <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-2 text-[10px] font-mono-code uppercase tracking-widest text-amber-300/90">
-            <span
-              className="w-2 h-2 rounded-full shrink-0"
-              style={{ backgroundColor: accentColor }}
-            />
-            <span className="truncate">{catalogStamp}</span>
-          </div>
-          {compactBanner ? (
-            <h2 className="font-serif-display font-bold text-[#fcf6e8] leading-tight truncate text-base sm:text-lg mt-0.5">
-              {title}
-            </h2>
-          ) : (
-            <h1 className="font-serif-display font-bold text-[#fcf6e8] leading-tight truncate text-xl sm:text-2xl mt-1">
-              {title}
-            </h1>
+        <div className="min-w-0 flex-1 flex items-center gap-3.5">
+          {posterUrl && !posterFailed && !compactBanner && (
+            <button
+              type="button"
+              onClick={() =>
+                openLightbox({
+                  url: posterUrl,
+                  code: catalogStamp,
+                  title,
+                  subtitle: 'Original Archival Key Art (Native Resolution)',
+                  accentColor,
+                })
+              }
+              title="Inspect original poster art"
+              className="shrink-0 w-14 sm:w-16 h-20 sm:h-24 rounded-sm border border-[#cbb895]/65 bg-[#120d0a] overflow-hidden shadow-lg hover:border-amber-400 transition-colors cursor-zoom-in"
+            >
+              <img
+                src={posterUrl}
+                alt={`${title} key art`}
+                referrerPolicy="no-referrer"
+                loading="lazy"
+                onError={() => setPosterFailed(true)}
+                className="w-full h-full object-contain"
+              />
+            </button>
           )}
-          <p
-            className={`text-[#dfd1b5] leading-snug ${
-              compactBanner ? 'text-[11px] truncate' : 'text-xs sm:text-sm mt-1 max-w-2xl'
-            }`}
-          >
-            {subtitle}
-          </p>
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-2 text-[10px] font-mono-code uppercase tracking-widest text-amber-300/90">
+              <span
+                className="w-2 h-2 rounded-full shrink-0"
+                style={{ backgroundColor: accentColor }}
+              />
+              <span className="truncate">{catalogStamp}</span>
+            </div>
+            {compactBanner ? (
+              <h2 className="font-serif-display font-bold text-[#fcf6e8] leading-tight truncate text-base sm:text-lg mt-0.5">
+                {title}
+              </h2>
+            ) : (
+              <h1 className="font-serif-display font-bold text-[#fcf6e8] leading-tight truncate text-xl sm:text-2xl mt-1">
+                {title}
+              </h1>
+            )}
+            <p
+              className={`text-[#dfd1b5] leading-snug ${
+                compactBanner ? 'text-[11px] truncate' : 'text-xs sm:text-sm mt-1 max-w-2xl'
+              }`}
+            >
+              {subtitle}
+            </p>
+          </div>
         </div>
 
         {children && <div className="shrink-0 flex flex-wrap items-center gap-2">{children}</div>}

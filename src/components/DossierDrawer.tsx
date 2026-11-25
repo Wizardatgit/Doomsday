@@ -24,7 +24,8 @@ import {
 } from '../data/index.ts';
 import type { EntityRef, LoreConfidence, SourceCitation } from '../data/types.ts';
 import { personTmdbQuery, titleTmdbQuery } from '../lib/tmdb.ts';
-import { EntityVisual } from './TvaArt.tsx';
+import { fetchWikiImageMeta, type WikiImageMeta } from '../lib/wikiImages.ts';
+import { EntityVisual, useImageLightbox } from './TvaArt.tsx';
 import { Redactable } from './Redactable.tsx';
 
 type DossierTab = 'briefing' | 'timeline' | 'connections';
@@ -121,6 +122,78 @@ function SourceCitationsBlock({
           ))}
         </div>
       )}
+    </div>
+  );
+}
+
+/** Shows native-resolution original Marvel comics/MCU scan when Wikimedia resolution is under 600px. */
+function OriginalMarvelInset({
+  wikiPage,
+  preferGenuineWiki,
+  title,
+  code,
+  accentColor,
+}: {
+  wikiPage?: string;
+  preferGenuineWiki?: boolean;
+  title: string;
+  code: string;
+  accentColor: string;
+}) {
+  const { openLightbox } = useImageLightbox();
+  const [meta, setMeta] = useState<WikiImageMeta | null>(null);
+  const [failed, setFailed] = useState(false);
+
+  useEffect(() => {
+    setMeta(null);
+    setFailed(false);
+    if (!preferGenuineWiki || !wikiPage) return;
+    let active = true;
+    fetchWikiImageMeta(wikiPage).then((res) => {
+      if (active && res && res.width > 0 && res.width < 600) {
+        setMeta(res);
+      }
+    });
+    return () => {
+      active = false;
+    };
+  }, [wikiPage, preferGenuineWiki]);
+
+  if (!meta || failed) return null;
+
+  return (
+    <div className="border-t border-[#e1d4b9] pt-3 flex items-center gap-3">
+      <button
+        type="button"
+        onClick={() =>
+          openLightbox({
+            url: meta.url,
+            code: `${code} · ORIGINAL SCAN`,
+            title,
+            subtitle: `Native Marvel Archival Reference (${meta.width}×${meta.height})`,
+            accentColor,
+          })
+        }
+        className="shrink-0 rounded-sm border border-[#cbb895] bg-[#140f0c] p-1 hover:border-[#b45309] transition-colors cursor-zoom-in"
+        title="Inspect native-resolution Marvel reference"
+      >
+        <img
+          src={meta.url}
+          alt={`${title} archival reference`}
+          referrerPolicy="no-referrer"
+          loading="lazy"
+          onError={() => setFailed(true)}
+          className="w-20 max-h-24 object-contain"
+        />
+      </button>
+      <div className="min-w-0 space-y-0.5">
+        <div className="text-[10px] font-mono-code uppercase tracking-widest text-[#9a3412] font-bold">
+          Original Marvel Archival Scan
+        </div>
+        <p className="text-xs text-[#61503e] leading-snug">
+          Displayed at crisp native resolution ({meta.width}×{meta.height}px) rather than stretched across the widescreen header. Click thumbnail to inspect.
+        </p>
+      </div>
     </div>
   );
 }
@@ -691,6 +764,14 @@ export function DossierDrawer({
                       </ul>
                     </div>
 
+                    <OriginalMarvelInset
+                      wikiPage={r.wikiPage}
+                      preferGenuineWiki={r.preferGenuineWiki}
+                      title={r.name}
+                      code={r.code}
+                      accentColor={r.color}
+                    />
+
                     <SourceCitationsBlock
                       confidence={r.confidence}
                       sources={r.sources}
@@ -947,6 +1028,14 @@ export function DossierDrawer({
                         </button>
                       </div>
                     )}
+
+                    <OriginalMarvelInset
+                      wikiPage={p.wikiPage}
+                      preferGenuineWiki={p.preferGenuineWiki}
+                      title={p.name}
+                      code={parentReality?.code ?? 'SECTOR'}
+                      accentColor={accent}
+                    />
 
                     <SourceCitationsBlock
                       confidence="official"

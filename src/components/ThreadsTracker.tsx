@@ -47,7 +47,8 @@ export function ThreadsTracker({
   return (
     <div className="space-y-5">
       <ViewHeroBanner
-        wikiPage="The_Fantastic_Four:_First_Steps"
+        staticImagePath="./places/baxter-828.jpg"
+        posterInsetWikiPage="The_Fantastic_Four:_First_Steps"
         catalogStamp="TVA CONVERGENCE DESK // PLOT THREAD LEDGER"
         title="Case Threads & Post-Credits Ledger"
         subtitle="Track unresolved stingers, artifacts, and multiverse fractures threading straight into Avengers: Doomsday."

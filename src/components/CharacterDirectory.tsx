@@ -45,7 +45,8 @@ export function CharacterDirectory({
   return (
     <div className="space-y-5">
       <ViewHeroBanner
-        wikiPage="The_Avengers_(2012_film)"
+        staticImagePath="./places/watchtower-616.jpg"
+        posterInsetWikiPage="The_Avengers_(2012_film)"
         catalogStamp="TVA PERSONNEL ARCHIVE // SUBJECT ROSTER"
         title={`Personnel Mugshots & Dossiers (${filtered.length})`}
         subtitle="Every player’s archival Polaroid, origin reality, and step-by-step path into Avengers: Doomsday."
