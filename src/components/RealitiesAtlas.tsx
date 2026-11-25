@@ -6,6 +6,7 @@ import {
   REALITIES,
   TITLES,
   charactersById,
+  getCharacterChipLabel,
   realitiesById,
   titlesById,
 } from '../data/index.ts';
@@ -110,7 +111,7 @@ export function RealitiesAtlas({
                             }}
                             className="rounded border border-[#cbb895] bg-[#fffaf0] px-2 py-0.5 text-[11px] font-medium text-[#1d1610] hover:border-[#b45309]"
                           >
-                            {ch.name}
+                            {getCharacterChipLabel(cId)}
                           </button>
                         );
                       })}

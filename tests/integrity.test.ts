@@ -18,6 +18,7 @@ import {
   entityExists,
   entityKey,
   factionsById,
+  getCharacterChipLabel,
   getEntityLabel,
   parseEntityKey,
   placesById,
@@ -461,4 +462,58 @@ test('CRT camera helpers clamp wheel zoom and fit off-center clusters', () => {
   const projectedY = 440 + fit.pan.y + (midY - 440) * fit.zoom;
   assert.ok(Math.abs(projectedX - 700) <= 1.5, `Expected centered X, got ${projectedX}`);
   assert.ok(Math.abs(projectedY - 440) <= 1.5, `Expected centered Y, got ${projectedY}`);
+});
+
+test('prevents cross-universe & non-appearance character mismatches and disambiguates variant chips', () => {
+  const miles = charactersById.get('miles-morales');
+  assert.ok(miles, 'Expected Miles Morales dossier');
+  assert.equal(miles.originRealityId, 'earth-1610b');
+
+  for (const id of ['spider-verse-2018', 'across-spider-verse-2023']) {
+    const title = titlesById.get(id)!;
+    assert.deepEqual(title.keyCharacterIds, ['miles-morales']);
+    assert.equal(title.keyCharacterIds.includes('peter-parker-616'), false);
+  }
+
+  const forbiddenOrigins = new Set(['earth-616', 'earth-10005', 'the-void', 'earth-828']);
+  for (const altId of [
+    'spider-verse-2018',
+    'across-spider-verse-2023',
+    'x-men-97',
+    'what-if-series',
+    'friendly-neighborhood-spider-man',
+    'marvel-zombies',
+  ]) {
+    const t = titlesById.get(altId)!;
+    for (const cId of t.keyCharacterIds) {
+      const ch = charactersById.get(cId)!;
+      assert.equal(
+        forbiddenOrigins.has(ch.originRealityId),
+        false,
+        `Alternate-universe title ${altId} must not link ${ch.originRealityId} character ${cId}`,
+      );
+    }
+  }
+
+  const forbiddenPairs: [string, string[]][] = [
+    ['guardians-of-the-galaxy', ['thor']],
+    ['jessica-jones-saga', ['daredevil']],
+    ['luke-cage-saga', ['daredevil']],
+    ['iron-fist-saga', ['daredevil']],
+    ['secret-invasion', ['monica-rambeau']],
+    ['eyes-of-wakanda', ['shuri', 'mbaku']],
+    ['x-men-origins-2009', ['gambit']],
+    ['doctor-strange-mom', ['professor-x']],
+  ];
+  for (const [titleId, disallowed] of forbiddenPairs) {
+    const t = titlesById.get(titleId)!;
+    for (const cId of disallowed) {
+      assert.equal(t.keyCharacterIds.includes(cId), false, `${titleId} must not link ${cId}`);
+    }
+  }
+
+  assert.equal(getCharacterChipLabel('peter-parker-616'), 'Peter Parker · E-616');
+  assert.equal(getCharacterChipLabel('peter-parker-96283'), 'Peter Parker · E-96283');
+  assert.equal(getCharacterChipLabel('peter-parker-120703'), 'Peter Parker · E-120703');
+  assert.equal(getCharacterChipLabel('miles-morales'), 'Miles Morales');
 });

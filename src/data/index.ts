@@ -48,6 +48,20 @@ export const titlesById = new Map<string, Title>(TITLES.map((t) => [t.id, t]));
 export const charactersById = new Map<string, Character>(CHARACTERS.map((c) => [c.id, c]));
 export const threadsById = new Map<string, PlotThread>(THREADS.map((t) => [t.id, t]));
 
+const characterNameCounts = new Map<string, number>();
+for (const c of CHARACTERS) {
+  characterNameCounts.set(c.name, (characterNameCounts.get(c.name) ?? 0) + 1);
+}
+
+/** Returns a compact character chip label, appending the reality code when multiple variants share a name. */
+export function getCharacterChipLabel(characterId: string): string {
+  const c = charactersById.get(characterId);
+  if (!c) return characterId;
+  if ((characterNameCounts.get(c.name) ?? 0) <= 1) return c.name;
+  const code = realitiesById.get(c.originRealityId)?.code;
+  return code ? `${c.name} · ${code}` : `${c.name} (${c.actor})`;
+}
+
 export function entityKey(ref: EntityRef): string {
   return `${ref.kind}:${ref.id}`;
 }

@@ -224,6 +224,7 @@ export const REALITIES: Reality[] = [
     imagePath: './places/legacy-multiverse-city.jpg',
     preferGenuineWiki: true,
     status: 'intact',
+    anchorBeingId: 'miles-morales',
     summary:
       'The animated Spider-Verse multiverse tracked by Miguel O’Hara’s Spider-Society—explicitly referencing Doctor Strange and Peter Parker’s "little nerd back on Earth-199999/616" as a multiversal anomaly.',
     color: '#be123c',

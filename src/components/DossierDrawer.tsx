@@ -17,6 +17,7 @@ import {
   TITLES,
   charactersById,
   factionsById,
+  getCharacterChipLabel,
   placesById,
   realitiesById,
   threadsById,
@@ -642,7 +643,7 @@ export function DossierDrawer({
 
                 {activeTab === 'connections' && (
                   <div className="space-y-4">
-                    {t.keyCharacterIds.length > 0 && (
+                    {t.keyCharacterIds.length > 0 ? (
                       <div className="space-y-2">
                         <h3 className="text-xs font-mono-code uppercase tracking-widest text-[#61503e] font-bold">
                           Key Characters ({t.keyCharacterIds.length})
@@ -656,13 +657,18 @@ export function DossierDrawer({
                                 key={cId}
                                 type="button"
                                 onClick={() => onSelect({ kind: 'character', id: cId })}
+                                title={`${ch.alias} · ${ch.actor}`}
                                 className="rounded border border-[#cbb895] bg-[#fffaf0] px-2.5 py-1 text-xs font-medium text-[#1d1610] hover:border-[#b45309]"
                               >
-                                {ch.name}
+                                {getCharacterChipLabel(cId)}
                               </button>
                             );
                           })}
                         </div>
+                      </div>
+                    ) : (
+                      <div className="tva-sheet rounded p-3 text-xs text-[#61503e]">
+                        No Doomsday-roster cast tracked directly in this standalone or alternate-branch entry.
                       </div>
                     )}
 
@@ -915,9 +921,10 @@ export function DossierDrawer({
                               key={cId}
                               type="button"
                               onClick={() => onSelect({ kind: 'character', id: cId })}
+                              title={`${c.alias} · ${c.actor}`}
                               className="rounded border border-[#cbb895] bg-[#fffaf0] px-2.5 py-1 text-xs text-[#1d1610] hover:border-[#b45309]"
                             >
-                              {c.name}
+                              {getCharacterChipLabel(cId)}
                             </button>
                           );
                         })}
@@ -1059,9 +1066,10 @@ export function DossierDrawer({
                               key={cId}
                               type="button"
                               onClick={() => onSelect({ kind: 'character', id: cId })}
+                              title={`${c.alias} · ${c.actor}`}
                               className="rounded border border-[#cbb895] bg-[#fffaf0] px-2.5 py-1 text-xs text-[#1d1610] hover:border-[#b45309]"
                             >
-                              {c.name}
+                              {getCharacterChipLabel(cId)}
                             </button>
                           );
                         })}

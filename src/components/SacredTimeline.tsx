@@ -1,6 +1,6 @@
 import { Fragment, useMemo, useState } from 'react';
 import { CheckSquare, Compass, Filter, RotateCcw, Square } from 'lucide-react';
-import { BEGINNER_12_IDS, TITLES, charactersById, realitiesById } from '../data/index.ts';
+import { BEGINNER_12_IDS, TITLES, getCharacterChipLabel, realitiesById } from '../data/index.ts';
 import type { EntityRef, TitleEra } from '../data/types.ts';
 import { titleTmdbQuery } from '../lib/tmdb.ts';
 import type { TimelinePreset } from '../state/useAppState.ts';
@@ -339,7 +339,7 @@ export function SacredTimeline({
                               key={cId}
                               className="rounded bg-[#fffaf0] border border-[#cbb895] px-2 py-0.5 text-[11px] text-[#1d1610]"
                             >
-                              {charactersById.get(cId)?.name}
+                              {getCharacterChipLabel(cId)}
                             </span>
                           ))}
                         </div>

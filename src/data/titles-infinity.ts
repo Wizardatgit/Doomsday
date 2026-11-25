@@ -198,7 +198,7 @@ export const INFINITY_TITLES: Title[] = [
       'Outlaws Star-Lord, Gamora, Drax, Rocket, and Groot unite to keep the Power Stone out of Ronan’s hands.',
     doomsdayConnection:
       'Expands cosmic MCU lore around Celestials and the Infinity Stones.',
-    keyCharacterIds: ['thor'],
+    keyCharacterIds: [],
     wikiPage: "Guardians_of_the_Galaxy_(film)",
   },
   {
@@ -276,7 +276,7 @@ export const INFINITY_TITLES: Title[] = [
       'Super-strong private investigator Jessica Jones overcomes Kilgrave and protects Hell’s Kitchen alongside Luke Cage.',
     doomsdayConnection:
       'Part of the canonized Defenders corner of Earth-616 street-level continuity.',
-    keyCharacterIds: ['daredevil'],
+    keyCharacterIds: [],
     wikiPage: "Jessica_Jones_(TV_series)",
   },
   {
@@ -295,7 +295,7 @@ export const INFINITY_TITLES: Title[] = [
       'Bulletproof Harlem protector Carl Lucas battles Cottonmouth, Diamondback, and Bushmaster.',
     doomsdayConnection:
       'Part of the canonized Defenders corner of Earth-616.',
-    keyCharacterIds: ['daredevil'],
+    keyCharacterIds: [],
     wikiPage: "Luke_Cage_(TV_series)",
   },
   {
@@ -314,7 +314,7 @@ export const INFINITY_TITLES: Title[] = [
       'Danny Rand returns from K’un-Lun wielding the Iron Fist to oppose The Hand.',
     doomsdayConnection:
       'Fleshes out the Immortal Weapons mythos on Earth-616.',
-    keyCharacterIds: ['daredevil'],
+    keyCharacterIds: [],
     wikiPage: "Iron_Fist_(TV_series)",
   },
   {

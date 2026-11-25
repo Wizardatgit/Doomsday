@@ -637,7 +637,6 @@ export const CHARACTERS: Character[] = [
     journey: [
       { titleId: 'x-men-2000', beat: 'Forms the X-Men to oppose Magneto while advocating mutant-human coexistence.' },
       { titleId: 'x-men-dofp-2014', beat: 'Dispatches Logan back to 1973, restoring the X-Mansion future.' },
-      { titleId: 'doctor-strange-mom', beat: 'An Earth-838 variant sits on the Illuminati before Wanda slays him.' },
       { titleId: 'avengers-doomsday', beat: 'Returns from Earth-10005 as universes collide.' },
     ],
   },
@@ -792,7 +791,6 @@ export const CHARACTERS: Character[] = [
     tags: ['Void Survivor', 'Confirmed Doomsday', 'Pre-MCU Meta'],
     wikiPage: "Gambit_(Marvel_Comics)",
     journey: [
-      { titleId: 'x-men-origins-2009', beat: 'Earlier Fox iteration of Remy LeBeau introduces Gambit on screen.' },
       { titleId: 'deadpool-wolverine', beat: 'Leads Void Resistance assault on Cassandra Nova’s fortress alongside Deadpool, Blade, and Elektra.' },
       { titleId: 'avengers-doomsday', beat: 'Crosses out of Void limbo into the confirmed Doomsday cast.' },
     ],
@@ -1060,6 +1058,30 @@ export const CHARACTERS: Character[] = [
       { titleId: 'amazing-spider-man-2012', beat: 'Unlocks Oscorp cross-species secrets.' },
       { titleId: 'amazing-spider-man-2-2014', beat: 'Loses Gwen Stacy during the clocktower battle.' },
       { titleId: 'spider-man-no-way-home', beat: 'Catches MJ at the Statue of Liberty and redeems his guilt.' },
+    ],
+  },
+  {
+    id: 'miles-morales',
+    name: 'Miles Morales',
+    alias: 'Spider-Man (Earth-1610B)',
+    actor: 'Shameik Moore',
+    factionId: 'wildcards',
+    originRealityId: 'earth-1610b',
+    currentRealityId: 'earth-1610b',
+    doomsdayStatus: 'legacy',
+    catalogCode: 'TVA-1610B-SM',
+    whoAreThey:
+      'Brooklyn teenager from Earth-1610B bitten by a dimensionally displaced Alchemax spider (42) who stepped up after his world’s Peter Parker fell.',
+    howTheyGotHere:
+      'Mentored by Earth-616B’s Peter B. Parker to shut down Kingpin’s collider, before clashing with Miguel O’Hara’s Spider-Society over "Canon Events" and Earth-616/199999’s Doctor Strange rift.',
+    lastKnownStatus: 'Stranded on Earth-42 facing his Prowler variant ahead of Beyond the Spider-Verse.',
+    firstAppearanceTitleId: 'spider-verse-2018',
+    lastSeenTitleId: 'across-spider-verse-2023',
+    tags: ['Spider-Verse', 'Earth-1610B', 'Canon Events'],
+    wikiPage: 'Miles_Morales',
+    journey: [
+      { titleId: 'spider-verse-2018', beat: 'Takes the leap of faith in Brooklyn and teams with Spider-variants to close Fisk’s collider.' },
+      { titleId: 'across-spider-verse-2023', beat: 'Defies Miguel O’Hara’s Spider-Society Canon Event rules and escapes to Earth-42.' },
     ],
   },
   {

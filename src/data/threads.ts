@@ -99,7 +99,7 @@ export const THREADS: PlotThread[] = [
       'Provides the exact physics behind the three-universe crisis in Doomsday (Earth-616, Earth-828, Earth-10005).',
     originTitleId: 'doctor-strange-mom',
     keyTitleIds: ['spider-man-no-way-home', 'doctor-strange-mom', 'avengers-doomsday'],
-    characterIds: ['doctor-strange', 'professor-x'],
+    characterIds: ['doctor-strange'],
     realityIds: ['earth-616', 'earth-838'],
     beats: [
       { titleId: 'spider-man-no-way-home', note: 'Strange’s botched spell nearly breaks Earth-616 open.' },

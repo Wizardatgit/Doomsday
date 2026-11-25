@@ -109,7 +109,7 @@ export const MULTIVERSE_TITLES: Title[] = [
       'The Watcher observes branching worlds including Captain Carter, Doctor Strange Supreme, and the multiversal Guardians of the Multiverse.',
     doomsdayConnection:
       'Demonstrates the perils of Absolute Points and multiversal incursion collapse across branches of Loki’s World Tree.',
-    keyCharacterIds: ['peggy-carter', 'doctor-strange'],
+    keyCharacterIds: [],
     wikiPage: "What_If...?_(TV_series)",
   },
   {
@@ -237,7 +237,7 @@ export const MULTIVERSE_TITLES: Title[] = [
       'Scarlet Witch hunts America Chavez across Earth-838, destroying the Illuminati (including Patrick Stewart’s Xavier variant) while 838 Reed Richards warns Doctor Strange about Incursions.',
     doomsdayConnection:
       'Defines the MCU’s core Incursion rules—realities colliding and annihilating one or both worlds—and sends Strange off with Clea to fix an incursion he triggered.',
-    keyCharacterIds: ['doctor-strange', 'professor-x'],
+    keyCharacterIds: ['doctor-strange'],
     postCredits: [
       {
         label: 'Mid-Credits',
@@ -425,7 +425,7 @@ export const MULTIVERSE_TITLES: Title[] = [
       'Nick Fury uncovers Gravik’s rogue Skrull cell before returning to S.A.B.E.R. space station.',
     doomsdayConnection:
       'Leaves Nick Fury aboard S.A.B.E.R. alongside Monica Rambeau entering The Marvels.',
-    keyCharacterIds: ['monica-rambeau'],
+    keyCharacterIds: [],
     wikiPage: "Secret_Invasion_(TV_series)",
   },
   {
@@ -547,7 +547,7 @@ export const MULTIVERSE_TITLES: Title[] = [
       'An alternate branch where Norman Osborn mentors young Peter Parker instead of Tony Stark.',
     doomsdayConnection:
       'Illustrates the multiverse branches radiating from Loki’s World Tree.',
-    keyCharacterIds: ['peter-parker-616'],
+    keyCharacterIds: [],
     wikiPage: "Your_Friendly_Neighborhood_Spider-Man",
   },
   {
@@ -662,7 +662,7 @@ export const MULTIVERSE_TITLES: Title[] = [
       'Anthology tracking Hatut Zeraze Wakandan warriors retrieving vibranium artifacts throughout ancient history.',
     doomsdayConnection:
       'Deepens Wakandan warrior heritage ahead of Shuri and M’Baku’s Doomsday deployment.',
-    keyCharacterIds: ['shuri', 'mbaku'],
+    keyCharacterIds: [],
     wikiPage: 'Eyes_of_Wakanda',
   },
 
@@ -714,7 +714,7 @@ export const MULTIVERSE_TITLES: Title[] = [
       'An alternate What If…? branch overrun by a quantum-virus outbreak where survivors like Shang-Chi, Yelena, and Kamala fight undead Avengers.',
     doomsdayConnection:
       'Standalone alternate-branch spotlight on Phase 4/5 heroes.',
-    keyCharacterIds: ['shang-chi', 'yelena-belova', 'ms-marvel', 'kate-bishop'],
+    keyCharacterIds: [],
     wikiPage: "Marvel_Zombies_(miniseries)",
   },
   {

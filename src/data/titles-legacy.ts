@@ -263,8 +263,8 @@ export const LEGACY_TITLES: Title[] = [
     summary:
       'Logan receives his adamantium skeleton through Weapon X and first encounters Gambit and Wade Wilson.',
     doomsdayConnection:
-      'Establishes adamantium lore in Fox continuity (later mirrored by MCU Tiamut adamantium) and Gambit’s earliest film tie before Channing Tatum’s realization.',
-    keyCharacterIds: ['wolverine', 'deadpool', 'gambit'],
+      'Establishes adamantium lore in Fox continuity (later mirrored by MCU Tiamut adamantium) alongside Logan and Wade Wilson.',
+    keyCharacterIds: ['wolverine', 'deadpool'],
     wikiPage: 'X-Men_Origins:_Wolverine',
   },
   {
@@ -499,7 +499,7 @@ export const LEGACY_TITLES: Title[] = [
       'Miles Morales becomes Earth-1610B’s Spider-Man when Kingpin’s Super-Collider pulls Spider-heroes across dimensions.',
     doomsdayConnection:
       'Visually establishes multiverse glitching and Spider-Totem dimension rules.',
-    keyCharacterIds: ['peter-parker-616'],
+    keyCharacterIds: ['miles-morales'],
     wikiPage: 'Spider-Man:_Into_the_Spider-Verse',
   },
   {
@@ -563,7 +563,7 @@ export const LEGACY_TITLES: Title[] = [
       'Miguel O’Hara’s Spider-Society polices "Canon Events" and dimensional holes across the Web of Life and Destiny.',
     doomsdayConnection:
       'Explicitly calls out Earth-616 (199999) Doctor Strange and Spider-Man’s multiversal rift.',
-    keyCharacterIds: ['peter-parker-616'],
+    keyCharacterIds: ['miles-morales'],
     wikiPage: 'Spider-Man:_Across_the_Spider-Verse',
   },
   {
@@ -582,7 +582,7 @@ export const LEGACY_TITLES: Title[] = [
       'Continuing the 1990s animated series, Magneto inherits Xavier’s school after Genosha tragedy while Cyclops leads in classic yellow-and-blue.',
     doomsdayConnection:
       'Inspirational bridge to Doomsday’s comic-accurate live-action Cyclops, Gambit, and mutant brotherhood.',
-    keyCharacterIds: ['cyclops', 'professor-x', 'magneto', 'gambit'],
+    keyCharacterIds: [],
     wikiPage: "X-Men_'97",
   },
   {
