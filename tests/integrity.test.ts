@@ -29,9 +29,13 @@ import {
 import { buildUnifiedGraph, findShortestPath, getNeighborhood } from '../src/lib/graph.ts';
 import {
   CORE_HUB_KEYS,
+  CRT_ZOOM_MAX,
+  CRT_ZOOM_MIN,
   GRAPH_BOUNDS,
   collapseBranchMap,
   computeExploreTreeLayout,
+  computeFitCamera,
+  nextWheelZoom,
   pickNextNeighbors,
   shortenGraphLabel,
 } from '../src/lib/graphTree.ts';
@@ -411,4 +415,27 @@ test('place dossiers resolve uniquely via placesById & searchCatalog, and titleT
   assert.ok(wikiBatchUrl.includes('pilicense=any'));
   assert.ok(wikiBatchUrl.includes('piprop=thumbnail'));
   assert.equal(typeof fetchWikiThumbnail, 'function');
+});
+
+test('CRT camera helpers clamp wheel zoom and fit off-center clusters', () => {
+  assert.equal(nextWheelZoom(1, 0), 1);
+  assert.ok(nextWheelZoom(1, -120) > 1);
+  assert.ok(nextWheelZoom(1, 120) < 1);
+  assert.equal(nextWheelZoom(CRT_ZOOM_MAX, -500), CRT_ZOOM_MAX);
+  assert.equal(nextWheelZoom(CRT_ZOOM_MIN, 500), CRT_ZOOM_MIN);
+
+  assert.deepEqual(computeFitCamera([]), { zoom: 1, pan: { x: 0, y: 0 } });
+
+  const pts = [
+    { x: 200, y: 150 },
+    { x: 400, y: 250 },
+  ];
+  const fit = computeFitCamera(pts);
+  assert.ok(fit.zoom >= 0.55 && fit.zoom <= 1.55);
+  const midX = 300;
+  const midY = 205;
+  const projectedX = 700 + fit.pan.x + (midX - 700) * fit.zoom;
+  const projectedY = 440 + fit.pan.y + (midY - 440) * fit.zoom;
+  assert.ok(Math.abs(projectedX - 700) <= 1.5, `Expected centered X, got ${projectedX}`);
+  assert.ok(Math.abs(projectedY - 440) <= 1.5, `Expected centered Y, got ${projectedY}`);
 });

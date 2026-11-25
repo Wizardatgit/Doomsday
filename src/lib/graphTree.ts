@@ -227,6 +227,52 @@ export function computeExploreTreeLayout(
     .filter((item): item is TreePosition => item !== null);
 }
 
+export const CRT_ZOOM_MIN = 0.45;
+export const CRT_ZOOM_MAX = 2.6;
+
+/** Computes the next clamped CRT zoom factor from a mouse-wheel or trackpad event. */
+export function nextWheelZoom(currentZoom: number, deltaY: number, deltaMode = 0): number {
+  if (deltaY === 0) return currentZoom;
+  const step = deltaMode === 1 ? deltaY * 16 : deltaY;
+  const delta = -Math.max(-0.22, Math.min(0.22, step * 0.0014));
+  return Math.min(CRT_ZOOM_MAX, Math.max(CRT_ZOOM_MIN, Number((currentZoom + delta).toFixed(4))));
+}
+
+/** Computes a zoom & pan camera that centers and fits all visible node coordinates. */
+export function computeFitCamera(
+  positions: readonly { x: number; y: number }[],
+): { zoom: number; pan: { x: number; y: number } } {
+  if (positions.length === 0) return { zoom: 1, pan: { x: 0, y: 0 } };
+  let rawMinX = Infinity;
+  let rawMaxX = -Infinity;
+  let rawMinY = Infinity;
+  let rawMaxY = -Infinity;
+  for (const p of positions) {
+    if (p.x < rawMinX) rawMinX = p.x;
+    if (p.x > rawMaxX) rawMaxX = p.x;
+    if (p.y < rawMinY) rawMinY = p.y;
+    if (p.y > rawMaxY) rawMaxY = p.y;
+  }
+  const minX = rawMinX - 95;
+  const maxX = rawMaxX + 95;
+  const minY = rawMinY - 55;
+  const maxY = rawMaxY + 65;
+  const spanW = Math.max(1, maxX - minX);
+  const spanH = Math.max(1, maxY - minY);
+  const zoom = Number(
+    Math.min(1.55, Math.max(0.55, Math.min(1320 / spanW, 800 / spanH))).toFixed(4),
+  );
+  const midX = (minX + maxX) / 2;
+  const midY = (minY + maxY) / 2;
+  return {
+    zoom,
+    pan: {
+      x: Math.round((700 - midX) * zoom),
+      y: Math.round((440 - midY) * zoom),
+    },
+  };
+}
+
 /** Filters graph edges to connections where both endpoints are active on screen. */
 export function getVisibleTreeEdges(
   graph: UnifiedGraph,

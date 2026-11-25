@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   Crosshair,
   ExternalLink,
+  Maximize2,
   Network,
   Plus,
   RotateCcw,
@@ -15,15 +16,61 @@ import type { EntityRef } from '../data/index.ts';
 import { buildUnifiedGraph, type GraphNode } from '../lib/graph.ts';
 import {
   CORE_HUB_KEYS,
+  CRT_ZOOM_MAX,
+  CRT_ZOOM_MIN,
   collapseBranchMap,
   collectVisibleTree,
   computeExploreTreeLayout,
+  computeFitCamera,
   getVisibleTreeEdges,
+  nextWheelZoom,
   pickNextNeighbors,
   shortenGraphLabel,
 } from '../lib/graphTree.ts';
 
 const CORE_HUB_SET = new Set<string>(CORE_HUB_KEYS);
+
+const RADAR_RINGS = [
+  { r: 135, dashed: false, opacity: 0.2 },
+  { r: 255, dashed: true, opacity: 0.16 },
+  { r: 385, dashed: false, opacity: 0.14 },
+  { r: 520, dashed: true, opacity: 0.11 },
+] as const;
+
+const RADAR_TICKS = Array.from({ length: 24 }, (_, i) => {
+  const rad = ((i * 15 - 90) * Math.PI) / 180;
+  const rInner = i % 2 === 0 ? 377 : 381;
+  const rOuter = 390;
+  return {
+    x1: 700 + Math.cos(rad) * rInner,
+    y1: 440 + Math.sin(rad) * rInner,
+    x2: 700 + Math.cos(rad) * rOuter,
+    y2: 440 + Math.sin(rad) * rOuter,
+    major: i % 2 === 0,
+  };
+});
+
+const CRT_SPARKS = [
+  { x: 118, y: 128, r: 1.9, color: '#f59e0b', delay: '0s' },
+  { x: 246, y: 94, r: 1.4, color: '#38bdf8', delay: '0.8s' },
+  { x: 392, y: 164, r: 1.6, color: '#f59e0b', delay: '1.5s' },
+  { x: 540, y: 88, r: 1.3, color: '#10b981', delay: '2.1s' },
+  { x: 874, y: 98, r: 1.8, color: '#10b981', delay: '0.4s' },
+  { x: 1036, y: 156, r: 1.5, color: '#f59e0b', delay: '1.9s' },
+  { x: 1192, y: 112, r: 2.1, color: '#10b981', delay: '2.7s' },
+  { x: 1296, y: 234, r: 1.4, color: '#f59e0b', delay: '1.1s' },
+  { x: 108, y: 404, r: 1.5, color: '#38bdf8', delay: '2.4s' },
+  { x: 184, y: 696, r: 2.2, color: '#38bdf8', delay: '0.6s' },
+  { x: 320, y: 786, r: 1.4, color: '#f59e0b', delay: '1.7s' },
+  { x: 518, y: 794, r: 1.7, color: '#f59e0b', delay: '3.1s' },
+  { x: 912, y: 792, r: 1.6, color: '#10b981', delay: '0.9s' },
+  { x: 1120, y: 768, r: 2.0, color: '#f59e0b', delay: '2.2s' },
+  { x: 1264, y: 642, r: 1.5, color: '#10b981', delay: '1.3s' },
+  { x: 1310, y: 446, r: 1.7, color: '#f59e0b', delay: '2.9s' },
+] as const;
+
+const SWEEP_END_X = 700 + Math.cos((-48 * Math.PI) / 180) * 520;
+const SWEEP_END_Y = 440 + Math.sin((-48 * Math.PI) / 180) * 520;
 
 const KIND_GROUPS: { kind: GraphNode['kind']; heading: string; badge: string }[] = [
   { kind: 'reality', heading: 'Realities & Timelines', badge: 'R' },
@@ -64,6 +111,7 @@ export function ConnectionGraph({
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
+  const viewportRef = useRef<HTMLDivElement | null>(null);
   const dragRef = useRef<{
     active: boolean;
     startX: number;
@@ -82,6 +130,19 @@ export function ConnectionGraph({
     setZoom(1);
     setPan({ x: 0, y: 0 });
   };
+
+  // Native non-passive wheel listener so scrolling inside the CRT never scrolls the outer page
+  useEffect(() => {
+    const el = viewportRef.current;
+    if (!el) return;
+    const onNativeWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setZoom((z) => nextWheelZoom(z, e.deltaY, e.deltaMode));
+    };
+    el.addEventListener('wheel', onNativeWheel, { passive: false });
+    return () => el.removeEventListener('wheel', onNativeWheel);
+  }, []);
 
   useEffect(() => {
     if (focusKey && graph.nodes.has(focusKey)) {
@@ -333,9 +394,11 @@ export function ConnectionGraph({
 
         <div className="relative tva-crt-screen rounded-lg overflow-hidden h-[540px] sm:h-[620px] select-none">
           <div className="tva-scanlines absolute inset-0 z-10 opacity-40" />
+          <div className="tva-crt-vignette absolute inset-0 z-10" />
 
           <div
-            className="w-full h-full cursor-grab active:cursor-grabbing"
+            ref={viewportRef}
+            className="w-full h-full cursor-grab active:cursor-grabbing overscroll-contain touch-none"
             onPointerDown={(e) => {
               setIsDragging(true);
               dragRef.current = {
@@ -361,10 +424,6 @@ export function ConnectionGraph({
               dragRef.current.active = false;
               setIsDragging(false);
             }}
-            onWheel={(e) => {
-              e.preventDefault();
-              setZoom((z) => Math.min(2.6, Math.max(0.45, z + (e.deltaY < 0 ? 0.12 : -0.12))));
-            }}
           >
             <svg
               viewBox="0 0 1400 880"
@@ -378,6 +437,27 @@ export function ConnectionGraph({
                 <pattern id="tva-grid" width="40" height="40" patternUnits="userSpaceOnUse">
                   <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#241c15" strokeWidth="1" />
                 </pattern>
+                <pattern id="tva-grid-major" width="160" height="160" patternUnits="userSpaceOnUse">
+                  <path d="M 160 0 L 0 0 0 160" fill="none" stroke="#36281c" strokeWidth="1.2" strokeOpacity="0.45" />
+                </pattern>
+                <radialGradient id="crt-glow-bg-amber" cx="50%" cy="50%" r="54%">
+                  <stop offset="0%" stopColor="#f59e0b" stopOpacity="0.14" />
+                  <stop offset="52%" stopColor="#b45309" stopOpacity="0.05" />
+                  <stop offset="100%" stopColor="#0c0907" stopOpacity="0" />
+                </radialGradient>
+                <radialGradient id="crt-glow-bg-emerald" cx="76%" cy="24%" r="40%">
+                  <stop offset="0%" stopColor="#10b981" stopOpacity="0.1" />
+                  <stop offset="100%" stopColor="#0c0907" stopOpacity="0" />
+                </radialGradient>
+                <radialGradient id="crt-glow-bg-sky" cx="22%" cy="78%" r="42%">
+                  <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.075" />
+                  <stop offset="100%" stopColor="#0c0907" stopOpacity="0" />
+                </radialGradient>
+                <linearGradient id="crt-sweep-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#f59e0b" stopOpacity="0.16" />
+                  <stop offset="70%" stopColor="#f59e0b" stopOpacity="0.04" />
+                  <stop offset="100%" stopColor="#f59e0b" stopOpacity="0" />
+                </linearGradient>
                 <filter id="crt-glow-amber" x="-40%" y="-40%" width="180%" height="180%">
                   <feGaussianBlur stdDeviation="3.5" result="blur" />
                   <feMerge>
@@ -393,7 +473,139 @@ export function ConnectionGraph({
                   </feMerge>
                 </filter>
               </defs>
-              <rect width="1400" height="880" fill="url(#tva-grid)" />
+
+              <g className="pointer-events-none">
+                <rect width="1400" height="880" fill="url(#crt-glow-bg-amber)" />
+                <rect width="1400" height="880" fill="url(#crt-glow-bg-emerald)" />
+                <rect width="1400" height="880" fill="url(#crt-glow-bg-sky)" />
+                <rect width="1400" height="880" fill="url(#tva-grid)" />
+                <rect width="1400" height="880" fill="url(#tva-grid-major)" />
+
+                {/* Yggdrasil Temporal Branch Curves */}
+                <g fill="none" strokeLinecap="round">
+                  <path
+                    d="M 700 880 C 700 680, 680 560, 700 440 C 720 320, 685 180, 700 20"
+                    stroke="#f59e0b"
+                    strokeOpacity="0.14"
+                    strokeWidth="2"
+                  />
+                  <path
+                    d="M 700 650 C 560 590, 410 530, 120 390"
+                    stroke="#f59e0b"
+                    strokeOpacity="0.11"
+                    strokeWidth="1.4"
+                    strokeDasharray="8 6"
+                  />
+                  <path
+                    d="M 700 590 C 860 540, 1020 480, 1290 360"
+                    stroke="#10b981"
+                    strokeOpacity="0.11"
+                    strokeWidth="1.4"
+                    strokeDasharray="6 6"
+                  />
+                  <path
+                    d="M 700 470 C 540 380, 390 250, 160 110"
+                    stroke="#38bdf8"
+                    strokeOpacity="0.095"
+                    strokeWidth="1.3"
+                  />
+                  <path
+                    d="M 700 440 C 860 350, 1020 220, 1250 96"
+                    stroke="#10b981"
+                    strokeOpacity="0.12"
+                    strokeWidth="1.5"
+                  />
+                  <path
+                    d="M 700 720 C 570 760, 390 790, 140 820"
+                    stroke="#f59e0b"
+                    strokeOpacity="0.09"
+                    strokeWidth="1.2"
+                  />
+                  <path
+                    d="M 700 720 C 850 755, 1040 785, 1280 815"
+                    stroke="#f59e0b"
+                    strokeOpacity="0.09"
+                    strokeWidth="1.2"
+                  />
+                </g>
+
+                {/* TVA Concentric Radar Range Rings & Degree Ticks */}
+                <g>
+                  {RADAR_RINGS.map((ring) => (
+                    <circle
+                      key={ring.r}
+                      cx="700"
+                      cy="440"
+                      r={ring.r}
+                      fill="none"
+                      stroke="#f59e0b"
+                      strokeOpacity={ring.opacity}
+                      strokeWidth="1"
+                      strokeDasharray={ring.dashed ? '4 6' : undefined}
+                    />
+                  ))}
+                  <line x1="160" y1="440" x2="1240" y2="440" stroke="#f59e0b" strokeOpacity="0.1" strokeWidth="1" strokeDasharray="3 8" />
+                  <line x1="700" y1="48" x2="700" y2="832" stroke="#f59e0b" strokeOpacity="0.1" strokeWidth="1" strokeDasharray="3 8" />
+
+                  {RADAR_TICKS.map((t, idx) => (
+                    <line
+                      key={idx}
+                      x1={t.x1}
+                      y1={t.y1}
+                      x2={t.x2}
+                      y2={t.y2}
+                      stroke="#f59e0b"
+                      strokeOpacity={t.major ? 0.34 : 0.16}
+                      strokeWidth={t.major ? 1.3 : 0.9}
+                    />
+                  ))}
+
+                  <g fill="#f59e0b" fillOpacity="0.34" fontSize="9.5" fontFamily="IBM Plex Mono, monospace">
+                    <text x="700" y="42" textAnchor="middle">000°</text>
+                    <text x="1104" y="443" textAnchor="start">090°</text>
+                    <text x="700" y="846" textAnchor="middle">180°</text>
+                    <text x="296" y="443" textAnchor="end">270°</text>
+                  </g>
+                </g>
+
+                {/* Rotating Phosphor Radar Sweep */}
+                <g className="crt-radar-sweep">
+                  <path
+                    d={`M 700 440 L 700 -80 A 520 520 0 0 1 ${SWEEP_END_X} ${SWEEP_END_Y} Z`}
+                    fill="url(#crt-sweep-grad)"
+                  />
+                  <line
+                    x1="700"
+                    y1="440"
+                    x2="700"
+                    y2="-80"
+                    stroke="#fbbf24"
+                    strokeOpacity="0.28"
+                    strokeWidth="1.2"
+                  />
+                </g>
+
+                {/* Ambient Temporal Sparks */}
+                {CRT_SPARKS.map((s, idx) => (
+                  <circle
+                    key={idx}
+                    cx={s.x}
+                    cy={s.y}
+                    r={s.r}
+                    fill={s.color}
+                    className="crt-spark"
+                    style={{ animationDelay: s.delay }}
+                  />
+                ))}
+
+                {/* Oscilloscope Corner L-Brackets */}
+                <g stroke="#f59e0b" strokeOpacity="0.28" strokeWidth="1.4" fill="none">
+                  <path d="M 22 44 L 22 22 L 44 22" />
+                  <path d="M 1356 22 L 1378 22 L 1378 44" />
+                  <path d="M 22 836 L 22 858 L 44 858" />
+                  <path d="M 1356 858 L 1378 858 L 1378 836" />
+                </g>
+              </g>
 
               <g
                 className={isDragging ? undefined : 'crt-camera'}
@@ -640,9 +852,12 @@ export function ConnectionGraph({
           </div>
 
           <div className="absolute top-3 right-3 z-20 flex items-center gap-1 rounded border border-[#3a2d22] bg-[#14100d]/95 p-1">
+            <span className="px-1.5 text-[10px] font-mono-code font-semibold text-amber-300 tabular-nums">
+              {Math.round(zoom * 100)}%
+            </span>
             <button
               type="button"
-              onClick={() => setZoom((z) => Math.min(2.6, z + 0.25))}
+              onClick={() => setZoom((z) => Math.min(CRT_ZOOM_MAX, Number((z + 0.25).toFixed(4))))}
               className="p-1.5 rounded hover:bg-[#2a2119] text-[#f3e8d2]"
               title="Zoom in"
             >
@@ -650,11 +865,23 @@ export function ConnectionGraph({
             </button>
             <button
               type="button"
-              onClick={() => setZoom((z) => Math.max(0.45, z - 0.25))}
+              onClick={() => setZoom((z) => Math.max(CRT_ZOOM_MIN, Number((z - 0.25).toFixed(4))))}
               className="p-1.5 rounded hover:bg-[#2a2119] text-[#f3e8d2]"
               title="Zoom out"
             >
               <ZoomOut className="w-4 h-4" />
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                const next = computeFitCamera(positioned);
+                setZoom(next.zoom);
+                setPan(next.pan);
+              }}
+              className="p-1.5 rounded hover:bg-[#2a2119] text-[#f3e8d2]"
+              title="Fit all visible nodes"
+            >
+              <Maximize2 className="w-4 h-4" />
             </button>
             <button
               type="button"
@@ -672,6 +899,20 @@ export function ConnectionGraph({
             <span><strong className="text-amber-400">R</strong> Reality</span>
             <span><strong className="text-amber-400">T</strong> Thread</span>
             <span><strong className="text-sky-400">●</strong> Expanded</span>
+          </div>
+
+          <div className="pointer-events-none absolute bottom-3 left-3 z-20 hidden sm:flex items-center gap-2 rounded border border-[#3a2d22] bg-[#14100d]/85 px-2.5 py-1 text-[10px] font-mono-code text-[#a89984]">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 tva-loom-pulse" />
+            <span>TEMP-LOOM // E-616 · E-828 · E-10005</span>
+            <span className="text-[#61503e]">·</span>
+            <span className="text-[#d6c5a3]">Scroll to zoom · Drag to pan</span>
+          </div>
+
+          <div className="pointer-events-none absolute bottom-3 right-3 z-20 rounded border border-[#3a2d22] bg-[#14100d]/85 px-2.5 py-1 text-[10px] font-mono-code text-[#d6c5a3] tabular-nums">
+            ZOOM {Math.round(zoom * 100)}% · PAN {Math.round(pan.x)},{Math.round(pan.y)} ·{' '}
+            <span className={selectedNode ? 'text-emerald-400' : 'text-amber-400'}>
+              {selectedNode ? 'TARGET LOCK' : 'SCANNING'}
+            </span>
           </div>
 
         </div>
