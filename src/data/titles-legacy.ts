@@ -18,8 +18,6 @@ export const LEGACY_TITLES: Title[] = [
     doomsdayConnection:
       'Establishes Wesley Snipes’ Blade, who later resurfaces in The Void in Deadpool & Wolverine as proof that pre-Phase-1 film universes feed into MCU multiverse convergence.',
     keyCharacterIds: ['blade'],
-    tmdbId: 36647,
-    tmdbMediaType: 'movie',
     wikiPage: "Blade_(1998_film)",
   },
   {
@@ -39,8 +37,6 @@ export const LEGACY_TITLES: Title[] = [
     doomsdayConnection:
       'Introduces the exact Fox ensemble—Professor X, Magneto, Cyclops, Mystique, and Wolverine—returning in Avengers: Doomsday.',
     keyCharacterIds: ['professor-x', 'magneto', 'cyclops', 'mystique', 'wolverine'],
-    tmdbId: 36657,
-    tmdbMediaType: 'movie',
     wikiPage: "X-Men_(film)",
   },
   {
@@ -60,8 +56,7 @@ export const LEGACY_TITLES: Title[] = [
     doomsdayConnection:
       'Builds out the Earth-26320 history that keeps Wesley Snipes’ Daywalker alive in multiverse lore.',
     keyCharacterIds: ['blade'],
-    tmdbId: 36586,
-    tmdbMediaType: 'movie',
+    wikiPage: 'Blade_II',
   },
   {
     id: 'spider-man-2002',
@@ -80,8 +75,6 @@ export const LEGACY_TITLES: Title[] = [
     doomsdayConnection:
       'Origin of Tobey Maguire’s Spider-Man (Earth-96283), pulled directly into Earth-616 during Spider-Man: No Way Home.',
     keyCharacterIds: ['peter-parker-96283'],
-    tmdbId: 557,
-    tmdbMediaType: 'movie',
     wikiPage: "Spider-Man_(2002_film)",
   },
   {
@@ -101,8 +94,6 @@ export const LEGACY_TITLES: Title[] = [
     doomsdayConnection:
       'Introduces Jennifer Garner’s Elektra Natchios (Earth-701306), who survives pruning into The Void alongside Blade and Gambit.',
     keyCharacterIds: ['elektra'],
-    tmdbId: 9480,
-    tmdbMediaType: 'movie',
     wikiPage: "Daredevil_(film)",
   },
   {
@@ -122,8 +113,6 @@ export const LEGACY_TITLES: Title[] = [
     doomsdayConnection:
       'Introduces Alan Cumming’s Nightcrawler—returning in Avengers: Doomsday—and deepens the Xavier/Magneto/Cyclops dynamic.',
     keyCharacterIds: ['professor-x', 'magneto', 'cyclops', 'nightcrawler', 'mystique', 'wolverine'],
-    tmdbId: 36658,
-    tmdbMediaType: 'movie',
     wikiPage: "X2_(film)",
   },
   {
@@ -143,8 +132,7 @@ export const LEGACY_TITLES: Title[] = [
     doomsdayConnection:
       'Sets up Otto Octavius’s arc resolved years later on Earth-616 in No Way Home.',
     keyCharacterIds: ['peter-parker-96283'],
-    tmdbId: 558,
-    tmdbMediaType: 'movie',
+    wikiPage: 'Spider-Man_2',
   },
   {
     id: 'blade-trinity-2004',
@@ -163,8 +151,7 @@ export const LEGACY_TITLES: Title[] = [
     doomsdayConnection:
       'Closes out Wesley Snipes’ pre-MCU solo run prior to his Void comeback.',
     keyCharacterIds: ['blade'],
-    tmdbId: 36648,
-    tmdbMediaType: 'movie',
+    wikiPage: 'Blade:_Trinity',
   },
   {
     id: 'elektra-2005',
@@ -183,8 +170,6 @@ export const LEGACY_TITLES: Title[] = [
     doomsdayConnection:
       'Completes Elektra’s solo backstory prior to her Void Resistance alliance with Gambit, Blade, and Deadpool.',
     keyCharacterIds: ['elektra'],
-    tmdbId: 9947,
-    tmdbMediaType: 'movie',
     wikiPage: "Elektra_(2005_film)",
   },
   {
@@ -204,8 +189,6 @@ export const LEGACY_TITLES: Title[] = [
     doomsdayConnection:
       'Establishes Chris Evans’ legacy Johnny Storm (later pruned to The Void in Deadpool & Wolverine) and previews live-action Doctor Doom before Earth-828’s First Family.',
     keyCharacterIds: ['johnny-storm-2005'],
-    tmdbId: 9738,
-    tmdbMediaType: 'movie',
     wikiPage: "Fantastic_Four_(2005_film)",
   },
   {
@@ -225,8 +208,7 @@ export const LEGACY_TITLES: Title[] = [
     doomsdayConnection:
       'Origin of Kelsey Grammer’s Beast—the exact version Monica Rambeau meets in The Marvels post-credits scene and returning for Doomsday.',
     keyCharacterIds: ['professor-x', 'magneto', 'cyclops', 'beast', 'mystique', 'wolverine'],
-    tmdbId: 36668,
-    tmdbMediaType: 'movie',
+    wikiPage: 'X-Men:_The_Last_Stand',
   },
   {
     id: 'spider-man-3-2007',
@@ -245,8 +227,7 @@ export const LEGACY_TITLES: Title[] = [
     doomsdayConnection:
       'Completes Raimi’s Sandman/Spider-Man arc ahead of No Way Home’s multiverse cure.',
     keyCharacterIds: ['peter-parker-96283'],
-    tmdbId: 559,
-    tmdbMediaType: 'movie',
+    wikiPage: 'Spider-Man_3',
   },
   {
     id: 'f4-silver-surfer-2007',
@@ -265,8 +246,7 @@ export const LEGACY_TITLES: Title[] = [
     doomsdayConnection:
       'Early live-action Galactus & Doom precursor contrasting with Earth-828’s Fantastic Four: First Steps.',
     keyCharacterIds: ['johnny-storm-2005'],
-    tmdbId: 1979,
-    tmdbMediaType: 'movie',
+    wikiPage: 'Fantastic_Four:_Rise_of_the_Silver_Surfer',
   },
   {
     id: 'x-men-origins-2009',
@@ -285,8 +265,7 @@ export const LEGACY_TITLES: Title[] = [
     doomsdayConnection:
       'Establishes adamantium lore in Fox continuity (later mirrored by MCU Tiamut adamantium) and Gambit’s earliest film tie before Channing Tatum’s realization.',
     keyCharacterIds: ['wolverine', 'deadpool', 'gambit'],
-    tmdbId: 2080,
-    tmdbMediaType: 'movie',
+    wikiPage: 'X-Men_Origins:_Wolverine',
   },
   {
     id: 'x-men-first-class-2011',
@@ -305,8 +284,7 @@ export const LEGACY_TITLES: Title[] = [
     doomsdayConnection:
       'Explains the lifelong bond and rivalry between Xavier, Magneto, Mystique, and Beast heading into Doomsday.',
     keyCharacterIds: ['professor-x', 'magneto', 'beast', 'mystique'],
-    tmdbId: 49538,
-    tmdbMediaType: 'movie',
+    wikiPage: 'X-Men:_First_Class',
   },
   {
     id: 'amazing-spider-man-2012',
@@ -325,8 +303,7 @@ export const LEGACY_TITLES: Title[] = [
     doomsdayConnection:
       'Origin of Earth-120703’s Spider-Man, pulled into Earth-616 during No Way Home.',
     keyCharacterIds: ['peter-parker-120703'],
-    tmdbId: 1930,
-    tmdbMediaType: 'movie',
+    wikiPage: 'The_Amazing_Spider-Man_(film)',
   },
   {
     id: 'the-wolverine-2013',
@@ -352,8 +329,7 @@ export const LEGACY_TITLES: Title[] = [
         leadsToTitleId: 'x-men-dofp-2014',
       },
     ],
-    tmdbId: 76170,
-    tmdbMediaType: 'movie',
+    wikiPage: 'The_Wolverine_(film)',
   },
   {
     id: 'amazing-spider-man-2-2014',
@@ -372,8 +348,7 @@ export const LEGACY_TITLES: Title[] = [
     doomsdayConnection:
       'Directly sets up Andrew Garfield’s emotional redemption catching MJ on Earth-616 in No Way Home.',
     keyCharacterIds: ['peter-parker-120703'],
-    tmdbId: 102382,
-    tmdbMediaType: 'movie',
+    wikiPage: 'The_Amazing_Spider-Man_2',
   },
   {
     id: 'x-men-dofp-2014',
@@ -392,8 +367,7 @@ export const LEGACY_TITLES: Title[] = [
     doomsdayConnection:
       'Restores the happy Earth-10005 X-Mansion timeline featuring Cyclops, Beast, and Xavier—the bridge directly leading into their Doomsday return.',
     keyCharacterIds: ['wolverine', 'professor-x', 'magneto', 'cyclops', 'beast', 'mystique'],
-    tmdbId: 127585,
-    tmdbMediaType: 'movie',
+    wikiPage: 'X-Men:_Days_of_Future_Past',
   },
   {
     id: 'agent-carter-series',
@@ -412,8 +386,6 @@ export const LEGACY_TITLES: Title[] = [
     doomsdayConnection:
       'Fleshes out Peggy Carter’s post-WWII era—vital context for Steve Rogers’ alternate 1940s branch timeline spotlighted in Doomsday.',
     keyCharacterIds: ['peggy-carter'],
-    tmdbId: 61550,
-    tmdbMediaType: 'tv',
     wikiPage: "Agent_Carter_(TV_series)",
   },
   {
@@ -433,8 +405,6 @@ export const LEGACY_TITLES: Title[] = [
     doomsdayConnection:
       'Establishes Deadpool on Earth-10005 prior to his TVA and Void adventure.',
     keyCharacterIds: ['deadpool'],
-    tmdbId: 293660,
-    tmdbMediaType: 'movie',
     wikiPage: "Deadpool_(film)",
   },
   {
@@ -454,8 +424,7 @@ export const LEGACY_TITLES: Title[] = [
     doomsdayConnection:
       'Expands the revised Earth-10005 timeline following Days of Future Past.',
     keyCharacterIds: ['professor-x', 'magneto', 'cyclops', 'nightcrawler', 'beast', 'mystique'],
-    tmdbId: 246655,
-    tmdbMediaType: 'movie',
+    wikiPage: 'X-Men:_Apocalypse',
   },
   {
     id: 'logan-2017',
@@ -474,8 +443,6 @@ export const LEGACY_TITLES: Title[] = [
     doomsdayConnection:
       'Crucial multiverse rule-setter: Logan was Earth-10005’s Anchor Being, and his death triggered the reality decay that drew Deadpool and the TVA into action.',
     keyCharacterIds: ['wolverine', 'professor-x'],
-    tmdbId: 263115,
-    tmdbMediaType: 'movie',
     wikiPage: "Logan_(film)",
   },
   {
@@ -495,8 +462,7 @@ export const LEGACY_TITLES: Title[] = [
     doomsdayConnection:
       'Cable’s time slider lands Wade in hot water with TVA Agent Paradox in Deadpool & Wolverine.',
     keyCharacterIds: ['deadpool'],
-    tmdbId: 383498,
-    tmdbMediaType: 'movie',
+    wikiPage: 'Deadpool_2',
   },
   {
     id: 'venom-2018',
@@ -515,8 +481,6 @@ export const LEGACY_TITLES: Title[] = [
     doomsdayConnection:
       'Origin of Sony’s Venom, whose hive-mind pulls him momentarily into Earth-616.',
     keyCharacterIds: ['venom'],
-    tmdbId: 335983,
-    tmdbMediaType: 'movie',
     wikiPage: "Venom_(2018_film)",
   },
   {
@@ -536,8 +500,7 @@ export const LEGACY_TITLES: Title[] = [
     doomsdayConnection:
       'Visually establishes multiverse glitching and Spider-Totem dimension rules.',
     keyCharacterIds: ['peter-parker-616'],
-    tmdbId: 324857,
-    tmdbMediaType: 'movie',
+    wikiPage: 'Spider-Man:_Into_the_Spider-Verse',
   },
   {
     id: 'dark-phoenix-2019',
@@ -556,8 +519,7 @@ export const LEGACY_TITLES: Title[] = [
     doomsdayConnection:
       'Final Fox-produced X-Men ensemble chapter before Disney/Marvel Studios reclaimed mutants.',
     keyCharacterIds: ['professor-x', 'magneto', 'cyclops', 'nightcrawler', 'beast', 'mystique'],
-    tmdbId: 320288,
-    tmdbMediaType: 'movie',
+    wikiPage: 'Dark_Phoenix_(film)',
   },
   {
     id: 'venom-2-2021',
@@ -583,8 +545,7 @@ export const LEGACY_TITLES: Title[] = [
         leadsToTitleId: 'spider-man-no-way-home',
       },
     ],
-    tmdbId: 580489,
-    tmdbMediaType: 'movie',
+    wikiPage: 'Venom:_Let_There_Be_Carnage',
   },
   {
     id: 'across-spider-verse-2023',
@@ -603,8 +564,7 @@ export const LEGACY_TITLES: Title[] = [
     doomsdayConnection:
       'Explicitly calls out Earth-616 (199999) Doctor Strange and Spider-Man’s multiversal rift.',
     keyCharacterIds: ['peter-parker-616'],
-    tmdbId: 569094,
-    tmdbMediaType: 'movie',
+    wikiPage: 'Spider-Man:_Across_the_Spider-Verse',
   },
   {
     id: 'x-men-97',
@@ -623,8 +583,6 @@ export const LEGACY_TITLES: Title[] = [
     doomsdayConnection:
       'Inspirational bridge to Doomsday’s comic-accurate live-action Cyclops, Gambit, and mutant brotherhood.',
     keyCharacterIds: ['cyclops', 'professor-x', 'magneto', 'gambit'],
-    tmdbId: 138502,
-    tmdbMediaType: 'tv',
     wikiPage: "X-Men_'97",
   },
   {
@@ -644,7 +602,6 @@ export const LEGACY_TITLES: Title[] = [
     doomsdayConnection:
       'Closes Eddie Brock’s Earth-688 trilogy while leaving a lingering symbiote fragment on Earth-616.',
     keyCharacterIds: ['venom'],
-    tmdbId: 912649,
-    tmdbMediaType: 'movie',
+    wikiPage: 'Venom:_The_Last_Dance',
   },
 ];

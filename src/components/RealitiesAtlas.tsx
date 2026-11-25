@@ -38,6 +38,7 @@ export function RealitiesAtlas({
     <div className="space-y-7">
       <ViewHeroBanner
         wikiPage="X-Mansion"
+        staticImagePath="./places/xmansion-10005.jpg"
         catalogStamp="TVA MULTIVERSE CARTOGRAPHY // REALITY PLATES"
         title="Realities & Places Atlas"
         subtitle={`Surveillance photographs of ${ICONIC_PLACES.length} key landmarks and ${REALITIES.length} multiverse planes feeding into Doomsday.`}
@@ -67,6 +68,7 @@ export function RealitiesAtlas({
                     title={place.name}
                     subtitle={place.name}
                     accentColor={reality?.color ?? '#c2410c'}
+                    staticImagePath={place.imagePath}
                     wikiPage={place.wikiPage}
                   />
                 </button>
@@ -201,6 +203,7 @@ export function RealitiesAtlas({
                   title={r.name}
                   subtitle={r.placeName}
                   accentColor={r.color}
+                  staticImagePath={r.imagePath}
                   wikiPage={r.wikiPage}
                 />
 

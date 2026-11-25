@@ -27,6 +27,7 @@ import {
   realitiesById,
 } from '../data/index.ts';
 import type { AppView, EntityRef } from '../data/index.ts';
+import { personTmdbQuery } from '../lib/tmdb.ts';
 import { EntityVisual, FactionEmblemIcon } from './TvaArt.tsx';
 import { Redactable } from './Redactable.tsx';
 
@@ -274,6 +275,7 @@ export function CommandHub({
               title="Time Variance Authority & World Tree"
               subtitle="Yggdrasil Multiverse Loom — Active Monitoring"
               accentColor="#c2410c"
+              staticImagePath="./places/tva-yggdrasil.jpg"
               wikiPage="Time_Variance_Authority"
             />
 
@@ -363,7 +365,7 @@ export function CommandHub({
                       accentColor={faction?.color ?? '#c2410c'}
                       emblem={faction?.emblem ?? 'tva'}
                       wikiPage={c.wikiPage}
-                      tmdbQuery={c.tmdbPersonId ? { kind: 'person', id: c.tmdbPersonId } : undefined}
+                      tmdbQuery={personTmdbQuery(c.actor)}
                       tmdbApiKey={tmdbApiKey}
                       className="w-full"
                     />
@@ -460,6 +462,7 @@ export function CommandHub({
                   title={place.name}
                   subtitle={place.name}
                   accentColor={reality?.color ?? '#c2410c'}
+                  staticImagePath={place.imagePath}
                   wikiPage={place.wikiPage}
                 />
                 <p className="text-[11px] text-[#61503e] line-clamp-1 leading-relaxed px-0.5">

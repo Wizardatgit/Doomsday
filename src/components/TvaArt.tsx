@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react';
 import { Maximize2, X } from 'lucide-react';
 import type { FactionEmblem } from '../data/types.ts';
-import { fetchTmdbImage, getEffectiveTmdbKey } from '../lib/tmdb.ts';
+import { fetchTmdbImage, getEffectiveTmdbKey, type TmdbQuery } from '../lib/tmdb.ts';
 import { fetchWikiThumbnail } from '../lib/wikiImages.ts';
 
 export interface LightboxPayload {
@@ -172,6 +172,7 @@ export function EntityVisual({
   emblem = 'tva',
   variant = 'poster',
   wikiPage,
+  staticImagePath,
   tmdbQuery,
   tmdbApiKey = '',
   compact = false,
@@ -185,9 +186,8 @@ export function EntityVisual({
   emblem?: FactionEmblem;
   variant?: 'polaroid' | 'poster' | 'plate';
   wikiPage?: string;
-  tmdbQuery?:
-    | { kind: 'title'; mediaType: 'movie' | 'tv'; id: number }
-    | { kind: 'person'; id: number };
+  staticImagePath?: string;
+  tmdbQuery?: TmdbQuery;
   tmdbApiKey?: string;
   compact?: boolean;
   clickImageToZoom?: boolean;
@@ -195,13 +195,23 @@ export function EntityVisual({
 }) {
   const effectiveKey = getEffectiveTmdbKey(tmdbApiKey);
   const { openLightbox } = useImageLightbox();
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(staticImagePath ?? null);
   const [imgFailed, setImgFailed] = useState(false);
+
+  const tmdbCacheId = tmdbQuery
+    ? tmdbQuery.kind === 'title'
+      ? `${tmdbQuery.mediaType}:${tmdbQuery.title}:${tmdbQuery.year}`
+      : `person:${tmdbQuery.name}`
+    : '';
 
   useEffect(() => {
     let active = true;
-    setImageUrl(null);
     setImgFailed(false);
+    if (staticImagePath) {
+      setImageUrl(staticImagePath);
+      return;
+    }
+    setImageUrl(null);
 
     async function load() {
       if (effectiveKey && tmdbQuery) {
@@ -223,13 +233,7 @@ export function EntityVisual({
     return () => {
       active = false;
     };
-  }, [
-    effectiveKey,
-    wikiPage,
-    tmdbQuery?.kind,
-    tmdbQuery?.id,
-    tmdbQuery?.kind === 'title' ? tmdbQuery.mediaType : '',
-  ]);
+  }, [effectiveKey, staticImagePath, wikiPage, tmdbCacheId]);
 
   const showImage = Boolean(imageUrl && !imgFailed);
 

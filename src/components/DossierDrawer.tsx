@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import {
   ArrowRight,
   CheckSquare,
+  ExternalLink,
   GitBranch,
   Globe2,
   Network,
@@ -19,7 +20,8 @@ import {
   threadsById,
   titlesById,
 } from '../data/index.ts';
-import type { EntityRef } from '../data/index.ts';
+import type { EntityRef, LoreConfidence, SourceCitation } from '../data/types.ts';
+import { personTmdbQuery, titleTmdbQuery } from '../lib/tmdb.ts';
 import { EntityVisual } from './TvaArt.tsx';
 import { Redactable } from './Redactable.tsx';
 
@@ -53,6 +55,70 @@ function DossierTabBar({
           </button>
         );
       })}
+    </div>
+  );
+}
+
+const CONFIDENCE_BADGE: Record<LoreConfidence, { label: string; cls: string }> = {
+  official: {
+    label: 'Official / Released Record',
+    cls: 'border-[#047857] bg-[#047857]/10 text-[#065f46]',
+  },
+  reported: {
+    label: 'Trade Reported',
+    cls: 'border-[#b45309] bg-[#b45309]/10 text-[#92400e]',
+  },
+  theory: {
+    label: 'Unconfirmed Theory',
+    cls: 'border-[#7e22ce] bg-[#7e22ce]/10 text-[#6b21a8]',
+  },
+};
+
+function SourceCitationsBlock({
+  confidence,
+  sources,
+  wikiPage,
+  isTheory,
+}: {
+  confidence?: LoreConfidence;
+  sources?: SourceCitation[];
+  wikiPage?: string;
+  isTheory?: boolean;
+}) {
+  const badgeKey: LoreConfidence = confidence ?? (isTheory ? 'theory' : 'official');
+  const badge = CONFIDENCE_BADGE[badgeKey];
+  const links: SourceCitation[] = [...(sources ?? [])];
+  if (wikiPage) {
+    const wikiUrl = `https://en.wikipedia.org/wiki/${encodeURIComponent(wikiPage).replace(/%3A/g, ':').replace(/%2F/g, '/')}`;
+    if (!links.some((s) => s.url === wikiUrl || s.url.includes(wikiPage))) {
+      links.push({ label: 'Wikipedia Reference', url: wikiUrl });
+    }
+  }
+
+  return (
+    <div className="border-t border-[#e1d4b9] pt-3 space-y-2">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <span className="text-[11px] font-mono-code uppercase tracking-widest text-[#61503e] font-bold">
+          Archival Verification &amp; Sources
+        </span>
+        <span className={`tva-ink-stamp ${badge.cls}`}>{badge.label}</span>
+      </div>
+      {links.length > 0 && (
+        <div className="flex flex-wrap gap-1.5">
+          {links.map((src) => (
+            <a
+              key={src.url}
+              href={src.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 rounded border border-[#cbb895] bg-[#fffaf0] px-2 py-1 text-[11px] font-mono-code text-[#9a3412] hover:border-[#b45309] hover:underline"
+            >
+              <ExternalLink className="w-3 h-3 shrink-0" />
+              {src.label}
+            </a>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -152,7 +218,7 @@ export function DossierDrawer({
                     accentColor={faction?.color ?? '#c2410c'}
                     emblem={faction?.emblem ?? 'tva'}
                     wikiPage={c.wikiPage}
-                    tmdbQuery={c.tmdbPersonId ? { kind: 'person', id: c.tmdbPersonId } : undefined}
+                    tmdbQuery={personTmdbQuery(c.actor)}
                     tmdbApiKey={tmdbApiKey}
                     clickImageToZoom
                   />
@@ -261,6 +327,13 @@ export function DossierDrawer({
                         )}
                       </div>
                     </div>
+
+                    <SourceCitationsBlock
+                      confidence={c.confidence}
+                      sources={c.sources}
+                      wikiPage={c.wikiPage}
+                      isTheory={c.isTheory}
+                    />
                   </div>
                 )}
 
@@ -359,12 +432,8 @@ export function DossierDrawer({
                     subtitle={`${t.year}`}
                     accentColor={reality?.color ?? '#c2410c'}
                     emblem={t.id === 'avengers-doomsday' ? 'doom' : 'tva'}
-                    wikiPage={t.wikiPage ?? t.title.replace(/ /g, '_')}
-                    tmdbQuery={
-                      t.tmdbId && t.tmdbMediaType
-                        ? { kind: 'title', mediaType: t.tmdbMediaType, id: t.tmdbId }
-                        : undefined
-                    }
+                    wikiPage={t.wikiPage}
+                    tmdbQuery={titleTmdbQuery(t)}
                     tmdbApiKey={tmdbApiKey}
                     clickImageToZoom
                   />
@@ -441,6 +510,12 @@ export function DossierDrawer({
                         </Redactable>
                       </div>
                     </div>
+
+                    <SourceCitationsBlock
+                      confidence={t.confidence}
+                      sources={t.sources}
+                      wikiPage={t.wikiPage}
+                    />
                   </div>
                 )}
 
@@ -558,6 +633,7 @@ export function DossierDrawer({
                   title={r.name}
                   subtitle={r.placeName}
                   accentColor={r.color}
+                  staticImagePath={r.imagePath}
                   wikiPage={r.wikiPage}
                   clickImageToZoom
                 />
@@ -611,6 +687,13 @@ export function DossierDrawer({
                         ))}
                       </ul>
                     </div>
+
+                    <SourceCitationsBlock
+                      confidence={r.confidence}
+                      sources={r.sources}
+                      wikiPage={r.wikiPage}
+                      isTheory={r.isTheory}
+                    />
                   </div>
                 )}
 
@@ -702,6 +785,12 @@ export function DossierDrawer({
                         <p className="mt-1 text-sm text-[#1d1610] leading-relaxed">{th.doomsdayImpact}</p>
                       </div>
                     </Redactable>
+
+                    <SourceCitationsBlock
+                      confidence={th.confidence}
+                      sources={th.sources}
+                      isTheory={th.isTheory}
+                    />
                   </div>
                 )}
 

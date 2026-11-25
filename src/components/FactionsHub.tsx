@@ -7,6 +7,7 @@ import {
   realitiesById,
 } from '../data/index.ts';
 import type { EntityRef } from '../data/index.ts';
+import { personTmdbQuery } from '../lib/tmdb.ts';
 import { EntityVisual, FactionEmblemIcon, ViewHeroBanner } from './TvaArt.tsx';
 import { Redactable } from './Redactable.tsx';
 
@@ -146,6 +147,7 @@ export function FactionsHub({
               {/* Atmospheric home-world backdrop header strip */}
               <ViewHeroBanner
                 compactBanner
+                staticImagePath={homeReality?.imagePath}
                 wikiPage={homeReality?.wikiPage}
                 catalogStamp={`${faction.code} // ${homeReality?.code ?? 'MULTIVERSE'}`}
                 title={faction.name}
@@ -288,9 +290,7 @@ export function FactionsHub({
                             accentColor={faction.color}
                             emblem={faction.emblem}
                             wikiPage={c.wikiPage}
-                            tmdbQuery={
-                              c.tmdbPersonId ? { kind: 'person', id: c.tmdbPersonId } : undefined
-                            }
+                            tmdbQuery={personTmdbQuery(c.actor)}
                             tmdbApiKey={tmdbApiKey}
                           />
 

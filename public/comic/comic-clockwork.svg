@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" aria-hidden="true">
+  <defs>
+    <pattern id="hc" width="9" height="9" patternUnits="userSpaceOnUse">
+      <circle cx="4.5" cy="4.5" r="1.6" fill="#3a2815" fill-opacity="0.25"/>
+    </pattern>
+  </defs>
+  <rect width="400" height="400" fill="#efe5d1"/>
+  <rect width="400" height="400" fill="url(#hc)"/>
+  <g stroke="#1b140d" fill="none" stroke-linecap="round">
+    <circle cx="200" cy="200" r="155" stroke-width="4"/>
+    <circle cx="200" cy="200" r="128" stroke-width="2" stroke-dasharray="10 7"/>
+    <circle cx="200" cy="200" r="82" stroke-width="3.5"/>
+    <circle cx="200" cy="200" r="24" stroke-width="3" fill="#c2410c" fill-opacity="0.2"/>
+    <!-- Gear Teeth & Timeline Branches -->
+    <path d="M200 28 V62 M200 338 V372 M28 200 H62 M338 200 H372 M78 78 L104 104 M296 296 L322 322 M322 78 L296 104 M104 296 L78 322" stroke-width="4.5"/>
+    <path d="M18 330 Q120 260 200 200 T384 68" stroke-width="4"/>
+    <path d="M140 245 Q225 300 375 305 M230 165 Q280 95 365 25" stroke-width="3" stroke-dasharray="6 4"/>
+  </g>
+</svg>

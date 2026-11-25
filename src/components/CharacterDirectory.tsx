@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { ArrowRight, Search } from 'lucide-react';
+import { ArrowRight, RotateCcw, Search } from 'lucide-react';
 import {
   CHARACTERS,
   FACTIONS,
@@ -9,6 +9,7 @@ import {
   titlesById,
 } from '../data/index.ts';
 import type { DoomsdayStatus, EntityRef } from '../data/types.ts';
+import { personTmdbQuery } from '../lib/tmdb.ts';
 import { EntityVisual, ViewHeroBanner } from './TvaArt.tsx';
 import { Redactable } from './Redactable.tsx';
 
@@ -102,6 +103,24 @@ export function CharacterDirectory({
             <option value="wildcard">Wildcard</option>
             <option value="legacy">Legacy / Anchor</option>
           </select>
+
+          {(query !== '' ||
+            factionFilter !== 'all' ||
+            realityFilter !== 'all' ||
+            statusFilter !== 'all') && (
+            <button
+              type="button"
+              onClick={() => {
+                setQuery('');
+                setFactionFilter('all');
+                setRealityFilter('all');
+                setStatusFilter('all');
+              }}
+              className="inline-flex items-center gap-1 rounded border border-[#b45309] bg-[#b45309]/10 px-2.5 py-1.5 text-xs font-mono-code font-semibold text-[#9a3412] hover:bg-[#b45309]/20"
+            >
+              <RotateCcw className="w-3.5 h-3.5" /> Reset Filters
+            </button>
+          )}
         </div>
       </div>
 
@@ -126,7 +145,7 @@ export function CharacterDirectory({
                 accentColor={faction?.color ?? '#c2410c'}
                 emblem={faction?.emblem ?? 'tva'}
                 wikiPage={c.wikiPage}
-                tmdbQuery={c.tmdbPersonId ? { kind: 'person', id: c.tmdbPersonId } : undefined}
+                tmdbQuery={personTmdbQuery(c.actor)}
                 tmdbApiKey={tmdbApiKey}
                 compact
               />

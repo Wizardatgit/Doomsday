@@ -26,8 +26,6 @@ export const INFINITY_TITLES: Title[] = [
         leadsToTitleId: 'the-avengers',
       },
     ],
-    tmdbId: 1726,
-    tmdbMediaType: 'movie',
     wikiPage: "Iron_Man_(2008_film)",
   },
   {
@@ -47,8 +45,6 @@ export const INFINITY_TITLES: Title[] = [
     doomsdayConnection:
       'Directly sets up Samuel Sterns (The Leader) and Thaddeus Ross’s transformation 17 years later in Captain America: Brave New World.',
     keyCharacterIds: ['bruce-banner'],
-    tmdbId: 1724,
-    tmdbMediaType: 'movie',
     wikiPage: "The_Incredible_Hulk_(film)",
   },
   {
@@ -68,8 +64,7 @@ export const INFINITY_TITLES: Title[] = [
     doomsdayConnection:
       'Deepens Tony Stark’s Howard Stark legacy and introduces Black Widow’s S.H.I.E.L.D. chapter.',
     keyCharacterIds: ['tony-stark'],
-    tmdbId: 10138,
-    tmdbMediaType: 'movie',
+    wikiPage: 'Iron_Man_2',
   },
   {
     id: 'thor',
@@ -88,8 +83,6 @@ export const INFINITY_TITLES: Title[] = [
     doomsdayConnection:
       'Origin of both Thor and Loki—whose eventual bond across the multiverse is central to Doomsday.',
     keyCharacterIds: ['thor', 'loki'],
-    tmdbId: 10195,
-    tmdbMediaType: 'movie',
     wikiPage: "Thor_(film)",
   },
   {
@@ -109,8 +102,7 @@ export const INFINITY_TITLES: Title[] = [
     doomsdayConnection:
       'Origin of Steve Rogers, Peggy Carter, and Bucky Barnes—and the exact unfulfilled 1940s dance Steve eventually returns to, creating the branch timeline at the heart of Doomsday.',
     keyCharacterIds: ['steve-rogers', 'peggy-carter', 'bucky-barnes'],
-    tmdbId: 1771,
-    tmdbMediaType: 'movie',
+    wikiPage: 'Captain_America:_The_First_Avenger',
   },
   {
     id: 'the-avengers',
@@ -129,8 +121,6 @@ export const INFINITY_TITLES: Title[] = [
     doomsdayConnection:
       'Every branching thread converges here: 2012 New York spawns the Loki Variant who now holds the Multiverse World Tree, and leaves behind Avengers Tower (now Watchtower for the New Avengers).',
     keyCharacterIds: ['tony-stark', 'steve-rogers', 'thor', 'bruce-banner', 'loki'],
-    tmdbId: 24428,
-    tmdbMediaType: 'movie',
     wikiPage: "The_Avengers_(2012_film)",
   },
 
@@ -152,8 +142,7 @@ export const INFINITY_TITLES: Title[] = [
     doomsdayConnection:
       'Sets up Trevor Slattery & the Ten Rings name later picked up by Shang-Chi and Wonder Man.',
     keyCharacterIds: ['tony-stark', 'bruce-banner'],
-    tmdbId: 68721,
-    tmdbMediaType: 'movie',
+    wikiPage: 'Iron_Man_3',
   },
   {
     id: 'thor-dark-world',
@@ -172,8 +161,7 @@ export const INFINITY_TITLES: Title[] = [
     doomsdayConnection:
       'Key Infinity Stone & Loki history later revisited in Avengers: Endgame and Loki.',
     keyCharacterIds: ['thor', 'loki'],
-    tmdbId: 76338,
-    tmdbMediaType: 'movie',
+    wikiPage: 'Thor:_The_Dark_World',
   },
   {
     id: 'captain-america-winter-soldier',
@@ -192,8 +180,7 @@ export const INFINITY_TITLES: Title[] = [
     doomsdayConnection:
       'Introduces Sam Wilson (the future Captain America leading the Avengers in Doomsday) and sets Bucky Barnes on his path toward Congress and the New Avengers.',
     keyCharacterIds: ['steve-rogers', 'sam-wilson', 'bucky-barnes', 'peggy-carter'],
-    tmdbId: 100402,
-    tmdbMediaType: 'movie',
+    wikiPage: 'Captain_America:_The_Winter_Soldier',
   },
   {
     id: 'guardians-of-the-galaxy',
@@ -212,8 +199,6 @@ export const INFINITY_TITLES: Title[] = [
     doomsdayConnection:
       'Expands cosmic MCU lore around Celestials and the Infinity Stones.',
     keyCharacterIds: ['thor'],
-    tmdbId: 118340,
-    tmdbMediaType: 'movie',
     wikiPage: "Guardians_of_the_Galaxy_(film)",
   },
   {
@@ -233,8 +218,7 @@ export const INFINITY_TITLES: Title[] = [
     doomsdayConnection:
       'Origin of Vision (whose White Vision replica seeks identity in VisionQuest) and Sokovia’s trauma that later fractures Earth’s nations.',
     keyCharacterIds: ['tony-stark', 'steve-rogers', 'thor', 'bruce-banner', 'sam-wilson', 'white-vision'],
-    tmdbId: 99861,
-    tmdbMediaType: 'movie',
+    wikiPage: 'Avengers:_Age_of_Ultron',
   },
   {
     id: 'ant-man',
@@ -253,8 +237,6 @@ export const INFINITY_TITLES: Title[] = [
     doomsdayConnection:
       'Introduces Scott Lang, Cassie Lang, and the Quantum Realm mechanics essential to Time Travel and Quantumania.',
     keyCharacterIds: ['scott-lang', 'cassie-lang', 'sam-wilson'],
-    tmdbId: 102899,
-    tmdbMediaType: 'movie',
     wikiPage: "Ant-Man_(film)",
   },
 
@@ -276,8 +258,6 @@ export const INFINITY_TITLES: Title[] = [
     doomsdayConnection:
       'Canonized directly into MCU Phase 5/6 via Daredevil: Born Again, linking street-level New York heroes (and Punisher in Spider-Man: Brand New Day) to Earth-616.',
     keyCharacterIds: ['daredevil', 'punisher'],
-    tmdbId: 61889,
-    tmdbMediaType: 'tv',
     wikiPage: "Daredevil_(TV_series)",
   },
   {
@@ -297,8 +277,6 @@ export const INFINITY_TITLES: Title[] = [
     doomsdayConnection:
       'Part of the canonized Defenders corner of Earth-616 street-level continuity.',
     keyCharacterIds: ['daredevil'],
-    tmdbId: 38472,
-    tmdbMediaType: 'tv',
     wikiPage: "Jessica_Jones_(TV_series)",
   },
   {
@@ -318,8 +296,6 @@ export const INFINITY_TITLES: Title[] = [
     doomsdayConnection:
       'Part of the canonized Defenders corner of Earth-616.',
     keyCharacterIds: ['daredevil'],
-    tmdbId: 62126,
-    tmdbMediaType: 'tv',
     wikiPage: "Luke_Cage_(TV_series)",
   },
   {
@@ -339,8 +315,6 @@ export const INFINITY_TITLES: Title[] = [
     doomsdayConnection:
       'Fleshes out the Immortal Weapons mythos on Earth-616.',
     keyCharacterIds: ['daredevil'],
-    tmdbId: 62127,
-    tmdbMediaType: 'tv',
     wikiPage: "Iron_Fist_(TV_series)",
   },
   {
@@ -360,8 +334,6 @@ export const INFINITY_TITLES: Title[] = [
     doomsdayConnection:
       'Explains Matt Murdock’s near-death collapse leading into Daredevil Season 3 and Born Again.',
     keyCharacterIds: ['daredevil'],
-    tmdbId: 62285,
-    tmdbMediaType: 'tv',
     wikiPage: "The_Defenders_(miniseries)",
   },
   {
@@ -381,8 +353,6 @@ export const INFINITY_TITLES: Title[] = [
     doomsdayConnection:
       'Establishes Jon Bernthal’s Frank Castle before his return in Daredevil: Born Again, The Punisher: One Last Kill, and Spider-Man: Brand New Day.',
     keyCharacterIds: ['punisher'],
-    tmdbId: 67178,
-    tmdbMediaType: 'tv',
     wikiPage: "The_Punisher_(TV_series)",
   },
 
@@ -404,8 +374,7 @@ export const INFINITY_TITLES: Title[] = [
     doomsdayConnection:
       'Establishes MCU Peter Parker, Wakanda’s entrance onto the world stage, and the ideological rift echoed when two competing Avengers teams form in Phase 5/6.',
     keyCharacterIds: ['steve-rogers', 'tony-stark', 'sam-wilson', 'bucky-barnes', 'scott-lang', 'peter-parker-616'],
-    tmdbId: 271110,
-    tmdbMediaType: 'movie',
+    wikiPage: 'Captain_America:_Civil_War',
   },
   {
     id: 'doctor-strange',
@@ -424,8 +393,6 @@ export const INFINITY_TITLES: Title[] = [
     doomsdayConnection:
       'Introduces Earth-616’s foremost multiverse sorcerer—now wandering incursions alongside Clea.',
     keyCharacterIds: ['doctor-strange', 'thor'],
-    tmdbId: 284052,
-    tmdbMediaType: 'movie',
     wikiPage: "Doctor_Strange_(2016_film)",
   },
   {
@@ -445,8 +412,7 @@ export const INFINITY_TITLES: Title[] = [
     doomsdayConnection:
       'Deepens Cosmic MCU history and Celestial genetics.',
     keyCharacterIds: [],
-    tmdbId: 283995,
-    tmdbMediaType: 'movie',
+    wikiPage: 'Guardians_of_the_Galaxy_Vol._2',
   },
   {
     id: 'spider-man-homecoming',
@@ -465,8 +431,7 @@ export const INFINITY_TITLES: Title[] = [
     doomsdayConnection:
       'Sets up Mac Gargan / Scorpion—who finally pays off his threat in 2026’s Spider-Man: Brand New Day—and shows Avengers Tower being sold.',
     keyCharacterIds: ['peter-parker-616', 'tony-stark'],
-    tmdbId: 315635,
-    tmdbMediaType: 'movie',
+    wikiPage: 'Spider-Man:_Homecoming',
   },
   {
     id: 'thor-ragnarok',
@@ -485,8 +450,7 @@ export const INFINITY_TITLES: Title[] = [
     doomsdayConnection:
       'Crucial turning point in Thor and Loki’s brotherhood before Thanos destroys the Statesman.',
     keyCharacterIds: ['thor', 'loki', 'bruce-banner', 'doctor-strange'],
-    tmdbId: 284053,
-    tmdbMediaType: 'movie',
+    wikiPage: 'Thor:_Ragnarok',
   },
   {
     id: 'black-panther',
@@ -505,8 +469,6 @@ export const INFINITY_TITLES: Title[] = [
     doomsdayConnection:
       'Introduces Shuri and M’Baku (both confirmed for Doomsday) and reveals Wakanda to global powers—triggering the resource arms race behind Wakanda Forever and Brave New World.',
     keyCharacterIds: ['shuri', 'mbaku', 'bucky-barnes'],
-    tmdbId: 284054,
-    tmdbMediaType: 'movie',
     wikiPage: "Black_Panther_(film)",
   },
   {
@@ -526,8 +488,7 @@ export const INFINITY_TITLES: Title[] = [
     doomsdayConnection:
       'Kills prime Earth-616 Loki (making the 2012 Variant the World Tree keeper), fractures Vision, and sets up the five-year Blip trauma.',
     keyCharacterIds: ['tony-stark', 'steve-rogers', 'thor', 'bruce-banner', 'loki', 'doctor-strange', 'peter-parker-616', 'shuri', 'mbaku', 'sam-wilson', 'bucky-barnes'],
-    tmdbId: 299536,
-    tmdbMediaType: 'movie',
+    wikiPage: 'Avengers:_Infinity_War',
   },
   {
     id: 'ant-man-and-the-wasp',
@@ -546,8 +507,7 @@ export const INFINITY_TITLES: Title[] = [
     doomsdayConnection:
       'Introduces Ava Starr / Ghost (returning in Thunderbolts* & Doomsday) and traps Scott in the Quantum Realm so he later discovers Time Heist physics.',
     keyCharacterIds: ['scott-lang', 'cassie-lang', 'ghost'],
-    tmdbId: 363088,
-    tmdbMediaType: 'movie',
+    wikiPage: 'Ant-Man_and_the_Wasp',
   },
   {
     id: 'captain-marvel',
@@ -566,8 +526,6 @@ export const INFINITY_TITLES: Title[] = [
     doomsdayConnection:
       'Establishes Carol Danvers and Monica Rambeau—whose eventual sacrifice in The Marvels traps Monica inside an X-Men universe with Beast.',
     keyCharacterIds: ['captain-marvel', 'monica-rambeau'],
-    tmdbId: 299537,
-    tmdbMediaType: 'movie',
     wikiPage: "Captain_Marvel_(film)",
   },
   {
@@ -587,8 +545,7 @@ export const INFINITY_TITLES: Title[] = [
     doomsdayConnection:
       'The master hinge of Doomsday: Tony Stark’s death leaves Earth-616 mourning his face; Loki’s escape launches the TVA/Multiverse arc; and Steve Rogers’ secret branch with Peggy becomes a focal target of Doctor Doom’s wrath.',
     keyCharacterIds: ['tony-stark', 'steve-rogers', 'peggy-carter', 'sam-wilson', 'thor', 'bruce-banner', 'scott-lang', 'cassie-lang', 'loki', 'bucky-barnes', 'shuri', 'peter-parker-616'],
-    tmdbId: 299534,
-    tmdbMediaType: 'movie',
+    wikiPage: 'Avengers:_Endgame',
   },
   {
     id: 'spider-man-far-from-home',
@@ -607,7 +564,6 @@ export const INFINITY_TITLES: Title[] = [
     doomsdayConnection:
       'Directly causes Peter Parker to ask Doctor Strange for a spell in No Way Home—cracking open the multiverse.',
     keyCharacterIds: ['peter-parker-616'],
-    tmdbId: 429617,
-    tmdbMediaType: 'movie',
+    wikiPage: 'Spider-Man:_Far_From_Home',
   },
 ];

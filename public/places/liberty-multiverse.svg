@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-label="Statue of Liberty Multiverse Fracture">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#140c24"/>
+      <stop offset="55%" stop-color="#2c1747"/>
+      <stop offset="100%" stop-color="#121828"/>
+    </linearGradient>
+    <radialGradient id="riftGlow" cx="60%" cy="32%" r="48%">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.75"/>
+      <stop offset="40%" stop-color="#a855f7" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#140c24" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="benday" width="12" height="12" patternUnits="userSpaceOnUse">
+      <circle cx="3" cy="3" r="1.4" fill="#c084fc" fill-opacity="0.16"/>
+      <circle cx="9" cy="9" r="1.4" fill="#fbbf24" fill-opacity="0.1"/>
+    </pattern>
+  </defs>
+  <rect width="960" height="540" fill="url(#sky)"/>
+  <rect width="960" height="540" fill="url(#benday)"/>
+  <rect width="960" height="540" fill="url(#riftGlow)"/>
+  <!-- Multiverse Sky Fractures -->
+  <g stroke-linecap="round" fill="none">
+    <path d="M580 18 L552 105 L615 150 L570 230 L645 275" stroke="#fde68a" stroke-width="5"/>
+    <path d="M580 18 L552 105 L615 150 L570 230 L645 275" stroke="#c084fc" stroke-width="14" opacity="0.32"/>
+    <path d="M552 105 L445 142 L390 118 M615 150 L740 120 L820 155" stroke="#e9d5ff" stroke-width="2.5" opacity="0.85"/>
+    <path d="M180 40 L235 120 L205 170 L280 235" stroke="#a855f7" stroke-width="3" opacity="0.6"/>
+  </g>
+  <!-- Distant NYC Skyline -->
+  <path d="M0 440 L0 390 L38 390 L38 355 L65 355 L65 400 L110 400 L110 340 L145 340 L145 405 L210 405 L210 375 L250 375 L250 420 L700 420 L700 365 L745 365 L745 325 L775 325 L775 385 L830 385 L830 345 L872 345 L872 395 L920 395 L920 370 L960 370 L960 440 Z" fill="#0d111e"/>
+  <!-- Harbor Water -->
+  <rect y="438" width="960" height="102" fill="#0a101d"/>
+  <path d="M120 462 H340 M410 478 H680 M220 500 H510 M620 515 H840" stroke="#a855f7" stroke-width="2" stroke-opacity="0.35"/>
+  <!-- Pedestal & Scaffolding -->
+  <path d="M368 440 L388 345 H502 L522 440 Z" fill="#182232" stroke="#475569" stroke-width="2"/>
+  <rect x="400" y="295" width="90" height="50" fill="#1e293b" stroke="#64748b" stroke-width="1.5"/>
+  <!-- Statue Silhouette + Torch Glow -->
+  <path d="M415 295 L425 205 L408 165 L425 148 L434 115 L455 115 L465 145 L478 168 L466 295 Z" fill="#1b3a3a" stroke="#5eead4" stroke-width="1.8" stroke-opacity="0.65"/>
+  <!-- Torch raised arm -->
+  <path d="M460 155 L502 92 L512 98 L470 165 Z" fill="#1b3a3a" stroke="#5eead4" stroke-width="1.5" stroke-opacity="0.65"/>
+  <circle cx="512" cy="84" r="14" fill="#fef08a"/>
+  <circle cx="512" cy="84" r="30" fill="#f59e0b" opacity="0.35"/>
+  <!-- Crown spikes -->
+  <path d="M430 120 L414 102 M437 116 L432 95 M445 115 L445 92 M453 116 L459 95 M460 120 L474 102" stroke="#5eead4" stroke-width="2.2" stroke-linecap="round"/>
+</svg>

@@ -5,6 +5,13 @@ export interface EntityRef {
   id: string;
 }
 
+export interface SourceCitation {
+  label: string;
+  url: string;
+}
+
+export type LoreConfidence = 'official' | 'reported' | 'theory';
+
 export type RealityStatus =
   | 'intact'
   | 'endangered'
@@ -19,11 +26,14 @@ export interface Reality {
   designation: string;
   placeName: string;
   wikiPage: string;
+  imagePath?: string;
   status: RealityStatus;
   anchorBeingId?: string;
   summary: string;
   color: string;
   notableEvents: string[];
+  sources?: SourceCitation[];
+  confidence?: LoreConfidence;
   isTheory?: boolean;
 }
 
@@ -32,6 +42,7 @@ export interface Place {
   name: string;
   realityId: string;
   wikiPage: string;
+  imagePath?: string;
   summary: string;
   keyTitleIds: string[];
   keyCharacterIds: string[];
@@ -96,9 +107,9 @@ export interface Title {
   doomsdayConnection: string;
   keyCharacterIds: string[];
   postCredits?: PostCreditBeat[];
-  wikiPage?: string;
-  tmdbId?: number;
-  tmdbMediaType?: 'movie' | 'tv';
+  wikiPage: string;
+  sources?: SourceCitation[];
+  confidence?: LoreConfidence;
 }
 
 export type DoomsdayStatus = 'confirmed' | 'likely' | 'wildcard' | 'legacy';
@@ -127,8 +138,9 @@ export interface Character {
   lastSeenTitleId: string;
   tags: string[];
   wikiPage: string;
-  tmdbPersonId?: number;
   journey: CharacterJourneyBeat[];
+  sources?: SourceCitation[];
+  confidence?: LoreConfidence;
   isTheory?: boolean;
 }
 
@@ -163,6 +175,8 @@ export interface PlotThread {
   characterIds: string[];
   realityIds: string[];
   beats: ThreadBeat[];
+  sources?: SourceCitation[];
+  confidence?: LoreConfidence;
   isTheory?: boolean;
 }
 

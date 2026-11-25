@@ -1,5 +1,28 @@
 const sessionCache = new Map<string, string | null>();
-const STORAGE_PREFIX = 'tva-tmdb-cache:';
+const STORAGE_PREFIX = 'tva-tmdb-search:v2:';
+
+export type TmdbQuery =
+  | { kind: 'title'; mediaType: 'movie' | 'tv'; title: string; year: number }
+  | { kind: 'person'; name: string };
+
+export function titleTmdbQuery(item: {
+  kind: string;
+  title: string;
+  year: number;
+}): TmdbQuery {
+  return {
+    kind: 'title',
+    mediaType: item.kind === 'series' ? 'tv' : 'movie',
+    title: item.title,
+    year: item.year,
+  };
+}
+
+export function personTmdbQuery(actor: string): TmdbQuery | undefined {
+  const clean = actor.trim();
+  if (!clean || /^(tba|various|unknown)/i.test(clean)) return undefined;
+  return { kind: 'person', name: clean };
+}
 
 export function getEffectiveTmdbKey(userKey: string): string {
   const trimmed = userKey.trim();
@@ -9,24 +32,46 @@ export function getEffectiveTmdbKey(userKey: string): string {
   return env?.VITE_TMDB_API_KEY?.trim() ?? '';
 }
 
+export function buildTmdbSearchUrl(params: TmdbQuery, apiKey: string): string {
+  const key = apiKey.trim();
+  if (params.kind === 'title') {
+    const qs = new URLSearchParams({
+      api_key: key,
+      query: params.title,
+      ...(params.mediaType === 'movie'
+        ? { year: String(params.year) }
+        : { first_air_date_year: String(params.year) }),
+    });
+    return `https://api.themoviedb.org/3/search/${params.mediaType}?${qs.toString()}`;
+  }
+  const qs = new URLSearchParams({
+    api_key: key,
+    query: params.name,
+  });
+  return `https://api.themoviedb.org/3/search/person?${qs.toString()}`;
+}
+
 export async function fetchTmdbImage(
-  params:
-    | { kind: 'title'; mediaType: 'movie' | 'tv'; id: number }
-    | { kind: 'person'; id: number },
+  params: TmdbQuery,
   apiKey: string,
 ): Promise<string | null> {
   const key = apiKey.trim();
   if (!key) return null;
 
   const cacheKey =
-    params.kind === 'title' ? `${params.mediaType}:${params.id}` : `person:${params.id}`;
+    params.kind === 'title'
+      ? `${params.mediaType}:${params.title}:${params.year}`
+      : `person:${params.name}`;
 
   if (sessionCache.has(cacheKey)) {
     return sessionCache.get(cacheKey) ?? null;
   }
 
   try {
-    const stored = typeof sessionStorage !== 'undefined' ? sessionStorage.getItem(STORAGE_PREFIX + cacheKey) : null;
+    const stored =
+      typeof sessionStorage !== 'undefined'
+        ? sessionStorage.getItem(STORAGE_PREFIX + cacheKey)
+        : null;
     if (stored !== null) {
       const val = stored === 'NONE' ? null : stored;
       sessionCache.set(cacheKey, val);
@@ -36,10 +81,7 @@ export async function fetchTmdbImage(
     // Ignore storage read errors in restricted contexts
   }
 
-  const endpoint =
-    params.kind === 'title'
-      ? `https://api.themoviedb.org/3/${params.mediaType}/${params.id}?api_key=${encodeURIComponent(key)}`
-      : `https://api.themoviedb.org/3/person/${params.id}?api_key=${encodeURIComponent(key)}`;
+  const endpoint = buildTmdbSearchUrl(params, key);
 
   try {
     const res = await fetch(endpoint);
@@ -47,8 +89,11 @@ export async function fetchTmdbImage(
       sessionCache.set(cacheKey, null);
       return null;
     }
-    const data = (await res.json()) as { poster_path?: string; profile_path?: string };
-    const path = params.kind === 'title' ? data.poster_path : data.profile_path;
+    const data = (await res.json()) as {
+      results?: { poster_path?: string | null; profile_path?: string | null }[];
+    };
+    const first = data.results?.[0];
+    const path = params.kind === 'title' ? first?.poster_path : first?.profile_path;
     const url = path ? `https://image.tmdb.org/t/p/w500${path}` : null;
     sessionCache.set(cacheKey, url);
     try {

@@ -21,7 +21,11 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'fantastic-four-first-steps',
     tags: ['Primary Threat', 'RDJ Face Mystery', 'Incursion Architect'],
     wikiPage: "Doctor_Doom",
-    tmdbPersonId: 3223,
+    confidence: 'official',
+    sources: [
+      { label: 'Marvel.com — Avengers: Doomsday', url: 'https://www.marvel.com/movies/avengers-doomsday' },
+      { label: 'Wikipedia — The Fantastic Four: First Steps', url: 'https://en.wikipedia.org/wiki/The_Fantastic_Four:_First_Steps' },
+    ],
     journey: [
       {
         titleId: 'fantastic-four-first-steps',
@@ -52,7 +56,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'avengers-endgame',
     tags: ['Deceased Hero', 'Earth-616 Anchor', 'RDJ Likeness'],
     wikiPage: "Tony_Stark_(Marvel_Cinematic_Universe)",
-    tmdbPersonId: 3223,
     journey: [
       { titleId: 'iron-man', beat: 'Builds Mark I armor and declares "I am Iron Man," launching the MCU.' },
       { titleId: 'the-avengers', beat: 'Carries a nuclear missile through the Chitauri wormhole to save New York.' },
@@ -75,13 +78,17 @@ export const CHARACTERS: Character[] = [
     whoAreThey:
       'WWII Super Soldier and co-leader of the original Avengers who stayed behind in the late 1940s with Peggy Carter after returning the Infinity Stones.',
     howTheyGotHere:
-      'At the end of Endgame, Steve created a quiet alternate branch with Peggy Carter before returning briefly as an elderly man to pass his shield to Sam Wilson. Doomsday promos show Steve pulled straight back out of that branch life as Doom targets "stolen lives".',
-    lastKnownStatus: 'Living in alternate 1940s+ branch with Peggy Carter; pulled back into Doomsday conflict.',
+      'At the end of Endgame, Steve created a quiet alternate branch raising a teenage son with Peggy Carter before returning briefly as an elderly man to pass his shield. Doomsday trailers reveal the Fantastic Four tracking Steve down to rally him against Victor von Doom.',
+    lastKnownStatus: 'Living in his alternate family branch with Peggy Carter; recruited for the Doomsday convergence.',
     firstAppearanceTitleId: 'captain-america-first-avenger',
     lastSeenTitleId: 'avengers-endgame',
     tags: ['Branch Anomaly', 'Confirmed Doomsday', 'Shield Original'],
     wikiPage: "Steve_Rogers_(Marvel_Cinematic_Universe)",
-    tmdbPersonId: 16828,
+    confidence: 'official',
+    sources: [
+      { label: 'Marvel.com — Avengers: Doomsday', url: 'https://www.marvel.com/movies/avengers-doomsday' },
+      { label: 'Wikipedia — Avengers: Doomsday', url: 'https://en.wikipedia.org/wiki/Avengers:_Doomsday' },
+    ],
     journey: [
       { titleId: 'captain-america-first-avenger', beat: 'Takes the Super Soldier Serum and crashes into Arctic ice in 1945.' },
       { titleId: 'captain-america-winter-soldier', beat: 'Topples HYDRA within S.H.I.E.L.D. alongside Sam Wilson and discovers Bucky is alive.' },
@@ -112,7 +119,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'avengers-endgame',
     tags: ['Branch Timeline', 'Confirmed Doomsday', 'S.H.I.E.L.D. Founder'],
     wikiPage: "Peggy_Carter_(Marvel_Cinematic_Universe)",
-    tmdbPersonId: 39459,
     journey: [
       { titleId: 'captain-america-first-avenger', beat: 'Guides Project Rebirth and mourns Steve’s 1945 crash.' },
       { titleId: 'agent-carter-series', beat: 'Leads SSR missions in post-war New York and Los Angeles.' },
@@ -143,7 +149,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'captain-america-brave-new-world',
     tags: ['Avengers Leader', 'Confirmed Doomsday', 'Vibranium Wings'],
     wikiPage: "Sam_Wilson_(Marvel_Cinematic_Universe)",
-    tmdbPersonId: 53650,
     journey: [
       { titleId: 'captain-america-winter-soldier', beat: 'Joins Steve Rogers against HYDRA in the EXO-7 Falcon pack.' },
       { titleId: 'avengers-endgame', beat: 'Leads "On your left" portal arrival and receives the Captain America shield.' },
@@ -171,7 +176,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'captain-america-brave-new-world',
     tags: ['Avengers', 'Confirmed Doomsday'],
     wikiPage: "Danny_Ramirez",
-    tmdbPersonId: 1936034,
     journey: [
       { titleId: 'falcon-winter-soldier', beat: 'Assists Sam in tracking the Flag Smashers and keeps the damaged Falcon wings.' },
       { titleId: 'captain-america-brave-new-world', beat: 'Flies as Falcon over Celestial Island and survives critical injury.' },
@@ -197,7 +201,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'thor-love-and-thunder',
     tags: ['Founding Avenger', 'Confirmed Doomsday', 'Loki Reunion Pending'],
     wikiPage: "Thor_(Marvel_Cinematic_Universe)",
-    tmdbPersonId: 74568,
     journey: [
       { titleId: 'thor', beat: 'Learns humility on Earth and faces Loki’s fall.' },
       { titleId: 'avengers-infinity-war', beat: 'Witnesses Thanos murder Loki and forges Stormbreaker.' },
@@ -224,7 +227,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'ant-man-quantumania',
     tags: ['Quantum Veteran', 'Confirmed Doomsday'],
     wikiPage: "Scott_Lang_(Marvel_Cinematic_Universe)",
-    tmdbPersonId: 22226,
     journey: [
       { titleId: 'ant-man', beat: 'Inherits the Ant-Man suit and goes subatomic.' },
       { titleId: 'avengers-endgame', beat: 'Proposes the Time Heist using Quantum Realm physics.' },
@@ -251,7 +253,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'ant-man-quantumania',
     tags: ['Young Hero', 'Confirmed Doomsday'],
     wikiPage: "Cassie_Lang",
-    tmdbPersonId: 1091324,
     journey: [
       { titleId: 'ant-man-quantumania', beat: 'Dons her Quantum suit and leads freedom fighters against MODOK and Kang.' },
       { titleId: 'avengers-doomsday', beat: 'Joins Scott Lang and Earth-616’s defense.' },
@@ -275,8 +276,7 @@ export const CHARACTERS: Character[] = [
     firstAppearanceTitleId: 'shang-chi',
     lastSeenTitleId: 'shang-chi',
     tags: ['Artifact Bearer', 'Confirmed Doomsday'],
-    wikiPage: "Shang-Chi_(Marvel_Cinematic_Universe)",
-    tmdbPersonId: 1489211,
+    wikiPage: 'Shang-Chi_and_the_Legend_of_the_Ten_Rings',
     journey: [
       { titleId: 'shang-chi', beat: 'Claims the Ten Rings; Wong, Banner, and Carol detect an ancient signal inside them.' },
       { titleId: 'avengers-doomsday', beat: 'Fights alongside Sam’s Avengers against Doctor Doom.' },
@@ -301,7 +301,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'the-marvels',
     tags: ['Young Avengers Setup', 'Confirmed Doomsday'],
     wikiPage: "Kate_Bishop",
-    tmdbPersonId: 130640,
     journey: [
       { titleId: 'hawkeye', beat: 'Trained by Clint Barton and shares macaroni & cheese truce with Yelena Belova.' },
       { titleId: 'the-marvels', beat: 'Approached in her apartment by Kamala Khan ("Did you think you were the only kid superhero?").' },
@@ -329,7 +328,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'thunderbolts',
     tags: ['New Avengers', 'Confirmed Doomsday'],
     wikiPage: "Yelena_Belova_(Marvel_Cinematic_Universe)",
-    tmdbPersonId: 1373737,
     journey: [
       { titleId: 'black-widow', beat: 'Frees the Black Widows with Natasha; later manipulated by Valentina.' },
       { titleId: 'hawkeye', beat: 'Confronts Clint Barton and spares him after learning Natasha chose her sacrifice.' },
@@ -356,7 +354,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'thunderbolts',
     tags: ['New Avengers', 'Confirmed Doomsday', 'Steve Link'],
     wikiPage: "Bucky_Barnes_(Marvel_Cinematic_Universe)",
-    tmdbPersonId: 60898,
     journey: [
       { titleId: 'captain-america-first-avenger', beat: 'Falls from the HYDRA train in 1945.' },
       { titleId: 'captain-america-winter-soldier', beat: 'Remembers Steve Rogers after breaking HYDRA’s grip.' },
@@ -384,7 +381,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'thunderbolts',
     tags: ['New Avengers', 'Confirmed Doomsday'],
     wikiPage: "Alexei_Shostakov",
-    tmdbPersonId: 35029,
     journey: [
       { titleId: 'black-widow', beat: 'Freed from Russian prison by Natasha and Yelena.' },
       { titleId: 'thunderbolts', beat: 'Supports Yelena inside The Void and joins the New Avengers.' },
@@ -410,7 +406,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'thunderbolts',
     tags: ['New Avengers', 'Confirmed Doomsday'],
     wikiPage: "U.S._Agent",
-    tmdbPersonId: 1091326,
     journey: [
       { titleId: 'falcon-winter-soldier', beat: 'Stripped of the Captain America title and recruited by Valentina.' },
       { titleId: 'thunderbolts', beat: 'Overcomes shame inside The Void and stands as a New Avenger.' },
@@ -436,7 +431,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'thunderbolts',
     tags: ['New Avengers', 'Confirmed Doomsday'],
     wikiPage: "Ghost_(Marvel_Comics)",
-    tmdbPersonId: 1368416,
     journey: [
       { titleId: 'ant-man-and-the-wasp', beat: 'Clashes with Ant-Man and Wasp before Janet heals her quantum pain.' },
       { titleId: 'thunderbolts', beat: 'Phases the squad through Val’s traps and becomes a New Avenger.' },
@@ -462,7 +456,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'thunderbolts',
     tags: ['Cosmic Powerhouse', 'New Avengers', 'Confirmed Doomsday'],
     wikiPage: "Sentry_(Robert_Reynolds)",
-    tmdbPersonId: 1564846,
     journey: [
       { titleId: 'thunderbolts', beat: 'Awakens as Sentry, loses control to The Void, and is saved by the New Avengers.' },
       { titleId: 'avengers-doomsday', beat: 'One of Earth-616’s strongest heavy hitters facing Doctor Doom.' },
@@ -487,7 +480,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'thunderbolts',
     tags: ['Power Broker', 'Watchtower Owner'],
     wikiPage: "Valentina_Allegra_de_Fontaine",
-    tmdbPersonId: 15886,
     journey: [
       { titleId: 'falcon-winter-soldier', beat: 'Recruits John Walker as U.S. Agent.' },
       { titleId: 'black-widow', beat: 'Directs Yelena Belova toward Clint Barton.' },
@@ -515,7 +507,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'thunderbolts',
     tags: ['First Family', 'Universe Jumper', 'Confirmed Doomsday'],
     wikiPage: "Mister_Fantastic",
-    tmdbPersonId: 1253360,
     journey: [
       { titleId: 'fantastic-four-first-steps', beat: 'Outsmarts Galactus on Earth-828 to protect newborn Franklin Richards.' },
       {
@@ -545,7 +536,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'fantastic-four-first-steps',
     tags: ['First Family', 'Confirmed Doomsday'],
     wikiPage: "Invisible_Woman",
-    tmdbPersonId: 556356,
     journey: [
       { titleId: 'fantastic-four-first-steps', beat: 'Defies Galactus for Franklin; later spots Doctor Doom crouching next to her son.' },
       { titleId: 'avengers-doomsday', beat: 'Enters Earth-616 with the Fantastic Four.' },
@@ -570,7 +560,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'fantastic-four-first-steps',
     tags: ['First Family', 'Confirmed Doomsday'],
     wikiPage: "Human_Torch",
-    tmdbPersonId: 1582686,
     journey: [
       { titleId: 'fantastic-four-first-steps', beat: 'Decodes Silver Surfer’s language and defends Earth-828.' },
       { titleId: 'avengers-doomsday', beat: 'Fights beside Earth-616 and X-Men heroes.' },
@@ -595,7 +584,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'fantastic-four-first-steps',
     tags: ['First Family', 'Confirmed Doomsday'],
     wikiPage: "Thing_(comics)",
-    tmdbPersonId: 22132,
     journey: [
       { titleId: 'fantastic-four-first-steps', beat: 'Stands as Earth-828’s beloved powerhouse against Galactus.' },
       { titleId: 'avengers-doomsday', beat: 'Brings muscle and heart to Earth-616’s defense.' },
@@ -646,7 +634,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'logan-2017',
     tags: ['Legacy X-Men', 'Confirmed Doomsday', 'Telepath'],
     wikiPage: "Professor_X",
-    tmdbPersonId: 2387,
     journey: [
       { titleId: 'x-men-2000', beat: 'Forms the X-Men to oppose Magneto while advocating mutant-human coexistence.' },
       { titleId: 'x-men-dofp-2014', beat: 'Dispatches Logan back to 1973, restoring the X-Mansion future.' },
@@ -673,7 +660,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'x-men-dofp-2014',
     tags: ['Legacy X-Men', 'Confirmed Doomsday'],
     wikiPage: "Magneto_(Marvel_Comics)",
-    tmdbPersonId: 1327,
     journey: [
       { titleId: 'x-men-2000', beat: 'Clashes with Xavier’s X-Men at Liberty Island.' },
       { titleId: 'x2-2003', beat: 'Allies temporarily with the X-Men against Stryker.' },
@@ -700,7 +686,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'x-men-dofp-2014',
     tags: ['Legacy X-Men', 'Confirmed Doomsday', 'DOFP Restored'],
     wikiPage: "Cyclops_(Marvel_Comics)",
-    tmdbPersonId: 11006,
     journey: [
       { titleId: 'x-men-2000', beat: 'Leads the original Fox X-Men squad.' },
       { titleId: 'x-men-last-stand-2006', beat: 'Dies at Alkali Lake in the original pre-reset timeline.' },
@@ -727,7 +712,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'the-marvels',
     tags: ['Direct MCU Bridge', 'Confirmed Doomsday'],
     wikiPage: "Beast_(Marvel_Comics)",
-    tmdbPersonId: 7090,
     journey: [
       { titleId: 'x-men-last-stand-2006', beat: 'Serves as U.S. Secretary of Mutant Affairs before joining the X-Men battle.' },
       { titleId: 'x-men-dofp-2014', beat: 'Appears alive in the restored X-Mansion.' },
@@ -758,7 +742,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'x2-2003',
     tags: ['Legacy X-Men', 'Confirmed Doomsday'],
     wikiPage: "Nightcrawler_(character)",
-    tmdbPersonId: 10696,
     journey: [
       { titleId: 'x2-2003', beat: 'Joins the X-Men after escaping Stryker’s mind control.' },
       { titleId: 'avengers-doomsday', beat: 'Teleports back into action alongside Xavier’s X-Men.' },
@@ -783,7 +766,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'x-men-last-stand-2006',
     tags: ['Legacy X-Men', 'Confirmed Doomsday'],
     wikiPage: "Mystique_(character)",
-    tmdbPersonId: 10862,
     journey: [
       { titleId: 'x-men-2000', beat: 'Infiltrates Senator Kelly and fights beside Magneto.' },
       { titleId: 'x2-2003', beat: 'Frees Magneto from plastic prison and aids the Alkali Lake raid.' },
@@ -809,7 +791,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'deadpool-wolverine',
     tags: ['Void Survivor', 'Confirmed Doomsday', 'Pre-MCU Meta'],
     wikiPage: "Gambit_(Marvel_Comics)",
-    tmdbPersonId: 38673,
     journey: [
       { titleId: 'x-men-origins-2009', beat: 'Earlier Fox iteration of Remy LeBeau introduces Gambit on screen.' },
       { titleId: 'deadpool-wolverine', beat: 'Leads Void Resistance assault on Cassandra Nova’s fortress alongside Deadpool, Blade, and Elektra.' },
@@ -837,7 +818,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'black-panther-wakanda-forever',
     tags: ['Black Panther', 'Confirmed Doomsday'],
     wikiPage: "Shuri_(Marvel_Cinematic_Universe)",
-    tmdbPersonId: 1091287,
     journey: [
       { titleId: 'black-panther', beat: 'Designs vibranium tech and defends Wakanda.' },
       { titleId: 'black-panther-wakanda-forever', beat: 'Becomes Black Panther and forges a defensive pact with Talokan.' },
@@ -863,7 +843,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'black-panther-wakanda-forever',
     tags: ['Wakanda Throne', 'Confirmed Doomsday'],
     wikiPage: "M'Baku",
-    tmdbPersonId: 1443669,
     journey: [
       { titleId: 'black-panther', beat: 'Aids T’Challa’s return and joins Wakanda’s council.' },
       { titleId: 'black-panther-wakanda-forever', beat: 'Counsels Shuri and steps up for Wakanda’s throne.' },
@@ -889,7 +868,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'black-panther-wakanda-forever',
     tags: ['616 Mutant', 'Confirmed Doomsday', 'Talokan Pact'],
     wikiPage: "Tenoch_Huerta",
-    tmdbPersonId: 109457,
     journey: [
       { titleId: 'black-panther-wakanda-forever', beat: 'Clashes with Wakanda before sealing a secret mutual-defense pact with Shuri.' },
       { titleId: 'avengers-doomsday', beat: 'Honors the Talokan-Wakanda pact during the multiverse incursion.' },
@@ -914,7 +892,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'black-panther-wakanda-forever',
     tags: ['Talokan', 'Confirmed Doomsday'],
     wikiPage: "Namora",
-    tmdbPersonId: 2059369,
     journey: [
       { titleId: 'black-panther-wakanda-forever', beat: 'Fights Wakanda’s warriors and questions Namor’s truce.' },
       { titleId: 'avengers-doomsday', beat: 'Joins Namor and Wakanda in battle.' },
@@ -941,7 +918,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'loki-s2',
     tags: ['World Tree Keeper', 'Confirmed Doomsday', 'Time Slipper'],
     wikiPage: "Loki_(Marvel_Cinematic_Universe)",
-    tmdbPersonId: 91606,
     journey: [
       { titleId: 'the-avengers', beat: 'Leads the 2012 New York invasion and falls captive.' },
       {
@@ -973,7 +949,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'the-marvels',
     tags: ['Stranded Between Universes', 'X-Men Bridge'],
     wikiPage: "Monica_Rambeau",
-    tmdbPersonId: 1368417,
     journey: [
       { titleId: 'captain-marvel', beat: 'Grows up idolizing "Auntie Carol" Danvers in 1995.' },
       { titleId: 'wandavision', beat: 'Gains spectrum energy powers inside Westview.' },
@@ -1003,7 +978,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'doctor-strange-mom',
     tags: ['Incursion Specialist', 'Darkhold Third Eye'],
     wikiPage: "Stephen_Strange_(Marvel_Cinematic_Universe)",
-    tmdbPersonId: 71580,
     journey: [
       { titleId: 'doctor-strange', beat: 'Masters the Mystic Arts and protects the Time Stone.' },
       { titleId: 'spider-man-no-way-home', beat: 'Casts the cracked multiverse spell before wiping Peter Parker from global memory.' },
@@ -1025,18 +999,17 @@ export const CHARACTERS: Character[] = [
     whoAreThey:
       'Earth-616’s neighborhood hero whose identity was erased from every human mind—including MJ and Ned—to heal the No Way Home multiverse crack.',
     howTheyGotHere:
-      'Fought solo street crime in Spider-Man: Brand New Day alongside Punisher, Bruce Banner, and Jean Grey while fighting a mysterious internal transformation—before Ned’s Spidey-Tracker abruptly tracked Peter’s signal catapulting off Earth into deep space.',
+      'Fought solo street crime in Spider-Man: Brand New Day—with Frank Castle (Punisher) operating in the street crossfire—against emerging telepath Jean Grey (Sadie Sink), before Ned’s Spidey-Tracker abruptly watched Peter’s signal catapult off Earth into deep space.',
     lastKnownStatus: 'Signal tracked shooting off Earth into outer space ("Spider-Man Will Return").',
     firstAppearanceTitleId: 'captain-america-civil-war',
     lastSeenTitleId: 'spider-man-brand-new-day',
     tags: ['Space Signal Cliffhanger', 'Stark Protégé', 'Brand New Day'],
     wikiPage: "Peter_Parker_(Marvel_Cinematic_Universe)",
-    tmdbPersonId: 1136406,
     journey: [
       { titleId: 'captain-america-civil-war', beat: 'Recruited by Tony Stark in Queens.' },
       { titleId: 'avengers-endgame', beat: 'Mourns Tony Stark’s final sacrifice.' },
       { titleId: 'spider-man-no-way-home', beat: 'Teams with Tobey & Andrew’s Spider-Men; sacrifices everyone’s memory of himself.' },
-      { titleId: 'spider-man-brand-new-day', beat: 'Fights Scorpion with Punisher, Hulk & Jean Grey; post-credits shows his tracker flying deep into outer space.' },
+      { titleId: 'spider-man-brand-new-day', beat: 'Confronts destabilizing telepath Jean Grey as Punisher operates nearby; post-credits shows his tracker flying into deep space.' },
     ],
   },
   {
@@ -1058,7 +1031,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'spider-man-no-way-home',
     tags: ['Legacy Spider-Man', 'Multiverse Veteran'],
     wikiPage: "Peter_Parker_(Sam_Raimi_film_series)",
-    tmdbPersonId: 2219,
     journey: [
       { titleId: 'spider-man-2002', beat: 'Becomes Spider-Man and defeats Green Goblin.' },
       { titleId: 'spider-man-2-2004', beat: 'Saves New York from Doc Ock’s fusion reactor.' },
@@ -1084,7 +1056,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'spider-man-no-way-home',
     tags: ['Legacy Spider-Man', 'Multiverse Veteran'],
     wikiPage: "Peter_Parker_(The_Amazing_Spider-Man_film_series)",
-    tmdbPersonId: 37625,
     journey: [
       { titleId: 'amazing-spider-man-2012', beat: 'Unlocks Oscorp cross-species secrets.' },
       { titleId: 'amazing-spider-man-2-2014', beat: 'Loses Gwen Stacy during the clocktower battle.' },
@@ -1110,7 +1081,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'deadpool-wolverine',
     tags: ['TVA Known', 'Thor Mystery'],
     wikiPage: "Deadpool_(film_character)",
-    tmdbPersonId: 10859,
     journey: [
       { titleId: 'deadpool-2016', beat: 'Gains mutant healing factor on Earth-10005.' },
       { titleId: 'deadpool-2-2018', beat: 'Uses Cable’s time device, drawing TVA scrutiny.' },
@@ -1136,7 +1106,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'deadpool-wolverine',
     tags: ['Anchor Being', 'Adamantium'],
     wikiPage: "Logan_(film_character)",
-    tmdbPersonId: 6968,
     journey: [
       { titleId: 'x-men-2000', beat: 'Joins Xavier’s school and battles Magneto.' },
       { titleId: 'x-men-dofp-2014', beat: 'Travels mentally to 1973 to rescue the X-Men future.' },
@@ -1163,7 +1132,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'spider-man-brand-new-day',
     tags: ['Founding Avenger', 'Ten Rings Analyst', 'Brand New Day'],
     wikiPage: "Bruce_Banner_(Marvel_Cinematic_Universe)",
-    tmdbPersonId: 103,
     journey: [
       { titleId: 'incredible-hulk', beat: 'Clashes with Ross and Abomination while Samuel Sterns mutates.' },
       { titleId: 'avengers-endgame', beat: 'Performs the Blip-reversing Snap as Smart Hulk.' },
@@ -1190,7 +1158,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'daredevil-born-again',
     tags: ['Defenders Canon', 'Street Level'],
     wikiPage: "Matt_Murdock_(Marvel_Cinematic_Universe)",
-    tmdbPersonId: 23458,
     journey: [
       { titleId: 'daredevil-saga', beat: 'Fights Kingpin, Bullseye, and The Hand in Hell’s Kitchen.' },
       { titleId: 'spider-man-no-way-home', beat: 'Defends Peter Parker ("I’m a really good lawyer").' },
@@ -1216,11 +1183,16 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'spider-man-brand-new-day',
     tags: ['Defenders Canon', 'Brand New Day'],
     wikiPage: "Frank_Castle_(Marvel_Cinematic_Universe)",
-    tmdbPersonId: 19498,
+    confidence: 'official',
+    sources: [
+      { label: 'Wikipedia — The Punisher: One Last Kill', url: 'https://en.wikipedia.org/wiki/The_Punisher:_One_Last_Kill' },
+      { label: 'Wikipedia — Spider-Man: Brand New Day', url: 'https://en.wikipedia.org/wiki/Spider-Man:_Brand_New_Day' },
+    ],
     journey: [
       { titleId: 'daredevil-saga', beat: 'Emerges in Hell’s Kitchen and crosses paths with Matt Murdock.' },
       { titleId: 'punisher-saga', beat: 'Destroys the corrupt network responsible for his family’s murder.' },
-      { titleId: 'spider-man-brand-new-day', beat: 'Allies reluctantly with Spider-Man and Hulk against New York’s underworld.' },
+      { titleId: 'punisher-one-last-kill', beat: 'Confronts Ma Gnucci in the 2026 Disney+ Special Presentation.' },
+      { titleId: 'spider-man-brand-new-day', beat: 'Operates in the street-level backdrop of Spider-Man’s New York crisis.' },
     ],
   },
   {
@@ -1234,17 +1206,20 @@ export const CHARACTERS: Character[] = [
     doomsdayStatus: 'wildcard',
     catalogCode: 'TVA-616-JGR',
     whoAreThey:
-      'Newly introduced Earth-616 version of Jean Grey debuting in 2026’s Spider-Man: Brand New Day.',
+      'Newly introduced Earth-616 Jean Grey debuting as an erratic telepathic force in 2026’s Spider-Man: Brand New Day.',
     howTheyGotHere:
-      'Steps into Peter Parker’s circle during Brand New Day—marking a major milestone for homegrown MCU mutants right before Fox’s legacy X-Men arrive in Doomsday.',
+      'Begins hijacking the minds of New York civilians in Brand New Day, placing her squarely in Peter Parker’s path and establishing Earth-616’s first major mutant threat.',
     lastKnownStatus: 'Introduced on Earth-616 in Spider-Man: Brand New Day.',
     firstAppearanceTitleId: 'spider-man-brand-new-day',
     lastSeenTitleId: 'spider-man-brand-new-day',
     tags: ['616 Mutant', 'Brand New Day'],
     wikiPage: "Jean_Grey",
-    tmdbPersonId: 1714851,
+    confidence: 'official',
+    sources: [
+      { label: 'Wikipedia — Spider-Man: Brand New Day', url: 'https://en.wikipedia.org/wiki/Spider-Man:_Brand_New_Day' },
+    ],
     journey: [
-      { titleId: 'spider-man-brand-new-day', beat: 'Debuts alongside Peter Parker, Hulk, and Punisher on Earth-616.' },
+      { titleId: 'spider-man-brand-new-day', beat: 'Unleashes erratic telepathy across New York, drawing Peter Parker into confrontation.' },
     ],
   },
   {
@@ -1260,17 +1235,21 @@ export const CHARACTERS: Character[] = [
     whoAreThey:
       'S.W.O.R.D.’s rebuilt pale synthezoid body of Vision who unlocked original Vision’s memories in WandaVision and vanished to understand himself.',
     howTheyGotHere:
-      'Headlines Phase 6’s VisionQuest in late 2026, resolving his identity ahead of Avengers: Doomsday.',
-    lastKnownStatus: 'Searching for purpose in 2026’s VisionQuest.',
+      'Headlined 2026’s VisionQuest on Disney+, conversing with embedded AIs (including Ultron and J.A.R.V.I.S.) before going on the run with Thomas Shepherd.',
+    lastKnownStatus: 'On the run alongside Thomas Shepherd following VisionQuest (2026).',
     firstAppearanceTitleId: 'avengers-age-of-ultron',
     lastSeenTitleId: 'vision-quest',
     tags: ['Synthezoid', 'Phase 6 Series'],
     wikiPage: "Vision_(Marvel_Cinematic_Universe)",
-    tmdbPersonId: 6162,
+    confidence: 'official',
+    sources: [
+      { label: 'Wikipedia — VisionQuest', url: 'https://en.wikipedia.org/wiki/VisionQuest' },
+      { label: 'Marvel.com — VisionQuest', url: 'https://www.marvel.com/tv-shows/visionquest/1' },
+    ],
     journey: [
       { titleId: 'avengers-age-of-ultron', beat: 'Born from J.A.R.V.I.S., Ultron’s vibranium cradle, and the Mind Stone.' },
       { titleId: 'wandavision', beat: 'Rebuilt by S.W.O.R.D.; Hex Vision restores his memories before he flies away.' },
-      { titleId: 'vision-quest', beat: 'Confronts his own past and identity in 2026.' },
+      { titleId: 'vision-quest', beat: 'Confronts embedded AI echoes including Ultron and flees a bounty with Thomas Shepherd.' },
     ],
   },
   {
@@ -1292,7 +1271,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'the-marvels',
     tags: ['616 Mutant', 'Quantum Bands', 'Kate Link'],
     wikiPage: "Kamala_Khan_(Marvel_Cinematic_Universe)",
-    tmdbPersonId: 2806739,
     journey: [
       { titleId: 'ms-marvel', beat: 'Unlocks hard-light powers and learns she carries a genetic mutation.' },
       { titleId: 'the-marvels', beat: 'Saves Dar-Benn’s victims alongside Carol and Monica; later recruits Kate Bishop.' },
@@ -1317,7 +1295,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'the-marvels',
     tags: ['Ten Rings Analyst', 'Monica Search'],
     wikiPage: "Carol_Danvers_(Marvel_Cinematic_Universe)",
-    tmdbPersonId: 60073,
     journey: [
       { titleId: 'captain-marvel', beat: 'Breaks Kree control in 1995 alongside Maria & young Monica Rambeau.' },
       { titleId: 'shang-chi', beat: 'Examines the Ten Rings beacon with Banner and Wong.' },
@@ -1343,7 +1320,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'deadpool-wolverine',
     tags: ['Pre-Phase 1', 'Void Resistance'],
     wikiPage: "Blade_(New_Line_franchise_character)",
-    tmdbPersonId: 10814,
     journey: [
       { titleId: 'blade-1998', beat: 'Defeats Deacon Frost and sparks the modern Marvel film era.' },
       { titleId: 'blade-trinity-2004', beat: 'Defeats Dracula on Earth-26320.' },
@@ -1373,7 +1349,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'deadpool-wolverine',
     tags: ['Pre-Phase 1', 'Void Resistance'],
     wikiPage: "Elektra_(character)",
-    tmdbPersonId: 9278,
     journey: [
       { titleId: 'daredevil-2003', beat: 'Crosses paths with Matt Murdock and Bullseye.' },
       { titleId: 'elektra-2005', beat: 'Defies The Hand on Earth-701306.' },
@@ -1403,7 +1378,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'deadpool-wolverine',
     tags: ['Pre-Phase 1', 'Chris Evans Variant', 'Pruned'],
     wikiPage: "Chris_Evans_(actor)",
-    tmdbPersonId: 16828,
     journey: [
       { titleId: 'fantastic-four-2005', beat: 'Gains Flame On powers on Earth-121698.' },
       {
@@ -1432,7 +1406,6 @@ export const CHARACTERS: Character[] = [
     lastSeenTitleId: 'venom-3-2024',
     tags: ['Symbiote Hive', 'Earth-688 Bridge'],
     wikiPage: "Venom_(Sony's_Spider-Man_Universe)",
-    tmdbPersonId: 2524,
     journey: [
       { titleId: 'venom-2018', beat: 'Eddie Brock bonds with Venom in San Francisco.' },
       {

@@ -8,6 +8,7 @@ export const REALITIES: Reality[] = [
     designation: 'Primary MCU Continuity',
     placeName: 'Watchtower / Manhattan',
     wikiPage: 'Stark_Tower',
+    imagePath: './places/watchtower-616.jpg',
     status: 'incursion-risk',
     anchorBeingId: 'tony-stark',
     summary:
@@ -27,6 +28,7 @@ export const REALITIES: Reality[] = [
     designation: 'Fantastic Four Home Reality',
     placeName: 'Baxter Building (1960s NYC)',
     wikiPage: 'Baxter_Building',
+    imagePath: './places/baxter-828.jpg',
     status: 'endangered',
     anchorBeingId: 'franklin-richards',
     summary:
@@ -46,6 +48,7 @@ export const REALITIES: Reality[] = [
     designation: 'Mutant Prime Reality',
     placeName: "Xavier's School (X-Mansion)",
     wikiPage: 'X-Mansion',
+    imagePath: './places/xmansion-10005.jpg',
     status: 'incursion-risk',
     anchorBeingId: 'wolverine',
     summary:
@@ -65,6 +68,7 @@ export const REALITIES: Reality[] = [
     designation: 'Monica Rambeau Landing Reality',
     placeName: 'X-Mansion Medical Bay',
     wikiPage: 'Hatley_Park_National_Historic_Site',
+    imagePath: './places/xmansion-10005.jpg',
     status: 'incursion-risk',
     summary:
       'The alternate X-Men universe revealed in The Marvels post-credits scene, where Monica Rambeau wakes inside the X-Mansion beside Binary (Maria Rambeau) and Hank McCoy / Beast—referencing Charles Xavier and a gaping spacetime rift.',
@@ -82,6 +86,7 @@ export const REALITIES: Reality[] = [
     designation: 'Ultron-Pacified Universe',
     placeName: 'Illuminati Manhattan',
     wikiPage: "1964_New_York_World's_Fair",
+    imagePath: './places/illuminati-838.jpg',
     status: 'incursion-risk',
     summary:
       'A technologically advanced reality where Ultron succeeded and the Illuminati policed multiversal threats—until Wanda Maximoff dreamwalked into 838 and slaughtered most of the council, leaving Mordo and surviving forces aware of Earth-616.',
@@ -99,6 +104,7 @@ export const REALITIES: Reality[] = [
     designation: 'Tobey Maguire Continuity',
     placeName: 'Raimi Midtown & Liberty Island',
     wikiPage: 'Statue_of_Liberty',
+    imagePath: './places/liberty-multiverse.svg',
     status: 'intact',
     anchorBeingId: 'peter-parker-96283',
     summary:
@@ -116,6 +122,7 @@ export const REALITIES: Reality[] = [
     designation: 'Andrew Garfield Continuity',
     placeName: 'Oscorp / Midtown Manhattan',
     wikiPage: 'Manhattan',
+    imagePath: './places/legacy-multiverse-city.jpg',
     status: 'intact',
     anchorBeingId: 'peter-parker-120703',
     summary:
@@ -133,6 +140,7 @@ export const REALITIES: Reality[] = [
     designation: 'Eddie Brock / Symbiote World',
     placeName: 'San Francisco Bay',
     wikiPage: 'Golden_Gate_Bridge',
+    imagePath: './places/legacy-multiverse-city.jpg',
     status: 'intact',
     summary:
       'Home to Eddie Brock and the Venom symbiote. Briefly pulled into Earth-616 after Let There Be Carnage, leaving behind a stray piece of the symbiote on a Mexican bar counter before returning for Venom: The Last Dance.',
@@ -149,6 +157,7 @@ export const REALITIES: Reality[] = [
     designation: 'Legacy FF Continuity',
     placeName: '2005 Baxter Building',
     wikiPage: 'Baxter_Building',
+    imagePath: './places/baxter-828.jpg',
     status: 'pruned',
     summary:
       'Home to Tim Story’s 2005 Fantastic Four and Rise of the Silver Surfer. Chris Evans’ Johnny Storm was pruned into The Void, where he met Deadpool and Wolverine before being killed by Cassandra Nova.',
@@ -165,6 +174,7 @@ export const REALITIES: Reality[] = [
     designation: 'Daywalker Legacy Continuity',
     placeName: 'Nocturnal Metropolis',
     wikiPage: 'Grand_Central_Terminal',
+    imagePath: './places/legacy-multiverse-city.jpg',
     status: 'pruned',
     anchorBeingId: 'blade',
     summary:
@@ -182,6 +192,7 @@ export const REALITIES: Reality[] = [
     designation: 'Legacy Street Continuity',
     placeName: "Hell's Kitchen Rooftops",
     wikiPage: "Hell's_Kitchen,_Manhattan",
+    imagePath: './places/legacy-multiverse-city.jpg',
     status: 'pruned',
     anchorBeingId: 'elektra',
     summary:
@@ -199,6 +210,7 @@ export const REALITIES: Reality[] = [
     designation: 'Miles Morales / Spider-Society Hub',
     placeName: 'Brooklyn / Spider-Society',
     wikiPage: 'Brooklyn',
+    imagePath: './places/legacy-multiverse-city.jpg',
     status: 'intact',
     summary:
       'The animated Spider-Verse multiverse tracked by Miguel O’Hara’s Spider-Society—explicitly referencing Doctor Strange and Peter Parker’s "little nerd back on Earth-199999/616" as a multiversal anomaly.',
@@ -215,6 +227,7 @@ export const REALITIES: Reality[] = [
     designation: 'Classic 90s Animated Reality',
     placeName: "90s X-Mansion & Genosha",
     wikiPage: 'Hatley_Park_National_Historic_Site',
+    imagePath: './places/xmansion-10005.jpg',
     status: 'intact',
     summary:
       "The 1990s X-Men: The Animated Series and X-Men '97 reality—key visual and thematic inspiration for Doomsday's comic-accurate X-Men revival (yellow-and-blue Cyclops, Gambit, and Magneto/Xavier dynamics).",
@@ -231,6 +244,7 @@ export const REALITIES: Reality[] = [
     designation: 'Null-Time Citadel & Yggdrasil',
     placeName: 'TVA Citadel & Yggdrasil',
     wikiPage: 'Time_Variance_Authority',
+    imagePath: './places/tva-yggdrasil.jpg',
     status: 'outside-time',
     anchorBeingId: 'loki',
     summary:
@@ -249,6 +263,7 @@ export const REALITIES: Reality[] = [
     designation: 'Pruned Reality Scrapyard',
     placeName: 'The Void Wasteland',
     wikiPage: 'Badlands',
+    imagePath: './places/the-void.jpg',
     status: 'outside-time',
     summary:
       'Where every pruned timeline, variant, and forgotten pre-MCU Marvel hero lands—guarded by Alioth and formerly ruled by Cassandra Nova. Home to Gambit (Channing Tatum) and the Void Resistance.',
@@ -266,6 +281,7 @@ export const REALITIES: Reality[] = [
     designation: 'Post-Endgame Peggy Carter Branch',
     placeName: '1940s Homefront Branch',
     wikiPage: 'V-J_Day_in_Times_Square',
+    imagePath: './places/steve-branch-1940s.jpg',
     status: 'endangered',
     anchorBeingId: 'steve-rogers',
     summary:
@@ -285,6 +301,7 @@ export const ICONIC_PLACES: Place[] = [
     name: 'Watchtower (Former Avengers Tower)',
     realityId: 'earth-616',
     wikiPage: 'Stark_Tower',
+    imagePath: './places/watchtower-616.jpg',
     summary:
       'Purchased by Valentina Allegra de Fontaine in Midtown Manhattan, serving as headquarters for the New Avengers (Thunderbolts*)—the exact roof from which they spot the Fantastic Four vessel entering Earth-616.',
     keyTitleIds: ['the-avengers', 'thunderbolts', 'avengers-doomsday'],
@@ -295,6 +312,7 @@ export const ICONIC_PLACES: Place[] = [
     name: 'Baxter Building (Earth-828)',
     realityId: 'earth-828',
     wikiPage: 'Baxter_Building',
+    imagePath: './places/baxter-828.jpg',
     summary:
       'Retro-1960s headquarters of Reed Richards, Sue Storm, Johnny Storm, Ben Grimm, and Franklin Richards—and the exact room Victor von Doom infiltrates in the First Steps mid-credits scene.',
     keyTitleIds: ['fantastic-four-first-steps', 'avengers-doomsday'],
@@ -305,6 +323,7 @@ export const ICONIC_PLACES: Place[] = [
     name: "Xavier's School (X-Mansion)",
     realityId: 'earth-10005',
     wikiPage: 'X-Mansion',
+    imagePath: './places/xmansion-10005.jpg',
     summary:
       'Westchester sanctuary restored by Wolverine’s 1973 Days of Future Past reset, and the mansion medical bay where Beast examines stranded Monica Rambeau in The Marvels.',
     keyTitleIds: ['x-men-2000', 'x-men-dofp-2014', 'the-marvels', 'avengers-doomsday'],
@@ -315,6 +334,7 @@ export const ICONIC_PLACES: Place[] = [
     name: 'TVA Citadel & Yggdrasil World Tree',
     realityId: 'tva',
     wikiPage: 'Time_Variance_Authority',
+    imagePath: './places/tva-yggdrasil.jpg',
     summary:
       'Null-time bureaucracy monitoring Sacred Timeline branches while Loki holds infinite living timelines together as Yggdrasil at the End of Time.',
     keyTitleIds: ['loki-s1', 'loki-s2', 'deadpool-wolverine', 'avengers-doomsday'],
@@ -325,6 +345,7 @@ export const ICONIC_PLACES: Place[] = [
     name: 'The Void at the End of Time',
     realityId: 'the-void',
     wikiPage: 'Badlands',
+    imagePath: './places/the-void.jpg',
     summary:
       'Pruned reality wasteland where Cassandra Nova reigned over discarded heroes—producing the Void Resistance (Gambit, Blade, Elektra) that fed Channing Tatum’s Gambit into Doomsday.',
     keyTitleIds: ['loki-s1', 'deadpool-wolverine', 'blade-1998', 'elektra-2005'],
@@ -335,6 +356,7 @@ export const ICONIC_PLACES: Place[] = [
     name: 'Latveria / Castle Doom',
     realityId: 'earth-828',
     wikiPage: 'Latveria',
+    imagePath: './places/latveria-doom.jpg',
     summary:
       'Sovereign European domain of Victor von Doom—blending arcane mysticism with Stark-tier armor engineering behind Doomsday’s multiversal strike.',
     keyTitleIds: ['fantastic-four-first-steps', 'avengers-doomsday'],
@@ -345,6 +367,7 @@ export const ICONIC_PLACES: Place[] = [
     name: 'Wakanda (Golden City & Warrior Falls)',
     realityId: 'earth-616',
     wikiPage: 'Iguazu_Falls',
+    imagePath: './places/wakanda-golden-city.jpg',
     summary:
       'Vibranium-powered kingdom defended by Shuri (Black Panther) and King M’Baku—site of Infinity War’s final stand and strategic pillar of Earth-616’s defense.',
     keyTitleIds: ['black-panther', 'avengers-infinity-war', 'black-panther-wakanda-forever', 'avengers-doomsday'],
@@ -355,6 +378,7 @@ export const ICONIC_PLACES: Place[] = [
     name: 'Talokan (Hidden Ocean Empire)',
     realityId: 'earth-616',
     wikiPage: 'Cenote',
+    imagePath: './places/talokan-ocean.jpg',
     summary:
       'Submerged vibranium civilization beneath Mesoamerican cenotes led by Namor and Namora—bound to Wakanda by a mutual-defense pact entering Doomsday.',
     keyTitleIds: ['black-panther-wakanda-forever', 'avengers-doomsday'],
@@ -365,6 +389,7 @@ export const ICONIC_PLACES: Place[] = [
     name: 'Sanctum Sanctorum (177A Bleecker St)',
     realityId: 'earth-616',
     wikiPage: 'Bleecker_Street',
+    imagePath: './places/sanctum-sanctorum.jpg',
     summary:
       'Greenwich Village nexus of Mystic Arts where Doctor Strange cast the fractured No Way Home memory spell and departed with Clea into the Dark Dimension.',
     keyTitleIds: ['doctor-strange', 'spider-man-no-way-home', 'doctor-strange-mom'],
@@ -375,6 +400,7 @@ export const ICONIC_PLACES: Place[] = [
     name: 'Asgard & New Asgard',
     realityId: 'earth-616',
     wikiPage: 'Asgard_(comics)',
+    imagePath: './places/asgard-bifrost.jpg',
     summary:
       'Original celestial realm of Thor and Loki before Ragnarok’s destruction relocated surviving Asgardians to Tønsberg, Norway on Earth-616.',
     keyTitleIds: ['thor', 'thor-ragnarok', 'avengers-endgame', 'thor-love-and-thunder'],
@@ -385,6 +411,7 @@ export const ICONIC_PLACES: Place[] = [
     name: "Steve & Peggy's 1940s Branch",
     realityId: 'steve-branch',
     wikiPage: 'V-J_Day_in_Times_Square',
+    imagePath: './places/steve-branch-1940s.jpg',
     summary:
       'The post-war homefront branch Steve Rogers created by returning to dance with Peggy Carter—singled out by Doctor Doom as an intolerable "stolen life".',
     keyTitleIds: ['captain-america-first-avenger', 'agent-carter-series', 'avengers-endgame', 'avengers-doomsday'],
@@ -395,6 +422,7 @@ export const ICONIC_PLACES: Place[] = [
     name: 'Statue of Liberty (Multiverse Fracture)',
     realityId: 'earth-616',
     wikiPage: 'Statue_of_Liberty',
+    imagePath: './places/liberty-multiverse.svg',
     summary:
       'Site of the climactic No Way Home battle where three Spider-Men fought across realities—and Liberty Island in X-Men (2000) where Xavier’s team confronted Magneto.',
     keyTitleIds: ['x-men-2000', 'spider-man-no-way-home', 'spider-man-brand-new-day'],

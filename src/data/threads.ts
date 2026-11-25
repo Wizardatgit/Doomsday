@@ -19,6 +19,11 @@ export const THREADS: PlotThread[] = [
       { titleId: 'fantastic-four-first-steps', note: 'Mid-credits (+4 yrs): Cloaked Doctor Doom appears quietly beside five-year-old Franklin.' },
       { titleId: 'avengers-doomsday', note: 'Doctor Doom threatens multiple realities while the First Family fights beside Earth-616.' },
     ],
+    confidence: 'official',
+    sources: [
+      { label: 'Wikipedia — The Fantastic Four: First Steps', url: 'https://en.wikipedia.org/wiki/The_Fantastic_Four:_First_Steps' },
+      { label: 'Marvel.com — Avengers: Doomsday', url: 'https://www.marvel.com/movies/avengers-doomsday' },
+    ],
   },
   {
     id: 'thread-f4-breach',
@@ -47,7 +52,7 @@ export const THREADS: PlotThread[] = [
     summary:
       'After returning the Infinity Stones in Endgame, Steve Rogers lived a second life with Peggy Carter in a branched 1940s timeline. Doctor Doom views multiversal anomalies like this as "stolen lives" tearing reality apart.',
     doomsdayImpact:
-      'Doomsday promos bring Chris Evans’ Steve Rogers and Hayley Atwell’s Peggy Carter straight out of their branch back into Avengers conflict.',
+      'Doomsday promos show Steve Rogers and Peggy Carter raising a teenage son inside their branched timeline before the Fantastic Four track them down to stand against Doctor Doom.',
     originTitleId: 'captain-america-first-avenger',
     keyTitleIds: ['captain-america-first-avenger', 'agent-carter-series', 'avengers-endgame', 'avengers-doomsday'],
     characterIds: ['steve-rogers', 'peggy-carter', 'doctor-doom', 'sam-wilson', 'bucky-barnes'],
@@ -55,7 +60,12 @@ export const THREADS: PlotThread[] = [
     beats: [
       { titleId: 'captain-america-first-avenger', note: 'Steve promises Peggy a dance before crashing into Arctic ice.' },
       { titleId: 'avengers-endgame', note: 'Steve returns the Stones, stays in the past with Peggy, and hands Sam the shield.' },
-      { titleId: 'avengers-doomsday', note: 'Doom condemns heroes living stolen lives; Steve and Peggy enter the fray.' },
+      { titleId: 'avengers-doomsday', note: 'Doom condemns heroes living stolen lives; the Fantastic Four recruit Steve and Peggy into the fray.' },
+    ],
+    confidence: 'official',
+    sources: [
+      { label: 'Marvel.com — Avengers: Doomsday', url: 'https://www.marvel.com/movies/avengers-doomsday' },
+      { label: 'Wikipedia — Avengers: Doomsday', url: 'https://en.wikipedia.org/wiki/Avengers:_Doomsday' },
     ],
   },
   {
@@ -225,6 +235,10 @@ export const THREADS: PlotThread[] = [
       { titleId: 'spider-man-no-way-home', note: 'Everyone forgets Peter Parker’s identity.' },
       { titleId: 'spider-man-brand-new-day', note: 'Post-credits: Ned’s Spidey-Tracker traces Peter’s signature shooting out past the Moon into space.' },
     ],
+    confidence: 'official',
+    sources: [
+      { label: 'Wikipedia — Spider-Man: Brand New Day', url: 'https://en.wikipedia.org/wiki/Spider-Man:_Brand_New_Day' },
+    ],
   },
   {
     id: 'thread-wakanda-talokan',
@@ -259,7 +273,12 @@ export const THREADS: PlotThread[] = [
     realityIds: ['earth-616'],
     beats: [
       { titleId: 'wandavision', note: 'White Vision declares "I am Vision" and flies off.' },
-      { titleId: 'vision-quest', note: '2026 series tracks White Vision reconciling memories and humanity.' },
+      { titleId: 'vision-quest', note: '2026 Disney+ series follows White Vision confronting AI echoes including Ultron and Paladin alongside Thomas Shepherd.' },
+    ],
+    confidence: 'official',
+    sources: [
+      { label: 'Wikipedia — VisionQuest', url: 'https://en.wikipedia.org/wiki/VisionQuest' },
+      { label: 'Marvel.com — VisionQuest', url: 'https://www.marvel.com/tv-shows/visionquest/1' },
     ],
   },
   {

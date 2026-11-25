@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react';
-import { CheckSquare, Compass, Filter, Square } from 'lucide-react';
+import { CheckSquare, Compass, Filter, RotateCcw, Square } from 'lucide-react';
 import { BEGINNER_12_IDS, TITLES, charactersById, realitiesById } from '../data/index.ts';
 import type { EntityRef, TitleEra } from '../data/types.ts';
+import { titleTmdbQuery } from '../lib/tmdb.ts';
 import type { TimelinePreset } from '../state/useAppState.ts';
 import { EntityVisual, ViewHeroBanner } from './TvaArt.tsx';
 import { Redactable } from './Redactable.tsx';
@@ -159,6 +160,26 @@ export function SacredTimeline({
             <option value="watched">Watched Only</option>
           </select>
 
+          {(eraFilter !== 'all' ||
+            realityFilter !== 'all' ||
+            timelinePreset !== 'all' ||
+            watchFilter !== 'all' ||
+            orderMode !== 'chrono') && (
+            <button
+              type="button"
+              onClick={() => {
+                setOrderMode('chrono');
+                setEraFilter('all');
+                setRealityFilter('all');
+                onChangePreset('all');
+                setWatchFilter('all');
+              }}
+              className="inline-flex items-center gap-1 rounded border border-[#b45309] bg-[#b45309]/10 px-2.5 py-1.5 text-xs font-mono-code font-semibold text-[#9a3412] hover:bg-[#b45309]/20"
+            >
+              <RotateCcw className="w-3.5 h-3.5" /> Reset Filters
+            </button>
+          )}
+
           <div className="ml-auto flex flex-wrap gap-1.5">
             {(['phase-1', 'phase-2', 'phase-3', 'phase-4', 'phase-5', 'phase-6'] as TitleEra[]).map((era) => (
               <button
@@ -239,12 +260,8 @@ export function SacredTimeline({
                   subtitle={`${t.year}`}
                   accentColor={color}
                   emblem={t.id === 'avengers-doomsday' ? 'doom' : 'tva'}
-                  wikiPage={t.wikiPage ?? t.title.replace(/ /g, '_')}
-                  tmdbQuery={
-                    t.tmdbId && t.tmdbMediaType
-                      ? { kind: 'title', mediaType: t.tmdbMediaType, id: t.tmdbId }
-                      : undefined
-                  }
+                  wikiPage={t.wikiPage}
+                  tmdbQuery={titleTmdbQuery(t)}
                   tmdbApiKey={tmdbApiKey}
                   compact
                 />

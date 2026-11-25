@@ -27,8 +27,7 @@ export const MULTIVERSE_TITLES: Title[] = [
         threadId: 'thread-monica-xmen',
       },
     ],
-    tmdbId: 85271,
-    tmdbMediaType: 'tv',
+    wikiPage: 'WandaVision',
   },
   {
     id: 'falcon-winter-soldier',
@@ -47,8 +46,7 @@ export const MULTIVERSE_TITLES: Title[] = [
     doomsdayConnection:
       'Establishes Sam Wilson as Captain America, Joaquin Torres as the new Falcon, Bucky’s post-Winter Soldier redemption, and Valentina recruiting U.S. Agent for what becomes Thunderbolts*.',
     keyCharacterIds: ['sam-wilson', 'bucky-barnes', 'joaquin-torres', 'john-walker', 'valentina'],
-    tmdbId: 88396,
-    tmdbMediaType: 'tv',
+    wikiPage: 'The_Falcon_and_the_Winter_Soldier',
   },
   {
     id: 'loki-s1',
@@ -67,8 +65,6 @@ export const MULTIVERSE_TITLES: Title[] = [
     doomsdayConnection:
       'Introduces the TVA, The Void at the End of Time (crucial for Deadpool & Wolverine and Gambit), and fractures the Sacred Timeline into infinite branching realities.',
     keyCharacterIds: ['loki'],
-    tmdbId: 84958,
-    tmdbMediaType: 'tv',
     wikiPage: "Loki_(TV_series)",
   },
   {
@@ -95,8 +91,6 @@ export const MULTIVERSE_TITLES: Title[] = [
         leadsToTitleId: 'hawkeye',
       },
     ],
-    tmdbId: 497698,
-    tmdbMediaType: 'movie',
     wikiPage: "Black_Widow_(2021_film)",
   },
   {
@@ -116,8 +110,6 @@ export const MULTIVERSE_TITLES: Title[] = [
     doomsdayConnection:
       'Demonstrates the perils of Absolute Points and multiversal incursion collapse across branches of Loki’s World Tree.',
     keyCharacterIds: ['peggy-carter', 'doctor-strange'],
-    tmdbId: 91363,
-    tmdbMediaType: 'tv',
     wikiPage: "What_If...?_(TV_series)",
   },
   {
@@ -144,8 +136,7 @@ export const MULTIVERSE_TITLES: Title[] = [
         threadId: 'thread-ten-rings-bands',
       },
     ],
-    tmdbId: 566525,
-    tmdbMediaType: 'movie',
+    wikiPage: 'Shang-Chi_and_the_Legend_of_the_Ten_Rings',
   },
   {
     id: 'eternals',
@@ -164,8 +155,6 @@ export const MULTIVERSE_TITLES: Title[] = [
     doomsdayConnection:
       'Tiamut’s petrified body becomes the literal source of MCU Adamantium in Captain America: Brave New World.',
     keyCharacterIds: [],
-    tmdbId: 524434,
-    tmdbMediaType: 'movie',
     wikiPage: "Eternals_(film)",
   },
   {
@@ -185,8 +174,6 @@ export const MULTIVERSE_TITLES: Title[] = [
     doomsdayConnection:
       'Introduces Kate Bishop (recruited by Kamala Khan into a young hero network and tied to the Doomsday ensemble).',
     keyCharacterIds: ['kate-bishop', 'yelena-belova'],
-    tmdbId: 88329,
-    tmdbMediaType: 'tv',
     wikiPage: "Hawkeye_(miniseries)",
   },
   {
@@ -213,8 +200,7 @@ export const MULTIVERSE_TITLES: Title[] = [
         leadsToTitleId: 'venom-3-2024',
       },
     ],
-    tmdbId: 634649,
-    tmdbMediaType: 'movie',
+    wikiPage: 'Spider-Man:_No_Way_Home',
   },
   {
     id: 'moon-knight',
@@ -233,8 +219,6 @@ export const MULTIVERSE_TITLES: Title[] = [
     doomsdayConnection:
       'Expands the supernatural corner of Earth-616.',
     keyCharacterIds: [],
-    tmdbId: 92749,
-    tmdbMediaType: 'tv',
     wikiPage: "Moon_Knight_(TV_series)",
   },
   {
@@ -261,8 +245,7 @@ export const MULTIVERSE_TITLES: Title[] = [
         threadId: 'thread-strange-clea',
       },
     ],
-    tmdbId: 453395,
-    tmdbMediaType: 'movie',
+    wikiPage: 'Doctor_Strange_in_the_Multiverse_of_Madness',
   },
   {
     id: 'ms-marvel',
@@ -289,8 +272,6 @@ export const MULTIVERSE_TITLES: Title[] = [
         threadId: 'thread-ten-rings-bands',
       },
     ],
-    tmdbId: 92782,
-    tmdbMediaType: 'tv',
     wikiPage: "Ms._Marvel_(miniseries)",
   },
   {
@@ -310,8 +291,7 @@ export const MULTIVERSE_TITLES: Title[] = [
     doomsdayConnection:
       'Positions Thor as a protective father figure in space before Doomsday trailers reveal him taking on renewed power and leadership.',
     keyCharacterIds: ['thor'],
-    tmdbId: 616037,
-    tmdbMediaType: 'movie',
+    wikiPage: 'Thor:_Love_and_Thunder',
   },
   {
     id: 'she-hulk',
@@ -330,8 +310,6 @@ export const MULTIVERSE_TITLES: Title[] = [
     doomsdayConnection:
       'Reintroduces Charlie Cox’s Daredevil to mainstream Earth-616 and tracks Bruce Banner ahead of Brand New Day.',
     keyCharacterIds: ['bruce-banner', 'daredevil'],
-    tmdbId: 92783,
-    tmdbMediaType: 'tv',
     wikiPage: "She-Hulk:_Attorney_at_Law",
   },
   {
@@ -351,8 +329,6 @@ export const MULTIVERSE_TITLES: Title[] = [
     doomsdayConnection:
       'Introduces Man-Thing (nexus-of-all-realities lore) into Earth-616.',
     keyCharacterIds: [],
-    tmdbId: 894205,
-    tmdbMediaType: 'movie',
     wikiPage: "Werewolf_by_Night_(TV_special)",
   },
   {
@@ -372,8 +348,7 @@ export const MULTIVERSE_TITLES: Title[] = [
     doomsdayConnection:
       'Sets the exact Wakanda/Talokan status quo for Doomsday: Shuri, M’Baku, Namor, and Namora are all confirmed Doomsday cast members.',
     keyCharacterIds: ['shuri', 'mbaku', 'namor', 'namora'],
-    tmdbId: 505642,
-    tmdbMediaType: 'movie',
+    wikiPage: 'Black_Panther:_Wakanda_Forever',
   },
   {
     id: 'gotg-holiday-special',
@@ -392,8 +367,6 @@ export const MULTIVERSE_TITLES: Title[] = [
     doomsdayConnection:
       'Bridges Love and Thunder to Guardians Vol. 3.',
     keyCharacterIds: [],
-    tmdbId: 774752,
-    tmdbMediaType: 'movie',
     wikiPage: "The_Guardians_of_the_Galaxy_Holiday_Special",
   },
 
@@ -415,8 +388,7 @@ export const MULTIVERSE_TITLES: Title[] = [
     doomsdayConnection:
       'Shows Cassie stepping up as a hero alongside Scott (both confirmed in Doomsday) and marks the first time an Earth-616 Avenger hears warning bells about collapsing timelines.',
     keyCharacterIds: ['scott-lang', 'cassie-lang'],
-    tmdbId: 640146,
-    tmdbMediaType: 'movie',
+    wikiPage: 'Ant-Man_and_the_Wasp:_Quantumania',
   },
   {
     id: 'guardians-vol-3',
@@ -435,8 +407,7 @@ export const MULTIVERSE_TITLES: Title[] = [
     doomsdayConnection:
       'Places Star-Lord back on Earth-616 ahead of the Multiverse crisis.',
     keyCharacterIds: [],
-    tmdbId: 447365,
-    tmdbMediaType: 'movie',
+    wikiPage: 'Guardians_of_the_Galaxy_Vol._3',
   },
   {
     id: 'secret-invasion',
@@ -455,8 +426,6 @@ export const MULTIVERSE_TITLES: Title[] = [
     doomsdayConnection:
       'Leaves Nick Fury aboard S.A.B.E.R. alongside Monica Rambeau entering The Marvels.',
     keyCharacterIds: ['monica-rambeau'],
-    tmdbId: 114472,
-    tmdbMediaType: 'tv',
     wikiPage: "Secret_Invasion_(TV_series)",
   },
   {
@@ -476,8 +445,6 @@ export const MULTIVERSE_TITLES: Title[] = [
     doomsdayConnection:
       'One of the single most vital pillars for Doomsday: Tom Hiddleston’s Loki is literally keeping every branching universe (616, 10005, 828) alive.',
     keyCharacterIds: ['loki'],
-    tmdbId: 84958,
-    tmdbMediaType: 'tv',
     wikiPage: "Loki_(TV_series)",
   },
   {
@@ -505,8 +472,6 @@ export const MULTIVERSE_TITLES: Title[] = [
         threadId: 'thread-monica-xmen',
       },
     ],
-    tmdbId: 609681,
-    tmdbMediaType: 'movie',
     wikiPage: "The_Marvels",
   },
   {
@@ -526,8 +491,6 @@ export const MULTIVERSE_TITLES: Title[] = [
     doomsdayConnection:
       'Sets up Fisk’s mayoral run in Daredevil: Born Again.',
     keyCharacterIds: ['daredevil'],
-    tmdbId: 122226,
-    tmdbMediaType: 'tv',
     wikiPage: "Echo_(miniseries)",
   },
   {
@@ -547,8 +510,7 @@ export const MULTIVERSE_TITLES: Title[] = [
     doomsdayConnection:
       'Bridges pre-Phase-1 Fox/New Line worlds straight into TVA multiverse canon—and introduces Channing Tatum’s Gambit, who carries forward into the confirmed Avengers: Doomsday cast.',
     keyCharacterIds: ['deadpool', 'wolverine', 'gambit', 'blade', 'elektra', 'johnny-storm-2005'],
-    tmdbId: 533535,
-    tmdbMediaType: 'movie',
+    wikiPage: 'Deadpool_&_Wolverine',
   },
   {
     id: 'agatha-all-along',
@@ -567,8 +529,7 @@ export const MULTIVERSE_TITLES: Title[] = [
     doomsdayConnection:
       'Keeps the young Maximoff/mystic corner active alongside VisionQuest.',
     keyCharacterIds: [],
-    tmdbId: 138501,
-    tmdbMediaType: 'tv',
+    wikiPage: 'Agatha_All_Along_(miniseries)',
   },
   {
     id: 'friendly-neighborhood-spider-man',
@@ -587,8 +548,6 @@ export const MULTIVERSE_TITLES: Title[] = [
     doomsdayConnection:
       'Illustrates the multiverse branches radiating from Loki’s World Tree.',
     keyCharacterIds: ['peter-parker-616'],
-    tmdbId: 138503,
-    tmdbMediaType: 'tv',
     wikiPage: "Your_Friendly_Neighborhood_Spider-Man",
   },
   {
@@ -616,8 +575,7 @@ export const MULTIVERSE_TITLES: Title[] = [
         threadId: 'thread-adamantium-tiamut',
       },
     ],
-    tmdbId: 822119,
-    tmdbMediaType: 'movie',
+    wikiPage: 'Captain_America:_Brave_New_World',
   },
   {
     id: 'daredevil-born-again',
@@ -636,8 +594,6 @@ export const MULTIVERSE_TITLES: Title[] = [
     doomsdayConnection:
       'Sets New York’s anti-vigilante street climate just before Punisher crosses paths with Spider-Man in Brand New Day.',
     keyCharacterIds: ['daredevil', 'punisher'],
-    tmdbId: 202555,
-    tmdbMediaType: 'tv',
     wikiPage: "Daredevil:_Born_Again",
   },
   {
@@ -665,9 +621,11 @@ export const MULTIVERSE_TITLES: Title[] = [
         threadId: 'thread-f4-breach',
       },
     ],
-    tmdbId: 986056,
-    tmdbMediaType: 'movie',
     wikiPage: "Thunderbolts*",
+    confidence: 'official',
+    sources: [
+      { label: 'Wikipedia — Thunderbolts*', url: 'https://en.wikipedia.org/wiki/Thunderbolts*' },
+    ],
   },
   {
     id: 'ironheart',
@@ -686,8 +644,6 @@ export const MULTIVERSE_TITLES: Title[] = [
     doomsdayConnection:
       'Explores the exact tech-versus-magic fusion themes mirrored on a cosmic scale by Doctor Doom.',
     keyCharacterIds: [],
-    tmdbId: 138501,
-    tmdbMediaType: 'tv',
     wikiPage: "Ironheart_(miniseries)",
   },
   {
@@ -707,8 +663,7 @@ export const MULTIVERSE_TITLES: Title[] = [
     doomsdayConnection:
       'Deepens Wakandan warrior heritage ahead of Shuri and M’Baku’s Doomsday deployment.',
     keyCharacterIds: ['shuri', 'mbaku'],
-    tmdbId: 241122,
-    tmdbMediaType: 'tv',
+    wikiPage: 'Eyes_of_Wakanda',
   },
 
   // PHASE 6
@@ -737,9 +692,11 @@ export const MULTIVERSE_TITLES: Title[] = [
         threadId: 'thread-doom-franklin',
       },
     ],
-    tmdbId: 617126,
-    tmdbMediaType: 'movie',
     wikiPage: "The_Fantastic_Four:_First_Steps",
+    confidence: 'official',
+    sources: [
+      { label: 'Wikipedia — The Fantastic Four: First Steps', url: 'https://en.wikipedia.org/wiki/The_Fantastic_Four:_First_Steps' },
+    ],
   },
   {
     id: 'marvel-zombies',
@@ -758,8 +715,6 @@ export const MULTIVERSE_TITLES: Title[] = [
     doomsdayConnection:
       'Standalone alternate-branch spotlight on Phase 4/5 heroes.',
     keyCharacterIds: ['shang-chi', 'yelena-belova', 'ms-marvel', 'kate-bishop'],
-    tmdbId: 138504,
-    tmdbMediaType: 'tv',
     wikiPage: "Marvel_Zombies_(miniseries)",
   },
   {
@@ -779,29 +734,30 @@ export const MULTIVERSE_TITLES: Title[] = [
     doomsdayConnection:
       'Broadens Earth-616’s powered roster in 2026.',
     keyCharacterIds: [],
-    tmdbId: 204628,
-    tmdbMediaType: 'tv',
-    wikiPage: "Wonder_Man_(miniseries)",
+    wikiPage: 'Wonder_Man',
   },
   {
     id: 'punisher-one-last-kill',
     title: 'The Punisher: One Last Kill',
     year: 2026,
-    releaseDate: '2026-04-01',
+    releaseDate: '2026-05-12',
     chronoOrder: 175,
     kind: 'special',
     era: 'phase-6',
     eraLabel: 'Phase 6: Multiverse Saga',
     realityId: 'earth-616',
     importance: 'background',
-    runtime: 'Special',
+    runtime: '50m Special',
     summary:
-      'TV Special following Frank Castle’s ruthless campaign ahead of his New York street crossover.',
+      'Directed by Reinaldo Marcus Green, Frank Castle searches for purpose beyond vengeance before being dragged back into a brutal collision with Ma Gnucci alongside Karen Page.',
     doomsdayConnection:
-      'Direct character bridge for Jon Bernthal’s Punisher into Spider-Man: Brand New Day.',
+      'Sharpens Jon Bernthal’s Frank Castle street-level trajectory right ahead of Spider-Man: Brand New Day.',
     keyCharacterIds: ['punisher'],
-    tmdbMediaType: 'movie',
-    wikiPage: "The_Punisher_(TV_special)",
+    wikiPage: 'The_Punisher:_One_Last_Kill',
+    confidence: 'official',
+    sources: [
+      { label: 'Wikipedia — The Punisher: One Last Kill', url: 'https://en.wikipedia.org/wiki/The_Punisher:_One_Last_Kill' },
+    ],
   },
   {
     id: 'spider-man-brand-new-day',
@@ -816,42 +772,47 @@ export const MULTIVERSE_TITLES: Title[] = [
     importance: 'essential',
     runtime: 'Feature',
     summary:
-      'Completely forgotten by MJ and Ned, Peter Parker fights Mac Gargan (Scorpion) and Tombstone alongside Punisher, Bruce Banner (Hulk), and newly introduced Jean Grey (Sadie Sink) while wrestling an unexplained biological shift.',
+      'Forgotten by MJ and Ned, a worn-down solo Peter Parker tries to protect New York—with Frank Castle (Punisher) operating in the street crossfire—when destabilizing telepath Jean Grey (Sadie Sink) begins hijacking civilian minds across the city.',
     doomsdayConnection:
-      'Final theatrical release before Doomsday: introduces an Earth-616 Jean Grey and closes with Ned’s "Spidey-Tracker" tracking Peter’s signal suddenly shooting off Earth deep into space.',
+      'Final theatrical release before Doomsday: debuts Earth-616’s Jean Grey as a seismic mutant threat and closes with Ned’s "Spidey-Tracker" watching Peter’s signal shoot off Earth deep into space.',
     keyCharacterIds: ['peter-parker-616', 'punisher', 'bruce-banner', 'jean-grey-616'],
     postCredits: [
       {
         label: 'Post-Credits',
-        summary: 'Ned Leeds’ Spidey-Tracker app glitches as Spider-Man’s dot rockets away from Earth into deep outer space.',
+        summary: 'Ned Leeds’ Spidey-Tracker app glitches out and zooms past Earth and the Moon, tracking Spider-Man’s dot deep into outer space.',
         leadsToTitleId: 'avengers-doomsday',
         threadId: 'thread-spidey-space',
       },
     ],
-    tmdbId: 969681,
-    tmdbMediaType: 'movie',
     wikiPage: "Spider-Man:_Brand_New_Day",
+    confidence: 'official',
+    sources: [
+      { label: 'Wikipedia — Spider-Man: Brand New Day', url: 'https://en.wikipedia.org/wiki/Spider-Man:_Brand_New_Day' },
+    ],
   },
   {
     id: 'vision-quest',
     title: 'VisionQuest',
     year: 2026,
-    releaseDate: '2026-10-01',
+    releaseDate: '2026-10-13',
     chronoOrder: 179,
     kind: 'series',
     era: 'phase-6',
     eraLabel: 'Phase 6: Multiverse Saga',
     realityId: 'earth-616',
     importance: 'key',
-    runtime: 'Series',
+    runtime: '8 eps',
     summary:
-      'Paul Bettany’s White Vision journeys to reconcile Hex Vision’s memories with his synthezoid consciousness alongside returning AI voices.',
+      'Created by Terry Matalas to close the WandaVision trilogy: White Vision (Paul Bettany) communicates with embedded AI personas—including Ultron (James Spader), J.A.R.V.I.S., and E.D.I.T.H.—before a bounty forces him on the run alongside teenager Thomas Shepherd.',
     doomsdayConnection:
-      'Resolves the final loose WandaVision thread right before Avengers: Doomsday premieres.',
+      'Resolves White Vision’s post-WandaVision arc and reintroduces Thomas Shepherd right before Avengers: Doomsday.',
     keyCharacterIds: ['white-vision'],
-    tmdbId: 256625,
-    tmdbMediaType: 'tv',
     wikiPage: "VisionQuest",
+    confidence: 'official',
+    sources: [
+      { label: 'Wikipedia — VisionQuest', url: 'https://en.wikipedia.org/wiki/VisionQuest' },
+      { label: 'Marvel.com — VisionQuest', url: 'https://www.marvel.com/tv-shows/visionquest/1' },
+    ],
   },
   {
     id: 'avengers-doomsday',
@@ -866,7 +827,7 @@ export const MULTIVERSE_TITLES: Title[] = [
     importance: 'essential',
     runtime: 'Dec 18, 2026',
     summary:
-      'Multiple universes—Earth-616, Earth-828 (Fantastic Four), and Earth-10005 (Fox X-Men)—hurtle toward catastrophic incursion as Victor von Doom (Robert Downey Jr.) strikes against heroes he accuses of living "stolen lives".',
+      'Multiple universes—Earth-616, Earth-828 (Fantastic Four), and Earth-10005 (Fox X-Men)—hurtle toward catastrophic incursion as Victor von Doom (Robert Downey Jr.) targets heroes across realities he accuses of living "stolen lives", while the Fantastic Four pull Steve Rogers out of his quiet family branch.',
     doomsdayConnection:
       'THE CONVERGENCE POINT: Unites Sam’s Avengers, Steve Rogers & Peggy Carter, New Avengers (Thunderbolts*), Wakanda & Talokan, Loki, Fantastic Four, and classic Fox X-Men ahead of Secret Wars.',
     keyCharacterIds: [
@@ -904,8 +865,11 @@ export const MULTIVERSE_TITLES: Title[] = [
       'mystique',
       'gambit',
     ],
-    tmdbId: 1003596,
-    tmdbMediaType: 'movie',
     wikiPage: "Avengers:_Doomsday",
+    confidence: 'official',
+    sources: [
+      { label: 'Marvel.com — Avengers: Doomsday', url: 'https://www.marvel.com/movies/avengers-doomsday' },
+      { label: 'Wikipedia — Avengers: Doomsday', url: 'https://en.wikipedia.org/wiki/Avengers:_Doomsday' },
+    ],
   },
 ];

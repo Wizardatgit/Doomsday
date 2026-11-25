@@ -89,7 +89,7 @@ export function SettingsModal({
             Optional TMDB v3 API Key Override
           </label>
           <p className="text-xs text-[#61503e] leading-relaxed">
-            Character portraits, posters, and place plates already load automatically with zero API key via Wikimedia. Optionally paste a free TMDB v3 key to prefer high-res TMDB stills (kept locally in browser storage).
+            Character portraits and title posters already load automatically with zero API key via Wikimedia. Optionally paste a free TMDB v3 key to prefer live TMDB title/actor search stills (kept locally in browser storage; this desk uses the TMDB API if supplied and is not endorsed or certified by TMDB).
           </p>
           <div className="flex gap-2">
             <input

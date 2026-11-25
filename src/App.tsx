@@ -281,23 +281,51 @@ export function App() {
   return (
     <ImageLightboxProvider>
       <div className="min-h-screen flex flex-col lg:flex-row relative">
-      {/* Faint Archival TVA Drafting-Ring & Chronology Vector Watermark */}
-      <svg
+      {/* Faint Archival TVA Drafting-Ring Watermark & Subtle Margin Comic Clippings */}
+      <div
         aria-hidden="true"
-        viewBox="0 0 1000 800"
-        preserveAspectRatio="xMidYMid slice"
-        className="pointer-events-none fixed inset-0 lg:left-64 w-full lg:w-[calc(100%-16rem)] h-full opacity-[0.045] text-[#5a3d1e] z-0"
+        className="pointer-events-none fixed inset-0 lg:left-64 w-full lg:w-[calc(100%-16rem)] h-full overflow-hidden z-0"
       >
-        <g fill="none" stroke="currentColor">
-          <circle cx="760" cy="210" r="240" strokeWidth="1.2" strokeDasharray="8 6" />
-          <circle cx="760" cy="210" r="185" strokeWidth="0.9" />
-          <circle cx="760" cy="210" r="115" strokeWidth="0.8" strokeDasharray="3 5" />
-          <circle cx="240" cy="610" r="165" strokeWidth="1" strokeDasharray="6 6" />
-          <path d="M-40 430 Q 260 430 430 330 T 1040 160" strokeWidth="1.5" />
-          <path d="M180 420 Q 410 530 690 560 T 1040 595" strokeWidth="1.1" strokeDasharray="5 5" />
-          <path d="M510 210 L 1010 210 M760 -30 L 760 450" strokeWidth="0.8" />
-        </g>
-      </svg>
+        <div className="absolute top-6 right-8 w-36 h-36 tva-halftone-dot opacity-[0.22] rounded-full" />
+        <div className="absolute bottom-14 left-6 w-40 h-28 tva-halftone-dot opacity-[0.18]" />
+
+        <img
+          src="./comic/comic-portal.jpg"
+          alt=""
+          className="hidden xl:block absolute top-10 right-6 w-36 h-36 object-cover rounded-sm border-2 border-[#3a2815]/40 opacity-[0.14] sepia contrast-125 mix-blend-multiply rotate-6 shadow-md"
+        />
+        <img
+          src="./comic/comic-citadel.svg"
+          alt=""
+          className="hidden xl:block absolute bottom-12 right-10 w-36 h-36 object-cover rounded-sm border-2 border-[#3a2815]/35 opacity-[0.13] mix-blend-multiply -rotate-6"
+        />
+        <img
+          src="./comic/comic-clockwork.svg"
+          alt=""
+          className="hidden 2xl:block absolute top-1/2 -translate-y-1/2 left-4 w-32 h-32 object-cover rounded-sm border-2 border-[#3a2815]/35 opacity-[0.13] mix-blend-multiply -rotate-12"
+        />
+        <img
+          src="./comic/comic-starburst.svg"
+          alt=""
+          className="hidden xl:block absolute bottom-8 left-12 w-32 h-32 object-cover rounded-sm border-2 border-[#3a2815]/30 opacity-[0.11] mix-blend-multiply rotate-12"
+        />
+
+        <svg
+          viewBox="0 0 1000 800"
+          preserveAspectRatio="xMidYMid slice"
+          className="w-full h-full opacity-[0.045] text-[#5a3d1e]"
+        >
+          <g fill="none" stroke="currentColor">
+            <circle cx="760" cy="210" r="240" strokeWidth="1.2" strokeDasharray="8 6" />
+            <circle cx="760" cy="210" r="185" strokeWidth="0.9" />
+            <circle cx="760" cy="210" r="115" strokeWidth="0.8" strokeDasharray="3 5" />
+            <circle cx="240" cy="610" r="165" strokeWidth="1" strokeDasharray="6 6" />
+            <path d="M-40 430 Q 260 430 430 330 T 1040 160" strokeWidth="1.5" />
+            <path d="M180 420 Q 410 530 690 560 T 1040 595" strokeWidth="1.1" strokeDasharray="5 5" />
+            <path d="M510 210 L 1010 210 M760 -30 L 760 450" strokeWidth="0.8" />
+          </g>
+        </svg>
+      </div>
 
       {/* Mobile Top Hardware Strip */}
       <header className="lg:hidden sticky top-0 z-30 flex items-center justify-between px-4 py-2.5 bg-[#1b1511] text-[#faf3e3] border-b border-[#3a2c22]">
@@ -450,6 +478,24 @@ export function App() {
             onSelect={setSelectedEntity}
           />
         )}
+
+        <footer className="mt-10 border-t border-[#cbb895] pt-4 pb-6 text-[11px] text-[#61503e] leading-relaxed flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <p>
+            Title posters &amp; actor portraits fetched live via{' '}
+            <a
+              href="https://www.mediawiki.org/wiki/API:Main_page"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-[#9a3412]"
+            >
+              Wikipedia / Wikimedia API
+            </a>{' '}
+            (promotional media remains property of its respective studios/copyright holders). Location plates use custom archival MCU illustrations.
+          </p>
+          <p className="font-mono-code text-[10px] shrink-0">
+            Optional key search uses the TMDB API but is not endorsed or certified by TMDB.
+          </p>
+        </footer>
       </main>
 
       <DossierDrawer

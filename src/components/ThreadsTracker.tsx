@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { ChevronDown, ChevronUp, Sparkles } from 'lucide-react';
+import { ChevronDown, ChevronUp, RotateCcw, Sparkles } from 'lucide-react';
 import { THREADS, charactersById, titlesById } from '../data/index.ts';
 import type { EntityRef, ThreadCategory } from '../data/types.ts';
 import { Redactable } from './Redactable.tsx';
@@ -69,6 +69,15 @@ export function ThreadsTracker({
               {cat}
             </button>
           ))}
+          {category !== 'all' && (
+            <button
+              type="button"
+              onClick={() => setCategory('all')}
+              className="inline-flex items-center gap-1 rounded border border-[#b45309] bg-[#b45309]/10 px-2.5 py-1 text-xs font-mono-code font-semibold text-[#9a3412] hover:bg-[#b45309]/20"
+            >
+              <RotateCcw className="w-3 h-3" /> Reset
+            </button>
+          )}
         </div>
       </div>
 

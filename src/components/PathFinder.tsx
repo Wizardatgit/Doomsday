@@ -3,6 +3,7 @@ import { ArrowDown, ArrowLeftRight, Sparkles } from 'lucide-react';
 import { charactersById, realitiesById, titlesById } from '../data/index.ts';
 import type { EntityRef } from '../data/index.ts';
 import { buildUnifiedGraph, findShortestPath } from '../lib/graph.ts';
+import { personTmdbQuery, titleTmdbQuery } from '../lib/tmdb.ts';
 import { EntityVisual, ViewHeroBanner } from './TvaArt.tsx';
 import { Redactable } from './Redactable.tsx';
 
@@ -53,6 +54,7 @@ export function PathFinder({
     <div className="space-y-5">
       <ViewHeroBanner
         wikiPage="Time_Variance_Authority"
+        staticImagePath="./places/tva-yggdrasil.jpg"
         catalogStamp="TVA CHRONOLOGY VECTOR TRACER"
         title='Path Tracer ("Connect Any Two Dots")'
         subtitle="Pick any two characters, films, realities, or threads to trace the chain linking them into Avengers: Doomsday."
@@ -172,16 +174,17 @@ export function PathFinder({
                         title={step.node.label}
                         subtitle={char?.alias ?? reality?.placeName ?? `${title?.year}`}
                         accentColor={step.node.color}
+                        staticImagePath={reality?.imagePath}
                         wikiPage={
                           char?.wikiPage ??
                           reality?.wikiPage ??
-                          (title ? title.wikiPage ?? title.title.replace(/ /g, '_') : undefined)
+                          title?.wikiPage
                         }
                         tmdbQuery={
-                          char?.tmdbPersonId
-                            ? { kind: 'person', id: char.tmdbPersonId }
-                            : title?.tmdbId && title?.tmdbMediaType
-                              ? { kind: 'title', mediaType: title.tmdbMediaType, id: title.tmdbId }
+                          char
+                            ? personTmdbQuery(char.actor)
+                            : title
+                              ? titleTmdbQuery(title)
                               : undefined
                         }
                         tmdbApiKey={tmdbApiKey}

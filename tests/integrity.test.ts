@@ -1,5 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
 
 import {
   BEGINNER_12_IDS,
@@ -31,6 +33,7 @@ import {
   shortenGraphLabel,
 } from '../src/lib/graphTree.ts';
 import { isRedacted, parseImportedWatchlist, serializeWatchlistBackup } from '../src/lib/spoiler.ts';
+import { buildTmdbSearchUrl } from '../src/lib/tmdb.ts';
 import { buildWikiBatchUrl } from '../src/lib/wikiImages.ts';
 
 function assertUniqueIds(items: { id: string }[], label: string) {
@@ -303,4 +306,60 @@ test('explore-as-you-go tree hubs, label shortening, separation bounds, and coll
 
   const collapsed = collapseBranchMap(CORE_HUB_KEYS, expanded, 'reality:earth-828', graph);
   assert.equal(collapsed.size, 0);
+});
+
+test('all titles carry wikiPage slugs, local custom place & comic art exists, TMDB uses search endpoints, and 2025-2026 entries carry citations', () => {
+  for (const t of TITLES) {
+    assert.ok(t.wikiPage && t.wikiPage.trim().length > 0, `Title ${t.id} missing wikiPage`);
+  }
+
+  for (const r of REALITIES) {
+    assert.ok(r.imagePath && r.imagePath.startsWith('./places/'), `Reality ${r.id} missing local imagePath`);
+    const diskPath = path.join(process.cwd(), 'public', r.imagePath.replace(/^\.\//, ''));
+    assert.ok(fs.existsSync(diskPath), `Missing generated place asset for reality ${r.id}: ${diskPath}`);
+  }
+
+  for (const p of ICONIC_PLACES) {
+    assert.ok(p.imagePath && p.imagePath.startsWith('./places/'), `Place ${p.id} missing local imagePath`);
+    const diskPath = path.join(process.cwd(), 'public', p.imagePath.replace(/^\.\//, ''));
+    assert.ok(fs.existsSync(diskPath), `Missing generated place asset for place ${p.id}: ${diskPath}`);
+  }
+
+  for (const comicFile of ['comic-portal.jpg', 'comic-citadel.svg', 'comic-clockwork.svg', 'comic-starburst.svg']) {
+    const diskPath = path.join(process.cwd(), 'public', 'comic', comicFile);
+    assert.ok(fs.existsSync(diskPath), `Missing comic vignette asset: ${diskPath}`);
+  }
+
+  const movieSearch = buildTmdbSearchUrl(
+    { kind: 'title', mediaType: 'movie', title: 'Avengers: Doomsday', year: 2026 },
+    'test-key',
+  );
+  assert.ok(movieSearch.includes('/3/search/movie?'));
+  assert.ok(movieSearch.includes('year=2026'));
+
+  const tvSearch = buildTmdbSearchUrl(
+    { kind: 'title', mediaType: 'tv', title: 'VisionQuest', year: 2026 },
+    'test-key',
+  );
+  assert.ok(tvSearch.includes('/3/search/tv?'));
+  assert.ok(tvSearch.includes('first_air_date_year=2026'));
+
+  const personSearch = buildTmdbSearchUrl(
+    { kind: 'person', name: 'Robert Downey Jr.' },
+    'test-key',
+  );
+  assert.ok(personSearch.includes('/3/search/person?'));
+
+  for (const titleId of ['avengers-doomsday', 'spider-man-brand-new-day', 'vision-quest', 'punisher-one-last-kill']) {
+    const t = titlesById.get(titleId);
+    assert.ok(t?.sources && t.sources.length > 0, `2026 title ${titleId} missing sources`);
+    for (const s of t.sources) {
+      assert.ok(s.url.startsWith('https://'), `Source URL must use https: ${s.url}`);
+    }
+  }
+
+  for (const charId of ['doctor-doom', 'steve-rogers', 'jean-grey-616', 'white-vision']) {
+    const c = charactersById.get(charId);
+    assert.ok(c?.sources && c.sources.length > 0, `2026 character ${charId} missing sources`);
+  }
 });
