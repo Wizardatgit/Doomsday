@@ -257,13 +257,21 @@ export function RealitiesAtlas({
             const fromR = realitiesById.get(c.originRealityId);
             const toR = realitiesById.get(c.currentRealityId);
             return (
-              <button
+              <div
                 key={c.id}
-                type="button"
                 onClick={() => onSelect({ kind: 'character', id: c.id })}
-                className="tva-sheet rounded p-3 text-left hover:border-[#b45309] transition-colors space-y-1"
+                className="tva-sheet rounded p-3 text-left cursor-pointer hover:border-[#b45309] transition-colors space-y-1"
               >
-                <div className="text-sm font-bold text-[#1d1610]">{c.name}</div>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onSelect({ kind: 'character', id: c.id });
+                  }}
+                  className="text-sm font-bold text-[#1d1610] hover:text-[#9a3412] hover:underline text-left block"
+                >
+                  {c.name}
+                </button>
                 <div className="flex items-center gap-1.5 text-xs font-mono-code font-bold">
                   <span style={{ color: fromR?.color }}>{fromR?.code}</span>
                   <ArrowRight className="w-3.5 h-3.5 text-[#c2410c]" />
@@ -272,7 +280,7 @@ export function RealitiesAtlas({
                 <Redactable titleIds={[c.lastSeenTitleId]} watchedSet={watchedSet} spoilerShield={spoilerShield}>
                   <p className="text-[11px] text-[#61503e] line-clamp-1">{c.lastKnownStatus}</p>
                 </Redactable>
-              </button>
+              </div>
             );
           })}
         </div>
@@ -348,9 +356,14 @@ export function RealitiesAtlas({
 
                 <div className="flex flex-wrap items-center justify-between gap-2 border-t border-[#e1d4b9] pt-2.5 text-[11px] font-mono-code">
                   <span className="text-[#61503e]">
-                    {residentCount} players · {titleCount} titles
+                    {residentCount} {residentCount === 1 ? 'player' : 'players'} · {titleCount}{' '}
+                    {titleCount === 1 ? 'title' : 'titles'}
                   </span>
-                  {anchor && <span className="text-[#9a3412] font-bold">Anchor: {anchor.name}</span>}
+                  {anchor && (
+                    <span className="text-[#9a3412] font-bold">
+                      Anchor: {getCharacterChipLabel(anchor.id)}
+                    </span>
+                  )}
                 </div>
               </div>
             );

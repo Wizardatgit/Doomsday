@@ -525,9 +525,20 @@ export function CommandHub({
               </div>
               <div className="flex items-center justify-between text-[11px] font-mono-code font-semibold text-[#9a3412] border-t border-dashed border-[#d4c3a3] pt-2">
                 <span>
-                  {th.characterIds.length} players · {th.keyTitleIds.length} titles
+                  {th.characterIds.length} {th.characterIds.length === 1 ? 'player' : 'players'} ·{' '}
+                  {th.keyTitleIds.length} {th.keyTitleIds.length === 1 ? 'title' : 'titles'}
                 </span>
-                <span>Open Folder →</span>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onSelect({ kind: 'thread', id: th.id });
+                  }}
+                  aria-label={`Open dossier for ${th.title}`}
+                  className="py-1 hover:underline"
+                >
+                  Open Folder →
+                </button>
               </div>
             </div>
           ))}

@@ -767,7 +767,7 @@ export const MULTIVERSE_TITLES: Title[] = [
     doomsdayConnection:
       'Broadens Earth-616’s powered roster in 2026.',
     keyCharacterIds: [],
-    wikiPage: 'Wonder_Man',
+    wikiPage: 'Wonder_Man_(miniseries)',
     confidence: 'official',
     sources: [
       { label: 'Marvel.com — Wonder Man', url: 'https://www.marvel.com/tv-shows/wonder-man/1' },
@@ -835,10 +835,10 @@ export const MULTIVERSE_TITLES: Title[] = [
     importance: 'essential',
     runtime: 'Feature',
     summary:
-      'Forgotten by MJ and Ned, a worn-down solo Peter Parker tries to protect New York—with Frank Castle (Punisher) operating in the street crossfire—when destabilizing telepath Jean Grey (Sadie Sink) begins hijacking civilian minds across the city.',
+      'Forgotten by MJ and Ned, a solo Peter Parker crosses paths with Yelena Belova and Frank Castle (Punisher) across New York as destabilizing telepath Jean Grey (Sadie Sink) begins hijacking civilian minds near Damage Control.',
     doomsdayConnection:
       'Final theatrical release before Doomsday: debuts Earth-616’s Jean Grey as a seismic mutant threat and closes with Ned’s "Spidey-Tracker" watching Peter’s signal shoot off Earth deep into space.',
-    keyCharacterIds: ['peter-parker-616', 'punisher', 'bruce-banner', 'jean-grey-616'],
+    keyCharacterIds: ['peter-parker-616', 'yelena-belova', 'punisher', 'bruce-banner', 'jean-grey-616'],
     postCredits: [
       {
         label: 'Post-Credits',
@@ -893,7 +893,7 @@ export const MULTIVERSE_TITLES: Title[] = [
     summary:
       'Multiple universes—Earth-616, Earth-828 (Fantastic Four), and Earth-10005 (Fox X-Men)—hurtle toward catastrophic incursion as Victor von Doom (Robert Downey Jr.) targets heroes across realities he accuses of living "stolen lives", while the Fantastic Four pull Steve Rogers out of his quiet family branch.',
     doomsdayConnection:
-      'THE CONVERGENCE POINT: Unites Sam’s Avengers, Steve Rogers & Peggy Carter, New Avengers (Thunderbolts*), Wakanda & Talokan, Loki, Fantastic Four, and classic Fox X-Men ahead of Secret Wars.',
+      'THE CONVERGENCE POINT: Unites Sam’s Avengers, Steve Rogers, New Avengers (Thunderbolts*), Wakanda & Talokan, Loki, Fantastic Four, and classic Fox X-Men ahead of Secret Wars (with likely ties to Peggy Carter, Franklin Richards, Cassie Lang, Kate Bishop, and Namora).',
     keyCharacterIds: [
       'doctor-doom',
       'steve-rogers',

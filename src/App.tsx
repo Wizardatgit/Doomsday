@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, type RefObject } from 'react';
 import {
   Clock,
   Flame,
@@ -15,7 +15,7 @@ import {
   Users,
   X,
 } from 'lucide-react';
-import { CHARACTERS, REALITIES, TITLES, searchCatalog } from './data/index.ts';
+import { BEGINNER_12_IDS, TITLES, searchCatalog, titlesById } from './data/index.ts';
 import type { AppView } from './data/index.ts';
 import { resolveEscapeDismissal, useAppState } from './state/useAppState.ts';
 import { useDialogA11y } from './lib/useDialogA11y.ts';
@@ -81,56 +81,86 @@ export function App() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [focusedFactionId, setFocusedFactionId] = useState<string | null>(null);
-  const searchInputRef = useRef<HTMLInputElement>(null);
+  const desktopSearchRef = useRef<HTMLInputElement>(null);
+  const mobileSearchRef = useRef<HTMLInputElement>(null);
   const mobileDrawerRef = useRef<HTMLElement>(null);
   useDialogA11y(mobileDrawerRef, mobileMenuOpen);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, [activeView]);
 
   const daysToDoomsday = useMemo(() => {
     const release = new Date('2026-12-18T00:00:00').getTime();
     return Math.max(0, Math.ceil((release - Date.now()) / 86_400_000));
   }, []);
 
-  const essentialProgress = useMemo(() => {
+  const watchProgress = useMemo(() => {
     const essentials = TITLES.filter((t) => t.importance === 'essential');
-    const done = essentials.filter((t) => watchedSet.has(t.id)).length;
-    const pct = essentials.length ? Math.round((done / essentials.length) * 100) : 0;
-    return { done, total: essentials.length, pct };
-  }, [watchedSet]);
-
-  useEffect(() => {
-    const onKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-        e.preventDefault();
-        setMobileMenuOpen(true);
-        setTimeout(() => {
-          searchInputRef.current?.focus();
-          setSearchOpen(true);
-        }, 20);
-      } else if (e.key === 'Escape') {
-        const target = resolveEscapeDismissal({
-          settingsOpen,
-          searchOpen,
-          hasSelectedEntity: Boolean(selectedEntity),
-          mobileMenuOpen,
-        });
-        if (target === 'settings') setSettingsOpen(false);
-        else if (target === 'search') setSearchOpen(false);
-        else if (target === 'dossier') setSelectedEntity(null);
-        else if (target === 'mobileMenu') setMobileMenuOpen(false);
-      }
+    const essentialDone = essentials.filter((t) => watchedSet.has(t.id)).length;
+    const essentialPct = essentials.length ? Math.round((essentialDone / essentials.length) * 100) : 0;
+    const allTotal = TITLES.length;
+    const allDone = watchedSet.size;
+    const allPct = allTotal ? Math.round((allDone / allTotal) * 100) : 0;
+    const nextBeginnerId = BEGINNER_12_IDS.find((id) => !watchedSet.has(id));
+    const nextTitle =
+      (nextBeginnerId ? titlesById.get(nextBeginnerId) : undefined) ??
+      essentials.find((t) => t.id !== 'avengers-doomsday' && !watchedSet.has(t.id)) ??
+      null;
+    return {
+      essentialDone,
+      essentialTotal: essentials.length,
+      essentialPct,
+      allDone,
+      allTotal,
+      allPct,
+      nextTitle,
     };
-    window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
-  }, [settingsOpen, searchOpen, selectedEntity, mobileMenuOpen, setSelectedEntity]);
+  }, [watchedSet]);
 
   const searchHits = useMemo(
     () => searchCatalog(searchQuery, showTheories, 12),
     [searchQuery, showTheories],
   );
 
-  const sidebarContent = (
-    <div className="flex flex-col h-full justify-between p-3 gap-2.5 text-[#f5e7c8]">
-      <div className="space-y-2.5">
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 1023px)').matches;
+        if (isMobile) {
+          setMobileMenuOpen(true);
+          setTimeout(() => {
+            mobileSearchRef.current?.focus();
+            setSearchOpen(true);
+          }, 20);
+        } else {
+          desktopSearchRef.current?.focus();
+          setSearchOpen(true);
+        }
+      } else if (e.key === 'Escape') {
+        const target = resolveEscapeDismissal({
+          settingsOpen,
+          searchOpen: searchOpen && searchHits.length > 0,
+          hasSelectedEntity: Boolean(selectedEntity),
+          mobileMenuOpen,
+        });
+        if (target === 'settings') setSettingsOpen(false);
+        else if (target === 'search') setSearchOpen(false);
+        else if (target === 'dossier') setSelectedEntity(null);
+        else if (target === 'mobileMenu') {
+          setSearchOpen(false);
+          setMobileMenuOpen(false);
+        }
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [settingsOpen, searchOpen, searchHits.length, selectedEntity, mobileMenuOpen, setSelectedEntity]);
+
+  const renderSidebar = (searchInputRef: RefObject<HTMLInputElement | null>) => (
+    <div className="flex flex-col min-h-full p-2.5 gap-2 text-[#f5e7c8]">
+      <div className="shrink-0 space-y-2">
         {/* Hardware Unit Badge */}
         <div className="flex items-center justify-between gap-2 border-b border-[#3a2c22] pb-2">
           <button
@@ -238,57 +268,111 @@ export function App() {
             );
           })}
         </nav>
+      </div>
 
-        {/* TemPad Loom Telemetry Widget */}
-        <div className="rounded border border-[#3c2d22] bg-[#0e0a07] p-2 space-y-1.5 shadow-inner">
-          <div className="flex items-center justify-between text-[10px] font-mono-code uppercase tracking-wider">
-            <span className="text-[#d6a34f] font-semibold">LOOM TELEMETRY</span>
-            <span className="inline-flex items-center gap-1 text-emerald-400">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 tva-loom-pulse" />3 REALMS
-            </span>
-          </div>
+      {/* Plain-English Watch Progress Card (flex-fills middle gap) */}
+      <div className="flex-1 min-h-0 flex flex-col justify-between rounded border border-[#3c2d22] bg-[#0e0a07] p-2 gap-1 shadow-inner">
+        <div className="flex items-center justify-between text-[10px] font-mono-code uppercase tracking-wider">
+          <span className="text-[#d6a34f] font-semibold">Watch Progress</span>
+          <span className="text-emerald-400 font-bold tabular-nums">
+            {watchProgress.essentialPct}% READY
+          </span>
+        </div>
 
-          <svg viewBox="0 0 180 32" className="w-full h-7 rounded bg-[#140f0b] border border-[#2a1f17]" aria-hidden="true">
-            <path d="M0 16 H180 M45 0 V32 M90 0 V32 M135 0 V32" stroke="#241b13" strokeWidth="0.7" />
-            <path d="M2 17 C30 17, 48 8, 86 15 C120 22, 145 8, 178 11" fill="none" stroke="#f59e0b" strokeWidth="1.6" className="tva-loom-pulse" />
-            <path d="M2 20 C38 21, 62 27, 98 17 C130 9, 152 23, 178 21" fill="none" stroke="#10b981" strokeWidth="1.2" strokeDasharray="3 2" opacity="0.85" />
-            <circle cx="86" cy="15" r="2.2" fill="#fbbf24" />
-            <circle cx="145" cy="14" r="2.0" fill="#34d399" />
-          </svg>
-
-          <div className="space-y-1">
+        <div className="space-y-1.5">
+          <div className="space-y-0.5">
             <div className="flex items-center justify-between text-[10px] font-mono-code">
-              <span className="text-[#c9b393]">ESSENTIAL PREP</span>
-              <span className="text-amber-400 font-bold">
-                {essentialProgress.done}/{essentialProgress.total} ({essentialProgress.pct}%)
+              <span className="text-[#e0cfb0]">Must-Watch</span>
+              <span className="text-amber-400 font-bold tabular-nums">
+                {watchProgress.essentialDone}/{watchProgress.essentialTotal}
               </span>
             </div>
-            <div className="h-1.5 rounded-full bg-[#241b14] overflow-hidden border border-[#3c2d22]">
+            <div
+              role="progressbar"
+              aria-label="Must-watch progress"
+              aria-valuenow={watchProgress.essentialDone}
+              aria-valuemin={0}
+              aria-valuemax={watchProgress.essentialTotal}
+              className="h-1.5 rounded-full bg-[#241b14] overflow-hidden border border-[#3c2d22]"
+            >
               <div
                 className="h-full bg-gradient-to-r from-[#c2410c] via-[#f59e0b] to-[#10b981] transition-all duration-300"
-                style={{ width: `${essentialProgress.pct}%` }}
+                style={{ width: `${watchProgress.essentialPct}%` }}
               />
             </div>
           </div>
 
-          <div className="flex items-center justify-between gap-2 text-[10px] font-mono-code text-[#b5a287] border-t border-[#261c14] pt-1">
-            <span className="truncate">{TITLES.length}T · {CHARACTERS.length}C · {REALITIES.length}R</span>
-            <button
-              type="button"
-              onClick={() => {
-                setActiveView('timeline');
-                setMobileMenuOpen(false);
-              }}
-              className="text-amber-400 hover:underline font-semibold shrink-0"
+          <div className="space-y-0.5">
+            <div className="flex items-center justify-between text-[10px] font-mono-code">
+              <span className="text-[#b5a287]">All Titles</span>
+              <span className="text-[#e0cfb0] font-bold tabular-nums">
+                {watchProgress.allDone}/{watchProgress.allTotal}
+              </span>
+            </div>
+            <div
+              role="progressbar"
+              aria-label="All titles progress"
+              aria-valuenow={watchProgress.allDone}
+              aria-valuemin={0}
+              aria-valuemax={watchProgress.allTotal}
+              className="h-1.5 rounded-full bg-[#241b14] overflow-hidden border border-[#3c2d22]"
             >
-              Reel →
-            </button>
+              <div
+                className="h-full bg-[#d6a34f] transition-all duration-300"
+                style={{ width: `${watchProgress.allPct}%` }}
+              />
+            </div>
           </div>
+        </div>
+
+        {watchProgress.nextTitle ? (
+          <button
+            type="button"
+            onClick={() => {
+              setSelectedEntity({ kind: 'title', id: watchProgress.nextTitle!.id });
+              setMobileMenuOpen(false);
+            }}
+            className="w-full text-left rounded border border-[#2f231a] bg-[#16100c] px-2 py-1 hover:border-[#f59e0b] transition-colors"
+          >
+            <div className="text-[9px] font-mono-code uppercase tracking-widest text-[#b5a287]">
+              Up Next
+            </div>
+            <div className="text-[11px] font-semibold text-[#faf3e3] truncate">
+              {watchProgress.nextTitle.title} ({watchProgress.nextTitle.year})
+            </div>
+          </button>
+        ) : (
+          <div className="rounded border border-emerald-700/50 bg-emerald-950/30 px-2 py-1 text-[10px] font-mono-code text-emerald-300">
+            All essential titles watched!
+          </div>
+        )}
+
+        <div className="flex items-center justify-between gap-2 text-[10px] font-mono-code border-t border-[#261c14] pt-1.5">
+          <button
+            type="button"
+            onClick={() => {
+              openBeginnerWatchPath();
+              setMobileMenuOpen(false);
+            }}
+            className="text-[#d6a34f] hover:text-amber-300 hover:underline font-semibold"
+          >
+            12-Title Path
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setActiveView('timeline');
+              setMobileMenuOpen(false);
+            }}
+            className="text-amber-400 hover:underline font-semibold shrink-0"
+          >
+            Open Timeline →
+          </button>
         </div>
       </div>
 
       {/* Physical Rocker Switch Bank */}
-      <div className="space-y-1.5 border-t border-[#3a2c22] pt-2">
+      <div className="shrink-0 space-y-1.5 border-t border-[#3a2c22] pt-2">
         <div className="text-[10px] font-mono-code uppercase tracking-widest text-[#d6a34f]">
           SECURITY SWITCHES
         </div>
@@ -464,14 +548,14 @@ export function App() {
             className="w-72 h-full bg-[#1b1511] border-r-2 border-[#3c2d22] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            {sidebarContent}
+            {renderSidebar(mobileSearchRef)}
           </aside>
         </div>
       )}
 
       {/* Desktop Left Fixed Bakelite TemPad Hardware Console */}
       <aside className="hidden lg:block w-64 shrink-0 bg-[#1b1511] border-r-2 border-[#3c2d22] sticky top-0 h-screen overflow-y-auto shadow-xl z-20">
-        {sidebarContent}
+        {renderSidebar(desktopSearchRef)}
       </aside>
 
       {/* Right Bright Cream Archival Desk Workspace */}

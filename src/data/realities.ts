@@ -56,7 +56,7 @@ export const REALITIES: Reality[] = [
     anchorBeingId: 'wolverine',
     summary:
       'The Fox X-Men timeline spanning First Class, the original trilogy, Days of Future Past, Logan, and Deadpool & Wolverine. After Logan’s death threatened to unravel the reality, Wade Wilson recruited a variant Wolverine to stabilize its Anchor Being.',
-    color: '#a16207',
+    color: '#854d0e',
     notableEvents: [
       '1973/2023 Days of Future Past reset rewrites Sentinel apocalypse',
       '2029 Logan dies protecting Laura, triggering slow multiversal decay',
@@ -95,7 +95,7 @@ export const REALITIES: Reality[] = [
     status: 'incursion-risk',
     summary:
       'A technologically advanced reality where Ultron succeeded and the Illuminati policed multiversal threats—until Wanda Maximoff dreamwalked into 838 and slaughtered most of the council, leaving Mordo and surviving forces aware of Earth-616.',
-    color: '#ea580c',
+    color: '#c2410c',
     notableEvents: [
       'Earth-838 Doctor Strange triggered an incursion destroying an entire parallel universe',
       '838 Reed Richards warned that jumping between realities risks colliding universes',

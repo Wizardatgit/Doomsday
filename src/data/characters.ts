@@ -325,16 +325,17 @@ export const CHARACTERS: Character[] = [
     whoAreThey:
       'Red Room assassin, Natasha Romanoff’s adoptive sister, and the heart of the New Avengers (Thunderbolts*).',
     howTheyGotHere:
-      'After confronting Clint Barton over Natasha’s sacrifice and surviving Valentina’s asset-incineration vault, Yelena entered Sentry’s Void shadow realm to rescue Bob Reynolds—prompting Val to unveil her team as the New Avengers inside Watchtower.',
-    lastKnownStatus: 'Co-leading New Avengers in Watchtower; watching the F4 ship enter Earth-616.',
+      'After surviving Valentina’s vault and helping rescue Bob Reynolds inside Sentry’s Void—prompting Val to unveil the New Avengers in Watchtower—Yelena later crosses paths with Spider-Man in New York during Brand New Day before heading into Doomsday.',
+    lastKnownStatus: 'Co-leading New Avengers in Watchtower after crossing paths with Peter Parker in Brand New Day.',
     firstAppearanceTitleId: 'black-widow',
-    lastSeenTitleId: 'thunderbolts',
-    tags: ['New Avengers', 'Confirmed Doomsday'],
+    lastSeenTitleId: 'spider-man-brand-new-day',
+    tags: ['New Avengers', 'Confirmed Doomsday', 'Brand New Day'],
     wikiPage: "Yelena_Belova_(Marvel_Cinematic_Universe)",
     journey: [
       { titleId: 'black-widow', beat: 'Frees the Black Widows with Natasha; later manipulated by Valentina.' },
       { titleId: 'hawkeye', beat: 'Confronts Clint Barton and spares him after learning Natasha chose her sacrifice.' },
       { titleId: 'thunderbolts', beat: 'Reaches Bob inside The Void and becomes founding face of the New Avengers.' },
+      { titleId: 'spider-man-brand-new-day', beat: 'Trades Damage Control intel with Peter Parker in New York before returning to New Avengers ops.' },
       { titleId: 'avengers-doomsday', beat: 'Stands at Watchtower as the Fantastic Four vessel breaches Earth-616.' },
     ],
   },
@@ -361,6 +362,7 @@ export const CHARACTERS: Character[] = [
       { titleId: 'captain-america-first-avenger', beat: 'Falls from the HYDRA train in 1945.' },
       { titleId: 'captain-america-winter-soldier', beat: 'Remembers Steve Rogers after breaking HYDRA’s grip.' },
       { titleId: 'falcon-winter-soldier', beat: 'Completes amends list and aids Sam Wilson.' },
+      { titleId: 'captain-america-brave-new-world', beat: 'Serves in Congress and backs Sam Wilson’s charge to rebuild the Avengers.' },
       { titleId: 'thunderbolts', beat: 'Rescues the Thunderbolts convoy and joins the New Avengers.' },
       { titleId: 'avengers-doomsday', beat: 'Fights beside the New Avengers—and faces Steve Rogers’ return and Doom.' },
     ],
@@ -512,11 +514,6 @@ export const CHARACTERS: Character[] = [
     wikiPage: "Mister_Fantastic",
     journey: [
       { titleId: 'fantastic-four-first-steps', beat: 'Outsmarts Galactus on Earth-828 to protect newborn Franklin Richards.' },
-      {
-        titleId: 'thunderbolts',
-        beat: 'The Fantastic Four’s extra-dimensional rocket breaches Earth-616 airspace above New York.',
-        realityShiftTo: 'earth-616',
-      },
       { titleId: 'avengers-doomsday', beat: 'Allies with Earth-616 heroes to confront Doctor Doom and protect Franklin.' },
     ],
   },
@@ -1219,6 +1216,8 @@ export const CHARACTERS: Character[] = [
     journey: [
       { titleId: 'daredevil-saga', beat: 'Emerges in Hell’s Kitchen and crosses paths with Matt Murdock.' },
       { titleId: 'punisher-saga', beat: 'Destroys the corrupt network responsible for his family’s murder.' },
+      { titleId: 'daredevil-born-again', beat: 'Re-emerges in New York as Mayor Wilson Fisk outlaws masked vigilantes.' },
+      { titleId: 'daredevil-born-again-s2', beat: 'Joins Matt Murdock’s underground resistance against Fisk’s martial law.' },
       { titleId: 'punisher-one-last-kill', beat: 'Confronts Ma Gnucci in the 2026 Disney+ Special Presentation.' },
       { titleId: 'spider-man-brand-new-day', beat: 'Operates in the street-level backdrop of Spider-Man’s New York crisis.' },
     ],

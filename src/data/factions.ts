@@ -23,7 +23,7 @@ export const FACTIONS: Faction[] = [
     realityId: 'earth-616',
     leaderId: 'sam-wilson',
     summary:
-      'President Ross tasked Sam Wilson with rebuilding the official Avengers after Captain America: Brave New World—joined by Falcon, Thor, Ant-Man, Cassie Lang, Shang-Chi, Kate Bishop, and pulled-back veterans Steve Rogers and Peggy Carter.',
+      'President Ross tasked Sam Wilson with rebuilding the official Avengers after Captain America: Brave New World—joined by Falcon, Thor, Ant-Man, Shang-Chi, and Steve Rogers (with Cassie Lang, Kate Bishop, and Peggy Carter widely reported as likely allies).',
   },
   {
     id: 'new-avengers',
@@ -71,7 +71,7 @@ export const FACTIONS: Faction[] = [
     realityId: 'earth-616',
     leaderId: 'shuri',
     summary:
-      'Bound together by the Black Panther: Wakanda Forever truce, Shuri (Black Panther), M’Baku, Namor, and Namora mobilize Earth-616’s vibranium and oceanic defenses when multiversal invaders arrive.',
+      'Bound together by the Black Panther: Wakanda Forever truce, Shuri (Black Panther), M’Baku, and Namor—alongside likely Talokan ally Namora—mobilize Earth-616’s vibranium and oceanic defenses when multiversal invaders arrive.',
   },
   {
     id: 'tva-multiverse',

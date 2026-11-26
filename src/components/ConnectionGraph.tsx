@@ -335,6 +335,13 @@ export function ConnectionGraph({
               <div
                 className="absolute right-0 mt-1.5 w-80 max-w-[90vw] rounded-md border border-[#3c2d22] bg-[#1b1511] text-[#faf3e3] shadow-2xl z-40 overflow-hidden"
                 onClick={(e) => e.stopPropagation()}
+                onKeyDown={(e) => {
+                  if (e.key === 'Escape') {
+                    e.stopPropagation();
+                    setJumpOpen(false);
+                    setJumpQuery('');
+                  }
+                }}
               >
                 <div className="p-2 border-b border-[#3a2d22] flex items-center gap-1.5">
                   <Search className="w-3.5 h-3.5 text-amber-400 shrink-0" />
@@ -730,13 +737,23 @@ export function ConnectionGraph({
                   return (
                     <g
                       key={node.key}
+                      role="button"
+                      tabIndex={0}
+                      aria-label={`${node.label} (${node.kind})`}
                       style={{ transform: `translate(${x}px, ${y}px)` }}
                       opacity={isDimmed ? 0.2 : 1}
-                      className={`crt-node cursor-pointer ${isActive ? 'crt-node-active' : ''}`}
+                      className={`crt-node cursor-pointer focus:outline-none ${isActive ? 'crt-node-active' : ''}`}
                       onMouseEnter={() => {
                         if (!dragRef.current.active) setHoveredKey(node.key);
                       }}
                       onMouseLeave={() => setHoveredKey(null)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          handleNodeClick(node.key);
+                        }
+                      }}
                       onClick={(e) => {
                         e.stopPropagation();
                         if (suppressClickRef.current) {
@@ -949,7 +966,7 @@ export function ConnectionGraph({
             </button>
           </div>
 
-          <div className="absolute top-3 left-3 z-20 flex flex-wrap gap-2 rounded border border-[#3a2d22] bg-[#14100d]/90 px-2.5 py-1.5 text-[10px] font-mono-code text-[#d6c5a3]">
+          <div className="hidden sm:flex absolute top-3 left-3 z-20 flex-wrap gap-2 rounded border border-[#3a2d22] bg-[#14100d]/90 px-2.5 py-1.5 text-[10px] font-mono-code text-[#d6c5a3]">
             <span><strong className="text-amber-400">C</strong> Character</span>
             <span><strong className="text-amber-400">F</strong> Film/Show</span>
             <span><strong className="text-amber-400">R</strong> Reality</span>
@@ -971,6 +988,14 @@ export function ConnectionGraph({
             </span>
           </div>
 
+        </div>
+
+        <div className="flex sm:hidden flex-wrap gap-x-2.5 gap-y-1 rounded border border-[#2a2119] bg-[#14100d] px-2.5 py-1.5 text-[10px] font-mono-code text-[#d6c5a3]">
+          <span><strong className="text-amber-400">C</strong> Character</span>
+          <span><strong className="text-amber-400">F</strong> Film/Show</span>
+          <span><strong className="text-amber-400">R</strong> Reality</span>
+          <span><strong className="text-amber-400">T</strong> Thread</span>
+          <span><strong className="text-sky-400">●</strong> Expanded</span>
         </div>
 
         {/* Bakelite Bezel Lock-On Telemetry Strip — never obscures CRT nodes */}

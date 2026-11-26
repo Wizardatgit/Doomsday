@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import { CHARACTERS, TITLES, titlesById } from '../src/data/index.ts';
+import { CHARACTERS, REALITIES, TITLES, titlesById } from '../src/data/index.ts';
 
 const TIER1_NON_WIKI_HOSTS = new Set([
   'www.marvel.com',
@@ -245,6 +245,60 @@ test('no cited entry relies solely on Wikipedia, Phase 5-6 slate has specific Ti
       c.doomsdayStatus,
       'confirmed',
       `${id} was not in the 27-chair reveal and lacks a direct verified Tier-1 source`,
+    );
+  }
+});
+
+test('title keyCharacterIds sync with character first/last bounds, title wikiPages match sources, and reality colors meet WCAG AA on cream', () => {
+  for (const c of CHARACTERS) {
+    const first = titlesById.get(c.firstAppearanceTitleId)!;
+    const last = titlesById.get(c.lastSeenTitleId)!;
+    for (const t of TITLES) {
+      if (!t.keyCharacterIds.includes(c.id)) continue;
+      assert.ok(
+        t.releaseDate >= first.releaseDate,
+        `${c.id}: firstAppearance ${first.id} (${first.releaseDate}) is newer than linked title ${t.id} (${t.releaseDate})`,
+      );
+      if (t.id !== 'avengers-doomsday') {
+        assert.ok(
+          t.releaseDate <= last.releaseDate,
+          `${c.id}: lastSeen ${last.id} (${last.releaseDate}) is older than linked title ${t.id} (${t.releaseDate})`,
+        );
+      }
+    }
+  }
+
+  for (const t of TITLES) {
+    const wikiSrc = t.sources?.find((s) => s.url.includes('en.wikipedia.org/wiki/'));
+    if (wikiSrc && t.wikiPage) {
+      const slug = decodeURIComponent(wikiSrc.url.split('/wiki/')[1]!);
+      assert.equal(t.wikiPage, slug, `Title ${t.id} wikiPage ${t.wikiPage} disagrees with source URL ${slug}`);
+    }
+  }
+
+  const srgb = (c: number) => {
+    const v = c / 255;
+    return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+  };
+  const lum = (hex: string) => {
+    const h = hex.replace('#', '');
+    return (
+      0.2126 * srgb(parseInt(h.slice(0, 2), 16)) +
+      0.7152 * srgb(parseInt(h.slice(2, 4), 16)) +
+      0.0722 * srgb(parseInt(h.slice(4, 6), 16))
+    );
+  };
+  const contrast = (a: string, b: string) => {
+    const la = lum(a);
+    const lb = lum(b);
+    return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
+  };
+
+  for (const r of REALITIES) {
+    const ratio = contrast(r.color, '#faf4e6');
+    assert.ok(
+      ratio >= 4.5,
+      `Reality ${r.id} (${r.color}) contrast ${ratio.toFixed(2)}:1 on #faf4e6 is below WCAG AA 4.5:1`,
     );
   }
 });

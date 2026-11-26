@@ -4,8 +4,10 @@ import {
   REALITIES,
   THREADS,
   TITLES,
+  charactersById,
   entityKey,
   factionsById,
+  getCharacterChipLabel,
   realitiesById,
   titlesById,
 } from '../data/index.ts';
@@ -96,7 +98,7 @@ export function buildUnifiedGraph(showTheories: boolean): UnifiedGraph {
       key: entityKey({ kind: 'character', id: c.id }),
       ref: { kind: 'character', id: c.id },
       kind: 'character',
-      label: c.name,
+      label: getCharacterChipLabel(c.id),
       sublabel: `${c.alias} · ${c.actor}`,
       color: f?.color ?? '#f59e0b',
       factionId: c.factionId,
@@ -152,11 +154,17 @@ export function buildUnifiedGraph(showTheories: boolean): UnifiedGraph {
   for (const t of TITLES) {
     const tKey = entityKey({ kind: 'title', id: t.id });
     for (const cId of t.keyCharacterIds) {
+      const charStatus = charactersById.get(cId)?.doomsdayStatus;
       addEdge({
         id: `auto-tc-${t.id}-${cId}`,
         fromKey: tKey,
         toKey: entityKey({ kind: 'character', id: cId }),
-        label: t.id === 'avengers-doomsday' ? 'Doomsday roster' : `Appears in ${t.title}`,
+        label:
+          t.id === 'avengers-doomsday'
+            ? charStatus === 'confirmed'
+              ? 'Doomsday roster'
+              : 'Likely Doomsday tie-in'
+            : `Appears in ${t.title}`,
         kind: t.id === 'avengers-doomsday' ? 'setup' : 'appearance',
         priority: 2,
         titleId: t.id,
@@ -225,7 +233,12 @@ export function buildUnifiedGraph(showTheories: boolean): UnifiedGraph {
         id: `auto-cj-${c.id}-${j.titleId}`,
         fromKey: cKey,
         toKey: entityKey({ kind: 'title', id: j.titleId }),
-        label: titlesById.get(j.titleId)?.id === 'avengers-doomsday' ? 'Confirmed for Doomsday' : 'Key chapter',
+        label:
+          titlesById.get(j.titleId)?.id === 'avengers-doomsday'
+            ? c.doomsdayStatus === 'confirmed'
+              ? 'Confirmed for Doomsday'
+              : 'Likely for Doomsday'
+            : 'Key chapter',
         kind: 'appearance',
         priority: 2,
         titleId: j.titleId,

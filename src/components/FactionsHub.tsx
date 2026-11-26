@@ -185,7 +185,8 @@ export function FactionsHub({
                     <div className="min-w-0 flex-1 space-y-1.5">
                       <div className="flex flex-wrap items-center gap-2 text-[11px] font-mono-code">
                         <span className="inline-flex items-center gap-1 font-bold text-[#9a3412]">
-                          <Users className="w-3.5 h-3.5" /> {members.length} operatives
+                          <Users className="w-3.5 h-3.5" /> {members.length}{' '}
+                          {members.length === 1 ? 'operative' : 'operatives'}
                         </span>
                         {watchedSet.size > 0 && (
                           <span className="text-[#61503e]">
@@ -211,6 +212,7 @@ export function FactionsHub({
                   <div className="flex sm:flex-col items-center sm:items-end justify-between gap-2 shrink-0">
                     <button
                       type="button"
+                      aria-expanded={isExpanded}
                       onClick={() => toggleFaction(faction.id)}
                       className={`inline-flex items-center gap-1.5 rounded px-3 py-1.5 text-xs font-mono-code font-bold border transition-colors ${
                         isExpanded

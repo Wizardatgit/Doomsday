@@ -63,6 +63,7 @@ export function CharacterDirectory({
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Filter by character, alias, or actor..."
+              aria-label="Filter characters by name, alias, or actor"
               className="w-full rounded border border-[#cbb895] bg-[#fffaf0] pl-9 pr-3 py-1.5 text-xs text-[#1d1610] focus:border-[#b45309] focus:outline-none"
             />
           </div>
@@ -70,6 +71,7 @@ export function CharacterDirectory({
           <select
             value={factionFilter}
             onChange={(e) => setFactionFilter(e.target.value)}
+            aria-label="Filter by faction"
             className="rounded border border-[#cbb895] bg-[#fffaf0] px-2.5 py-1.5 text-xs font-mono-code text-[#1d1610]"
           >
             <option value="all">All Factions</option>
@@ -83,6 +85,7 @@ export function CharacterDirectory({
           <select
             value={realityFilter}
             onChange={(e) => setRealityFilter(e.target.value)}
+            aria-label="Filter by reality"
             className="rounded border border-[#cbb895] bg-[#fffaf0] px-2.5 py-1.5 text-xs font-mono-code text-[#1d1610]"
           >
             <option value="all">All Realities</option>
@@ -96,6 +99,7 @@ export function CharacterDirectory({
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value as 'all' | DoomsdayStatus)}
+            aria-label="Filter by Doomsday status"
             className="rounded border border-[#cbb895] bg-[#fffaf0] px-2.5 py-1.5 text-xs font-mono-code text-[#1d1610]"
           >
             <option value="all">All Statuses</option>
@@ -154,12 +158,16 @@ export function CharacterDirectory({
               <div className="min-w-0 flex-1 space-y-1.5">
                 <div className="flex flex-wrap items-center justify-between gap-1">
                   <span
-                    className="tva-ink-stamp tva-stamp-angled"
+                    className="tva-ink-stamp tva-stamp-angled bg-[#fffaf0] text-[#1d1610]"
                     style={{
                       borderColor: faction?.color ?? '#b45309',
-                      color: faction?.color ?? '#b45309',
                     }}
                   >
+                    <span
+                      className="w-1.5 h-1.5 rounded-full shrink-0"
+                      style={{ backgroundColor: faction?.color ?? '#b45309' }}
+                      aria-hidden="true"
+                    />
                     {faction?.shortName}
                   </span>
                   <span className="text-[10px] font-mono-code uppercase font-semibold text-[#61503e]">
@@ -167,7 +175,18 @@ export function CharacterDirectory({
                   </span>
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-[#1d1610] truncate">{c.name}</h3>
+                  <h3 className="text-sm font-bold text-[#1d1610] truncate">
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onSelect({ kind: 'character', id: c.id });
+                      }}
+                      className="text-left hover:text-[#9a3412] hover:underline truncate max-w-full block"
+                    >
+                      {c.name}
+                    </button>
+                  </h3>
                   <p className="text-xs text-[#9a3412] font-medium truncate">
                     {c.alias} · <span className="text-[#61503e]">{c.actor}</span>
                   </p>

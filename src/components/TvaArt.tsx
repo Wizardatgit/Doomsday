@@ -76,7 +76,12 @@ export function ImageLightboxProvider({ children }: { children: ReactNode }) {
               className="max-w-[92vw] max-h-[78vh] w-auto h-auto object-contain bg-[#140f0c] border-2 border-[#cbb895] rounded shadow-2xl"
             />
             <div className="tva-folder rounded px-4 py-2 text-center max-w-xl">
-              <div className="text-[10px] font-mono-code font-bold uppercase tracking-widest" style={{ color: payload.accentColor }}>
+              <div className="inline-flex items-center justify-center gap-1.5 text-[10px] font-mono-code font-bold uppercase tracking-widest text-[#9a3412]">
+                <span
+                  className="w-2 h-2 rounded-full shrink-0"
+                  style={{ backgroundColor: payload.accentColor }}
+                  aria-hidden="true"
+                />
                 {payload.code}
               </div>
               <div className="text-sm font-bold text-[#1d1610]">{payload.title}</div>
@@ -217,7 +222,7 @@ export function EntityVisual({
     let active = true;
     setImgFailed(false);
     setImageUrl(staticImagePath ?? null);
-    if (staticImagePath && !preferWikiOverStatic) return;
+    if (staticImagePath) return;
 
     async function load() {
       if (effectiveKey && tmdbQuery) {
@@ -228,8 +233,7 @@ export function EntityVisual({
         }
       }
       if (wikiPage) {
-        const minW = variant === 'plate' && staticImagePath ? 600 : 0;
-        const wikiUrl = await fetchWikiThumbnail(wikiPage, minW);
+        const wikiUrl = await fetchWikiThumbnail(wikiPage);
         if (active && wikiUrl) {
           setImageUrl(wikiUrl);
         }
@@ -276,7 +280,9 @@ export function EntityVisual({
           handleOpenLightbox();
         }
       }}
-      className="absolute top-1.5 right-1.5 z-10 inline-flex items-center justify-center rounded bg-[#140f0c]/85 p-1 text-[#f5e7c8] border border-[#cbb895]/40 opacity-80 hover:opacity-100 hover:border-amber-400 hover:text-amber-300 transition-opacity cursor-zoom-in"
+      className={`absolute top-1.5 right-1.5 z-10 inline-flex items-center justify-center rounded bg-[#140f0c]/85 ${
+        compact ? 'p-1' : 'p-1.5'
+      } text-[#f5e7c8] border border-[#cbb895]/40 opacity-80 hover:opacity-100 hover:border-amber-400 hover:text-amber-300 transition-opacity cursor-zoom-in`}
     >
       <Maximize2 className={compact ? 'w-2.5 h-2.5' : 'w-3 h-3'} />
     </span>
@@ -355,8 +361,12 @@ export function EntityVisual({
             </div>
           )}
           <span
-            className="absolute top-1 left-1 px-1 py-0.2 text-[8px] font-mono-code font-bold uppercase bg-[#1b1511]/85 text-[#f5e7c8] rounded-[2px]"
-            style={{ borderLeft: `2px solid ${accentColor}` }}
+            className={
+              compact
+                ? 'absolute bottom-0 inset-x-0 px-1 py-0.5 text-[7.5px] font-mono-code font-bold uppercase text-center bg-[#18120e]/90 text-[#f7ebd4] truncate'
+                : 'absolute top-1 left-1 px-1 py-0.5 text-[8px] font-mono-code font-bold uppercase bg-[#1b1511]/85 text-[#f5e7c8] rounded-[2px]'
+            }
+            style={compact ? { borderTop: `2px solid ${accentColor}` } : { borderLeft: `2px solid ${accentColor}` }}
           >
             {code.replace('TVA-', '')}
           </span>
@@ -447,10 +457,9 @@ export function ViewHeroBanner({
     setWikiFailed(false);
     setStaticFailed(false);
     setWikiUrl(null);
-    if ((staticImagePath && !preferWikiOverStatic) || !wikiPage) return;
+    if (staticImagePath || !wikiPage) return;
     let active = true;
-    const minW = staticImagePath ? 800 : 0;
-    fetchWikiThumbnail(wikiPage, minW).then((url) => {
+    fetchWikiThumbnail(wikiPage).then((url) => {
       if (active) setWikiUrl(url);
     });
     return () => {
@@ -548,7 +557,7 @@ export function ViewHeroBanner({
               handleOpen();
             }
           }}
-          className="absolute top-2 right-2 z-20 inline-flex items-center justify-center rounded bg-[#140f0c]/85 p-1 text-[#f5e7c8] border border-[#cbb895]/40 opacity-80 hover:opacity-100 hover:border-amber-400 hover:text-amber-300 transition-opacity cursor-zoom-in"
+          className="absolute top-2 right-2 z-20 inline-flex items-center justify-center rounded bg-[#140f0c]/85 p-1.5 text-[#f5e7c8] border border-[#cbb895]/40 opacity-80 hover:opacity-100 hover:border-amber-400 hover:text-amber-300 transition-opacity cursor-zoom-in"
         >
           <Maximize2 className="w-3 h-3" />
         </span>
@@ -594,11 +603,11 @@ export function ViewHeroBanner({
               <span className="truncate">{catalogStamp}</span>
             </div>
             {compactBanner ? (
-              <h2 className="font-serif-display font-bold text-[#fcf6e8] leading-tight truncate text-base sm:text-lg mt-0.5">
+              <h2 className="font-display font-bold text-[#fcf6e8] leading-tight truncate text-base sm:text-lg mt-0.5">
                 {title}
               </h2>
             ) : (
-              <h1 className="font-serif-display font-bold text-[#fcf6e8] leading-tight truncate text-xl sm:text-2xl mt-1">
+              <h1 className="font-display font-bold text-[#fcf6e8] leading-tight text-xl sm:text-2xl mt-1">
                 {title}
               </h1>
             )}
@@ -639,7 +648,7 @@ export function SectionDivider({
         >
           {badge}
         </span>
-        <h2 className="text-sm sm:text-base font-display font-bold text-[#1d1610] truncate">
+        <h2 className="text-sm sm:text-base font-display font-bold text-[#1d1610]">
           {title}
         </h2>
         <span

@@ -42,13 +42,15 @@ function DossierTabBar({
   onChange: (tab: DossierTab) => void;
 }) {
   return (
-    <div className="flex flex-wrap gap-1.5 border-b-2 border-[#cbb895] pt-1">
+    <div role="tablist" aria-label="Dossier sections" className="flex flex-wrap gap-1.5 border-b-2 border-[#cbb895] pt-1">
       {tabs.map((tab) => {
         const active = activeTab === tab.id;
         return (
           <button
             key={tab.id}
             type="button"
+            role="tab"
+            aria-selected={active}
             onClick={() => onChange(tab.id)}
             className={`px-3 py-1.5 text-xs font-mono-code font-bold rounded-t border border-b-0 -mb-[2px] transition-colors ${
               active
@@ -309,13 +311,17 @@ export function DossierDrawer({
                   <div className="min-w-0 flex-1 space-y-1.5">
                     <div className="flex flex-wrap items-center gap-1.5">
                       <span
-                        className="tva-ink-stamp"
+                        className="tva-ink-stamp text-[#1d1610]"
                         style={{
                           borderColor: faction?.color ?? '#b45309',
-                          color: faction?.color ?? '#b45309',
                           backgroundColor: `${faction?.color ?? '#b45309'}15`,
                         }}
                       >
+                        <span
+                          className="w-1.5 h-1.5 rounded-full shrink-0"
+                          style={{ backgroundColor: faction?.color ?? '#b45309' }}
+                          aria-hidden="true"
+                        />
                         {faction?.shortName ?? c.factionId}
                       </span>
                       <span className="tva-ink-stamp border-[#61503e] bg-[#fffaf0] text-[#1d1610]">

@@ -263,8 +263,8 @@ export const LEGACY_TITLES: Title[] = [
     summary:
       'Logan receives his adamantium skeleton through Weapon X and first encounters Gambit and Wade Wilson.',
     doomsdayConnection:
-      'Establishes adamantium lore in Fox continuity (later mirrored by MCU Tiamut adamantium) alongside Logan and Wade Wilson.',
-    keyCharacterIds: ['wolverine', 'deadpool'],
+      'Establishes adamantium lore in Fox continuity (later mirrored by MCU Tiamut adamantium) alongside Hugh Jackman’s Logan.',
+    keyCharacterIds: ['wolverine'],
     wikiPage: 'X-Men_Origins:_Wolverine',
   },
   {
@@ -282,8 +282,8 @@ export const LEGACY_TITLES: Title[] = [
     summary:
       'In 1962, young Charles Xavier, Erik Lehnsherr, Mystique, and Hank McCoy form the first X-Men team during the Cuban Missile Crisis before ideological schism divides them.',
     doomsdayConnection:
-      'Explains the lifelong bond and rivalry between Xavier, Magneto, Mystique, and Beast heading into Doomsday.',
-    keyCharacterIds: ['professor-x', 'magneto', 'beast', 'mystique'],
+      'Explains the early ideological split between young Xavier, Magneto, Mystique, and Beast on Earth-10005.',
+    keyCharacterIds: [],
     wikiPage: 'X-Men:_First_Class',
   },
   {
@@ -366,7 +366,7 @@ export const LEGACY_TITLES: Title[] = [
       'Wolverine’s consciousness is sent back to 1973 to stop Mystique from assassinating Bolivar Trask, resetting the X-Men future so Cyclops, Jean, Beast, and Xavier survive.',
     doomsdayConnection:
       'Restores the happy Earth-10005 X-Mansion timeline featuring Cyclops, Beast, and Xavier—the bridge directly leading into their Doomsday return.',
-    keyCharacterIds: ['wolverine', 'professor-x', 'magneto', 'cyclops', 'beast', 'mystique'],
+    keyCharacterIds: ['wolverine', 'professor-x', 'magneto', 'cyclops', 'beast'],
     wikiPage: 'X-Men:_Days_of_Future_Past',
   },
   {
@@ -404,7 +404,7 @@ export const LEGACY_TITLES: Title[] = [
       'Ancient mutant En Sabah Nur awakens in 1983, prompting Xavier’s young X-Men—including Nightcrawler and Cyclops—to unite.',
     doomsdayConnection:
       'Expands the revised Earth-10005 timeline following Days of Future Past.',
-    keyCharacterIds: ['professor-x', 'magneto', 'cyclops', 'nightcrawler', 'beast', 'mystique'],
+    keyCharacterIds: [],
     wikiPage: 'X-Men:_Apocalypse',
   },
   {
@@ -499,7 +499,7 @@ export const LEGACY_TITLES: Title[] = [
       'Set in 1992, a cosmic flare corrupts Jean Grey, fracturing the Fox X-Men.',
     doomsdayConnection:
       'Final Fox-produced X-Men ensemble chapter before Disney/Marvel Studios reclaimed mutants.',
-    keyCharacterIds: ['professor-x', 'magneto', 'cyclops', 'nightcrawler', 'beast', 'mystique'],
+    keyCharacterIds: [],
     wikiPage: 'Dark_Phoenix_(film)',
   },
   {

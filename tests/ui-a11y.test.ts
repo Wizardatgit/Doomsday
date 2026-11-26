@@ -83,6 +83,9 @@ test('SettingsModal and DossierDrawer expose WAI-ARIA dialog semantics and acces
   assert.match(settingsHtml, /aria-modal="true"/);
   assert.match(settingsHtml, /aria-labelledby="settings-modal-title"/);
   assert.match(settingsHtml, /id="settings-modal-title"/);
+  assert.match(settingsHtml, /<label[^>]*for="tmdb-api-key-input"/);
+  assert.match(settingsHtml, /<input[^>]*id="tmdb-api-key-input"/);
+  assert.match(settingsHtml, /role="status"/);
   assertNoNestedButtons(settingsHtml, 'SettingsModal');
 
   for (const selected of [
@@ -100,7 +103,7 @@ test('SettingsModal and DossierDrawer expose WAI-ARIA dialog semantics and acces
         onTracePath: () => {},
         watchedSet: new Set<string>(),
         onToggleWatched: () => {},
-        spoilerShield: false,
+        spoilerShield: true,
         showTheories: false,
         tmdbApiKey: '',
       }),
@@ -108,11 +111,13 @@ test('SettingsModal and DossierDrawer expose WAI-ARIA dialog semantics and acces
     assert.match(drawerHtml, /role="dialog"/, `DossierDrawer(${selected.kind}) missing role="dialog"`);
     assert.match(drawerHtml, /aria-modal="true"/, `DossierDrawer(${selected.kind}) missing aria-modal="true"`);
     assert.match(drawerHtml, /aria-label="/, `DossierDrawer(${selected.kind}) missing aria-label`);
+    assert.match(drawerHtml, /role="tablist"/, `DossierDrawer(${selected.kind}) missing role="tablist"`);
+    assert.match(drawerHtml, /role="tab"/, `DossierDrawer(${selected.kind}) missing role="tab"`);
     assertNoNestedButtons(drawerHtml, `DossierDrawer(${selected.kind})`);
   }
 });
 
-test('primary views contain zero nested interactive button descendants', async () => {
+test('primary views contain zero nested interactive button descendants (even with Spoiler Shield ON)', async () => {
   const watchedSet = new Set<string>(['iron-man', 'avengers-endgame']);
   const noop = () => {};
 
@@ -121,86 +126,128 @@ test('primary views contain zero nested interactive button descendants', async (
   const { RealitiesAtlas } = await vite.ssrLoadModule('/src/components/RealitiesAtlas.tsx');
   const { SacredTimeline } = await vite.ssrLoadModule('/src/components/SacredTimeline.tsx');
   const { FactionsHub } = await vite.ssrLoadModule('/src/components/FactionsHub.tsx');
+  const { ThreadsTracker } = await vite.ssrLoadModule('/src/components/ThreadsTracker.tsx');
+  const { ConnectionGraph } = await vite.ssrLoadModule('/src/components/ConnectionGraph.tsx');
   const { PathFinder } = await vite.ssrLoadModule('/src/components/PathFinder.tsx');
 
-  const views: [string, React.ReactElement][] = [
-    [
-      'CommandHub',
-      React.createElement(CommandHub, {
-        watchedSet,
-        spoilerShield: false,
-        showTheories: false,
-        tmdbApiKey: '',
-        welcomeExpanded: true,
-        onToggleWelcome: noop,
-        onOpenBeginnerPath: noop,
-        onSelect: noop,
-        onNavigate: noop,
-        onOpenFaction: noop,
-        onLaunchPresetPath: noop,
-      }),
-    ],
-    [
-      'CharacterDirectory',
-      React.createElement(CharacterDirectory, {
-        watchedSet,
-        spoilerShield: false,
-        tmdbApiKey: '',
-        onSelect: noop,
-      }),
-    ],
-    [
-      'RealitiesAtlas',
-      React.createElement(RealitiesAtlas, {
-        watchedSet,
-        spoilerShield: false,
-        onSelect: noop,
-      }),
-    ],
-    [
-      'SacredTimeline',
-      React.createElement(SacredTimeline, {
-        watchedSet,
-        spoilerShield: false,
-        tmdbApiKey: '',
-        timelinePreset: 'all',
-        onChangePreset: noop,
-        onToggleWatched: noop,
-        onMarkEraWatched: noop,
-        onSelect: noop,
-      }),
-    ],
-    [
-      'FactionsHub',
-      React.createElement(FactionsHub, {
-        watchedSet,
-        spoilerShield: false,
-        tmdbApiKey: '',
-        initialExpandedFactionId: 'fantastic-four',
-        onClearInitialFaction: noop,
-        onSelect: noop,
-      }),
-    ],
-    [
-      'PathFinder',
-      React.createElement(PathFinder, {
-        originKey: 'title:x-men-2000',
-        targetKey: 'title:avengers-doomsday',
-        onChangeOrigin: noop,
-        onChangeTarget: noop,
-        showTheories: false,
-        watchedSet,
-        spoilerShield: false,
-        tmdbApiKey: '',
-        onSelect: noop,
-      }),
-    ],
-  ];
+  for (const shield of [false, true]) {
+    const views: [string, React.ReactElement][] = [
+      [
+        'CommandHub',
+        React.createElement(CommandHub, {
+          watchedSet,
+          spoilerShield: shield,
+          showTheories: false,
+          tmdbApiKey: '',
+          welcomeExpanded: true,
+          onToggleWelcome: noop,
+          onOpenBeginnerPath: noop,
+          onSelect: noop,
+          onNavigate: noop,
+          onOpenFaction: noop,
+          onLaunchPresetPath: noop,
+        }),
+      ],
+      [
+        'CharacterDirectory',
+        React.createElement(CharacterDirectory, {
+          watchedSet,
+          spoilerShield: shield,
+          tmdbApiKey: '',
+          onSelect: noop,
+        }),
+      ],
+      [
+        'RealitiesAtlas',
+        React.createElement(RealitiesAtlas, {
+          watchedSet,
+          spoilerShield: shield,
+          onSelect: noop,
+        }),
+      ],
+      [
+        'SacredTimeline',
+        React.createElement(SacredTimeline, {
+          watchedSet,
+          spoilerShield: shield,
+          tmdbApiKey: '',
+          timelinePreset: 'all',
+          onChangePreset: noop,
+          onToggleWatched: noop,
+          onMarkEraWatched: noop,
+          onSelect: noop,
+        }),
+      ],
+      [
+        'FactionsHub',
+        React.createElement(FactionsHub, {
+          watchedSet,
+          spoilerShield: shield,
+          tmdbApiKey: '',
+          initialExpandedFactionId: 'fantastic-four',
+          onClearInitialFaction: noop,
+          onSelect: noop,
+        }),
+      ],
+      [
+        'ThreadsTracker',
+        React.createElement(ThreadsTracker, {
+          watchedSet,
+          spoilerShield: shield,
+          showTheories: false,
+          onSelect: noop,
+        }),
+      ],
+      [
+        'ConnectionGraph',
+        React.createElement(ConnectionGraph, {
+          showTheories: false,
+          onSelect: noop,
+        }),
+      ],
+      [
+        'PathFinder',
+        React.createElement(PathFinder, {
+          originKey: 'title:x-men-2000',
+          targetKey: 'title:avengers-doomsday',
+          onChangeOrigin: noop,
+          onChangeTarget: noop,
+          showTheories: false,
+          watchedSet,
+          spoilerShield: shield,
+          tmdbApiKey: '',
+          onSelect: noop,
+        }),
+      ],
+    ];
 
-  for (const [name, element] of views) {
-    const html = renderToStaticMarkup(element);
-    assert.ok(html.length > 200, `Expected non-empty markup for ${name}`);
-    assertNoNestedButtons(html, name);
+    for (const [name, element] of views) {
+      const html = renderToStaticMarkup(element);
+      assert.ok(html.length > 200, `Expected non-empty markup for ${name}`);
+      assertNoNestedButtons(html, `${name}(shield=${shield})`);
+
+      if (!shield) {
+        if (name === 'CommandHub' || name === 'SacredTimeline') {
+          assert.match(html, /<button[^>]*>Open Folder →<\/button>/, `${name} must expose keyboard dossier buttons`);
+        }
+        if (name === 'ThreadsTracker') {
+          assert.match(html, /<button[^>]*>Open Dossier →<\/button>/, 'ThreadsTracker must expose keyboard dossier buttons');
+        }
+        if (name === 'PathFinder') {
+          assert.match(html, /<label[^>]*for="path-origin-select"/);
+          assert.match(html, /<select[^>]*id="path-origin-select"/);
+          assert.match(html, /<label[^>]*for="path-target-select"/);
+          assert.match(html, /<select[^>]*id="path-target-select"/);
+        }
+        if (name === 'FactionsHub') {
+          assert.match(html, /aria-expanded="true"/);
+          assert.match(html, /\b1 operative\b/, 'Doctor Doom faction should use singular "1 operative"');
+        }
+        if (name === 'ConnectionGraph') {
+          assert.match(html, /role="button"[^>]*tabindex="0"/i, 'CRT SVG nodes must be keyboard focusable');
+        }
+      }
+    }
   }
 });
 
@@ -249,12 +296,17 @@ test('EntityVisual renders emblem fallback without image and respects hideZoomTr
   assert.doesNotMatch(hiddenZoomHtml, /role="button"/);
 });
 
-test('App shell exposes landmark nav, aria-current, aria-pressed toggles, and zero nested buttons', async () => {
+test('App shell exposes landmark nav, aria-current, aria-pressed toggles, Watch Progress card, and zero nested buttons', async () => {
   const { App } = await vite.ssrLoadModule('/src/App.tsx');
   const html = renderToStaticMarkup(React.createElement(App));
   assert.match(html, /<nav[^>]*aria-label="Primary sections"/);
   assert.match(html, /aria-current="page"/);
   assert.match(html, /aria-pressed="/);
+  assert.match(html, /Watch Progress/);
+  assert.match(html, /Must-Watch/);
+  assert.match(html, /All Titles/);
+  assert.match(html, /Up Next/);
+  assert.match(html, /Open Timeline →/);
   assertNoNestedButtons(html, 'App');
 });
 

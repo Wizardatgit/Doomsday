@@ -23,6 +23,7 @@ export function SettingsModal({
   const [keyDraft, setKeyDraft] = useState(tmdbApiKey);
   const [importText, setImportText] = useState('');
   const [statusMsg, setStatusMsg] = useState<string | null>(null);
+  const [confirmReset, setConfirmReset] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
   useDialogA11y(dialogRef, true);
 
@@ -39,11 +40,18 @@ export function SettingsModal({
   };
 
   const handleFileImport = async (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+    const input = e.target;
+    const file = input.files?.[0];
     if (!file) return;
-    const text = await file.text();
-    const res = onImportBackup(text);
-    setStatusMsg(res.ok ? `Imported ${res.watchedIds.length} watched titles.` : res.error);
+    try {
+      const text = await file.text();
+      const res = onImportBackup(text);
+      setStatusMsg(res.ok ? `Imported ${res.watchedIds.length} watched titles.` : res.error);
+    } catch {
+      setStatusMsg('Could not read the selected file.');
+    } finally {
+      input.value = '';
+    }
   };
 
   const handleTextImport = () => {
@@ -90,7 +98,10 @@ export function SettingsModal({
         </div>
 
         <section className="space-y-2">
-          <label className="flex items-center gap-2 text-sm font-semibold text-[#1d1610]">
+          <label
+            htmlFor="tmdb-api-key-input"
+            className="flex items-center gap-2 text-sm font-semibold text-[#1d1610]"
+          >
             <KeyRound className="w-4 h-4 text-[#b45309]" />
             Optional TMDB v3 API Key Override
           </label>
@@ -99,6 +110,7 @@ export function SettingsModal({
           </p>
           <div className="flex gap-2">
             <input
+              id="tmdb-api-key-input"
               type="password"
               value={keyDraft}
               onChange={(e) => setKeyDraft(e.target.value)}
@@ -146,6 +158,7 @@ export function SettingsModal({
                 rows={2}
                 value={importText}
                 onChange={(e) => setImportText(e.target.value)}
+                aria-label="Paste watchlist backup JSON"
                 placeholder='Or paste JSON: {"watchedIds":["iron-man","thunderbolts"]}'
                 className="flex-1 rounded border border-[#cbb895] bg-[#fffaf0] px-2.5 py-1.5 text-xs font-mono-code text-[#1d1610] focus:border-[#b45309] focus:outline-none"
               />
@@ -161,20 +174,40 @@ export function SettingsModal({
           </div>
         </section>
 
-        <div className="flex items-center justify-between border-t border-[#cbb895] pt-4">
-          <button
-            type="button"
-            onClick={() => {
-              onResetProgress();
-              setStatusMsg('Watchlist progress cleared.');
-            }}
-            className="inline-flex items-center gap-1.5 text-xs font-mono-code text-[#b91c1c] hover:underline"
-          >
-            <RotateCcw className="w-3.5 h-3.5" /> Reset Watchlist
-          </button>
-          {statusMsg && (
-            <span className="text-xs font-mono-code font-semibold text-[#047857]">{statusMsg}</span>
+        <div className="flex flex-wrap items-center justify-between gap-2 border-t border-[#cbb895] pt-4">
+          {confirmReset ? (
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  onResetProgress();
+                  setConfirmReset(false);
+                  setStatusMsg('Watchlist progress cleared.');
+                }}
+                className="rounded border border-[#b91c1c] bg-[#b91c1c] px-2.5 py-1 text-xs font-mono-code font-bold text-white hover:bg-[#991b1b]"
+              >
+                Confirm Reset?
+              </button>
+              <button
+                type="button"
+                onClick={() => setConfirmReset(false)}
+                className="rounded border border-[#cbb895] bg-[#fffaf0] px-2.5 py-1 text-xs font-mono-code text-[#61503e] hover:text-[#1d1610]"
+              >
+                Cancel
+              </button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={() => setConfirmReset(true)}
+              className="inline-flex items-center gap-1.5 text-xs font-mono-code text-[#b91c1c] hover:underline"
+            >
+              <RotateCcw className="w-3.5 h-3.5" /> Reset Watchlist
+            </button>
           )}
+          <span role="status" aria-live="polite" className="text-xs font-mono-code font-semibold text-[#047857]">
+            {statusMsg ?? ''}
+          </span>
         </div>
       </div>
     </div>

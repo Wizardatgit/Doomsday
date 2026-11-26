@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { Eye, ShieldAlert } from 'lucide-react';
 import { titlesById } from '../data/index.ts';
 import { isRedacted } from '../lib/spoiler.ts';
@@ -17,6 +17,12 @@ export function Redactable({
   label?: string;
 }) {
   const [revealed, setRevealed] = useState(false);
+  const titleKey = titleIds.join('|');
+
+  useEffect(() => {
+    setRevealed(false);
+  }, [spoilerShield, titleKey]);
+
   const hidden = isRedacted(titleIds, watchedSet, spoilerShield) && !revealed;
 
   if (!hidden) {

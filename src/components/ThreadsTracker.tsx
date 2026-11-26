@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { ChevronDown, ChevronUp, RotateCcw, Sparkles } from 'lucide-react';
-import { THREADS, charactersById, titlesById } from '../data/index.ts';
+import { THREADS, getCharacterChipLabel, titlesById } from '../data/index.ts';
 import type { EntityRef, ThreadCategory } from '../data/types.ts';
 import { Redactable } from './Redactable.tsx';
 import { ViewHeroBanner } from './TvaArt.tsx';
@@ -63,11 +63,12 @@ export function ThreadsTracker({
       </ViewHeroBanner>
       <div className="tva-folder rounded-md p-4">
 
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex flex-wrap gap-1.5" role="group" aria-label="Filter threads by category">
           {(['all', 'incursion', 'post-credits', 'faction', 'artifact', 'mystery'] as const).map((cat) => (
             <button
               key={cat}
               type="button"
+              aria-pressed={category === cat}
               onClick={() => setCategory(cat)}
               className={`rounded px-3 py-1 text-xs font-mono-code uppercase border transition-colors ${
                 category === cat
@@ -168,21 +169,22 @@ export function ThreadsTracker({
                         key={cId}
                         className="rounded bg-[#fffaf0] border border-[#cbb895] px-2 py-0.5 text-[11px] text-[#1d1610]"
                       >
-                        {charactersById.get(cId)?.name}
+                        {getCharacterChipLabel(cId)}
                       </span>
                     ))}
                   </div>
                 </>
               )}
 
-              <div className="flex items-center justify-between border-t border-[#e1d4b9] pt-2 text-[11px] font-mono-code">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-t border-[#e1d4b9] pt-2 text-[11px] font-mono-code">
                 <button
                   type="button"
+                  aria-expanded={isOpen}
                   onClick={(e) => {
                     e.stopPropagation();
                     toggleExpanded(th.id);
                   }}
-                  className="inline-flex items-center gap-1 font-semibold text-[#9a3412] hover:underline"
+                  className="inline-flex items-center gap-1 py-1 font-semibold text-[#9a3412] hover:underline"
                 >
                   {isOpen ? (
                     <>
@@ -190,11 +192,27 @@ export function ThreadsTracker({
                     </>
                   ) : (
                     <>
-                      Show breakdown &amp; {th.beats.length} beats <ChevronDown className="w-3.5 h-3.5" />
+                      Show breakdown &amp; {th.beats.length} {th.beats.length === 1 ? 'beat' : 'beats'}{' '}
+                      <ChevronDown className="w-3.5 h-3.5" />
                     </>
                   )}
                 </button>
-                <span className="text-[#61503e]">{th.characterIds.length} players · Open Dossier →</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-[#61503e]">
+                    {th.characterIds.length} {th.characterIds.length === 1 ? 'player' : 'players'} ·
+                  </span>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onSelect({ kind: 'thread', id: th.id });
+                    }}
+                    aria-label={`Open dossier for ${th.title}`}
+                    className="py-1 font-semibold text-[#9a3412] hover:underline"
+                  >
+                    Open Dossier →
+                  </button>
+                </div>
               </div>
             </article>
           );

@@ -9,23 +9,30 @@ const FOCUSABLE_SELECTOR = [
   '[tabindex]:not([tabindex="-1"])',
 ].join(',');
 
-/** Traps Tab focus inside an active modal/drawer and restores trigger focus on close. */
+const activeDialogStack: HTMLElement[] = [];
+
+const isVisible = (node: HTMLElement) => node.getClientRects().length > 0;
+
+/** Traps Tab focus inside an active visible modal/drawer and restores trigger focus on close. */
 export function useDialogA11y(
   containerRef: RefObject<HTMLElement | null>,
   active: boolean,
 ) {
   useEffect(() => {
     if (!active) return;
+    const el = containerRef.current;
+    if (!el || !isVisible(el)) return;
+
     const prevFocus =
       typeof document !== 'undefined'
         ? (document.activeElement as HTMLElement | null)
         : null;
-    const el = containerRef.current;
-    if (!el) return;
+
+    activeDialogStack.push(el);
 
     const getFocusable = () =>
       Array.from(el.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter(
-        (node) => node.offsetParent !== null || node === document.activeElement,
+        (node) => isVisible(node) || node === document.activeElement,
       );
 
     const focusables = getFocusable();
@@ -37,6 +44,9 @@ export function useDialogA11y(
 
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key !== 'Tab') return;
+      if (!isVisible(el) || activeDialogStack[activeDialogStack.length - 1] !== el) {
+        return;
+      }
       const nodes = getFocusable();
       if (nodes.length === 0) {
         e.preventDefault();
@@ -60,7 +70,9 @@ export function useDialogA11y(
     document.addEventListener('keydown', onKeyDown, true);
     return () => {
       document.removeEventListener('keydown', onKeyDown, true);
-      if (prevFocus && prevFocus.isConnected) {
+      const idx = activeDialogStack.lastIndexOf(el);
+      if (idx !== -1) activeDialogStack.splice(idx, 1);
+      if (prevFocus && prevFocus.isConnected && isVisible(prevFocus)) {
         prevFocus.focus();
       }
     };

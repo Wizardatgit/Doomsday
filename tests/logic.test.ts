@@ -280,3 +280,24 @@ test('spoiler redaction, backup parsing boundary inputs, URL validation, and Esc
     null,
   );
 });
+
+test('graph disambiguates duplicate character names and labels Doomsday edges by confirmation status', () => {
+  const graph = buildUnifiedGraph(false);
+  const charLabels = Array.from(graph.nodes.values())
+    .filter((n) => n.kind === 'character')
+    .map((n) => n.label);
+  assert.equal(new Set(charLabels).size, charLabels.length, 'Character graph/dropdown labels must be unique');
+
+  const peggyEdge = graph.edges.find(
+    (e) =>
+      e.fromKey === 'character:peggy-carter' &&
+      e.toKey === 'title:avengers-doomsday',
+  );
+  const steveEdge = graph.edges.find(
+    (e) =>
+      e.fromKey === 'character:steve-rogers' &&
+      e.toKey === 'title:avengers-doomsday',
+  );
+  assert.equal(peggyEdge?.label, 'Likely for Doomsday');
+  assert.equal(steveEdge?.label, 'Confirmed for Doomsday');
+});

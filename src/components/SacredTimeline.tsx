@@ -319,7 +319,7 @@ export function SacredTimeline({
                     spoilerShield={spoilerShield}
                     label="Timeline Beat"
                   >
-                    <p className={`text-xs text-[#1d1610]/90 leading-relaxed ${isOpen ? '' : 'line-clamp-1'}`}>
+                    <p className={`text-xs text-[#1d1610]/90 leading-relaxed ${isOpen ? '' : 'line-clamp-2 sm:line-clamp-1'}`}>
                       <span className="font-mono-code font-bold text-[#047857] uppercase text-[10px] mr-1.5">
                         Doomsday Link:
                       </span>
@@ -350,17 +350,28 @@ export function SacredTimeline({
                   <div className="flex items-center justify-between text-[11px] font-mono-code pt-0.5">
                     <button
                       type="button"
+                      aria-expanded={isOpen}
                       onClick={(e) => {
                         e.stopPropagation();
                         toggleExpanded(t.id);
                       }}
-                      className="text-[#9a3412] font-semibold hover:underline"
+                      className="py-1.5 text-[#9a3412] font-semibold hover:underline"
                     >
                       {isOpen
                         ? '− Less'
                         : `+ Details${t.keyCharacterIds.length > 0 ? ` & Cast (${t.keyCharacterIds.length})` : ''}`}
                     </button>
-                    <span className="text-[#61503e]">Open Folder →</span>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onSelect({ kind: 'title', id: t.id });
+                      }}
+                      aria-label={`Open dossier for ${t.title}`}
+                      className="py-1.5 text-[#61503e] hover:text-[#9a3412] font-semibold hover:underline"
+                    >
+                      Open Folder →
+                    </button>
                   </div>
                 </div>
               </div>

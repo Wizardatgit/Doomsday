@@ -52,7 +52,7 @@ export const THREADS: PlotThread[] = [
     summary:
       'After returning the Infinity Stones in Endgame, Steve Rogers lived a second life with Peggy Carter in a branched 1940s timeline. Doctor Doom views multiversal anomalies like this as "stolen lives" tearing reality apart.',
     doomsdayImpact:
-      'Doomsday promos show Steve Rogers and Peggy Carter raising a teenage son inside their branched timeline before the Fantastic Four track them down to stand against Doctor Doom.',
+      'Doomsday promos show Steve Rogers (with Peggy Carter expected alongside him in his branched timeline) facing a multiversal threat before the Avengers coalition stands against Doctor Doom.',
     originTitleId: 'captain-america-first-avenger',
     keyTitleIds: ['captain-america-first-avenger', 'agent-carter-series', 'avengers-endgame', 'avengers-doomsday'],
     characterIds: ['steve-rogers', 'peggy-carter', 'doctor-doom', 'sam-wilson', 'bucky-barnes'],
@@ -60,7 +60,7 @@ export const THREADS: PlotThread[] = [
     beats: [
       { titleId: 'captain-america-first-avenger', note: 'Steve promises Peggy a dance before crashing into Arctic ice.' },
       { titleId: 'avengers-endgame', note: 'Steve returns the Stones, stays in the past with Peggy, and hands Sam the shield.' },
-      { titleId: 'avengers-doomsday', note: 'Doom condemns heroes living stolen lives; the Fantastic Four recruit Steve and Peggy into the fray.' },
+      { titleId: 'avengers-doomsday', note: 'Doom condemns heroes living stolen lives; Steve Rogers returns while Peggy Carter is widely reported to join.' },
     ],
     confidence: 'official',
     sources: [
@@ -248,7 +248,7 @@ export const THREADS: PlotThread[] = [
     summary:
       'Shuri spared Namor at the close of Wakanda Forever in exchange for an alliance promising Talokan will fight alongside Wakanda against surface/outside threats.',
     doomsdayImpact:
-      'Explains why Shuri, M’Baku, Namor, and Namora deploy together in Avengers: Doomsday.',
+      'Explains why Shuri, M’Baku, and Namor (with Talokan general Namora likely alongside them) deploy together in Avengers: Doomsday.',
     originTitleId: 'black-panther',
     keyTitleIds: ['black-panther', 'black-panther-wakanda-forever', 'avengers-doomsday'],
     characterIds: ['shuri', 'mbaku', 'namor', 'namora'],

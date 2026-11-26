@@ -67,8 +67,9 @@ export function PathFinder({
 
         <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-3 items-end">
           <div className="space-y-1">
-            <label className="text-[11px] font-mono-code uppercase font-bold text-[#9a3412]">Origin Node</label>
+            <label htmlFor="path-origin-select" className="text-[11px] font-mono-code uppercase font-bold text-[#9a3412]">Origin Node</label>
             <select
+              id="path-origin-select"
               value={graph.nodes.has(originKey) ? originKey : sortedOptions[0]?.key ?? ''}
               onChange={(e) => onChangeOrigin(e.target.value)}
               className="w-full rounded border border-[#cbb895] bg-[#fffaf0] px-3 py-2 text-xs text-[#1d1610] focus:border-[#b45309] focus:outline-none"
@@ -89,13 +90,15 @@ export function PathFinder({
             }}
             className="rounded border border-[#cbb895] bg-[#fffaf0] p-2 text-[#c2410c] hover:border-[#b45309] self-center md:mb-0.5"
             title="Swap origin and target"
+            aria-label="Swap origin and target"
           >
             <ArrowLeftRight className="w-4 h-4" />
           </button>
 
           <div className="space-y-1">
-            <label className="text-[11px] font-mono-code uppercase font-bold text-[#047857]">Target Node</label>
+            <label htmlFor="path-target-select" className="text-[11px] font-mono-code uppercase font-bold text-[#047857]">Target Node</label>
             <select
+              id="path-target-select"
               value={graph.nodes.has(targetKey) ? targetKey : sortedOptions[0]?.key ?? ''}
               onChange={(e) => onChangeTarget(e.target.value)}
               className="w-full rounded border border-[#cbb895] bg-[#fffaf0] px-3 py-2 text-xs text-[#1d1610] focus:border-[#b45309] focus:outline-none"
@@ -132,7 +135,7 @@ export function PathFinder({
         </div>
       ) : (
         <div className="tva-folder rounded-md p-5 space-y-3">
-          <div className="flex items-center justify-between text-xs font-mono-code font-bold text-[#9a3412] border-b border-[#cbb895] pb-2">
+          <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-mono-code font-bold text-[#9a3412] border-b border-[#cbb895] pb-2">
             <span>TRACED CHAIN ({steps.length - 1} HOP{steps.length - 1 === 1 ? '' : 'S'})</span>
             <span>Click any card to open full Dossier</span>
           </div>
@@ -162,10 +165,9 @@ export function PathFinder({
                     </div>
                   )}
 
-                  <button
-                    type="button"
+                  <div
                     onClick={() => onSelect(step.node.ref)}
-                    className="w-full text-left tva-sheet tva-comic-corner rounded-md p-3.5 hover:border-[#b45309] transition-colors flex gap-3.5 items-center"
+                    className="w-full text-left tva-sheet tva-comic-corner rounded-md p-3.5 cursor-pointer hover:border-[#b45309] transition-colors flex gap-3.5 items-center"
                     style={{ borderLeft: `4px solid ${step.node.color}` }}
                   >
                     {(char || title || reality) && (
@@ -196,14 +198,31 @@ export function PathFinder({
                     )}
                     <div className="min-w-0 flex-1 space-y-1">
                       <div className="flex items-center justify-between gap-2">
-                        <span className="tva-ink-stamp tva-stamp-angled" style={{ borderColor: step.node.color, color: step.node.color }}>
+                        <span
+                          className="tva-ink-stamp tva-stamp-angled bg-[#fffaf0] text-[#1d1610]"
+                          style={{ borderColor: step.node.color }}
+                        >
+                          <span
+                            className="w-1.5 h-1.5 rounded-full shrink-0"
+                            style={{ backgroundColor: step.node.color }}
+                            aria-hidden="true"
+                          />
                           {step.node.kind}
                         </span>
                         <span className="text-[10px] font-mono-code font-bold text-[#9a3412]">
                           HOP {String(i + 1).padStart(2, '0')}
                         </span>
                       </div>
-                      <div className="text-base font-bold text-[#1d1610] truncate">{step.node.label}</div>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onSelect(step.node.ref);
+                        }}
+                        className="text-base font-bold text-[#1d1610] hover:text-[#9a3412] hover:underline truncate max-w-full text-left block"
+                      >
+                        {step.node.label}
+                      </button>
                       <Redactable
                         titleIds={step.node.titleIds}
                         watchedSet={watchedSet}
@@ -212,7 +231,7 @@ export function PathFinder({
                         <p className="text-xs text-[#61503e] truncate">{step.node.sublabel}</p>
                       </Redactable>
                     </div>
-                  </button>
+                  </div>
                 </div>
               );
             })}
