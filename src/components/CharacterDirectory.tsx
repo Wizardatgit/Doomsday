@@ -38,7 +38,8 @@ export function CharacterDirectory({
       }
       if (statusFilter !== 'all' && c.doomsdayStatus !== statusFilter) return false;
       if (!q) return true;
-      return `${c.name} ${c.alias} ${c.actor} ${c.whoAreThey} ${c.tags.join(' ')}`.toLowerCase().includes(q);
+      const otherActors = (c.otherPortrayals ?? []).map((p) => p.actor).join(' ');
+      return `${c.name} ${c.alias} ${c.actor} ${otherActors} ${c.whoAreThey} ${c.tags.join(' ')}`.toLowerCase().includes(q);
     });
   }, [query, factionFilter, realityFilter, statusFilter]);
 

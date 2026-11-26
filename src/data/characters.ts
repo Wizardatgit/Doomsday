@@ -36,6 +36,20 @@ export const CHARACTERS: Character[] = [
         beat: 'Emerges across colliding universes (Earth-616, Earth-828, Earth-10005), targeting heroes living "stolen lives" and threatening the Multiverse.',
       },
     ],
+    otherPortrayals: [
+      {
+        actor: 'Julian McMahon',
+        context: 'Portrayed Earth-121698 Victor Von Doom in Fantastic Four (2005) and Rise of the Silver Surfer (2007).',
+        kind: 'variant',
+        realityCode: 'E-121698',
+        relatedCharacterId: 'doctor-doom-2005',
+      },
+      {
+        actor: 'Toby Kebbell',
+        context: 'Portrayed Victor Domashev in Josh Trank’s standalone 2015 Fantastic Four film.',
+        kind: 'variant',
+      },
+    ],
   },
   {
     id: 'tony-stark',
@@ -258,6 +272,20 @@ export const CHARACTERS: Character[] = [
     journey: [
       { titleId: 'ant-man-quantumania', beat: 'Dons her Quantum suit and leads freedom fighters against MODOK and Kang.' },
       { titleId: 'avengers-doomsday', beat: 'Joins Scott Lang and Earth-616’s defense.' },
+    ],
+    otherPortrayals: [
+      {
+        actor: 'Abby Ryder Fortson',
+        context: 'Played young child Cassie Lang in Ant-Man (2015) and Ant-Man and the Wasp (2018).',
+        kind: 'younger',
+        realityCode: 'E-616',
+      },
+      {
+        actor: 'Emma Fuhrmann',
+        context: 'Played teenage post-Blip Cassie Lang in Avengers: Endgame (2019) prior to Quantumania’s recast.',
+        kind: 'recast',
+        realityCode: 'E-616',
+      },
     ],
   },
   {
@@ -516,6 +544,21 @@ export const CHARACTERS: Character[] = [
       { titleId: 'fantastic-four-first-steps', beat: 'Outsmarts Galactus on Earth-828 to protect newborn Franklin Richards.' },
       { titleId: 'avengers-doomsday', beat: 'Allies with Earth-616 heroes to confront Doctor Doom and protect Franklin.' },
     ],
+    otherPortrayals: [
+      {
+        actor: 'Ioan Gruffudd',
+        context: 'Portrayed Reed Richards in Fantastic Four (2005) and Rise of the Silver Surfer (2007).',
+        kind: 'variant',
+        realityCode: 'E-121698',
+        relatedCharacterId: 'reed-richards-2005',
+      },
+      {
+        actor: 'John Krasinski',
+        context: 'Appeared briefly as Earth-838’s Illuminati Reed Richards in Doctor Strange in the Multiverse of Madness (2022).',
+        kind: 'variant',
+        realityCode: 'E-838',
+      },
+    ],
   },
   {
     id: 'sue-storm',
@@ -539,6 +582,15 @@ export const CHARACTERS: Character[] = [
     journey: [
       { titleId: 'fantastic-four-first-steps', beat: 'Defies Galactus for Franklin; later spots Doctor Doom crouching next to her son.' },
       { titleId: 'avengers-doomsday', beat: 'Enters Earth-616 with the Fantastic Four.' },
+    ],
+    otherPortrayals: [
+      {
+        actor: 'Jessica Alba',
+        context: 'Portrayed Sue Storm in Tim Story’s Fantastic Four (2005) and Rise of the Silver Surfer (2007).',
+        kind: 'variant',
+        realityCode: 'E-121698',
+        relatedCharacterId: 'sue-storm-2005',
+      },
     ],
   },
   {
@@ -564,6 +616,15 @@ export const CHARACTERS: Character[] = [
       { titleId: 'fantastic-four-first-steps', beat: 'Decodes Silver Surfer’s language and defends Earth-828.' },
       { titleId: 'avengers-doomsday', beat: 'Fights beside Earth-616 and X-Men heroes.' },
     ],
+    otherPortrayals: [
+      {
+        actor: 'Chris Evans',
+        context: 'Portrayed Earth-121698 Johnny Storm in Fantastic Four (2005), 2007, and Deadpool & Wolverine (2024).',
+        kind: 'variant',
+        realityCode: 'E-121698',
+        relatedCharacterId: 'johnny-storm-2005',
+      },
+    ],
   },
   {
     id: 'ben-grimm',
@@ -587,6 +648,15 @@ export const CHARACTERS: Character[] = [
     journey: [
       { titleId: 'fantastic-four-first-steps', beat: 'Stands as Earth-828’s beloved powerhouse against Galactus.' },
       { titleId: 'avengers-doomsday', beat: 'Brings muscle and heart to Earth-616’s defense.' },
+    ],
+    otherPortrayals: [
+      {
+        actor: 'Michael Chiklis',
+        context: 'Portrayed Earth-121698 Ben Grimm in Fantastic Four (2005) and Rise of the Silver Surfer (2007).',
+        kind: 'variant',
+        realityCode: 'E-121698',
+        relatedCharacterId: 'ben-grimm-2005',
+      },
     ],
   },
   {
@@ -639,6 +709,20 @@ export const CHARACTERS: Character[] = [
       { titleId: 'x-men-dofp-2014', beat: 'Dispatches Logan back to 1973, restoring the X-Mansion future.' },
       { titleId: 'avengers-doomsday', beat: 'Returns from Earth-10005 as universes collide.' },
     ],
+    otherPortrayals: [
+      {
+        actor: 'James McAvoy',
+        context: 'Portrayed younger Charles Xavier across X-Men: First Class (2011), Days of Future Past (2014), Apocalypse (2016), and Dark Phoenix (2019).',
+        kind: 'younger',
+        realityCode: 'E-10005',
+      },
+      {
+        actor: 'Patrick Stewart',
+        context: 'Also portrayed the distinct Earth-838 Illuminati Professor X killed by Scarlet Witch in Multiverse of Madness (2022).',
+        kind: 'variant',
+        realityCode: 'E-838',
+      },
+    ],
   },
   {
     id: 'magneto',
@@ -665,6 +749,14 @@ export const CHARACTERS: Character[] = [
       { titleId: 'x-men-dofp-2014', beat: 'Defends the X-Men until Logan rewrites Sentinel history.' },
       { titleId: 'avengers-doomsday', beat: 'Stands alongside the X-Men facing Earth-616 and Doctor Doom.' },
     ],
+    otherPortrayals: [
+      {
+        actor: 'Michael Fassbender',
+        context: 'Portrayed younger Erik Lehnsherr across First Class (2011), Days of Future Past (2014), Apocalypse (2016), and Dark Phoenix (2019).',
+        kind: 'younger',
+        realityCode: 'E-10005',
+      },
+    ],
   },
   {
     id: 'cyclops',
@@ -690,6 +782,14 @@ export const CHARACTERS: Character[] = [
       { titleId: 'x-men-last-stand-2006', beat: 'Dies at Alkali Lake in the original pre-reset timeline.' },
       { titleId: 'x-men-dofp-2014', beat: 'Brought back alive in the restored 2023 X-Mansion.' },
       { titleId: 'avengers-doomsday', beat: 'Commands the X-Men in comic-accurate armor during the multiverse collision.' },
+    ],
+    otherPortrayals: [
+      {
+        actor: 'Tye Sheridan',
+        context: 'Portrayed teenage Scott Summers in X-Men: Apocalypse (2016) and Dark Phoenix (2019).',
+        kind: 'younger',
+        realityCode: 'E-10005',
+      },
     ],
   },
   {
@@ -721,6 +821,14 @@ export const CHARACTERS: Character[] = [
       },
       { titleId: 'avengers-doomsday', beat: 'Fights alongside the X-Men.' },
     ],
+    otherPortrayals: [
+      {
+        actor: 'Nicholas Hoult',
+        context: 'Portrayed younger Hank McCoy across First Class (2011), Days of Future Past (2014), Apocalypse (2016), and Dark Phoenix (2019).',
+        kind: 'younger',
+        realityCode: 'E-10005',
+      },
+    ],
   },
   {
     id: 'nightcrawler',
@@ -744,6 +852,14 @@ export const CHARACTERS: Character[] = [
     journey: [
       { titleId: 'x2-2003', beat: 'Joins the X-Men after escaping Stryker’s mind control.' },
       { titleId: 'avengers-doomsday', beat: 'Teleports back into action alongside Xavier’s X-Men.' },
+    ],
+    otherPortrayals: [
+      {
+        actor: 'Kodi Smit-McPhee',
+        context: 'Portrayed younger Kurt Wagner in X-Men: Apocalypse (2016) and Dark Phoenix (2019).',
+        kind: 'younger',
+        realityCode: 'E-10005',
+      },
     ],
   },
   {
@@ -770,6 +886,14 @@ export const CHARACTERS: Character[] = [
       { titleId: 'x2-2003', beat: 'Frees Magneto from plastic prison and aids the Alkali Lake raid.' },
       { titleId: 'avengers-doomsday', beat: 'Returns with the Earth-10005 mutant alliance.' },
     ],
+    otherPortrayals: [
+      {
+        actor: 'Jennifer Lawrence',
+        context: 'Portrayed younger Raven Darkholme across First Class (2011), Days of Future Past (2014), Apocalypse (2016), and Dark Phoenix (2019).',
+        kind: 'younger',
+        realityCode: 'E-10005',
+      },
+    ],
   },
   {
     id: 'gambit',
@@ -793,6 +917,15 @@ export const CHARACTERS: Character[] = [
     journey: [
       { titleId: 'deadpool-wolverine', beat: 'Leads Void Resistance assault on Cassandra Nova’s fortress alongside Deadpool, Blade, and Elektra.' },
       { titleId: 'avengers-doomsday', beat: 'Crosses out of Void limbo into the confirmed Doomsday cast.' },
+    ],
+    otherPortrayals: [
+      {
+        actor: 'Taylor Kitsch',
+        context: 'Portrayed Earth-10005’s earlier Remy LeBeau in X-Men Origins: Wolverine (2009).',
+        kind: 'variant',
+        realityCode: 'E-10005',
+        relatedCharacterId: 'gambit-2009',
+      },
     ],
   },
 
@@ -957,6 +1090,14 @@ export const CHARACTERS: Character[] = [
         realityShiftTo: 'earth-10005-x',
       },
     ],
+    otherPortrayals: [
+      {
+        actor: 'Akira Akbar',
+        context: 'Portrayed child Monica Rambeau in Captain Marvel (2019) before Teyonah Parris took over as an adult.',
+        kind: 'younger',
+        realityCode: 'E-616',
+      },
+    ],
   },
   {
     id: 'doctor-strange',
@@ -1010,6 +1151,22 @@ export const CHARACTERS: Character[] = [
       { titleId: 'spider-man-no-way-home', beat: 'Teams with Tobey & Andrew’s Spider-Men; sacrifices everyone’s memory of himself.' },
       { titleId: 'spider-man-brand-new-day', beat: 'Confronts destabilizing telepath Jean Grey as Punisher operates nearby; post-credits shows his tracker flying into deep space.' },
     ],
+    otherPortrayals: [
+      {
+        actor: 'Tobey Maguire',
+        context: 'Earth-96283 Spider-Man from Sam Raimi’s 2002-2007 trilogy and Spider-Man: No Way Home (2021).',
+        kind: 'variant',
+        realityCode: 'E-96283',
+        relatedCharacterId: 'peter-parker-96283',
+      },
+      {
+        actor: 'Andrew Garfield',
+        context: 'Earth-120703 Spider-Man from Marc Webb’s 2012-2014 films and Spider-Man: No Way Home (2021).',
+        kind: 'variant',
+        realityCode: 'E-120703',
+        relatedCharacterId: 'peter-parker-120703',
+      },
+    ],
   },
   {
     id: 'peter-parker-96283',
@@ -1035,6 +1192,22 @@ export const CHARACTERS: Character[] = [
       { titleId: 'spider-man-2-2004', beat: 'Saves New York from Doc Ock’s fusion reactor.' },
       { titleId: 'spider-man-no-way-home', beat: 'Crosses into Earth-616 to save MCU Peter from vengeance and cure his foes.' },
     ],
+    otherPortrayals: [
+      {
+        actor: 'Tom Holland',
+        context: 'Main Earth-616 MCU Spider-Man since Captain America: Civil War (2016).',
+        kind: 'variant',
+        realityCode: 'E-616',
+        relatedCharacterId: 'peter-parker-616',
+      },
+      {
+        actor: 'Andrew Garfield',
+        context: 'Earth-120703 Amazing Spider-Man and No Way Home ally.',
+        kind: 'variant',
+        realityCode: 'E-120703',
+        relatedCharacterId: 'peter-parker-120703',
+      },
+    ],
   },
   {
     id: 'peter-parker-120703',
@@ -1059,6 +1232,22 @@ export const CHARACTERS: Character[] = [
       { titleId: 'amazing-spider-man-2012', beat: 'Unlocks Oscorp cross-species secrets.' },
       { titleId: 'amazing-spider-man-2-2014', beat: 'Loses Gwen Stacy during the clocktower battle.' },
       { titleId: 'spider-man-no-way-home', beat: 'Catches MJ at the Statue of Liberty and redeems his guilt.' },
+    ],
+    otherPortrayals: [
+      {
+        actor: 'Tom Holland',
+        context: 'Main Earth-616 MCU Spider-Man.',
+        kind: 'variant',
+        realityCode: 'E-616',
+        relatedCharacterId: 'peter-parker-616',
+      },
+      {
+        actor: 'Tobey Maguire',
+        context: 'Earth-96283 Spider-Man from Raimi’s trilogy and No Way Home.',
+        kind: 'variant',
+        realityCode: 'E-96283',
+        relatedCharacterId: 'peter-parker-96283',
+      },
     ],
   },
   {
@@ -1161,6 +1350,19 @@ export const CHARACTERS: Character[] = [
       { titleId: 'shang-chi', beat: 'Studies the Ten Rings cosmic signal with Wong and Carol Danvers.' },
       { titleId: 'spider-man-brand-new-day', beat: 'Crosses paths with Peter Parker and Punisher in New York.' },
     ],
+    otherPortrayals: [
+      {
+        actor: 'Edward Norton',
+        context: 'Portrayed Earth-616 Bruce Banner in The Incredible Hulk (2008) before Mark Ruffalo took over the role in The Avengers (2012).',
+        kind: 'recast',
+        realityCode: 'E-616',
+      },
+      {
+        actor: 'Eric Bana',
+        context: 'Starred in Ang Lee’s standalone Hulk (2003) outside Earth-616.',
+        kind: 'variant',
+      },
+    ],
   },
   {
     id: 'daredevil',
@@ -1186,6 +1388,15 @@ export const CHARACTERS: Character[] = [
       { titleId: 'spider-man-no-way-home', beat: 'Defends Peter Parker ("I’m a really good lawyer").' },
       { titleId: 'daredevil-born-again', beat: 'Confronts Mayor Wilson Fisk alongside Frank Castle.' },
       { titleId: 'daredevil-born-again-s2', beat: 'Leads underground street-level resistance alongside Karen Page and Jessica Jones.' },
+    ],
+    otherPortrayals: [
+      {
+        actor: 'Ben Affleck',
+        context: 'Portrayed Earth-701306 Matt Murdock opposite Jennifer Garner’s Elektra in Daredevil (2003).',
+        kind: 'variant',
+        realityCode: 'E-701306',
+        relatedCharacterId: 'daredevil-2003',
+      },
     ],
   },
   {
@@ -1224,8 +1435,8 @@ export const CHARACTERS: Character[] = [
   },
   {
     id: 'jean-grey-616',
-    name: 'Jean Grey (Earth-616)',
-    alias: 'New Mutant / Telepath',
+    name: 'Jean Grey',
+    alias: 'New Mutant / Telepath (Earth-616)',
     actor: 'Sadie Sink',
     factionId: 'wildcards',
     originRealityId: 'earth-616',
@@ -1248,6 +1459,22 @@ export const CHARACTERS: Character[] = [
     ],
     journey: [
       { titleId: 'spider-man-brand-new-day', beat: 'Unleashes erratic telepathy across New York, drawing Peter Parker into confrontation.' },
+    ],
+    otherPortrayals: [
+      {
+        actor: 'Famke Janssen',
+        context: 'Portrayed adult Earth-10005 Jean Grey / Phoenix across X-Men (2000), X2 (2003), The Last Stand (2006), and Days of Future Past (2014).',
+        kind: 'variant',
+        realityCode: 'E-10005',
+        relatedCharacterId: 'jean-grey-10005',
+      },
+      {
+        actor: 'Sophie Turner',
+        context: 'Portrayed younger Earth-10005 Jean Grey in X-Men: Apocalypse (2016) and Dark Phoenix (2019).',
+        kind: 'younger',
+        realityCode: 'E-10005',
+        relatedCharacterId: 'jean-grey-10005',
+      },
     ],
   },
   {
@@ -1389,7 +1616,7 @@ export const CHARACTERS: Character[] = [
   },
   {
     id: 'johnny-storm-2005',
-    name: 'Johnny Storm (2005)',
+    name: 'Johnny Storm',
     alias: 'Human Torch (Earth-121698)',
     actor: 'Chris Evans',
     factionId: 'wildcards',
@@ -1412,6 +1639,15 @@ export const CHARACTERS: Character[] = [
         titleId: 'deadpool-wolverine',
         beat: 'Found pruned in The Void; shocks viewers with an iconic Chris Evans bait-and-switch before Cassandra kills him.',
         realityShiftTo: 'the-void',
+      },
+    ],
+    otherPortrayals: [
+      {
+        actor: 'Joseph Quinn',
+        context: 'Portrays Earth-828’s retro-1960s Johnny Storm in The Fantastic Four: First Steps (2025) and Avengers: Doomsday.',
+        kind: 'variant',
+        realityCode: 'E-828',
+        relatedCharacterId: 'johnny-storm',
       },
     ],
   },
@@ -1445,6 +1681,298 @@ export const CHARACTERS: Character[] = [
         titleId: 'spider-man-no-way-home',
         beat: 'Pulled back to Earth-688 while leaving a piece of symbiote on Earth-616.',
         realityShiftTo: 'earth-688',
+      },
+    ],
+    otherPortrayals: [
+      {
+        actor: 'Topher Grace',
+        context: 'Portrayed Earth-96283 Eddie Brock / Venom opposite Tobey Maguire in Spider-Man 3 (2007).',
+        kind: 'variant',
+        realityCode: 'E-96283',
+        relatedCharacterId: 'venom-2007',
+      },
+    ],
+  },
+
+  // ── LEGACY UNIVERSE VARIANTS (X-MEN 10005 / 2005 F4 / 2003 DAREDEVIL / ORIGINS / RAIMI) ──
+  {
+    id: 'jean-grey-10005',
+    name: 'Jean Grey',
+    alias: 'Phoenix (Earth-10005)',
+    actor: 'Famke Janssen',
+    factionId: 'x-men',
+    originRealityId: 'earth-10005',
+    currentRealityId: 'earth-10005',
+    doomsdayStatus: 'legacy',
+    catalogCode: 'TVA-10005-JGR',
+    whoAreThey:
+      'Original Fox X-Men telepath and telekinetic who unleashed the Phoenix Force across X-Men (2000), X2, and The Last Stand (distinct from Earth-616’s Sadie Sink variant).',
+    howTheyGotHere:
+      'After sacrificing herself at Alkali Lake and returning as Dark Phoenix before Wolverine’s 1973 timeline reset in Days of Future Past restored her alive at Xavier’s mansion, Famke Janssen confirmed Marvel did not invite her back for Doomsday.',
+    lastKnownStatus: 'Alive in the restored Earth-10005 timeline (Days of Future Past epilogue); not cast in Avengers: Doomsday.',
+    firstAppearanceTitleId: 'x-men-2000',
+    lastSeenTitleId: 'dark-phoenix-2019',
+    tags: ['Legacy X-Men', 'Phoenix', 'Famke Janssen'],
+    wikiPage: 'Famke_Janssen',
+    journey: [
+      { titleId: 'x-men-2000', beat: 'Fights alongside Cyclops, Storm, and Wolverine at Liberty Island.' },
+      { titleId: 'x2-2003', beat: 'Sacrifices herself holding back Alkali Lake’s floodwaters so the X-Jet escapes.' },
+      { titleId: 'x-men-last-stand-2006', beat: 'Reborn consumed by the Phoenix personality in the original timeline.' },
+      { titleId: 'x-men-dofp-2014', beat: 'Restored alive in the 2023 X-Mansion beside Scott Summers after Wolverine rewrites 1973.' },
+      { titleId: 'dark-phoenix-2019', beat: 'Sophie Turner portrays younger Jean absorbing a cosmic solar flare in the revised 1992 branch.' },
+    ],
+    otherPortrayals: [
+      {
+        actor: 'Sophie Turner',
+        context: 'Portrayed younger Earth-10005 Jean Grey in X-Men: Apocalypse (2016) and Dark Phoenix (2019).',
+        kind: 'younger',
+        realityCode: 'E-10005',
+      },
+      {
+        actor: 'Sadie Sink',
+        context: 'Debuts as Earth-616’s separate MCU Jean Grey in Spider-Man: Brand New Day (2026).',
+        kind: 'variant',
+        realityCode: 'E-616',
+        relatedCharacterId: 'jean-grey-616',
+      },
+    ],
+  },
+  {
+    id: 'reed-richards-2005',
+    name: 'Reed Richards',
+    alias: 'Mister Fantastic (Earth-121698)',
+    actor: 'Ioan Gruffudd',
+    factionId: 'wildcards',
+    originRealityId: 'earth-121698',
+    currentRealityId: 'earth-121698',
+    doomsdayStatus: 'legacy',
+    catalogCode: 'TVA-121698-MRF',
+    whoAreThey:
+      'Tim Story’s elastic scientific leader of Earth-121698’s Fantastic Four opposite Julian McMahon’s Doom and Chris Evans’ Johnny Storm.',
+    howTheyGotHere:
+      'Remains in the Earth-121698 branch following Rise of the Silver Surfer, contrasting with Pedro Pascal’s Earth-828 Fantastic Four entering Earth-616.',
+    lastKnownStatus: 'Married Sue Storm on Earth-121698 after repelling Galactus.',
+    firstAppearanceTitleId: 'fantastic-four-2005',
+    lastSeenTitleId: 'f4-silver-surfer-2007',
+    tags: ['Pre-Phase 1', 'Earth-121698 F4'],
+    wikiPage: 'Ioan_Gruffudd',
+    journey: [
+      { titleId: 'fantastic-four-2005', beat: 'Gains elasticity in cosmic radiation and stops Doom in New York.' },
+      { titleId: 'f4-silver-surfer-2007', beat: 'Works with Norrin Radd to save Earth from Galactus.' },
+    ],
+    otherPortrayals: [
+      {
+        actor: 'Pedro Pascal',
+        context: 'Portrays Earth-828’s Reed Richards in First Steps (2025) and Avengers: Doomsday.',
+        kind: 'variant',
+        realityCode: 'E-828',
+        relatedCharacterId: 'reed-richards',
+      },
+      {
+        actor: 'John Krasinski',
+        context: 'Portrayed Earth-838’s Illuminati Mister Fantastic in Multiverse of Madness (2022).',
+        kind: 'variant',
+        realityCode: 'E-838',
+      },
+    ],
+  },
+  {
+    id: 'sue-storm-2005',
+    name: 'Sue Storm',
+    alias: 'Invisible Woman (Earth-121698)',
+    actor: 'Jessica Alba',
+    factionId: 'wildcards',
+    originRealityId: 'earth-121698',
+    currentRealityId: 'earth-121698',
+    doomsdayStatus: 'legacy',
+    catalogCode: 'TVA-121698-INV',
+    whoAreThey:
+      'Earth-121698’s Invisible Woman and geneticist from Tim Story’s 2005 Fantastic Four duology.',
+    howTheyGotHere:
+      'Distinct from Vanessa Kirby’s Earth-828 Sue Storm arriving in Earth-616 ahead of Avengers: Doomsday.',
+    lastKnownStatus: 'Active on Earth-121698 following Rise of the Silver Surfer.',
+    firstAppearanceTitleId: 'fantastic-four-2005',
+    lastSeenTitleId: 'f4-silver-surfer-2007',
+    tags: ['Pre-Phase 1', 'Earth-121698 F4'],
+    wikiPage: 'Jessica_Alba',
+    journey: [
+      { titleId: 'fantastic-four-2005', beat: 'Masters invisibility and force fields alongside Reed, Ben, and Johnny.' },
+      { titleId: 'f4-silver-surfer-2007', beat: 'Reaches the Silver Surfer’s empathy to repel Galactus.' },
+    ],
+    otherPortrayals: [
+      {
+        actor: 'Vanessa Kirby',
+        context: 'Portrays Earth-828’s Sue Storm in First Steps (2025) and Avengers: Doomsday.',
+        kind: 'variant',
+        realityCode: 'E-828',
+        relatedCharacterId: 'sue-storm',
+      },
+    ],
+  },
+  {
+    id: 'ben-grimm-2005',
+    name: 'Ben Grimm',
+    alias: 'The Thing (Earth-121698)',
+    actor: 'Michael Chiklis',
+    factionId: 'wildcards',
+    originRealityId: 'earth-121698',
+    currentRealityId: 'earth-121698',
+    doomsdayStatus: 'legacy',
+    catalogCode: 'TVA-121698-THG',
+    whoAreThey:
+      'Brooklyn-born pilot transformed into Earth-121698’s rock-skinned Thing in the 2005 Fantastic Four films.',
+    howTheyGotHere:
+      'Precedes Ebon Moss-Bachrach’s retro-1960s Earth-828 Ben Grimm joining the Avengers: Doomsday ensemble.',
+    lastKnownStatus: 'Active hero on Earth-121698.',
+    firstAppearanceTitleId: 'fantastic-four-2005',
+    lastSeenTitleId: 'f4-silver-surfer-2007',
+    tags: ['Pre-Phase 1', 'Earth-121698 F4'],
+    wikiPage: 'Michael_Chiklis',
+    journey: [
+      { titleId: 'fantastic-four-2005', beat: 'Accepts his Thing form to knock out Victor Von Doom on the Brooklyn Bridge.' },
+      { titleId: 'f4-silver-surfer-2007', beat: 'Uses swapped Fantastic Four powers in the London finale.' },
+    ],
+    otherPortrayals: [
+      {
+        actor: 'Ebon Moss-Bachrach',
+        context: 'Portrays Earth-828’s Ben Grimm in First Steps (2025) and Avengers: Doomsday.',
+        kind: 'variant',
+        realityCode: 'E-828',
+        relatedCharacterId: 'ben-grimm',
+      },
+    ],
+  },
+  {
+    id: 'doctor-doom-2005',
+    name: 'Victor von Doom',
+    alias: 'Doctor Doom (Earth-121698)',
+    actor: 'Julian McMahon',
+    factionId: 'wildcards',
+    originRealityId: 'earth-121698',
+    currentRealityId: 'earth-121698',
+    doomsdayStatus: 'legacy',
+    catalogCode: 'TVA-121698-DOOM',
+    whoAreThey:
+      'Industrialist-turned-metallic villain of Earth-121698 who acquired electrokinesis and hunted the Silver Surfer’s cosmic board.',
+    howTheyGotHere:
+      'A separate pre-MCU legacy incarnation of Victor von Doom completely distinct from Robert Downey Jr.’s Earth-828 Doomsday antagonist.',
+    lastKnownStatus: 'Sunk into Tokyo harbor after losing the Silver Surfer’s board in 2007.',
+    firstAppearanceTitleId: 'fantastic-four-2005',
+    lastSeenTitleId: 'f4-silver-surfer-2007',
+    tags: ['Pre-Phase 1', 'Legacy Doom'],
+    wikiPage: 'Julian_McMahon',
+    journey: [
+      { titleId: 'fantastic-four-2005', beat: 'Mutated into organic metal alongside the Fantastic Four before being defeated.' },
+      { titleId: 'f4-silver-surfer-2007', beat: 'Steals the Silver Surfer’s cosmic board until the Thing knocks him out in Tokyo.' },
+    ],
+    otherPortrayals: [
+      {
+        actor: 'Robert Downey Jr.',
+        context: 'Portrays Earth-828’s Victor von Doom, main villain of Avengers: Doomsday (2026).',
+        kind: 'variant',
+        realityCode: 'E-828',
+        relatedCharacterId: 'doctor-doom',
+      },
+      {
+        actor: 'Toby Kebbell',
+        context: 'Portrayed Victor Domashev in Josh Trank’s 2015 Fantastic Four film.',
+        kind: 'variant',
+      },
+    ],
+  },
+  {
+    id: 'daredevil-2003',
+    name: 'Matt Murdock',
+    alias: 'Daredevil (Earth-701306)',
+    actor: 'Ben Affleck',
+    factionId: 'wildcards',
+    originRealityId: 'earth-701306',
+    currentRealityId: 'earth-701306',
+    doomsdayStatus: 'legacy',
+    catalogCode: 'TVA-701306-DD',
+    whoAreThey:
+      'Earth-701306’s blind Hell’s Kitchen vigilante who romanced Jennifer Garner’s Elektra and defeated Kingpin and Bullseye in 2003.',
+    howTheyGotHere:
+      'Remained on Earth-701306 while Elektra was pruned into The Void in Deadpool & Wolverine (distinct from Earth-616’s Charlie Cox Matt Murdock).',
+    lastKnownStatus: 'Legacy Earth-701306 protector (confirmed absent/dead off-screen per Elektra’s Void remarks).',
+    firstAppearanceTitleId: 'daredevil-2003',
+    lastSeenTitleId: 'daredevil-2003',
+    tags: ['Pre-Phase 1', 'Earth-701306'],
+    wikiPage: 'Ben_Affleck',
+    journey: [
+      { titleId: 'daredevil-2003', beat: 'Fights Bullseye and spares Wilson Fisk in Hell’s Kitchen beside Elektra Natchios.' },
+    ],
+    otherPortrayals: [
+      {
+        actor: 'Charlie Cox',
+        context: 'Portrays Earth-616’s Matt Murdock across Netflix’s Daredevil, No Way Home, and Daredevil: Born Again.',
+        kind: 'variant',
+        realityCode: 'E-616',
+        relatedCharacterId: 'daredevil',
+      },
+    ],
+  },
+  {
+    id: 'gambit-2009',
+    name: 'Remy LeBeau',
+    alias: 'Gambit (Earth-10005)',
+    actor: 'Taylor Kitsch',
+    factionId: 'wildcards',
+    originRealityId: 'earth-10005',
+    currentRealityId: 'earth-10005',
+    doomsdayStatus: 'legacy',
+    catalogCode: 'TVA-10005-GMB',
+    whoAreThey:
+      'Card-charging mutant escapee who guided Logan back to Three Mile Island in 2009’s X-Men Origins: Wolverine.',
+    howTheyGotHere:
+      'Pre-dates Channing Tatum’s Void-born Gambit variant from Deadpool & Wolverine and Avengers: Doomsday.',
+    lastKnownStatus: 'Parted ways with amnesiac Logan on Three Mile Island (Earth-10005 pre-reset).',
+    firstAppearanceTitleId: 'x-men-origins-2009',
+    lastSeenTitleId: 'x-men-origins-2009',
+    tags: ['Pre-Phase 1', 'Origins Gambit'],
+    wikiPage: 'Taylor_Kitsch',
+    journey: [
+      { titleId: 'x-men-origins-2009', beat: 'Duels Wolverine in New Orleans before flying him to Weapon X’s Three Mile Island base.' },
+    ],
+    otherPortrayals: [
+      {
+        actor: 'Channing Tatum',
+        context: 'Portrays The Void Resistance Gambit in Deadpool & Wolverine (2024) and Avengers: Doomsday.',
+        kind: 'variant',
+        realityCode: 'VOID',
+        relatedCharacterId: 'gambit',
+      },
+    ],
+  },
+  {
+    id: 'venom-2007',
+    name: 'Eddie Brock & Venom',
+    alias: 'Venom (Earth-96283)',
+    actor: 'Topher Grace',
+    factionId: 'wildcards',
+    originRealityId: 'earth-96283',
+    currentRealityId: 'earth-96283',
+    doomsdayStatus: 'legacy',
+    catalogCode: 'TVA-96283-VEN',
+    whoAreThey:
+      'Rival Daily Bugle photographer on Raimi’s Earth-96283 who bonded with Peter Parker’s discarded black symbiote in Spider-Man 3.',
+    howTheyGotHere:
+      'Killed in Spider-Man 3’s construction-site pumpkin-bomb blast; a totally separate variant from Tom Hardy’s Earth-688 Venom.',
+    lastKnownStatus: 'Killed destroying Harry Osborn and attacking Tobey Maguire’s Spider-Man (2007).',
+    firstAppearanceTitleId: 'spider-man-3-2007',
+    lastSeenTitleId: 'spider-man-3-2007',
+    tags: ['Pre-Phase 1', 'Raimi Symbiote'],
+    wikiPage: 'Topher_Grace',
+    journey: [
+      { titleId: 'spider-man-3-2007', beat: 'Bonds with the symbiote at St. Patrick’s Cathedral and dies fighting Spider-Man and New Goblin.' },
+    ],
+    otherPortrayals: [
+      {
+        actor: 'Tom Hardy',
+        context: 'Portrays Earth-688’s Lethal Protector Venom across the 2018-2024 trilogy and No Way Home.',
+        kind: 'variant',
+        realityCode: 'E-688',
+        relatedCharacterId: 'venom',
       },
     ],
   },

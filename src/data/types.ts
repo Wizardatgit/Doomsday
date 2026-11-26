@@ -123,6 +123,14 @@ export interface CharacterJourneyBeat {
   isTheory?: boolean;
 }
 
+export interface CharacterPortrayalNote {
+  actor: string;
+  context: string;
+  kind: 'recast' | 'younger' | 'variant';
+  realityCode?: string;
+  relatedCharacterId?: string;
+}
+
 export interface Character {
   id: string;
   name: string;
@@ -141,6 +149,7 @@ export interface Character {
   tags: string[];
   wikiPage: string;
   journey: CharacterJourneyBeat[];
+  otherPortrayals?: CharacterPortrayalNote[];
   sources?: SourceCitation[];
   confidence?: LoreConfidence;
   isTheory?: boolean;

@@ -62,6 +62,11 @@ export function getCharacterChipLabel(characterId: string): string {
   return code ? `${c.name} · ${code}` : `${c.name} (${c.actor})`;
 }
 
+/** Formats a title with its release year without duplicating an existing "(YYYY)" suffix. */
+export function formatTitleWithYear(title: Pick<Title, 'title' | 'year'>): string {
+  return title.title.includes(`(${title.year})`) ? title.title : `${title.title} (${title.year})`;
+}
+
 export function entityKey(ref: EntityRef): string {
   return `${ref.kind}:${ref.id}`;
 }
@@ -129,7 +134,8 @@ export function searchCatalog(query: string, showTheories: boolean, limit = 16):
 
   for (const c of CHARACTERS) {
     if (!showTheories && c.isTheory) continue;
-    const hay = `${c.name} ${c.alias} ${c.actor} ${c.tags.join(' ')} ${c.catalogCode}`.toLowerCase();
+    const otherActors = (c.otherPortrayals ?? []).map((p) => p.actor).join(' ');
+    const hay = `${c.name} ${c.alias} ${c.actor} ${otherActors} ${c.tags.join(' ')} ${c.catalogCode}`.toLowerCase();
     if (hay.includes(q)) {
       hits.push({
         ref: { kind: 'character', id: c.id },
@@ -145,7 +151,7 @@ export function searchCatalog(query: string, showTheories: boolean, limit = 16):
     if (hay.includes(q)) {
       hits.push({
         ref: { kind: 'title', id: t.id },
-        label: `${t.title} (${t.year})`,
+        label: formatTitleWithYear(t),
         sublabel: `${t.eraLabel} · ${realitiesById.get(t.realityId)?.code ?? t.realityId}`,
       });
     }

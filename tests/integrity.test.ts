@@ -18,6 +18,7 @@ import {
   entityExists,
   entityKey,
   factionsById,
+  formatTitleWithYear,
   getCharacterChipLabel,
   getEntityLabel,
   parseEntityKey,
@@ -529,5 +530,54 @@ test('prevents cross-universe & non-appearance character mismatches and disambig
   assert.equal(getCharacterChipLabel('peter-parker-616'), 'Peter Parker · E-616');
   assert.equal(getCharacterChipLabel('peter-parker-96283'), 'Peter Parker · E-96283');
   assert.equal(getCharacterChipLabel('peter-parker-120703'), 'Peter Parker · E-120703');
+  assert.equal(getCharacterChipLabel('jean-grey-616'), 'Jean Grey · E-616');
+  assert.equal(getCharacterChipLabel('jean-grey-10005'), 'Jean Grey · E-10005');
   assert.equal(getCharacterChipLabel('miles-morales'), 'Miles Morales');
+
+  // Verify legacy variants link accurately and otherPortrayals cross-references resolve
+  assert.equal(titlesById.get('x-men-2000')!.keyCharacterIds.includes('jean-grey-10005'), true);
+  assert.equal(titlesById.get('x-men-2000')!.keyCharacterIds.includes('jean-grey-616'), false);
+  assert.equal(titlesById.get('fantastic-four-2005')!.keyCharacterIds.includes('reed-richards-2005'), true);
+  assert.equal(titlesById.get('fantastic-four-2005')!.keyCharacterIds.includes('doctor-doom-2005'), true);
+  assert.equal(titlesById.get('fantastic-four-2005')!.keyCharacterIds.includes('reed-richards'), false);
+  assert.equal(titlesById.get('daredevil-2003')!.keyCharacterIds.includes('daredevil-2003'), true);
+  assert.equal(titlesById.get('daredevil-2003')!.keyCharacterIds.includes('daredevil'), false);
+  assert.equal(titlesById.get('x-men-origins-2009')!.keyCharacterIds.includes('gambit-2009'), true);
+  assert.equal(titlesById.get('spider-man-3-2007')!.keyCharacterIds.includes('venom-2007'), true);
+
+  for (const ch of CHARACTERS) {
+    for (const note of ch.otherPortrayals ?? []) {
+      if (note.relatedCharacterId) {
+        assert.notEqual(note.relatedCharacterId, ch.id, `${ch.id} should not self-link in otherPortrayals`);
+        assert.ok(
+          charactersById.has(note.relatedCharacterId),
+          `${ch.id} otherPortrayals references missing character ${note.relatedCharacterId}`,
+        );
+      }
+    }
+  }
+
+  assert.ok(
+    searchCatalog('Edward Norton', false).some((h) => h.ref.kind === 'character' && h.ref.id === 'bruce-banner'),
+    'Search should match recast actor Edward Norton to Bruce Banner',
+  );
+  assert.ok(
+    searchCatalog('Sophie Turner', false).some((h) => h.ref.kind === 'character' && h.ref.id === 'jean-grey-10005'),
+    'Search should match younger actor Sophie Turner to Earth-10005 Jean Grey',
+  );
+  assert.ok(
+    searchCatalog('Famke Janssen', false).some((h) => h.ref.kind === 'character' && h.ref.id === 'jean-grey-10005'),
+    'Search should match Famke Janssen to Earth-10005 Jean Grey',
+  );
+
+  assert.equal(formatTitleWithYear(titlesById.get('fantastic-four-2005')!), 'Fantastic Four (2005)');
+  assert.equal(formatTitleWithYear(titlesById.get('daredevil-2003')!), 'Daredevil (2003)');
+  assert.equal(formatTitleWithYear(titlesById.get('x-men-2000')!), 'X-Men (2000)');
+  for (const t of TITLES) {
+    assert.equal(
+      formatTitleWithYear(t).includes(`(${t.year}) (${t.year})`),
+      false,
+      `Duplicate year suffix in formatted title for ${t.id}`,
+    );
+  }
 });

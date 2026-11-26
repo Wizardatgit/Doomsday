@@ -469,3 +469,45 @@ test('StoryProjector slides reference valid data IDs, wrap cleanly, and render z
     assertNoNestedButtons(html, `StoryProjector(shield=${shield})`);
   }
 });
+
+test('PathFinder presets resolve cleanly, pickRandomTracePair stays distinct, and Evidence Board has zero nested buttons', async () => {
+  const { PathFinder, QUICK_PAIRS, pickRandomTracePair } = await vite.ssrLoadModule(
+    '/src/components/PathFinder.tsx',
+  );
+  const { buildUnifiedGraph, findShortestPath } = await vite.ssrLoadModule('/src/lib/graph.ts');
+  const graph = buildUnifiedGraph(false);
+
+  assert.ok(QUICK_PAIRS.length >= 8);
+  for (const q of QUICK_PAIRS) {
+    const pathResult = findShortestPath(graph, q.from, q.to);
+    assert.ok(pathResult && pathResult.length >= 2, `Preset "${q.label}" did not resolve in graph`);
+  }
+
+  const randomPair = pickRandomTracePair(graph, QUICK_PAIRS[0].from, QUICK_PAIRS[0].to);
+  assert.notEqual(randomPair.from, randomPair.to);
+  assert.ok(
+    randomPair.from !== QUICK_PAIRS[0].from || randomPair.to !== QUICK_PAIRS[0].to,
+    'pickRandomTracePair must return a distinct route',
+  );
+  assert.ok(findShortestPath(graph, randomPair.from, randomPair.to));
+
+  for (const shield of [false, true]) {
+    const html = renderToStaticMarkup(
+      React.createElement(PathFinder, {
+        originKey: QUICK_PAIRS[0].from,
+        targetKey: QUICK_PAIRS[0].to,
+        onChangeOrigin: () => {},
+        onChangeTarget: () => {},
+        showTheories: false,
+        watchedSet: new Set<string>(),
+        spoilerShield: shield,
+        tmdbApiKey: '',
+        onSelect: () => {},
+      }),
+    );
+    assert.match(html, /VECTOR TRACK/);
+    assert.match(html, /Route Brief/);
+    assert.match(html, /Random Trace/);
+    assertNoNestedButtons(html, `PathFinder(shield=${shield})`);
+  }
+});

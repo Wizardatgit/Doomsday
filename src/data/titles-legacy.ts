@@ -36,7 +36,7 @@ export const LEGACY_TITLES: Title[] = [
       'Charles Xavier’s mutant school protects Rogue and battles Magneto’s Brotherhood over a machine meant to forcibly mutate world leaders.',
     doomsdayConnection:
       'Introduces the exact Fox ensemble - Professor X, Magneto, Cyclops, Mystique, and Wolverine - returning in Avengers: Doomsday.',
-    keyCharacterIds: ['professor-x', 'magneto', 'cyclops', 'mystique', 'wolverine'],
+    keyCharacterIds: ['professor-x', 'magneto', 'cyclops', 'jean-grey-10005', 'mystique', 'wolverine'],
     wikiPage: "X-Men_(film)",
   },
   {
@@ -93,7 +93,7 @@ export const LEGACY_TITLES: Title[] = [
       'Blind Hell’s Kitchen attorney Matt Murdock crosses paths with Elektra Natchios while battling Bullseye and Kingpin.',
     doomsdayConnection:
       'Introduces Jennifer Garner’s Elektra Natchios (Earth-701306), who survives pruning into The Void alongside Blade and Gambit.',
-    keyCharacterIds: ['elektra'],
+    keyCharacterIds: ['daredevil-2003', 'elektra'],
     wikiPage: "Daredevil_(film)",
   },
   {
@@ -112,7 +112,7 @@ export const LEGACY_TITLES: Title[] = [
       'Following a brainwashed Nightcrawler’s attack on the White House, the X-Men and Magneto team up against William Stryker’s Alkali Lake plot.',
     doomsdayConnection:
       'Introduces Alan Cumming’s Nightcrawler - returning in Avengers: Doomsday - and deepens the Xavier/Magneto/Cyclops dynamic.',
-    keyCharacterIds: ['professor-x', 'magneto', 'cyclops', 'nightcrawler', 'mystique', 'wolverine'],
+    keyCharacterIds: ['professor-x', 'magneto', 'cyclops', 'jean-grey-10005', 'nightcrawler', 'mystique', 'wolverine'],
     wikiPage: "X2_(film)",
   },
   {
@@ -188,7 +188,7 @@ export const LEGACY_TITLES: Title[] = [
       'A cosmic storm transforms Reed, Sue, Ben, Chris Evans’ Johnny Storm, and Victor Von Doom on Earth-121698.',
     doomsdayConnection:
       'Establishes Chris Evans’ legacy Johnny Storm (later pruned to The Void in Deadpool & Wolverine) and previews live-action Doctor Doom before Earth-828’s First Family.',
-    keyCharacterIds: ['johnny-storm-2005'],
+    keyCharacterIds: ['reed-richards-2005', 'sue-storm-2005', 'johnny-storm-2005', 'ben-grimm-2005', 'doctor-doom-2005'],
     wikiPage: "Fantastic_Four_(2005_film)",
   },
   {
@@ -207,7 +207,7 @@ export const LEGACY_TITLES: Title[] = [
       'A mutant "cure" triggers war with Magneto’s forces while the Dark Phoenix emerges inside Jean Grey; Kelsey Grammer debuts as Hank McCoy / Beast.',
     doomsdayConnection:
       'Origin of Kelsey Grammer’s Beast, the exact version Monica Rambeau meets in The Marvels post-credits scene and returning for Doomsday.',
-    keyCharacterIds: ['professor-x', 'magneto', 'cyclops', 'beast', 'mystique', 'wolverine'],
+    keyCharacterIds: ['professor-x', 'magneto', 'cyclops', 'jean-grey-10005', 'beast', 'mystique', 'wolverine'],
     wikiPage: 'X-Men:_The_Last_Stand',
   },
   {
@@ -226,7 +226,7 @@ export const LEGACY_TITLES: Title[] = [
       'An alien symbiote darkens Peter Parker while Sandman and New Goblin push Earth-96283’s Spider-Man to forgive.',
     doomsdayConnection:
       'Completes Raimi’s Sandman/Spider-Man arc ahead of No Way Home’s multiverse cure.',
-    keyCharacterIds: ['peter-parker-96283'],
+    keyCharacterIds: ['peter-parker-96283', 'venom-2007'],
     wikiPage: 'Spider-Man_3',
   },
   {
@@ -245,7 +245,7 @@ export const LEGACY_TITLES: Title[] = [
       'The Silver Surfer heralds Galactus toward Earth-121698 as Doom steals the cosmic surfboard.',
     doomsdayConnection:
       'Early live-action Galactus & Doom precursor contrasting with Earth-828’s Fantastic Four: First Steps.',
-    keyCharacterIds: ['johnny-storm-2005'],
+    keyCharacterIds: ['reed-richards-2005', 'sue-storm-2005', 'johnny-storm-2005', 'ben-grimm-2005', 'doctor-doom-2005'],
     wikiPage: 'Fantastic_Four:_Rise_of_the_Silver_Surfer',
   },
   {
@@ -264,7 +264,7 @@ export const LEGACY_TITLES: Title[] = [
       'Logan receives his adamantium skeleton through Weapon X and first encounters Gambit and Wade Wilson.',
     doomsdayConnection:
       'Establishes adamantium lore in Fox continuity (later mirrored by MCU Tiamut adamantium) alongside Hugh Jackman’s Logan.',
-    keyCharacterIds: ['wolverine'],
+    keyCharacterIds: ['wolverine', 'gambit-2009'],
     wikiPage: 'X-Men_Origins:_Wolverine',
   },
   {
@@ -366,7 +366,7 @@ export const LEGACY_TITLES: Title[] = [
       'Wolverine’s consciousness is sent back to 1973 to stop Mystique from assassinating Bolivar Trask, resetting the X-Men future so Cyclops, Jean, Beast, and Xavier survive.',
     doomsdayConnection:
       'Restores the happy Earth-10005 X-Mansion timeline featuring Cyclops, Beast, and Xavier, the bridge directly leading into their Doomsday return.',
-    keyCharacterIds: ['wolverine', 'professor-x', 'magneto', 'cyclops', 'beast'],
+    keyCharacterIds: ['wolverine', 'professor-x', 'magneto', 'cyclops', 'jean-grey-10005', 'beast'],
     wikiPage: 'X-Men:_Days_of_Future_Past',
   },
   {
@@ -404,7 +404,7 @@ export const LEGACY_TITLES: Title[] = [
       'Ancient mutant En Sabah Nur awakens in 1983, prompting Xavier’s young X-Men - including Nightcrawler and Cyclops - to unite.',
     doomsdayConnection:
       'Expands the revised Earth-10005 timeline following Days of Future Past.',
-    keyCharacterIds: [],
+    keyCharacterIds: ['jean-grey-10005'],
     wikiPage: 'X-Men:_Apocalypse',
   },
   {
@@ -499,7 +499,7 @@ export const LEGACY_TITLES: Title[] = [
       'Set in 1992, a cosmic flare corrupts Jean Grey, fracturing the Fox X-Men.',
     doomsdayConnection:
       'Final Fox-produced X-Men ensemble chapter before Disney/Marvel Studios reclaimed mutants.',
-    keyCharacterIds: [],
+    keyCharacterIds: ['jean-grey-10005'],
     wikiPage: 'Dark_Phoenix_(film)',
   },
   {

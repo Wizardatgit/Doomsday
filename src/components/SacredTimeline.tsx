@@ -448,7 +448,9 @@ export function SacredTimeline({
                       <h3 className={`text-base font-bold ${watched ? 'text-[#61503e] line-through' : 'text-[#1d1610]'}`}>
                         {t.title}
                       </h3>
-                      <span className="text-xs font-mono-code font-semibold text-[#9a3412]">({t.year})</span>
+                      {!t.title.includes(`(${t.year})`) && (
+                        <span className="text-xs font-mono-code font-semibold text-[#9a3412]">({t.year})</span>
+                      )}
                     </div>
 
                     <div className="flex flex-wrap items-center gap-1.5">

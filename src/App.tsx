@@ -15,7 +15,7 @@ import {
   Users,
   X,
 } from 'lucide-react';
-import { BEGINNER_12_IDS, TITLES, searchCatalog, titlesById } from './data/index.ts';
+import { BEGINNER_12_IDS, TITLES, formatTitleWithYear, searchCatalog, titlesById } from './data/index.ts';
 import type { AppView } from './data/index.ts';
 import { resolveEscapeDismissal, useAppState } from './state/useAppState.ts';
 import { useDialogA11y } from './lib/useDialogA11y.ts';
@@ -356,7 +356,7 @@ export function App() {
               Up Next
             </div>
             <div className="text-[11px] font-semibold text-[#faf3e3] truncate">
-              {watchProgress.nextTitle.title} ({watchProgress.nextTitle.year})
+              {formatTitleWithYear(watchProgress.nextTitle)}
             </div>
           </button>
         ) : (

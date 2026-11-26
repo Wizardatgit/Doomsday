@@ -17,6 +17,7 @@ import {
   TITLES,
   charactersById,
   factionsById,
+  formatTitleWithYear,
   getCharacterChipLabel,
   placesById,
   realitiesById,
@@ -400,7 +401,7 @@ export function DossierDrawer({
                             onClick={() => onSelect({ kind: 'title', id: firstTitle.id })}
                             className="block mt-0.5 text-[#9a3412] hover:underline text-left font-semibold"
                           >
-                            {firstTitle.title} ({firstTitle.year})
+                            {formatTitleWithYear(firstTitle)}
                           </button>
                         )}
                       </div>
@@ -412,11 +413,63 @@ export function DossierDrawer({
                             onClick={() => onSelect({ kind: 'title', id: lastTitle.id })}
                             className="block mt-0.5 text-[#9a3412] hover:underline text-left font-semibold"
                           >
-                            {lastTitle.title} ({lastTitle.year})
+                            {formatTitleWithYear(lastTitle)}
                           </button>
                         )}
                       </div>
                     </div>
+
+                    {c.otherPortrayals && c.otherPortrayals.length > 0 && (
+                      <div className="border-t border-[#e1d4b9] pt-3 space-y-2">
+                        <h3 className="text-[11px] font-mono-code uppercase tracking-widest text-[#61503e] font-bold">
+                          Other Actors &amp; Multiverse Variants
+                        </h3>
+                        <div className="space-y-1.5">
+                          {c.otherPortrayals.map((note, idx) => (
+                            <div
+                              key={`${note.actor}-${idx}`}
+                              className="tva-sheet rounded p-2.5 flex flex-col gap-1.5"
+                            >
+                              <div className="flex flex-wrap items-center justify-between gap-2">
+                                <div className="flex flex-wrap items-center gap-1.5">
+                                  <span
+                                    className={`tva-ink-stamp !text-[9px] ${
+                                      note.kind === 'recast'
+                                        ? 'border-[#b45309] bg-[#f59e0b]/15 text-[#9a3412]'
+                                        : note.kind === 'variant'
+                                          ? 'border-[#7e22ce] bg-[#7e22ce]/10 text-[#6b21a8]'
+                                          : 'border-[#8c775c] bg-[#f4ebd4] text-[#4a3b2c]'
+                                    }`}
+                                  >
+                                    {note.kind}
+                                  </span>
+                                  {note.realityCode && (
+                                    <span className="text-[10px] font-mono-code font-bold text-[#61503e] bg-[#efe3c8] px-1.5 py-0.5 rounded">
+                                      {note.realityCode}
+                                    </span>
+                                  )}
+                                  <span className="text-xs font-bold text-[#1d1610]">{note.actor}</span>
+                                </div>
+                                {note.relatedCharacterId && (
+                                  <button
+                                    type="button"
+                                    onClick={() =>
+                                      onSelect({ kind: 'character', id: note.relatedCharacterId! })
+                                    }
+                                    className="text-[11px] font-mono-code font-bold text-[#9a3412] hover:underline shrink-0"
+                                  >
+                                    Open Dossier →
+                                  </button>
+                                )}
+                              </div>
+                              <p className="text-[11px] text-[#4a3b2c] leading-relaxed">
+                                {note.context}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
 
                     <SourceCitationsBlock
                       confidence={c.confidence}
@@ -440,7 +493,7 @@ export function DossierDrawer({
                               onClick={() => onSelect({ kind: 'title', id: j.titleId })}
                               className="text-xs font-bold text-[#9a3412] hover:underline text-left"
                             >
-                              {title?.title ?? j.titleId} ({title?.year})
+                              {title ? formatTitleWithYear(title) : j.titleId}
                             </button>
                             {j.realityShiftTo && (
                               <span className="tva-ink-stamp border-[#c2410c] bg-[#c2410c]/10 text-[#9a3412]">
@@ -833,7 +886,7 @@ export function DossierDrawer({
                             onClick={() => onSelect({ kind: 'title', id: t.id })}
                             className="rounded border border-[#cbb895] bg-[#fffaf0] px-2.5 py-1 text-xs font-semibold text-[#9a3412] hover:border-[#b45309]"
                           >
-                            {t.title} ({t.year})
+                            {formatTitleWithYear(t)}
                           </button>
                         ))}
                       </div>
@@ -909,7 +962,7 @@ export function DossierDrawer({
                             onClick={() => onSelect({ kind: 'title', id: b.titleId })}
                             className="text-xs font-bold text-[#9a3412] hover:underline"
                           >
-                            {t?.title} ({t?.year})
+                            {t ? formatTitleWithYear(t) : b.titleId}
                           </button>
                           <Redactable titleIds={[b.titleId]} watchedSet={watchedSet} spoilerShield={spoilerShield}>
                             <p className="text-xs text-[#1d1610]/90">{b.note}</p>
@@ -960,7 +1013,7 @@ export function DossierDrawer({
                               onClick={() => onSelect({ kind: 'title', id: tId })}
                               className="rounded border border-[#cbb895] bg-[#fffaf0] px-2.5 py-1 text-xs font-semibold text-[#9a3412] hover:border-[#b45309]"
                             >
-                              {t.title} ({t.year})
+                              {formatTitleWithYear(t)}
                             </button>
                           );
                         })}
@@ -1105,7 +1158,7 @@ export function DossierDrawer({
                               onClick={() => onSelect({ kind: 'title', id: tId })}
                               className="rounded border border-[#cbb895] bg-[#fffaf0] px-2.5 py-1 text-xs font-semibold text-[#9a3412] hover:border-[#b45309]"
                             >
-                              {t.title} ({t.year})
+                              {formatTitleWithYear(t)}
                             </button>
                           );
                         })}
