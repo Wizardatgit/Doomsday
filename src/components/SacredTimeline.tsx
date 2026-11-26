@@ -309,12 +309,12 @@ export function SacredTimeline({
                     <div
                       key={t.id}
                       onClick={() => onSelect({ kind: 'title', id: t.id })}
-                      className={`tva-folder tva-polaroid-lift rounded-md overflow-hidden cursor-pointer flex flex-col border-t-[3px] ${
+                      className={`group tva-folder tva-polaroid-lift rounded-md overflow-hidden cursor-pointer flex flex-col border-t-[3px] ${
                         t.id === 'avengers-doomsday' ? 'ring-2 ring-[#047857]' : ''
                       }`}
                       style={{ borderTopColor: tierBorder }}
                     >
-                      <div className="relative bg-[#140f0c] p-2 flex items-center justify-center">
+                      <div className="tva-card-sheen relative bg-[#140f0c] p-2 flex items-center justify-center">
                         <EntityVisual
                           variant="poster"
                           code={reality?.code ?? 'MCU'}

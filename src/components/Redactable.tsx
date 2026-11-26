@@ -26,7 +26,16 @@ export function Redactable({
   const hidden = isRedacted(titleIds, watchedSet, spoilerShield) && !revealed;
 
   if (!hidden) {
-    return revealed ? <div className="tva-stamp-pop">{children}</div> : <>{children}</>;
+    return revealed ? (
+      <div className="space-y-1">
+        <span className="tva-ink-stamp tva-stamp-pop border-[#047857] bg-[#047857]/10 text-[#065f46] !text-[9px]">
+          <Eye className="w-2.5 h-2.5" /> DECLASSIFIED
+        </span>
+        <div className="tva-stamp-pop">{children}</div>
+      </div>
+    ) : (
+      <>{children}</>
+    );
   }
 
   const unwatchedNames = titleIds

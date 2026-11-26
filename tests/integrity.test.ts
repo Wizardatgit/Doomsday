@@ -365,9 +365,20 @@ test('all titles carry wikiPage slugs, local custom place & comic art exists, TM
     assert.ok(fs.existsSync(diskPath), `Missing generated place asset for place ${p.id}: ${diskPath}`);
   }
 
-  for (const comicFile of ['comic-portal.jpg', 'comic-citadel.svg', 'comic-clockwork.svg', 'comic-starburst.svg']) {
+  for (const comicFile of ['comic-portal.jpg', 'comic-citadel.jpg', 'comic-clockwork.jpg', 'comic-starburst.jpg']) {
     const diskPath = path.join(process.cwd(), 'public', 'comic', comicFile);
     assert.ok(fs.existsSync(diskPath), `Missing comic vignette asset: ${diskPath}`);
+  }
+
+  for (const slideFile of [
+    'slide-01-loom.jpg',
+    'slide-02-breach.jpg',
+    'slide-03-828.jpg',
+    'slide-04-teams.jpg',
+    'slide-05-doom.jpg',
+  ]) {
+    const diskPath = path.join(process.cwd(), 'public', 'story', slideFile);
+    assert.ok(fs.existsSync(diskPath), `Missing story projector asset: ${diskPath}`);
   }
 
   const movieSearch = buildTmdbSearchUrl(

@@ -444,7 +444,10 @@ export function App() {
 
   return (
     <ImageLightboxProvider>
-      <div className="min-h-screen flex flex-col lg:flex-row relative">
+      <div
+        data-view={activeView}
+        className="min-h-screen flex flex-col lg:flex-row relative tva-desk-stage"
+      >
       {/* Living Architect's Comic Blueprint Backdrop & Pinned Clippings */}
       <div
         aria-hidden="true"
@@ -465,30 +468,30 @@ export function App() {
           </span>
         </div>
 
-        <div className="hidden lg:flex flex-col gap-1.5 tva-bg-polaroid rounded-sm p-1.5 pb-2 w-28 absolute bottom-10 right-7 -rotate-6 opacity-[0.34]">
+        <div className="hidden lg:flex flex-col gap-1.5 tva-bg-polaroid rounded-sm p-1.5 pb-2 w-28 absolute bottom-10 right-7 -rotate-6 opacity-[0.36]">
           <span className="tva-tape pointer-events-none" />
           <div className="w-full aspect-square overflow-hidden border border-[#d6c7aa] bg-[#1e1712]">
-            <img src="./comic/comic-citadel.svg" alt="" className="w-full h-full object-cover" />
+            <img src="./comic/comic-citadel.jpg" alt="" className="w-full h-full object-cover sepia-[0.18] contrast-115" />
           </div>
           <span className="text-[8px] font-mono-code font-bold tracking-wider text-[#1d1610] uppercase truncate">
             CASTLE DOOM
           </span>
         </div>
 
-        <div className="hidden 2xl:flex flex-col gap-1.5 tva-bg-polaroid rounded-sm p-1.5 pb-2 w-24 absolute top-16 left-5 -rotate-6 opacity-[0.32]">
+        <div className="hidden 2xl:flex flex-col gap-1.5 tva-bg-polaroid rounded-sm p-1.5 pb-2 w-24 absolute top-16 left-5 -rotate-6 opacity-[0.34]">
           <span className="tva-tape pointer-events-none" />
           <div className="w-full aspect-square overflow-hidden border border-[#d6c7aa] bg-[#1e1712]">
-            <img src="./comic/comic-clockwork.svg" alt="" className="w-full h-full object-cover" />
+            <img src="./comic/comic-clockwork.jpg" alt="" className="w-full h-full object-cover sepia-[0.18] contrast-115" />
           </div>
           <span className="text-[8px] font-mono-code font-bold tracking-wider text-[#1d1610] uppercase truncate">
             TVA CHRONO
           </span>
         </div>
 
-        <div className="hidden 2xl:flex flex-col gap-1.5 tva-bg-polaroid rounded-sm p-1.5 pb-2 w-24 absolute bottom-14 left-6 rotate-6 opacity-[0.32]">
+        <div className="hidden 2xl:flex flex-col gap-1.5 tva-bg-polaroid rounded-sm p-1.5 pb-2 w-24 absolute bottom-14 left-6 rotate-6 opacity-[0.34]">
           <span className="tva-tape pointer-events-none" />
           <div className="w-full aspect-square overflow-hidden border border-[#d6c7aa] bg-[#1e1712]">
-            <img src="./comic/comic-starburst.svg" alt="" className="w-full h-full object-cover" />
+            <img src="./comic/comic-starburst.jpg" alt="" className="w-full h-full object-cover sepia-[0.18] contrast-115" />
           </div>
           <span className="text-[8px] font-mono-code font-bold tracking-wider text-[#1d1610] uppercase truncate">
             INCURSION // 616
@@ -524,10 +527,57 @@ export function App() {
           {/* TVA Sector Calibration Watermarks & Blueprint Crosshairs */}
           <g fill="#5a3d1e" fillOpacity="0.16" fontSize="10" fontFamily="IBM Plex Mono, monospace" fontWeight="700">
             <text x="48" y="42">TVA // SECTOR 616</text>
-            <text x="1030" y="42">ANCHOR E-828 // LABS</text>
+            <text x="1015" y="42">
+              {activeView === 'timeline'
+                ? 'FILM REEL // 99 ENTRIES'
+                : activeView === 'threads'
+                  ? 'CASE BOARD // 15 THREADS'
+                  : activeView === 'realities'
+                    ? 'CARTOGRAPHY // 16 PLANES'
+                    : activeView === 'graph'
+                      ? 'CRT SCOPE // ACTIVE'
+                      : 'ANCHOR E-828 // LABS'}
+            </text>
             <text x="48" y="792">BRANCH E-10005 // MUTANT PRIME</text>
             <text x="1028" y="792">CONVERGENCE // 2026</text>
           </g>
+
+          {activeView === 'timeline' && (
+            <g fill="#5a3d1e" opacity="0.16">
+              {[70, 140, 210, 280, 350, 420, 490, 560, 630, 700, 770].map((y) => (
+                <g key={y}>
+                  <rect x="8" y={y} width="12" height="18" rx="2" />
+                  <rect x="1180" y={y} width="12" height="18" rx="2" />
+                </g>
+              ))}
+            </g>
+          )}
+
+          {activeView === 'threads' && (
+            <g fill="none" stroke="#9a3412" opacity="0.18" strokeWidth="1.4">
+              <path d="M52 96 L210 240 L64 410 L230 580" strokeDasharray="5 4" />
+              <path d="M1140 160 L990 330 L1145 505" strokeDasharray="5 4" />
+              <circle cx="52" cy="96" r="5" fill="#9a3412" />
+              <circle cx="210" cy="240" r="5" fill="#9a3412" />
+              <circle cx="64" cy="410" r="5" fill="#9a3412" />
+              <circle cx="1140" cy="160" r="5" fill="#9a3412" />
+              <circle cx="990" cy="330" r="5" fill="#9a3412" />
+            </g>
+          )}
+
+          {activeView === 'realities' && (
+            <g fill="none" stroke="#6d28d9" opacity="0.14" strokeWidth="1.2">
+              <circle cx="150" cy="180" r="105" strokeDasharray="6 5" />
+              <ellipse cx="1020" cy="640" rx="140" ry="62" transform="rotate(-18 1020 640)" />
+            </g>
+          )}
+
+          {activeView === 'graph' && (
+            <g fill="none" stroke="#b45309" opacity="0.18" strokeWidth="1.3">
+              <circle cx="600" cy="420" r="350" strokeDasharray="3 8" />
+              <path d="M40 420 H120 M1080 420 H1160" />
+            </g>
+          )}
 
           <g stroke="#5a3d1e" strokeWidth="1.1" opacity="0.18">
             <path d="M240 110 V130 M230 120 H250" />

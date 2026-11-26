@@ -8,6 +8,7 @@ import {
   Compass,
   Flame,
   Network,
+  Play,
   Sparkles,
   Users,
 } from 'lucide-react';
@@ -30,6 +31,7 @@ import type { AppView, EntityRef } from '../data/index.ts';
 import { personTmdbQuery, titleTmdbQuery } from '../lib/tmdb.ts';
 import { EntityVisual, FactionEmblemIcon, SectionDivider } from './TvaArt.tsx';
 import { Redactable } from './Redactable.tsx';
+import { StoryProjector } from './StoryProjector.tsx';
 
 const FLAGSHIP_CHARACTER_IDS = [
   'doctor-doom',
@@ -323,6 +325,17 @@ export function CommandHub({
               >
                 <CheckCircle2 className="w-3.5 h-3.5 text-[#047857]" /> Timeline Reel
               </button>
+              <button
+                type="button"
+                onClick={() =>
+                  document
+                    .getElementById('tva-story-projector')
+                    ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                }
+                className="inline-flex items-center gap-1.5 rounded border border-[#047857]/40 bg-[#047857]/10 px-3.5 py-2 text-xs font-mono-code font-bold uppercase text-[#065f46] hover:bg-[#047857]/20"
+              >
+                <Play className="w-3.5 h-3.5 fill-current" /> 60-Sec Story
+              </button>
             </div>
           </div>
         </div>
@@ -432,6 +445,9 @@ export function CommandHub({
           </div>
         </div>
       </section>
+
+      {/* Playable 5-Beat TVA Orientation Story Projector */}
+      <StoryProjector watchedSet={watchedSet} spoilerShield={spoilerShield} onSelect={onSelect} />
 
       {/* Iconic Locations & Realities Filmstrip */}
       <section className="space-y-3">

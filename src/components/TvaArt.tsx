@@ -341,7 +341,7 @@ export function EntityVisual({
       >
         <span aria-hidden="true" className="tva-tape pointer-events-none" />
         <div
-          className={`relative overflow-hidden bg-[#1e1712] border border-[#d6c7aa] ${
+          className={`tva-card-sheen relative overflow-hidden bg-[#1e1712] border border-[#d6c7aa] ${
             compact ? 'h-16' : 'h-24 sm:h-28'
           }`}
         >
@@ -640,15 +640,15 @@ export function SectionDivider({
   rightSlot?: import('react').ReactNode;
 }) {
   return (
-    <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
-      <div className="flex items-center gap-2.5 min-w-0 flex-1">
+    <div className="flex flex-wrap items-center justify-between gap-2.5 pt-1">
+      <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 min-w-0 flex-1 basis-[230px]">
         <span
           className="shrink-0 rounded-sm bg-[#1d1610] px-2 py-0.5 text-[10px] font-mono-code font-bold uppercase tracking-widest text-[#f59e0b] shadow-[2px_2px_0_rgba(29,22,16,0.25)]"
           style={{ borderLeft: `3px solid ${accentColor}` }}
         >
           {badge}
         </span>
-        <h2 className="text-sm sm:text-base font-display font-bold text-[#1d1610]">
+        <h2 className="text-sm sm:text-base font-display font-bold text-[#1d1610] leading-snug">
           {title}
         </h2>
         <span

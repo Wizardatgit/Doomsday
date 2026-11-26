@@ -356,7 +356,7 @@ test('local SVG place and comic assets are valid, self-contained, and free of sc
       .filter((name) => name.endsWith('.svg'))
       .map((name) => path.join(dir, name)),
   );
-  assert.ok(svgFiles.length >= 10, `Expected >= 10 local SVG assets, found ${svgFiles.length}`);
+  assert.ok(svgFiles.length >= 8, `Expected >= 8 local SVG assets, found ${svgFiles.length}`);
 
   for (const file of svgFiles) {
     const content = fs.readFileSync(file, 'utf8').trim();
@@ -374,9 +374,9 @@ test('App renders all 4 comic backdrop assets, keeps sidebar and hero day countd
 
   const comicFiles = [
     'comic-portal.jpg',
-    'comic-citadel.svg',
-    'comic-clockwork.svg',
-    'comic-starburst.svg',
+    'comic-citadel.jpg',
+    'comic-clockwork.jpg',
+    'comic-starburst.jpg',
   ];
   for (const name of comicFiles) {
     assert.ok(cleanHtml.includes(`src="./comic/${name}"`), `App HTML missing comic backdrop ${name}`);
@@ -385,6 +385,21 @@ test('App renders all 4 comic backdrop assets, keeps sidebar and hero day countd
       `Missing public/comic/${name}`,
     );
   }
+
+  for (const slideFile of [
+    'slide-01-loom.jpg',
+    'slide-02-breach.jpg',
+    'slide-03-828.jpg',
+    'slide-04-teams.jpg',
+    'slide-05-doom.jpg',
+  ]) {
+    assert.ok(
+      fs.existsSync(path.join(process.cwd(), 'public', 'story', slideFile)),
+      `Missing public/story/${slideFile}`,
+    );
+  }
+
+  assert.match(cleanHtml, /TVA Orientation Reel interactive story projector/);
 
   const sidebarMatch = cleanHtml.match(/\bT-(\d+)D\b/);
   const heroMatch = cleanHtml.match(/\bT-(\d+) DAYS\b/);
@@ -404,10 +419,53 @@ test('App renders all 4 comic backdrop assets, keeps sidebar and hero day countd
     '.tva-modal-pop',
     '.tva-stamp-pop',
     '.tva-branch-drift',
+    '.tva-slide-frame',
+    '.tva-desk-stage',
     '.tva-polaroid-lift',
+    '.tva-card-sheen',
   ]) {
     assert.ok(blockBody.includes(selector), `Reduced-motion block missing ${selector}`);
   }
   assert.match(blockBody, /animation:\s*none;/);
   assert.match(blockBody, /transition:\s*none;/);
+  assert.match(
+    css,
+    /\.tva-desk-stage\s*\{\s*background-color:\s*transparent;/,
+    '.tva-desk-stage base background-color must remain transparent so body dual-grid stays visible',
+  );
+});
+
+test('StoryProjector slides reference valid data IDs, wrap cleanly, and render zero nested buttons', async () => {
+  const { StoryProjector, STORY_SLIDES, stepSlideIndex } = await vite.ssrLoadModule(
+    '/src/components/StoryProjector.tsx',
+  );
+  const { charactersById, titlesById, threadsById } = await vite.ssrLoadModule('/src/data/index.ts');
+
+  assert.equal(STORY_SLIDES.length, 5);
+  assert.equal(stepSlideIndex(4, 1, 5), 0);
+  assert.equal(stepSlideIndex(0, -1, 5), 4);
+
+  for (const slide of STORY_SLIDES) {
+    assert.ok(threadsById.has(slide.threadId), `Story slide ${slide.id} references missing thread ${slide.threadId}`);
+    for (const tid of slide.titleIds) {
+      assert.ok(titlesById.has(tid), `Story slide ${slide.id} references missing title ${tid}`);
+    }
+    for (const cid of slide.characterIds) {
+      assert.ok(charactersById.has(cid), `Story slide ${slide.id} references missing character ${cid}`);
+    }
+    const diskPath = path.join(process.cwd(), 'public', slide.imagePath.replace(/^\.\//, ''));
+    assert.ok(fs.existsSync(diskPath), `Story slide ${slide.id} missing image at ${diskPath}`);
+  }
+
+  for (const shield of [false, true]) {
+    const html = renderToStaticMarkup(
+      React.createElement(StoryProjector, {
+        watchedSet: new Set<string>(),
+        spoilerShield: shield,
+        onSelect: () => {},
+      }),
+    );
+    assert.match(html, /The Road to Doomsday in 60 Seconds/);
+    assertNoNestedButtons(html, `StoryProjector(shield=${shield})`);
+  }
 });
