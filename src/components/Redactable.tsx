@@ -26,7 +26,7 @@ export function Redactable({
   const hidden = isRedacted(titleIds, watchedSet, spoilerShield) && !revealed;
 
   if (!hidden) {
-    return <>{children}</>;
+    return revealed ? <div className="tva-stamp-pop">{children}</div> : <>{children}</>;
   }
 
   const unwatchedNames = titleIds
@@ -48,7 +48,7 @@ export function Redactable({
       <span className="flex items-center gap-2 min-w-0">
         <ShieldAlert className="w-3.5 h-3.5 text-amber-400 shrink-0" />
         <span className="text-[11px] font-mono-code uppercase tracking-wider text-amber-400 truncate">
-          [REDACTED{label ? ` · ${label}` : ''} — UNWATCHED: {unwatchedNames}]
+          [REDACTED{label ? ` · ${label}` : ''} - UNWATCHED: {unwatchedNames}]
         </span>
       </span>
       <span className="inline-flex items-center gap-1 text-[10px] font-mono-code uppercase text-[#e6d6b5] group-hover:text-amber-300 shrink-0">

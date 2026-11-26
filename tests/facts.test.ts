@@ -1,5 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
 
 import { CHARACTERS, REALITIES, TITLES, titlesById } from '../src/data/index.ts';
 
@@ -300,5 +302,20 @@ test('title keyCharacterIds sync with character first/last bounds, title wikiPag
       ratio >= 4.5,
       `Reality ${r.id} (${r.color}) contrast ${ratio.toFixed(2)}:1 on #faf4e6 is below WCAG AA 4.5:1`,
     );
+  }
+});
+
+test('data and UI source copy contains zero em dashes (—)', () => {
+  const dirs = [path.join(process.cwd(), 'src', 'data'), path.join(process.cwd(), 'src', 'components')];
+  const files = dirs.flatMap((dir) =>
+    fs
+      .readdirSync(dir)
+      .filter((name) => name.endsWith('.ts') || name.endsWith('.tsx'))
+      .map((name) => path.join(dir, name)),
+  );
+  files.push(path.join(process.cwd(), 'src', 'App.tsx'));
+  for (const file of files) {
+    const content = fs.readFileSync(file, 'utf8');
+    assert.ok(!content.includes('—'), `${path.basename(file)} still contains an em dash (—)`);
   }
 });

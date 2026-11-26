@@ -22,10 +22,12 @@ import {
   TITLES,
   charactersById,
   factionsById,
+  getCharacterChipLabel,
   realitiesById,
+  titlesById,
 } from '../data/index.ts';
 import type { AppView, EntityRef } from '../data/index.ts';
-import { personTmdbQuery } from '../lib/tmdb.ts';
+import { personTmdbQuery, titleTmdbQuery } from '../lib/tmdb.ts';
 import { EntityVisual, FactionEmblemIcon, SectionDivider } from './TvaArt.tsx';
 import { Redactable } from './Redactable.tsx';
 
@@ -127,7 +129,7 @@ export function CommandHub({
   );
   const daysToDoomsday = useMemo(() => {
     const release = new Date('2026-12-18T00:00:00').getTime();
-    return Math.max(0, Math.ceil((release - Date.now()) / 86_400_000));
+    return Math.max(0, Math.floor((release - Date.now()) / 86_400_000));
   }, []);
 
   const flagshipChars = useMemo(
@@ -193,7 +195,7 @@ export function CommandHub({
                   New to Marvel? Start Here in 30 Seconds
                 </h2>
                 <p className="text-xs text-[#61503e]">
-                  Never seen all 90+ titles? No problem—this short briefing explains the entire setup for <strong>Avengers: Doomsday</strong> without jargon.
+                  Never seen all 90+ titles? No problem: this short briefing explains the entire setup for <strong>Avengers: Doomsday</strong> without jargon.
                 </p>
               </div>
               <button
@@ -271,7 +273,7 @@ export function CommandHub({
               variant="plate"
               code="TVA-00 // CITADEL"
               title="Time Variance Authority & World Tree"
-              subtitle="Yggdrasil Multiverse Loom — Active Monitoring"
+              subtitle="Yggdrasil Multiverse Loom · Active Monitoring"
               accentColor="#c2410c"
               staticImagePath="./places/tva-yggdrasil.jpg"
               wikiPage="Multiverse_(Marvel_Cinematic_Universe)"
@@ -498,50 +500,104 @@ export function CommandHub({
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3.5">
-          {coreThreads.map((th, idx) => (
-            <div
-              key={th.id}
-              onClick={() => onSelect({ kind: 'thread', id: th.id })}
-              className="tva-folder tva-comic-corner rounded-md p-4 cursor-pointer hover:border-[#b45309] hover:-translate-y-0.5 transition-all flex flex-col justify-between gap-3 border-l-4 border-l-[#c2410c]"
-            >
-              <div className="space-y-2">
-                <div className="flex items-center justify-between gap-2">
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-[10px] font-mono-code font-bold text-[#61503e]">
-                      FILE #{String(idx + 1).padStart(2, '0')}
-                    </span>
-                    <span className="tva-ink-stamp tva-stamp-angled border-[#c2410c] bg-[#c2410c]/10 text-[#9a3412]">
-                      {th.category}
+          {coreThreads.map((th, idx) => {
+            const leadTitle = th.keyTitleIds.map((id) => titlesById.get(id)).find(Boolean);
+            const leadReality = leadTitle ? realitiesById.get(leadTitle.realityId) : undefined;
+            return (
+              <div
+                key={th.id}
+                onClick={() => onSelect({ kind: 'thread', id: th.id })}
+                className="tva-folder tva-comic-corner rounded-md p-4 cursor-pointer hover:border-[#b45309] hover:-translate-y-0.5 transition-all flex flex-col justify-between gap-3 border-l-4 border-l-[#c2410c]"
+              >
+                <div className="space-y-2.5">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-[10px] font-mono-code font-bold text-[#61503e]">
+                        FILE #{String(idx + 1).padStart(2, '0')}
+                      </span>
+                      <span className="tva-ink-stamp tva-stamp-angled border-[#c2410c] bg-[#c2410c]/10 text-[#9a3412]">
+                        {th.category}
+                      </span>
+                    </div>
+                    <span className="text-[10px] font-mono-code uppercase font-bold text-[#047857]">
+                      {th.status}
                     </span>
                   </div>
-                  <span className="text-[10px] font-mono-code uppercase font-bold text-[#047857]">
-                    {th.status}
-                  </span>
+                  <div className="flex items-start gap-3">
+                    {leadTitle && (
+                      <div className="shrink-0">
+                        <EntityVisual
+                          variant="poster"
+                          code={leadReality?.code ?? leadTitle.realityId}
+                          title={leadTitle.title}
+                          subtitle={String(leadTitle.year)}
+                          accentColor={leadReality?.color ?? '#c2410c'}
+                          wikiPage={leadTitle.wikiPage}
+                          tmdbQuery={titleTmdbQuery(leadTitle)}
+                          tmdbApiKey={tmdbApiKey}
+                          compact
+                          hideZoomTrigger
+                        />
+                      </div>
+                    )}
+                    <div className="min-w-0 flex-1 space-y-1">
+                      <h3 className="text-base font-bold text-[#1d1610] leading-snug">{th.title}</h3>
+                      <Redactable titleIds={th.keyTitleIds} watchedSet={watchedSet} spoilerShield={spoilerShield}>
+                        <p className="text-xs text-[#61503e] leading-relaxed line-clamp-2">{th.summary}</p>
+                      </Redactable>
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap gap-1 pt-0.5">
+                    {th.characterIds.slice(0, 3).map((cId) => {
+                      const ch = charactersById.get(cId);
+                      if (!ch) return null;
+                      const factionColor = factionsById.get(ch.factionId)?.color ?? '#c2410c';
+                      return (
+                        <button
+                          key={cId}
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onSelect({ kind: 'character', id: cId });
+                          }}
+                          className="text-[11px] font-medium px-2 py-0.5 rounded bg-[#f4ebd4] border border-[#d4c3a3] text-[#1d1610] hover:border-[#b45309] inline-flex items-center gap-1"
+                        >
+                          <span
+                            aria-hidden="true"
+                            className="w-1.5 h-1.5 rounded-full shrink-0"
+                            style={{ backgroundColor: factionColor }}
+                          />
+                          {getCharacterChipLabel(cId)}
+                        </button>
+                      );
+                    })}
+                    {th.characterIds.length > 3 && (
+                      <span className="text-[10px] font-mono-code text-[#61503e] px-1.5 py-0.5">
+                        +{th.characterIds.length - 3}
+                      </span>
+                    )}
+                  </div>
                 </div>
-                <h3 className="text-base font-bold text-[#1d1610]">{th.title}</h3>
-                <Redactable titleIds={th.keyTitleIds} watchedSet={watchedSet} spoilerShield={spoilerShield}>
-                  <p className="text-xs text-[#61503e] leading-relaxed line-clamp-2">{th.summary}</p>
-                </Redactable>
+                <div className="flex items-center justify-between text-[11px] font-mono-code font-semibold text-[#9a3412] border-t border-dashed border-[#d4c3a3] pt-2">
+                  <span>
+                    {th.characterIds.length} {th.characterIds.length === 1 ? 'player' : 'players'} ·{' '}
+                    {th.keyTitleIds.length} {th.keyTitleIds.length === 1 ? 'title' : 'titles'}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onSelect({ kind: 'thread', id: th.id });
+                    }}
+                    aria-label={`Open dossier for ${th.title}`}
+                    className="py-1 hover:underline"
+                  >
+                    Open Folder →
+                  </button>
+                </div>
               </div>
-              <div className="flex items-center justify-between text-[11px] font-mono-code font-semibold text-[#9a3412] border-t border-dashed border-[#d4c3a3] pt-2">
-                <span>
-                  {th.characterIds.length} {th.characterIds.length === 1 ? 'player' : 'players'} ·{' '}
-                  {th.keyTitleIds.length} {th.keyTitleIds.length === 1 ? 'title' : 'titles'}
-                </span>
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onSelect({ kind: 'thread', id: th.id });
-                  }}
-                  aria-label={`Open dossier for ${th.title}`}
-                  className="py-1 hover:underline"
-                >
-                  Open Folder →
-                </button>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 

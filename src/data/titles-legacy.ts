@@ -35,7 +35,7 @@ export const LEGACY_TITLES: Title[] = [
     summary:
       'Charles Xavier’s mutant school protects Rogue and battles Magneto’s Brotherhood over a machine meant to forcibly mutate world leaders.',
     doomsdayConnection:
-      'Introduces the exact Fox ensemble—Professor X, Magneto, Cyclops, Mystique, and Wolverine—returning in Avengers: Doomsday.',
+      'Introduces the exact Fox ensemble - Professor X, Magneto, Cyclops, Mystique, and Wolverine - returning in Avengers: Doomsday.',
     keyCharacterIds: ['professor-x', 'magneto', 'cyclops', 'mystique', 'wolverine'],
     wikiPage: "X-Men_(film)",
   },
@@ -111,7 +111,7 @@ export const LEGACY_TITLES: Title[] = [
     summary:
       'Following a brainwashed Nightcrawler’s attack on the White House, the X-Men and Magneto team up against William Stryker’s Alkali Lake plot.',
     doomsdayConnection:
-      'Introduces Alan Cumming’s Nightcrawler—returning in Avengers: Doomsday—and deepens the Xavier/Magneto/Cyclops dynamic.',
+      'Introduces Alan Cumming’s Nightcrawler - returning in Avengers: Doomsday - and deepens the Xavier/Magneto/Cyclops dynamic.',
     keyCharacterIds: ['professor-x', 'magneto', 'cyclops', 'nightcrawler', 'mystique', 'wolverine'],
     wikiPage: "X2_(film)",
   },
@@ -206,7 +206,7 @@ export const LEGACY_TITLES: Title[] = [
     summary:
       'A mutant "cure" triggers war with Magneto’s forces while the Dark Phoenix emerges inside Jean Grey; Kelsey Grammer debuts as Hank McCoy / Beast.',
     doomsdayConnection:
-      'Origin of Kelsey Grammer’s Beast—the exact version Monica Rambeau meets in The Marvels post-credits scene and returning for Doomsday.',
+      'Origin of Kelsey Grammer’s Beast, the exact version Monica Rambeau meets in The Marvels post-credits scene and returning for Doomsday.',
     keyCharacterIds: ['professor-x', 'magneto', 'cyclops', 'beast', 'mystique', 'wolverine'],
     wikiPage: 'X-Men:_The_Last_Stand',
   },
@@ -365,7 +365,7 @@ export const LEGACY_TITLES: Title[] = [
     summary:
       'Wolverine’s consciousness is sent back to 1973 to stop Mystique from assassinating Bolivar Trask, resetting the X-Men future so Cyclops, Jean, Beast, and Xavier survive.',
     doomsdayConnection:
-      'Restores the happy Earth-10005 X-Mansion timeline featuring Cyclops, Beast, and Xavier—the bridge directly leading into their Doomsday return.',
+      'Restores the happy Earth-10005 X-Mansion timeline featuring Cyclops, Beast, and Xavier, the bridge directly leading into their Doomsday return.',
     keyCharacterIds: ['wolverine', 'professor-x', 'magneto', 'cyclops', 'beast'],
     wikiPage: 'X-Men:_Days_of_Future_Past',
   },
@@ -401,7 +401,7 @@ export const LEGACY_TITLES: Title[] = [
     importance: 'background',
     runtime: '2h 24m',
     summary:
-      'Ancient mutant En Sabah Nur awakens in 1983, prompting Xavier’s young X-Men—including Nightcrawler and Cyclops—to unite.',
+      'Ancient mutant En Sabah Nur awakens in 1983, prompting Xavier’s young X-Men - including Nightcrawler and Cyclops - to unite.',
     doomsdayConnection:
       'Expands the revised Earth-10005 timeline following Days of Future Past.',
     keyCharacterIds: [],

@@ -237,7 +237,7 @@ export function DossierDrawer({
 
   return (
     <div
-      className="fixed inset-0 z-40 flex justify-end bg-black/50 backdrop-blur-[1px]"
+      className="tva-backdrop-fade fixed inset-0 z-40 flex justify-end bg-black/50 backdrop-blur-[1px]"
       onClick={onClose}
     >
       <aside
@@ -246,7 +246,7 @@ export function DossierDrawer({
         aria-modal="true"
         aria-label={`Case file dossier: ${selected.kind} ${selected.id}`}
         tabIndex={-1}
-        className="w-full max-w-xl h-full overflow-y-auto bg-[#f6ecd7] border-l-2 border-[#bfa982] shadow-2xl flex flex-col text-[#1d1610]"
+        className="tva-drawer-slide w-full max-w-xl h-full overflow-y-auto bg-[#f6ecd7] border-l-2 border-[#bfa982] shadow-2xl flex flex-col text-[#1d1610]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="sticky top-0 z-10 flex items-center justify-between gap-3 px-5 py-3.5 bg-[#efe2c6]/95 backdrop-blur border-b border-[#cbb895]">
@@ -1045,7 +1045,7 @@ export function DossierDrawer({
                           onClick={() => onSelect({ kind: 'reality', id: parentReality.id })}
                           className="block mt-1 text-sm font-semibold text-[#9a3412] hover:underline"
                         >
-                          {parentReality.code} — {parentReality.name} →
+                          {parentReality.code} - {parentReality.name} →
                         </button>
                       </div>
                     )}

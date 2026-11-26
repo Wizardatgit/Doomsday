@@ -17,7 +17,7 @@ export const MULTIVERSE_TITLES: Title[] = [
     summary:
       'Grieving Vision, Wanda traps Westview in a sitcom hex; S.W.O.R.D. unleashes White Vision (who regains memories and flies off), and Monica Rambeau gains light-energy powers.',
     doomsdayConnection:
-      'Directly launches Monica Rambeau’s superpowered arc and creates White Vision—whose journey continues in 2026’s VisionQuest.',
+      'Directly launches Monica Rambeau’s superpowered arc and creates White Vision, whose journey continues in 2026’s VisionQuest.',
     keyCharacterIds: ['monica-rambeau', 'white-vision'],
     postCredits: [
       {
@@ -61,7 +61,7 @@ export const MULTIVERSE_TITLES: Title[] = [
     importance: 'essential',
     runtime: '6 eps',
     summary:
-      'The 2012 Loki Variant is captured by the TVA, meets Mobius and Sylvie, survives Alioth in The Void, and watches Sylvie kill He Who Remains—shattering the Sacred Timeline.',
+      'The 2012 Loki Variant is captured by the TVA, meets Mobius and Sylvie, survives Alioth in The Void, and watches Sylvie kill He Who Remains - shattering the Sacred Timeline.',
     doomsdayConnection:
       'Introduces the TVA, The Void at the End of Time (crucial for Deadpool & Wolverine and Gambit), and fractures the Sacred Timeline into infinite branching realities.',
     keyCharacterIds: ['loki'],
@@ -80,7 +80,7 @@ export const MULTIVERSE_TITLES: Title[] = [
     importance: 'essential',
     runtime: '2h 14m',
     summary:
-      'Natasha Romanoff reunites with her surrogate family—Yelena Belova and Alexei Shostakov (Red Guardian)—to destroy the Red Room.',
+      'Natasha Romanoff reunites with her surrogate family - Yelena Belova and Alexei Shostakov (Red Guardian) - to destroy the Red Room.',
     doomsdayConnection:
       'Introduces Yelena Belova and Red Guardian (core New Avengers / Thunderbolts* members confirmed for Doomsday) and reveals Valentina manipulating Yelena.',
     keyCharacterIds: ['yelena-belova', 'red-guardian', 'valentina'],
@@ -127,7 +127,7 @@ export const MULTIVERSE_TITLES: Title[] = [
     summary:
       'Xu Shang-Chi confronts his father Wenwu, inherits the ancient Ten Rings, and seals the Dweller-in-Darkness in Ta Lo.',
     doomsdayConnection:
-      'Mid-credits reveals the Ten Rings emit a mysterious cosmic beacon unlike anything Wong, Bruce Banner, or Captain Marvel have seen—linking Shang-Chi directly to Doomsday’s Earth-616 Avengers.',
+      'Mid-credits reveals the Ten Rings emit a mysterious cosmic beacon unlike anything Wong, Bruce Banner, or Captain Marvel have seen, linking Shang-Chi directly to Doomsday’s Earth-616 Avengers.',
     keyCharacterIds: ['shang-chi', 'bruce-banner', 'captain-marvel'],
     postCredits: [
       {
@@ -191,12 +191,12 @@ export const MULTIVERSE_TITLES: Title[] = [
     summary:
       'Doctor Strange’s botched memory spell rips open Earth-616, pulling in Tobey Maguire and Andrew Garfield’s Spider-Men plus villains; to save the fabric of reality, Peter sacrifices everyone’s memory of "Peter Parker".',
     doomsdayConnection:
-      'Proves Earth-616 can cross paths with legacy realities—and isolates Peter Parker completely, setting up Spider-Man: Brand New Day and Ned’s post-credits space signal.',
+      'Proves Earth-616 can cross paths with legacy realities, and isolates Peter Parker completely, setting up Spider-Man: Brand New Day and Ned’s post-credits space signal.',
     keyCharacterIds: ['peter-parker-616', 'peter-parker-96283', 'peter-parker-120703', 'doctor-strange', 'daredevil', 'venom'],
     postCredits: [
       {
         label: 'Mid-Credits',
-        summary: 'Eddie Brock/Venom is pulled back to Earth-688—leaving a drop of symbiote behind on Earth-616.',
+        summary: 'Eddie Brock/Venom is pulled back to Earth-688, leaving a drop of symbiote behind on Earth-616.',
         leadsToTitleId: 'venom-3-2024',
       },
     ],
@@ -236,7 +236,7 @@ export const MULTIVERSE_TITLES: Title[] = [
     summary:
       'Scarlet Witch hunts America Chavez across Earth-838, destroying the Illuminati (including Patrick Stewart’s Xavier variant) while 838 Reed Richards warns Doctor Strange about Incursions.',
     doomsdayConnection:
-      'Defines the MCU’s core Incursion rules—realities colliding and annihilating one or both worlds—and sends Strange off with Clea to fix an incursion he triggered.',
+      'Defines the MCU’s core Incursion rules - realities colliding and annihilating one or both worlds - and sends Strange off with Clea to fix an incursion he triggered.',
     keyCharacterIds: ['doctor-strange'],
     postCredits: [
       {
@@ -260,7 +260,7 @@ export const MULTIVERSE_TITLES: Title[] = [
     importance: 'key',
     runtime: '6 eps',
     summary:
-      'Jersey City teen Kamala Khan unlocks cosmic hard-light powers via an ancient Quantum Band—and Bruno reveals she has a "mutation" in her genes.',
+      'Jersey City teen Kamala Khan unlocks cosmic hard-light powers via an ancient Quantum Band, and Bruno reveals she has a "mutation" in her genes.',
     doomsdayConnection:
       'Links the Quantum Bands to Ten Rings-style beacons and marks the first Earth-616 hero confirmed to carry mutant genetics.',
     keyCharacterIds: ['ms-marvel', 'captain-marvel'],
@@ -384,7 +384,7 @@ export const MULTIVERSE_TITLES: Title[] = [
     importance: 'essential',
     runtime: '2h 04m',
     summary:
-      'Scott Lang and Cassie Lang are pulled into the Quantum Realm, where they defeat an exiled Kang variant—leaving Scott quietly uneasy about what else is coming for Earth.',
+      'Scott Lang and Cassie Lang are pulled into the Quantum Realm, where they defeat an exiled Kang variant, leaving Scott quietly uneasy about what else is coming for Earth.',
     doomsdayConnection:
       'Shows Cassie stepping up as a hero alongside Scott (both confirmed in Doomsday) and marks the first time an Earth-616 Avenger hears warning bells about collapsing timelines.',
     keyCharacterIds: ['scott-lang', 'cassie-lang'],
@@ -441,7 +441,7 @@ export const MULTIVERSE_TITLES: Title[] = [
     importance: 'essential',
     runtime: '6 eps',
     summary:
-      'When the Temporal Loom fails, Loki masters time-slipping, destroys the Loom, and ascends the throne at the End of Time—physically weaving infinite dying timelines into Yggdrasil, the Multiverse World Tree.',
+      'When the Temporal Loom fails, Loki masters time-slipping, destroys the Loom, and ascends the throne at the End of Time, physically weaving infinite dying timelines into Yggdrasil, the Multiverse World Tree.',
     doomsdayConnection:
       'One of the single most vital pillars for Doomsday: Tom Hiddleston’s Loki is literally keeping every branching universe (616, 10005, 828) alive.',
     keyCharacterIds: ['loki'],
@@ -508,7 +508,7 @@ export const MULTIVERSE_TITLES: Title[] = [
     summary:
       'TVA agent Paradox warns Earth-10005 is dying after Anchor Being Logan’s sacrifice. Deadpool recruits a broken Wolverine variant; in The Void they meet Johnny Storm (2005), Blade, Elektra, and Gambit to stop Cassandra Nova’s Time Ripper.',
     doomsdayConnection:
-      'Bridges pre-Phase-1 Fox/New Line worlds straight into TVA multiverse canon—and introduces Channing Tatum’s Gambit, who carries forward into the confirmed Avengers: Doomsday cast.',
+      'Bridges pre-Phase-1 Fox/New Line worlds straight into TVA multiverse canon, and introduces Channing Tatum’s Gambit, who carries forward into the confirmed Avengers: Doomsday cast.',
     keyCharacterIds: ['deadpool', 'wolverine', 'gambit', 'blade', 'elektra', 'johnny-storm-2005'],
     wikiPage: 'Deadpool_&_Wolverine',
   },
@@ -565,7 +565,7 @@ export const MULTIVERSE_TITLES: Title[] = [
     summary:
       'Sam Wilson and Joaquin Torres uncover Samuel Sterns’ conspiracy around Tiamut Island’s Adamantium and defeat President Thaddeus Ross as Red Hulk. Ross asks Sam to rebuild the Avengers.',
     doomsdayConnection:
-      'Puts Sam Wilson officially in charge of forming a new Avengers team—and Sterns’ post-credits warning predicts an imminent clash with other worlds.',
+      'Puts Sam Wilson officially in charge of forming a new Avengers team, and Sterns’ post-credits warning predicts an imminent clash with other worlds.',
     keyCharacterIds: ['sam-wilson', 'joaquin-torres', 'bucky-barnes'],
     postCredits: [
       {
@@ -579,11 +579,11 @@ export const MULTIVERSE_TITLES: Title[] = [
     confidence: 'official',
     sources: [
       {
-        label: 'Marvel.com — Captain America: Brave New World',
+        label: 'Marvel.com - Captain America: Brave New World',
         url: 'https://www.marvel.com/movies/captain-america-brave-new-world',
       },
       {
-        label: 'Wikipedia — Captain America: Brave New World',
+        label: 'Wikipedia - Captain America: Brave New World',
         url: 'https://en.wikipedia.org/wiki/Captain_America:_Brave_New_World',
       },
     ],
@@ -608,8 +608,8 @@ export const MULTIVERSE_TITLES: Title[] = [
     wikiPage: "Daredevil:_Born_Again",
     confidence: 'official',
     sources: [
-      { label: 'Marvel.com — Daredevil: Born Again', url: 'https://www.marvel.com/tv-shows/daredevil-born-again/1' },
-      { label: 'Wikipedia — Daredevil: Born Again', url: 'https://en.wikipedia.org/wiki/Daredevil:_Born_Again' },
+      { label: 'Marvel.com - Daredevil: Born Again', url: 'https://www.marvel.com/tv-shows/daredevil-born-again/1' },
+      { label: 'Wikipedia - Daredevil: Born Again', url: 'https://en.wikipedia.org/wiki/Daredevil:_Born_Again' },
     ],
   },
   {
@@ -627,12 +627,12 @@ export const MULTIVERSE_TITLES: Title[] = [
     summary:
       'Yelena Belova, Bucky Barnes, Red Guardian, U.S. Agent, and Ghost rescue Bob Reynolds (Sentry / The Void) from Valentina’s clean-up trap and stop New York from falling into shadow. Val unveils them publicly as the "New Avengers" inside Watchtower.',
     doomsdayConnection:
-      'Forms the entire New Avengers / Thunderbolts* faction confirmed for Doomsday—and its post-credits scene delivers the first physical arrival of Earth-828’s Fantastic Four ship into Earth-616.',
+      'Forms the entire New Avengers / Thunderbolts* faction confirmed for Doomsday, and its post-credits scene delivers the first physical arrival of Earth-828’s Fantastic Four ship into Earth-616.',
     keyCharacterIds: ['yelena-belova', 'bucky-barnes', 'red-guardian', 'john-walker', 'ghost', 'sentry', 'valentina'],
     postCredits: [
       {
         label: 'Post-Credits (+14 Months)',
-        summary: 'In Watchtower, the New Avengers argue over Sam Wilson’s competing Avengers copyright—until alarms detect an extra-dimensional Fantastic Four rocket entering Earth-616 orbit.',
+        summary: 'In Watchtower, the New Avengers argue over Sam Wilson’s competing Avengers copyright, until alarms detect an extra-dimensional Fantastic Four rocket entering Earth-616 orbit.',
         leadsToTitleId: 'fantastic-four-first-steps',
         threadId: 'thread-f4-breach',
       },
@@ -640,8 +640,8 @@ export const MULTIVERSE_TITLES: Title[] = [
     wikiPage: "Thunderbolts*",
     confidence: 'official',
     sources: [
-      { label: 'Marvel.com — Thunderbolts*', url: 'https://www.marvel.com/movies/thunderbolts' },
-      { label: 'Wikipedia — Thunderbolts*', url: 'https://en.wikipedia.org/wiki/Thunderbolts*' },
+      { label: 'Marvel.com - Thunderbolts*', url: 'https://www.marvel.com/movies/thunderbolts' },
+      { label: 'Wikipedia - Thunderbolts*', url: 'https://en.wikipedia.org/wiki/Thunderbolts*' },
     ],
   },
   {
@@ -664,8 +664,8 @@ export const MULTIVERSE_TITLES: Title[] = [
     wikiPage: "Ironheart_(miniseries)",
     confidence: 'official',
     sources: [
-      { label: 'Marvel.com — Ironheart', url: 'https://www.marvel.com/tv-shows/ironheart/1' },
-      { label: 'Wikipedia — Ironheart', url: 'https://en.wikipedia.org/wiki/Ironheart_(miniseries)' },
+      { label: 'Marvel.com - Ironheart', url: 'https://www.marvel.com/tv-shows/ironheart/1' },
+      { label: 'Wikipedia - Ironheart', url: 'https://en.wikipedia.org/wiki/Ironheart_(miniseries)' },
     ],
   },
 
@@ -698,8 +698,8 @@ export const MULTIVERSE_TITLES: Title[] = [
     wikiPage: "The_Fantastic_Four:_First_Steps",
     confidence: 'official',
     sources: [
-      { label: 'Marvel.com — The Fantastic Four: First Steps', url: 'https://www.marvel.com/movies/the-fantastic-four-first-steps' },
-      { label: 'Wikipedia — The Fantastic Four: First Steps', url: 'https://en.wikipedia.org/wiki/The_Fantastic_Four:_First_Steps' },
+      { label: 'Marvel.com - The Fantastic Four: First Steps', url: 'https://www.marvel.com/movies/the-fantastic-four-first-steps' },
+      { label: 'Wikipedia - The Fantastic Four: First Steps', url: 'https://en.wikipedia.org/wiki/The_Fantastic_Four:_First_Steps' },
     ],
   },
   {
@@ -722,8 +722,8 @@ export const MULTIVERSE_TITLES: Title[] = [
     wikiPage: 'Eyes_of_Wakanda',
     confidence: 'official',
     sources: [
-      { label: 'Marvel.com — Eyes of Wakanda', url: 'https://www.marvel.com/articles/tv-shows/marvel-animation-eyes-of-wakanda-annecy' },
-      { label: 'Wikipedia — Eyes of Wakanda', url: 'https://en.wikipedia.org/wiki/Eyes_of_Wakanda' },
+      { label: 'Marvel.com - Eyes of Wakanda', url: 'https://www.marvel.com/articles/tv-shows/marvel-animation-eyes-of-wakanda-annecy' },
+      { label: 'Wikipedia - Eyes of Wakanda', url: 'https://en.wikipedia.org/wiki/Eyes_of_Wakanda' },
     ],
   },
   {
@@ -746,8 +746,8 @@ export const MULTIVERSE_TITLES: Title[] = [
     wikiPage: "Marvel_Zombies_(miniseries)",
     confidence: 'official',
     sources: [
-      { label: 'Marvel.com — Marvel Zombies', url: 'https://www.marvel.com/tv-shows/marvel-zombies/1' },
-      { label: 'Wikipedia — Marvel Zombies', url: 'https://en.wikipedia.org/wiki/Marvel_Zombies_(miniseries)' },
+      { label: 'Marvel.com - Marvel Zombies', url: 'https://www.marvel.com/tv-shows/marvel-zombies/1' },
+      { label: 'Wikipedia - Marvel Zombies', url: 'https://en.wikipedia.org/wiki/Marvel_Zombies_(miniseries)' },
     ],
   },
   {
@@ -770,8 +770,8 @@ export const MULTIVERSE_TITLES: Title[] = [
     wikiPage: 'Wonder_Man_(miniseries)',
     confidence: 'official',
     sources: [
-      { label: 'Marvel.com — Wonder Man', url: 'https://www.marvel.com/tv-shows/wonder-man/1' },
-      { label: 'Wikipedia — Wonder Man', url: 'https://en.wikipedia.org/wiki/Wonder_Man_(miniseries)' },
+      { label: 'Marvel.com - Wonder Man', url: 'https://www.marvel.com/tv-shows/wonder-man/1' },
+      { label: 'Wikipedia - Wonder Man', url: 'https://en.wikipedia.org/wiki/Wonder_Man_(miniseries)' },
     ],
   },
   {
@@ -794,8 +794,8 @@ export const MULTIVERSE_TITLES: Title[] = [
     wikiPage: 'Daredevil:_Born_Again',
     confidence: 'official',
     sources: [
-      { label: 'Marvel.com — Daredevil: Born Again (S2)', url: 'https://www.marvel.com/tv-shows/daredevil-born-again/2' },
-      { label: 'Wikipedia — Daredevil: Born Again', url: 'https://en.wikipedia.org/wiki/Daredevil:_Born_Again' },
+      { label: 'Marvel.com - Daredevil: Born Again (S2)', url: 'https://www.marvel.com/tv-shows/daredevil-born-again/2' },
+      { label: 'Wikipedia - Daredevil: Born Again', url: 'https://en.wikipedia.org/wiki/Daredevil:_Born_Again' },
     ],
   },
   {
@@ -818,8 +818,8 @@ export const MULTIVERSE_TITLES: Title[] = [
     wikiPage: 'The_Punisher:_One_Last_Kill',
     confidence: 'official',
     sources: [
-      { label: 'Marvel.com — The Punisher: One Last Kill', url: 'https://www.marvel.com/tv-shows/the-punisher-one-last-kill/1' },
-      { label: 'Wikipedia — The Punisher: One Last Kill', url: 'https://en.wikipedia.org/wiki/The_Punisher:_One_Last_Kill' },
+      { label: 'Marvel.com - The Punisher: One Last Kill', url: 'https://www.marvel.com/tv-shows/the-punisher-one-last-kill/1' },
+      { label: 'Wikipedia - The Punisher: One Last Kill', url: 'https://en.wikipedia.org/wiki/The_Punisher:_One_Last_Kill' },
     ],
   },
   {
@@ -850,8 +850,8 @@ export const MULTIVERSE_TITLES: Title[] = [
     wikiPage: "Spider-Man:_Brand_New_Day",
     confidence: 'official',
     sources: [
-      { label: 'Marvel.com — Spider-Man: Brand New Day', url: 'https://www.marvel.com/movies/spider-man-brand-new-day' },
-      { label: 'Wikipedia — Spider-Man: Brand New Day', url: 'https://en.wikipedia.org/wiki/Spider-Man:_Brand_New_Day' },
+      { label: 'Marvel.com - Spider-Man: Brand New Day', url: 'https://www.marvel.com/movies/spider-man-brand-new-day' },
+      { label: 'Wikipedia - Spider-Man: Brand New Day', url: 'https://en.wikipedia.org/wiki/Spider-Man:_Brand_New_Day' },
     ],
   },
   {
@@ -867,15 +867,15 @@ export const MULTIVERSE_TITLES: Title[] = [
     importance: 'key',
     runtime: '8 eps',
     summary:
-      'Created by Terry Matalas to close the WandaVision trilogy: White Vision (Paul Bettany) communicates with embedded AI personas—including Ultron (James Spader), J.A.R.V.I.S., and E.D.I.T.H.—before a bounty forces him on the run alongside teenager Thomas Shepherd.',
+      'Created by Terry Matalas to close the WandaVision trilogy: White Vision (Paul Bettany) communicates with embedded AI personas - including Ultron (James Spader), J.A.R.V.I.S., and E.D.I.T.H. - before a bounty forces him on the run alongside teenager Thomas Shepherd.',
     doomsdayConnection:
       'Resolves White Vision’s post-WandaVision arc and reintroduces Thomas Shepherd right before Avengers: Doomsday.',
     keyCharacterIds: ['white-vision'],
     wikiPage: "VisionQuest",
     confidence: 'official',
     sources: [
-      { label: 'Wikipedia — VisionQuest', url: 'https://en.wikipedia.org/wiki/VisionQuest' },
-      { label: 'Marvel.com — VisionQuest', url: 'https://www.marvel.com/tv-shows/visionquest/1' },
+      { label: 'Wikipedia - VisionQuest', url: 'https://en.wikipedia.org/wiki/VisionQuest' },
+      { label: 'Marvel.com - VisionQuest', url: 'https://www.marvel.com/tv-shows/visionquest/1' },
     ],
   },
   {
@@ -891,7 +891,7 @@ export const MULTIVERSE_TITLES: Title[] = [
     importance: 'essential',
     runtime: 'Dec 18, 2026',
     summary:
-      'Multiple universes—Earth-616, Earth-828 (Fantastic Four), and Earth-10005 (Fox X-Men)—hurtle toward catastrophic incursion as Victor von Doom (Robert Downey Jr.) targets heroes across realities he accuses of living "stolen lives", while the Fantastic Four pull Steve Rogers out of his quiet family branch.',
+      'Multiple universes - Earth-616, Earth-828 (Fantastic Four), and Earth-10005 (Fox X-Men) - hurtle toward catastrophic incursion as Victor von Doom (Robert Downey Jr.) targets heroes across realities he accuses of living "stolen lives", while the Fantastic Four pull Steve Rogers out of his quiet family branch.',
     doomsdayConnection:
       'THE CONVERGENCE POINT: Unites Sam’s Avengers, Steve Rogers, New Avengers (Thunderbolts*), Wakanda & Talokan, Loki, Fantastic Four, and classic Fox X-Men ahead of Secret Wars (with likely ties to Peggy Carter, Franklin Richards, Cassie Lang, Kate Bishop, and Namora).',
     keyCharacterIds: [
@@ -932,8 +932,8 @@ export const MULTIVERSE_TITLES: Title[] = [
     wikiPage: "Avengers:_Doomsday",
     confidence: 'official',
     sources: [
-      { label: 'Marvel.com — Avengers: Doomsday', url: 'https://www.marvel.com/movies/avengers-doomsday' },
-      { label: 'Wikipedia — Avengers: Doomsday', url: 'https://en.wikipedia.org/wiki/Avengers:_Doomsday' },
+      { label: 'Marvel.com - Avengers: Doomsday', url: 'https://www.marvel.com/movies/avengers-doomsday' },
+      { label: 'Wikipedia - Avengers: Doomsday', url: 'https://en.wikipedia.org/wiki/Avengers:_Doomsday' },
     ],
   },
 ];

@@ -31,6 +31,16 @@ import { RealitiesAtlas } from './components/RealitiesAtlas.tsx';
 import { ThreadsTracker } from './components/ThreadsTracker.tsx';
 import { PathFinder } from './components/PathFinder.tsx';
 
+function getDoomsdayCountdown() {
+  const diff = Math.max(0, new Date('2026-12-18T00:00:00').getTime() - Date.now());
+  return {
+    days: Math.floor(diff / 86_400_000),
+    hours: Math.floor((diff % 86_400_000) / 3_600_000),
+    mins: Math.floor((diff % 3_600_000) / 60_000),
+    secs: Math.floor((diff % 60_000) / 1000),
+  };
+}
+
 const NAV_ITEMS: { id: AppView; label: string; icon: typeof Home }[] = [
   { id: 'hub', label: 'Desk Overview', icon: Home },
   { id: 'graph', label: 'CRT Multiverse Web', icon: Network },
@@ -90,9 +100,11 @@ export function App() {
     window.scrollTo({ top: 0 });
   }, [activeView]);
 
-  const daysToDoomsday = useMemo(() => {
-    const release = new Date('2026-12-18T00:00:00').getTime();
-    return Math.max(0, Math.ceil((release - Date.now()) / 86_400_000));
+  const [countdown, setCountdown] = useState(getDoomsdayCountdown);
+
+  useEffect(() => {
+    const id = window.setInterval(() => setCountdown(getDoomsdayCountdown()), 1000);
+    return () => window.clearInterval(id);
   }, []);
 
   const watchProgress = useMemo(() => {
@@ -197,8 +209,14 @@ export function App() {
             <div>CONVERGENCE</div>
             <div className="text-[#b5a287]">DEC 18, 2026</div>
           </div>
-          <div className="text-sm font-mono-code font-bold text-[#f59e0b] tracking-wide tabular-nums">
-            T−{daysToDoomsday}D
+          <div className="text-right font-mono-code leading-tight tabular-nums">
+            <div className="text-sm font-bold text-[#f59e0b] tracking-wide">
+              T-{countdown.days}D
+            </div>
+            <div className="text-[9px] text-[#c58f36]">
+              {String(countdown.hours).padStart(2, '0')}:{String(countdown.mins).padStart(2, '0')}:
+              {String(countdown.secs).padStart(2, '0')}
+            </div>
           </div>
         </div>
 
@@ -427,26 +445,27 @@ export function App() {
   return (
     <ImageLightboxProvider>
       <div className="min-h-screen flex flex-col lg:flex-row relative">
-      {/* Faint Silver-Age Comic Vectors, Halftone Bands & Square Polaroid Comic Clippings */}
+      {/* Living Architect's Comic Blueprint Backdrop & Pinned Clippings */}
       <div
         aria-hidden="true"
         className="pointer-events-none fixed inset-0 lg:left-64 w-full lg:w-[calc(100%-16rem)] h-full overflow-hidden z-0"
       >
-        <div className="absolute -top-6 right-4 w-48 h-48 tva-halftone-dot opacity-[0.26] rounded-full" />
-        <div className="absolute -bottom-8 left-4 w-52 h-36 tva-halftone-teal opacity-[0.22]" />
+        <div className="absolute -top-6 right-4 w-52 h-52 tva-halftone-dot opacity-[0.3] rounded-full" />
+        <div className="absolute -bottom-8 left-4 w-56 h-40 tva-halftone-teal opacity-[0.26]" />
+        <div className="hidden 2xl:block absolute top-1/2 -left-10 -translate-y-1/2 w-44 h-44 tva-halftone-dot opacity-[0.22] rounded-full" />
 
         {/* Square Polaroid-style comic clippings pinned in outer margins */}
-        <div className="hidden lg:flex flex-col gap-1.5 tva-bg-polaroid rounded-sm p-1.5 pb-2 w-28 absolute top-8 right-5 rotate-6 opacity-[0.26]">
+        <div className="hidden lg:flex flex-col gap-1.5 tva-bg-polaroid rounded-sm p-1.5 pb-2 w-28 absolute top-8 right-5 rotate-6 opacity-[0.38]">
           <span className="tva-tape pointer-events-none" />
           <div className="w-full aspect-square overflow-hidden border border-[#d6c7aa] bg-[#1e1712]">
-            <img src="./comic/comic-portal.jpg" alt="" className="w-full h-full object-cover sepia-[0.25] contrast-125" />
+            <img src="./comic/comic-portal.jpg" alt="" className="w-full h-full object-cover sepia-[0.22] contrast-125" />
           </div>
           <span className="text-[8px] font-mono-code font-bold tracking-wider text-[#1d1610] uppercase truncate">
             KIRBY RIFT // 828
           </span>
         </div>
 
-        <div className="hidden lg:flex flex-col gap-1.5 tva-bg-polaroid rounded-sm p-1.5 pb-2 w-28 absolute bottom-10 right-7 -rotate-6 opacity-[0.22]">
+        <div className="hidden lg:flex flex-col gap-1.5 tva-bg-polaroid rounded-sm p-1.5 pb-2 w-28 absolute bottom-10 right-7 -rotate-6 opacity-[0.34]">
           <span className="tva-tape pointer-events-none" />
           <div className="w-full aspect-square overflow-hidden border border-[#d6c7aa] bg-[#1e1712]">
             <img src="./comic/comic-citadel.svg" alt="" className="w-full h-full object-cover" />
@@ -456,29 +475,77 @@ export function App() {
           </span>
         </div>
 
+        <div className="hidden 2xl:flex flex-col gap-1.5 tva-bg-polaroid rounded-sm p-1.5 pb-2 w-24 absolute top-16 left-5 -rotate-6 opacity-[0.32]">
+          <span className="tva-tape pointer-events-none" />
+          <div className="w-full aspect-square overflow-hidden border border-[#d6c7aa] bg-[#1e1712]">
+            <img src="./comic/comic-clockwork.svg" alt="" className="w-full h-full object-cover" />
+          </div>
+          <span className="text-[8px] font-mono-code font-bold tracking-wider text-[#1d1610] uppercase truncate">
+            TVA CHRONO
+          </span>
+        </div>
+
+        <div className="hidden 2xl:flex flex-col gap-1.5 tva-bg-polaroid rounded-sm p-1.5 pb-2 w-24 absolute bottom-14 left-6 rotate-6 opacity-[0.32]">
+          <span className="tva-tape pointer-events-none" />
+          <div className="w-full aspect-square overflow-hidden border border-[#d6c7aa] bg-[#1e1712]">
+            <img src="./comic/comic-starburst.svg" alt="" className="w-full h-full object-cover" />
+          </div>
+          <span className="text-[8px] font-mono-code font-bold tracking-wider text-[#1d1610] uppercase truncate">
+            INCURSION // 616
+          </span>
+        </div>
+
         <svg
           viewBox="0 0 1200 840"
           preserveAspectRatio="xMidYMid slice"
-          className="w-full h-full opacity-75"
+          className="w-full h-full opacity-85"
         >
-          {/* Drafting rings & timeline arcs */}
-          <g fill="none" stroke="#5a3d1e" opacity="0.065">
-            <circle cx="880" cy="230" r="245" strokeWidth="1.2" strokeDasharray="8 6" />
-            <circle cx="880" cy="230" r="185" strokeWidth="0.9" />
-            <circle cx="270" cy="620" r="165" strokeWidth="1" strokeDasharray="6 6" />
-            <path d="M-40 440 Q 280 430 480 330 T 1240 160" strokeWidth="1.6" />
-            <path d="M180 420 Q 450 540 760 570 T 1240 605" strokeWidth="1.2" strokeDasharray="5 5" />
+          {/* Drafting rings & drifting timeline arcs */}
+          <g fill="none" stroke="#5a3d1e">
+            <circle cx="880" cy="230" r="245" strokeWidth="1.2" strokeDasharray="8 6" opacity="0.11" />
+            <circle cx="880" cy="230" r="185" strokeWidth="0.9" opacity="0.09" />
+            <circle cx="270" cy="620" r="165" strokeWidth="1" strokeDasharray="6 6" opacity="0.1" />
+            <path
+              d="M-40 440 Q 280 430 480 330 T 1240 160"
+              strokeWidth="1.8"
+              strokeDasharray="10 6"
+              opacity="0.15"
+              className="tva-branch-drift"
+            />
+            <path
+              d="M180 420 Q 450 540 760 570 T 1240 605"
+              strokeWidth="1.3"
+              strokeDasharray="6 6"
+              opacity="0.13"
+              className="tva-branch-drift"
+            />
+          </g>
+
+          {/* TVA Sector Calibration Watermarks & Blueprint Crosshairs */}
+          <g fill="#5a3d1e" fillOpacity="0.16" fontSize="10" fontFamily="IBM Plex Mono, monospace" fontWeight="700">
+            <text x="48" y="42">TVA // SECTOR 616</text>
+            <text x="1030" y="42">ANCHOR E-828 // LABS</text>
+            <text x="48" y="792">BRANCH E-10005 // MUTANT PRIME</text>
+            <text x="1028" y="792">CONVERGENCE // 2026</text>
+          </g>
+
+          <g stroke="#5a3d1e" strokeWidth="1.1" opacity="0.18">
+            <path d="M240 110 V130 M230 120 H250" />
+            <path d="M600 110 V130 M590 120 H610" />
+            <path d="M960 110 V130 M950 120 H970" />
+            <path d="M240 710 V730 M230 720 H250" />
+            <path d="M960 710 V730 M950 720 H970" />
           </g>
 
           {/* Silver-Age Comic Shapes: Lightning bolts, Starburst, Speech Silhouette & Kirby Krackle */}
-          <g fill="none" stroke="#c2410c" opacity="0.11" strokeLinecap="round" strokeLinejoin="round">
+          <g fill="none" stroke="#c2410c" opacity="0.15" strokeLinecap="round" strokeLinejoin="round">
             {/* Comic lightning bolt top-left margin */}
-            <path d="M72 48 L44 102 H72 L52 154 L106 90 H78 Z" strokeWidth="2.4" fill="#c2410c" fillOpacity="0.08" />
+            <path d="M72 58 L44 112 H72 L52 164 L106 100 H78 Z" strokeWidth="2.4" fill="#c2410c" fillOpacity="0.09" />
             {/* Jagged caption-box frame bottom-right */}
             <polygon points="1040,565 1145,555 1138,610 1160,628 1055,638" strokeWidth="2" strokeDasharray="5 3" />
           </g>
 
-          <g fill="none" stroke="#0f766e" opacity="0.11" strokeLinecap="round" strokeLinejoin="round">
+          <g fill="none" stroke="#0f766e" opacity="0.14" strokeLinecap="round" strokeLinejoin="round">
             {/* Empty vintage speech-bubble silhouette left mid */}
             <path d="M36 285 Q36 250 88 250 Q140 250 140 285 Q140 318 96 320 L74 342 L78 320 Q36 318 36 285 Z" strokeWidth="2.2" />
             {/* Action burst */}
@@ -486,18 +553,19 @@ export function App() {
           </g>
 
           {/* Kirby Krackle Energy Dot Clusters */}
-          <g fill="#2b1e12" opacity="0.12">
+          <g fill="#2b1e12" opacity="0.15">
             <circle cx="96" cy="198" r="7" /><circle cx="110" cy="190" r="4" /><circle cx="86" cy="212" r="5" /><circle cx="115" cy="206" r="3.5" /><circle cx="98" cy="182" r="3" />
             <circle cx="1115" cy="285" r="8" /><circle cx="1132" cy="274" r="4.5" /><circle cx="1102" cy="300" r="5.5" /><circle cx="1136" cy="296" r="3.5" /><circle cx="1118" cy="264" r="3" />
           </g>
 
           {/* Print-proof Corner Crop Marks (+) & Vertical Comic Margin Ticks */}
-          <g stroke="#5a3d1e" strokeWidth="1.2" opacity="0.16">
+          <g stroke="#5a3d1e" strokeWidth="1.2" opacity="0.22">
             <path d="M24 14 V34 M14 24 H34" />
             <path d="M1176 14 V34 M1166 24 H1186" />
             <path d="M24 806 V826 M14 816 H34" />
             <path d="M1176 806 V826 M1166 816 H1186" />
             <path d="M1190 120 H1200 M1190 180 H1200 M1190 240 H1200 M1190 300 H1200 M1190 360 H1200 M1190 420 H1200 M1190 480 H1200 M1190 540 H1200 M1190 600 H1200 M1190 660 H1200" />
+            <path d="M0 120 H10 M0 240 H10 M0 360 H10 M0 480 H10 M0 600 H10 M0 720 H10" />
           </g>
         </svg>
       </div>
@@ -563,6 +631,7 @@ export function App() {
         className="relative z-10 flex-1 min-w-0 px-4 sm:px-6 lg:px-8 py-6 max-w-6xl mx-auto w-full"
         onClick={() => setSearchOpen(false)}
       >
+        <div key={activeView} className="tva-view-enter">
         {activeView === 'hub' && (
           <CommandHub
             watchedSet={watchedSet}
@@ -641,6 +710,7 @@ export function App() {
             watchedSet={watchedSet}
             spoilerShield={spoilerShield}
             showTheories={showTheories}
+            tmdbApiKey={tmdbApiKey}
             onSelect={setSelectedEntity}
           />
         )}
@@ -658,6 +728,7 @@ export function App() {
             onSelect={setSelectedEntity}
           />
         )}
+        </div>
 
         <footer className="mt-10 border-t border-[#cbb895] pt-4 pb-6 text-[11px] text-[#61503e] leading-relaxed flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <p>

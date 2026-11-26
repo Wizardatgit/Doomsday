@@ -91,7 +91,7 @@ export function CharacterDirectory({
             <option value="all">All Realities</option>
             {REALITIES.map((r) => (
               <option key={r.id} value={r.id}>
-                {r.code} — {r.name}
+                {r.code} - {r.name}
               </option>
             ))}
           </select>

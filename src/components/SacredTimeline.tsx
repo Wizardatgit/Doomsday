@@ -1,5 +1,5 @@
 import { Fragment, useMemo, useState } from 'react';
-import { CheckSquare, Compass, Filter, RotateCcw, Square } from 'lucide-react';
+import { CheckSquare, Compass, Filter, LayoutGrid, List, RotateCcw, Square } from 'lucide-react';
 import { BEGINNER_12_IDS, TITLES, getCharacterChipLabel, realitiesById } from '../data/index.ts';
 import type { EntityRef, TitleEra } from '../data/types.ts';
 import { titleTmdbQuery } from '../lib/tmdb.ts';
@@ -8,6 +8,7 @@ import { EntityVisual, SectionDivider, ViewHeroBanner } from './TvaArt.tsx';
 import { Redactable } from './Redactable.tsx';
 
 type OrderMode = 'chrono' | 'release';
+type ViewLayout = 'list' | 'grid';
 type EraFilter = 'all' | 'pre-phase-1' | 'infinity' | 'defenders' | 'multiverse';
 type WatchFilter = 'all' | 'unwatched' | 'watched';
 
@@ -33,6 +34,7 @@ export function SacredTimeline({
   onSelect: (ref: EntityRef) => void;
 }) {
   const [orderMode, setOrderMode] = useState<OrderMode>('chrono');
+  const [viewLayout, setViewLayout] = useState<ViewLayout>('list');
   const [eraFilter, setEraFilter] = useState<EraFilter>('all');
   const [realityFilter, setRealityFilter] = useState<string>('all');
   const [watchFilter, setWatchFilter] = useState<WatchFilter>('all');
@@ -74,6 +76,31 @@ export function SacredTimeline({
     );
   }, [orderMode, eraFilter, realityFilter, timelinePreset, watchFilter, watchedSet]);
 
+  const eraGroups = useMemo(() => {
+    const groups: {
+      key: string;
+      badge: string;
+      title: string;
+      accentColor: string;
+      items: typeof filteredTitles;
+    }[] = [];
+    for (const t of filteredTitles) {
+      const last = groups[groups.length - 1];
+      if (!last || last.title !== t.eraLabel) {
+        groups.push({
+          key: `${t.era}-${t.eraLabel}-${groups.length}`,
+          badge: t.era.toUpperCase(),
+          title: t.eraLabel,
+          accentColor: realitiesById.get(t.realityId)?.color ?? '#c2410c',
+          items: [t],
+        });
+      } else {
+        last.items.push(t);
+      }
+    }
+    return groups;
+  }, [filteredTitles]);
+
   return (
     <div className="space-y-5">
       <ViewHeroBanner
@@ -85,29 +112,68 @@ export function SacredTimeline({
         accentColor="#c2410c"
         emblem="tva"
       >
-        <div className="flex items-center gap-1 rounded border border-[#cbb895]/40 bg-[#1a130e]/90 p-1">
-          <button
-            type="button"
-            onClick={() => setOrderMode('chrono')}
-            className={`rounded px-3 py-1.5 text-xs font-mono-code font-semibold ${
-              orderMode === 'chrono'
-                ? 'bg-amber-400 text-[#1a130e]'
-                : 'text-[#dfd1b5] hover:text-amber-300'
-            }`}
+        <div className="flex flex-wrap items-center gap-2">
+          <div
+            role="group"
+            aria-label="Order mode"
+            className="flex items-center gap-1 rounded border border-[#cbb895]/40 bg-[#1a130e]/90 p-1"
           >
-            Story Chronological
-          </button>
-          <button
-            type="button"
-            onClick={() => setOrderMode('release')}
-            className={`rounded px-3 py-1.5 text-xs font-mono-code font-semibold ${
-              orderMode === 'release'
-                ? 'bg-amber-400 text-[#1a130e]'
-                : 'text-[#dfd1b5] hover:text-amber-300'
-            }`}
+            <button
+              type="button"
+              aria-pressed={orderMode === 'chrono'}
+              onClick={() => setOrderMode('chrono')}
+              className={`rounded px-3 py-1.5 text-xs font-mono-code font-semibold ${
+                orderMode === 'chrono'
+                  ? 'bg-amber-400 text-[#1a130e]'
+                  : 'text-[#dfd1b5] hover:text-amber-300'
+              }`}
+            >
+              Story Chronological
+            </button>
+            <button
+              type="button"
+              aria-pressed={orderMode === 'release'}
+              onClick={() => setOrderMode('release')}
+              className={`rounded px-3 py-1.5 text-xs font-mono-code font-semibold ${
+                orderMode === 'release'
+                  ? 'bg-amber-400 text-[#1a130e]'
+                  : 'text-[#dfd1b5] hover:text-amber-300'
+              }`}
+            >
+              Release Order
+            </button>
+          </div>
+
+          <div
+            role="group"
+            aria-label="Timeline layout"
+            className="flex items-center gap-1 rounded border border-[#cbb895]/40 bg-[#1a130e]/90 p-1"
           >
-            Release Order
-          </button>
+            <button
+              type="button"
+              aria-pressed={viewLayout === 'list'}
+              onClick={() => setViewLayout('list')}
+              className={`inline-flex items-center gap-1 rounded px-2.5 py-1.5 text-xs font-mono-code font-semibold ${
+                viewLayout === 'list'
+                  ? 'bg-amber-400 text-[#1a130e]'
+                  : 'text-[#dfd1b5] hover:text-amber-300'
+              }`}
+            >
+              <List className="w-3.5 h-3.5" /> List
+            </button>
+            <button
+              type="button"
+              aria-pressed={viewLayout === 'grid'}
+              onClick={() => setViewLayout('grid')}
+              className={`inline-flex items-center gap-1 rounded px-2.5 py-1.5 text-xs font-mono-code font-semibold ${
+                viewLayout === 'grid'
+                  ? 'bg-amber-400 text-[#1a130e]'
+                  : 'text-[#dfd1b5] hover:text-amber-300'
+              }`}
+            >
+              <LayoutGrid className="w-3.5 h-3.5" /> Posters
+            </button>
+          </div>
         </div>
       </ViewHeroBanner>
 
@@ -116,6 +182,7 @@ export function SacredTimeline({
         <div className="flex flex-wrap items-center gap-2.5 text-xs">
           <Filter className="w-4 h-4 text-[#c2410c] shrink-0" />
           <select
+            aria-label="Filter by era"
             value={eraFilter}
             onChange={(e) => setEraFilter(e.target.value as EraFilter)}
             className="rounded border border-[#cbb895] bg-[#fffaf0] px-2.5 py-1.5 text-xs font-mono-code text-[#1d1610]"
@@ -128,6 +195,7 @@ export function SacredTimeline({
           </select>
 
           <select
+            aria-label="Filter by reality"
             value={realityFilter}
             onChange={(e) => setRealityFilter(e.target.value)}
             className="rounded border border-[#cbb895] bg-[#fffaf0] px-2.5 py-1.5 text-xs font-mono-code text-[#1d1610]"
@@ -135,12 +203,13 @@ export function SacredTimeline({
             <option value="all">All Realities</option>
             {uniqueRealities.map((r) => (
               <option key={r.id} value={r.id}>
-                {r.code} — {r.name}
+                {r.code} - {r.name}
               </option>
             ))}
           </select>
 
           <select
+            aria-label="Filter by importance tier"
             value={timelinePreset}
             onChange={(e) => onChangePreset(e.target.value as TimelinePreset)}
             className="rounded border border-[#cbb895] bg-[#fffaf0] px-2.5 py-1.5 text-xs font-mono-code text-[#1d1610]"
@@ -152,6 +221,7 @@ export function SacredTimeline({
           </select>
 
           <select
+            aria-label="Filter by watched status"
             value={watchFilter}
             onChange={(e) => setWatchFilter(e.target.value as WatchFilter)}
             className="rounded border border-[#cbb895] bg-[#fffaf0] px-2.5 py-1.5 text-xs font-mono-code text-[#1d1610]"
@@ -215,7 +285,93 @@ export function SacredTimeline({
         )}
       </div>
 
-      {/* Archival Filmstrip Ledger */}
+      {viewLayout === 'grid' ? (
+        <div className="space-y-6">
+          {eraGroups.map((group) => (
+            <section key={group.key} className="space-y-3">
+              <SectionDivider
+                badge={group.badge}
+                title={group.title}
+                accentColor={group.accentColor}
+              />
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3.5">
+                {group.items.map((t) => {
+                  const reality = realitiesById.get(t.realityId);
+                  const watched = watchedSet.has(t.id);
+                  const color = reality?.color ?? '#c2410c';
+                  const tierBorder =
+                    t.importance === 'essential'
+                      ? '#c2410c'
+                      : t.importance === 'key'
+                        ? '#1d4ed8'
+                        : '#8c775c';
+                  return (
+                    <div
+                      key={t.id}
+                      onClick={() => onSelect({ kind: 'title', id: t.id })}
+                      className={`tva-folder tva-polaroid-lift rounded-md overflow-hidden cursor-pointer flex flex-col border-t-[3px] ${
+                        t.id === 'avengers-doomsday' ? 'ring-2 ring-[#047857]' : ''
+                      }`}
+                      style={{ borderTopColor: tierBorder }}
+                    >
+                      <div className="relative bg-[#140f0c] p-2 flex items-center justify-center">
+                        <EntityVisual
+                          variant="poster"
+                          code={reality?.code ?? 'MCU'}
+                          title={t.title}
+                          subtitle={`${t.year}`}
+                          accentColor={color}
+                          emblem={t.id === 'avengers-doomsday' ? 'doom' : 'tva'}
+                          wikiPage={t.wikiPage}
+                          tmdbQuery={titleTmdbQuery(t)}
+                          tmdbApiKey={tmdbApiKey}
+                          hideZoomTrigger
+                          className="!w-full !h-44 sm:!h-48 border-0 shadow-none"
+                        />
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onToggleWatched(t.id);
+                          }}
+                          aria-label={watched ? `Unmark ${t.title}` : `Mark ${t.title} watched`}
+                          className={`absolute top-2.5 left-2.5 z-10 inline-flex items-center gap-1 rounded px-1.5 py-1 text-[10px] font-mono-code font-bold shadow ${
+                            watched
+                              ? 'bg-[#047857] text-white tva-stamp-pop'
+                              : 'bg-[#18120e]/85 text-[#f7ebd4] border border-[#cbb895]/40 hover:border-amber-400'
+                          }`}
+                        >
+                          {watched ? <CheckSquare className="w-3.5 h-3.5" /> : <Square className="w-3.5 h-3.5" />}
+                          {watched ? 'DONE' : ''}
+                        </button>
+                      </div>
+                      <div className="p-2.5 flex-1 flex flex-col justify-between gap-1 bg-[#fffaf0]">
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onSelect({ kind: 'title', id: t.id });
+                          }}
+                          className={`text-left text-xs font-bold leading-snug line-clamp-2 hover:text-[#9a3412] hover:underline ${
+                            watched ? 'text-[#61503e] line-through' : 'text-[#1d1610]'
+                          }`}
+                        >
+                          {t.title}
+                        </button>
+                        <div className="flex items-center justify-between gap-1 text-[10px] font-mono-code text-[#61503e]">
+                          <span>{t.year}</span>
+                          <span className="uppercase font-semibold">{t.importance}</span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
+          ))}
+        </div>
+      ) : (
+      /* Archival Filmstrip Ledger */
       <div className="relative pl-6 sm:pl-8 space-y-3">
         <div className="absolute left-2.5 sm:left-3.5 top-2 bottom-2 w-0.5 bg-gradient-to-b from-[#c2410c] via-[#d97706] to-[#047857]" />
 
@@ -266,7 +422,7 @@ export function SacredTimeline({
                   }}
                   aria-label={watched ? `Unmark ${t.title}` : `Mark ${t.title} watched`}
                   className={`mt-1 shrink-0 transition-colors ${
-                    watched ? 'text-[#047857]' : 'text-[#61503e] hover:text-[#c2410c]'
+                    watched ? 'text-[#047857] tva-stamp-pop' : 'text-[#61503e] hover:text-[#c2410c]'
                   }`}
                 >
                   {watched ? <CheckSquare className="w-5 h-5" /> : <Square className="w-5 h-5" />}
@@ -380,6 +536,7 @@ export function SacredTimeline({
           );
         })}
       </div>
+      )}
     </div>
   );
 }

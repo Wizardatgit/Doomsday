@@ -13,7 +13,7 @@ export const CHARACTERS: Character[] = [
     doomsdayStatus: 'confirmed',
     catalogCode: 'TVA-VAR-DOOM',
     whoAreThey:
-      'Supreme scientist-sorcerer and the overarching antagonist of Avengers: Doomsday—portrayed by Robert Downey Jr., carrying the exact face Earth-616 remembers as Tony Stark.',
+      'Supreme scientist-sorcerer and the overarching antagonist of Avengers: Doomsday, portrayed by Robert Downey Jr., carrying the exact face Earth-616 remembers as Tony Stark.',
     howTheyGotHere:
       'First surfaced in the mid-credits of The Fantastic Four: First Steps on Earth-828, kneeling beside five-year-old Franklin Richards with his metal mask in hand. Viewing multiversal survivors like Steve Rogers as living "stolen lives," Doom unleashes an incursion crusade across realities.',
     lastKnownStatus: 'Infiltrating Earth-828 beside Franklin Richards; mobilizing against multiversal "stolen lives".',
@@ -23,8 +23,8 @@ export const CHARACTERS: Character[] = [
     wikiPage: "Doctor_Doom",
     confidence: 'official',
     sources: [
-      { label: 'Marvel.com — Avengers: Doomsday', url: 'https://www.marvel.com/movies/avengers-doomsday' },
-      { label: 'Wikipedia — The Fantastic Four: First Steps', url: 'https://en.wikipedia.org/wiki/The_Fantastic_Four:_First_Steps' },
+      { label: 'Marvel.com - Avengers: Doomsday', url: 'https://www.marvel.com/movies/avengers-doomsday' },
+      { label: 'Wikipedia - The Fantastic Four: First Steps', url: 'https://en.wikipedia.org/wiki/The_Fantastic_Four:_First_Steps' },
     ],
     journey: [
       {
@@ -50,7 +50,7 @@ export const CHARACTERS: Character[] = [
     whoAreThey:
       'Genius inventor, armored founding Avenger, and the Anchor Being figure of Earth-616 who gave his life wielding the Infinity Stones in Endgame.',
     howTheyGotHere:
-      'Though Tony Stark died in 2023 saving Earth-616, his legacy echoes through Peter Parker, Riri Williams, and Sam Wilson—and explodes emotionally when Victor von Doom arrives wearing his face.',
+      'Though Tony Stark died in 2023 saving Earth-616, his legacy echoes through Peter Parker, Riri Williams, and Sam Wilson, and explodes emotionally when Victor von Doom arrives wearing his face.',
     lastKnownStatus: 'Deceased (2023 Battle of Earth, Earth-616); his likeness returns via Victor von Doom.',
     firstAppearanceTitleId: 'iron-man',
     lastSeenTitleId: 'avengers-endgame',
@@ -86,8 +86,8 @@ export const CHARACTERS: Character[] = [
     wikiPage: "Steve_Rogers_(Marvel_Cinematic_Universe)",
     confidence: 'official',
     sources: [
-      { label: 'Marvel.com — Avengers: Doomsday', url: 'https://www.marvel.com/movies/avengers-doomsday' },
-      { label: 'Wikipedia — Avengers: Doomsday', url: 'https://en.wikipedia.org/wiki/Avengers:_Doomsday' },
+      { label: 'Marvel.com - Avengers: Doomsday', url: 'https://www.marvel.com/movies/avengers-doomsday' },
+      { label: 'Wikipedia - Avengers: Doomsday', url: 'https://en.wikipedia.org/wiki/Avengers:_Doomsday' },
     ],
     journey: [
       { titleId: 'captain-america-first-avenger', beat: 'Takes the Super Soldier Serum and crashes into Arctic ice in 1945.' },
@@ -113,7 +113,7 @@ export const CHARACTERS: Character[] = [
     whoAreThey:
       'SSR war hero, S.H.I.E.L.D. co-founder, and Steve Rogers’ lifelong partner.',
     howTheyGotHere:
-      'In Prime Earth-616 Peggy died of old age in 2016, while Captain Carter variants fought in What If…? and Earth-838. In Steve Rogers’ Endgame branch, Peggy reunited with Steve in the late 1940s—putting her directly inside the branch timeline thrust into Doomsday.',
+      'In Prime Earth-616 Peggy died of old age in 2016, while Captain Carter variants fought in What If…? and Earth-838. In Steve Rogers’ Endgame branch, Peggy reunited with Steve in the late 1940s, putting her directly inside the branch timeline thrust into Doomsday.',
     lastKnownStatus: 'Married to Steve Rogers in Steve’s Alternate Branch; widely reported to appear alongside Steve Rogers.',
     firstAppearanceTitleId: 'captain-america-first-avenger',
     lastSeenTitleId: 'avengers-endgame',
@@ -144,7 +144,7 @@ export const CHARACTERS: Character[] = [
     whoAreThey:
       'Former pararescueman and Falcon who accepted Steve Rogers’ Vibranium shield and stepped up as Earth-616’s official Captain America.',
     howTheyGotHere:
-      'After proving himself against the Flag Smashers and defeating Red Hulk in Brave New World, Sam accepted President Ross’s mandate to rebuild the official Avengers—putting him at odds with Valentina’s New Avengers trademark just as multiverse incursions strike.',
+      'After proving himself against the Flag Smashers and defeating Red Hulk in Brave New World, Sam accepted President Ross’s mandate to rebuild the official Avengers, putting him at odds with Valentina’s New Avengers trademark just as multiverse incursions strike.',
     lastKnownStatus: 'Rebuilding official Avengers; warned by Samuel Sterns of looming outside worlds.',
     firstAppearanceTitleId: 'captain-america-winter-soldier',
     lastSeenTitleId: 'captain-america-brave-new-world',
@@ -196,7 +196,7 @@ export const CHARACTERS: Character[] = [
     whoAreThey:
       'Founding Avenger and surviving Prince of Asgard, last seen raising Gorr’s cosmic-born daughter Love across the cosmos with Stormbreaker and Mjolnir.',
     howTheyGotHere:
-      'Thor believes his prime-timeline brother Loki died at Thanos’s hands in 2018—completely unaware that the 2012 Loki Variant now holds the entire Multiverse together. Trailers spotlight Thor receiving a major leadership and power upgrade.',
+      'Thor believes his prime-timeline brother Loki died at Thanos’s hands in 2018, completely unaware that the 2012 Loki Variant now holds the entire Multiverse together. Trailers spotlight Thor receiving a major leadership and power upgrade.',
     lastKnownStatus: 'Protecting the cosmos with Love; confirmed lead in Doomsday.',
     firstAppearanceTitleId: 'thor',
     lastSeenTitleId: 'thor-love-and-thunder',
@@ -206,7 +206,7 @@ export const CHARACTERS: Character[] = [
       { titleId: 'thor', beat: 'Learns humility on Earth and faces Loki’s fall.' },
       { titleId: 'avengers-infinity-war', beat: 'Witnesses Thanos murder Loki and forges Stormbreaker.' },
       { titleId: 'thor-love-and-thunder', beat: 'Reclaims Mjolnir beside Jane Foster and adopts Love.' },
-      { titleId: 'avengers-doomsday', beat: 'Steps forward with upgraded thunder power as universes collide—putting him on course to reunite with Loki.' },
+      { titleId: 'avengers-doomsday', beat: 'Steps forward with upgraded thunder power as universes collide, putting him on course to reunite with Loki.' },
     ],
   },
   {
@@ -273,7 +273,7 @@ export const CHARACTERS: Character[] = [
     whoAreThey:
       'Supreme martial artist trained by the Ten Rings organization who inherited his father Wenwu’s mystical, ultra-ancient arm rings.',
     howTheyGotHere:
-      'After saving Ta Lo, Wong brought Shang-Chi to Bruce Banner and Carol Danvers—who discovered the Ten Rings aren’t vibranium, Chitauri, or cosmic tech, and are transmitting an unknown beacon.',
+      'After saving Ta Lo, Wong brought Shang-Chi to Bruce Banner and Carol Danvers, who discovered the Ten Rings aren’t vibranium, Chitauri, or cosmic tech, and are transmitting an unknown beacon.',
     lastKnownStatus: 'Initiated into Earth-616’s Avengers circle while the Ten Rings signal pulses.',
     firstAppearanceTitleId: 'shang-chi',
     lastSeenTitleId: 'shang-chi',
@@ -325,7 +325,7 @@ export const CHARACTERS: Character[] = [
     whoAreThey:
       'Red Room assassin, Natasha Romanoff’s adoptive sister, and the heart of the New Avengers (Thunderbolts*).',
     howTheyGotHere:
-      'After surviving Valentina’s vault and helping rescue Bob Reynolds inside Sentry’s Void—prompting Val to unveil the New Avengers in Watchtower—Yelena later crosses paths with Spider-Man in New York during Brand New Day before heading into Doomsday.',
+      'After surviving Valentina’s vault and helping rescue Bob Reynolds inside Sentry’s Void - prompting Val to unveil the New Avengers in Watchtower - Yelena later crosses paths with Spider-Man in New York during Brand New Day before heading into Doomsday.',
     lastKnownStatus: 'Co-leading New Avengers in Watchtower after crossing paths with Peter Parker in Brand New Day.',
     firstAppearanceTitleId: 'black-widow',
     lastSeenTitleId: 'spider-man-brand-new-day',
@@ -364,7 +364,7 @@ export const CHARACTERS: Character[] = [
       { titleId: 'falcon-winter-soldier', beat: 'Completes amends list and aids Sam Wilson.' },
       { titleId: 'captain-america-brave-new-world', beat: 'Serves in Congress and backs Sam Wilson’s charge to rebuild the Avengers.' },
       { titleId: 'thunderbolts', beat: 'Rescues the Thunderbolts convoy and joins the New Avengers.' },
-      { titleId: 'avengers-doomsday', beat: 'Fights beside the New Avengers—and faces Steve Rogers’ return and Doom.' },
+      { titleId: 'avengers-doomsday', beat: 'Fights beside the New Avengers, and faces Steve Rogers’ return and Doom.' },
     ],
   },
   {
@@ -453,7 +453,7 @@ export const CHARACTERS: Character[] = [
     doomsdayStatus: 'confirmed',
     catalogCode: 'TVA-616-SEN',
     whoAreThey:
-      'OXE’s lone surviving "Project Sentry" experiment—possessing the power of "a thousand exploding suns" alongside a terrifying shadow alter-ego called The Void.',
+      'OXE’s lone surviving "Project Sentry" experiment - possessing the power of "a thousand exploding suns" alongside a terrifying shadow alter-ego called The Void.',
     howTheyGotHere:
       'Rescued from OXE’s vault by the Thunderbolts, Bob briefly unleashed The Void over Manhattan before Yelena and the team talked him back. He now resides with the New Avengers under strict restraint to avoid triggering The Void.',
     lastKnownStatus: 'Living at Watchtower with the New Avengers, hesitant to use Sentry powers.',
@@ -506,7 +506,7 @@ export const CHARACTERS: Character[] = [
     whoAreThey:
       'Brilliant scientist and leader of Earth-828’s Fantastic Four, whose hyper-elastic body and multiversal intellect drive Earth-828’s survival.',
     howTheyGotHere:
-      'After stopping Galactus in First Steps and later encountering Victor von Doom targeting his son Franklin, Reed pilots/launches the Fantastic Four rocket across dimensional barriers—entering Earth-616 at the end of Thunderbolts*.',
+      'After stopping Galactus in First Steps and later encountering Victor von Doom targeting his son Franklin, Reed pilots/launches the Fantastic Four rocket across dimensional barriers, entering Earth-616 at the end of Thunderbolts*.',
     lastKnownStatus: 'Protects Franklin on Earth-828 before the Fantastic Four rocket enters Earth-616 space; confirmed for Doomsday.',
     firstAppearanceTitleId: 'fantastic-four-first-steps',
     lastSeenTitleId: 'fantastic-four-first-steps',
@@ -530,7 +530,7 @@ export const CHARACTERS: Character[] = [
     whoAreThey:
       'Diplomat, powerhouse force-field projector, and fiercely protective mother of Franklin Richards.',
     howTheyGotHere:
-      'Defended Franklin against Galactus on Earth-828, only to catch a cloaked Victor von Doom silently beside Franklin four years later—launching the crisis that sends the First Family toward Earth-616.',
+      'Defended Franklin against Galactus on Earth-828, only to catch a cloaked Victor von Doom silently beside Franklin four years later, launching the crisis that sends the First Family toward Earth-616.',
     lastKnownStatus: 'Discovered Doom beside Franklin; crossing into Earth-616 for Doomsday.',
     firstAppearanceTitleId: 'fantastic-four-first-steps',
     lastSeenTitleId: 'fantastic-four-first-steps',
@@ -600,9 +600,9 @@ export const CHARACTERS: Character[] = [
     doomsdayStatus: 'likely',
     catalogCode: 'TVA-828-FRK',
     whoAreThey:
-      'Reed Richards and Sue Storm’s son on Earth-828—born with boundless reality-manipulating Power Cosmic.',
+      'Reed Richards and Sue Storm’s son on Earth-828 - born with boundless reality-manipulating Power Cosmic.',
     howTheyGotHere:
-      'Galactus tried to claim infant Franklin as his successor. Four years later, Doctor Doom seeks out five-year-old Franklin in secret—making him the cosmic prize driving Doom’s Doomsday agenda.',
+      'Galactus tried to claim infant Franklin as his successor. Four years later, Doctor Doom seeks out five-year-old Franklin in secret, making him the cosmic prize driving Doom’s Doomsday agenda.',
     lastKnownStatus: 'Approached silently by Doctor Doom on Earth-828.',
     firstAppearanceTitleId: 'fantastic-four-first-steps',
     lastSeenTitleId: 'fantastic-four-first-steps',
@@ -782,7 +782,7 @@ export const CHARACTERS: Character[] = [
     doomsdayStatus: 'confirmed',
     catalogCode: 'TVA-VOID-GMB',
     whoAreThey:
-      'Cajun card-throwing kinetic mutant ("Remember it") who never got his standalone Fox solo movie—until resurfacing as a seasoned Void Resistance fighter.',
+      'Cajun card-throwing kinetic mutant ("Remember it") who never got his standalone Fox solo movie, until resurfacing as a seasoned Void Resistance fighter.',
     howTheyGotHere:
       'Born/discarded directly into The Void from an unmade reality branch, Channing Tatum’s Gambit teamed with Deadpool, Wolverine, Blade, and Elektra to defeat Cassandra Nova, surviving to join the X-Men roster in Doomsday.',
     lastKnownStatus: 'Survived The Void battle (Deadpool & Wolverine); confirmed for Doomsday.',
@@ -835,7 +835,7 @@ export const CHARACTERS: Character[] = [
     whoAreThey:
       'Formidable leader of Wakanda’s Jabari Tribe who stepped forward to challenge for the Wakandan throne at the end of Wakanda Forever.',
     howTheyGotHere:
-      'Steadfast ally to T’Challa and Shuri through Infinity War, Endgame, and the Talokan war—bringing Wakanda’s armies into Doomsday.',
+      'Steadfast ally to T’Challa and Shuri through Infinity War, Endgame, and the Talokan war, bringing Wakanda’s armies into Doomsday.',
     lastKnownStatus: 'Ruler/leader on Wakanda’s throne.',
     firstAppearanceTitleId: 'black-panther',
     lastSeenTitleId: 'black-panther-wakanda-forever',
@@ -858,7 +858,7 @@ export const CHARACTERS: Character[] = [
     doomsdayStatus: 'confirmed',
     catalogCode: 'TVA-616-TAL1',
     whoAreThey:
-      'Mutant god-king of the hidden undersea empire of Talokan—commanding immense vibranium-fueled strength and winged flight.',
+      'Mutant god-king of the hidden undersea empire of Talokan, commanding immense vibranium-fueled strength and winged flight.',
     howTheyGotHere:
       'Yielded to Shuri under a mutual-defense pact at the close of Wakanda Forever, promising Talokan will join Wakanda when outside surface/multiverse forces threaten.',
     lastKnownStatus: 'Ruling Talokan under truce with Wakanda.',
@@ -911,7 +911,7 @@ export const CHARACTERS: Character[] = [
     whoAreThey:
       'The 2012 Battle of New York Loki Variant who escaped during Endgame’s Time Heist and evolved from selfish trickster into the selfless guardian holding every timeline alive.',
     howTheyGotHere:
-      'After Sylvie killed He Who Remains and the Temporal Loom overloaded in Loki Season 2, Loki destroyed the Loom, climbed to the End of Time, and wove the dying strands into Yggdrasil—the Multiverse World Tree. Now Doom’s incursion crisis directly threatens his throne.',
+      'After Sylvie killed He Who Remains and the Temporal Loom overloaded in Loki Season 2, Loki destroyed the Loom, climbed to the End of Time, and wove the dying strands into Yggdrasil, the Multiverse World Tree. Now Doom’s incursion crisis directly threatens his throne.',
     lastKnownStatus: 'Seated at the End of Time holding all timelines alive as Yggdrasil.',
     firstAppearanceTitleId: 'thor',
     lastSeenTitleId: 'loki-s2',
@@ -926,7 +926,7 @@ export const CHARACTERS: Character[] = [
       },
       { titleId: 'loki-s1', beat: 'Explores the TVA and discovers He Who Remains at the Citadel.' },
       { titleId: 'loki-s2', beat: 'Takes the throne at the End of Time, sustaining the Multiverse World Tree.' },
-      { titleId: 'avengers-doomsday', beat: 'At the epicenter of Doom’s multiversal collision—poised to cross paths with Thor.' },
+      { titleId: 'avengers-doomsday', beat: 'At the epicenter of Doom’s multiversal collision - poised to cross paths with Thor.' },
     ],
   },
   {
@@ -942,7 +942,7 @@ export const CHARACTERS: Character[] = [
     whoAreThey:
       'S.A.B.E.R. astronaut and daughter of Maria Rambeau who gained electromagnetic light-spectrum powers walking through Wanda’s Westview Hex.',
     howTheyGotHere:
-      'In The Marvels climax, Monica flew through Dar-Benn’s spacetime tear to seal it from the outside—stranding herself inside a parallel X-Men universe attended by Beast and Binary.',
+      'In The Marvels climax, Monica flew through Dar-Benn’s spacetime tear to seal it from the outside - stranding herself inside a parallel X-Men universe attended by Beast and Binary.',
     lastKnownStatus: 'Stranded in X-Men Incursion Branch (Earth-10005-X) with Beast.',
     firstAppearanceTitleId: 'captain-marvel',
     lastSeenTitleId: 'the-marvels',
@@ -996,9 +996,9 @@ export const CHARACTERS: Character[] = [
     doomsdayStatus: 'likely',
     catalogCode: 'TVA-616-SM1',
     whoAreThey:
-      'Earth-616’s neighborhood hero whose identity was erased from every human mind—including MJ and Ned—to heal the No Way Home multiverse crack.',
+      'Earth-616’s neighborhood hero whose identity was erased from every human mind - including MJ and Ned - to heal the No Way Home multiverse crack.',
     howTheyGotHere:
-      'Fought solo street crime in Spider-Man: Brand New Day—with Frank Castle (Punisher) operating in the street crossfire—against emerging telepath Jean Grey (Sadie Sink), before Ned’s Spidey-Tracker abruptly watched Peter’s signal catapult off Earth into deep space.',
+      'Fought solo street crime in Spider-Man: Brand New Day - with Frank Castle (Punisher) operating in the street crossfire - against emerging telepath Jean Grey (Sadie Sink), before Ned’s Spidey-Tracker abruptly watched Peter’s signal catapult off Earth into deep space.',
     lastKnownStatus: 'Signal tracked shooting off Earth into outer space ("Spider-Man Will Return").',
     firstAppearanceTitleId: 'captain-america-civil-war',
     lastSeenTitleId: 'spider-man-brand-new-day',
@@ -1098,7 +1098,7 @@ export const CHARACTERS: Character[] = [
     whoAreThey:
       'Fourth-wall-breaking regenerating mercenary of Earth-10005 who saved his universe’s timeline directly with the TVA.',
     howTheyGotHere:
-      'Recruited a Wolverine variant and teamed with Void Resistance survivors (Gambit, Blade, Elektra) to stop Paradox and Cassandra Nova’s Time Ripper, leaving Earth-10005 stabilized—with Thor mysteriously crying over him in TVA screens.',
+      'Recruited a Wolverine variant and teamed with Void Resistance survivors (Gambit, Blade, Elektra) to stop Paradox and Cassandra Nova’s Time Ripper, leaving Earth-10005 stabilized, with Thor mysteriously crying over him in TVA screens.',
     lastKnownStatus: 'Spared by Hunter B-15 on restored Earth-10005.',
     firstAppearanceTitleId: 'deadpool-2016',
     lastSeenTitleId: 'deadpool-wolverine',
@@ -1121,7 +1121,7 @@ export const CHARACTERS: Character[] = [
     doomsdayStatus: 'wildcard',
     catalogCode: 'TVA-10005-WLV',
     whoAreThey:
-      'Adamantium-clawed mutant legend—Earth-10005’s original died heroically in Logan (2017), while a haunted variant stepped in to anchor the timeline anew.',
+      'Adamantium-clawed mutant legend - Earth-10005’s original died heroically in Logan (2017), while a haunted variant stepped in to anchor the timeline anew.',
     howTheyGotHere:
       'Pulled out of grief by Deadpool to defeat Cassandra Nova inside The Void and restore Earth-10005’s survival alongside Laura (X-23).',
     lastKnownStatus: 'Living peacefully with Wade and Laura on Earth-10005.',
@@ -1209,9 +1209,9 @@ export const CHARACTERS: Character[] = [
     wikiPage: "Frank_Castle_(Marvel_Cinematic_Universe)",
     confidence: 'official',
     sources: [
-      { label: 'Marvel.com — The Punisher: One Last Kill', url: 'https://www.marvel.com/tv-shows/the-punisher-one-last-kill/1' },
-      { label: 'Marvel.com — Spider-Man: Brand New Day', url: 'https://www.marvel.com/movies/spider-man-brand-new-day' },
-      { label: 'Wikipedia — The Punisher: One Last Kill', url: 'https://en.wikipedia.org/wiki/The_Punisher:_One_Last_Kill' },
+      { label: 'Marvel.com - The Punisher: One Last Kill', url: 'https://www.marvel.com/tv-shows/the-punisher-one-last-kill/1' },
+      { label: 'Marvel.com - Spider-Man: Brand New Day', url: 'https://www.marvel.com/movies/spider-man-brand-new-day' },
+      { label: 'Wikipedia - The Punisher: One Last Kill', url: 'https://en.wikipedia.org/wiki/The_Punisher:_One_Last_Kill' },
     ],
     journey: [
       { titleId: 'daredevil-saga', beat: 'Emerges in Hell’s Kitchen and crosses paths with Matt Murdock.' },
@@ -1243,8 +1243,8 @@ export const CHARACTERS: Character[] = [
     wikiPage: "Jean_Grey",
     confidence: 'official',
     sources: [
-      { label: 'Marvel.com — Spider-Man: Brand New Day', url: 'https://www.marvel.com/movies/spider-man-brand-new-day' },
-      { label: 'Wikipedia — Spider-Man: Brand New Day', url: 'https://en.wikipedia.org/wiki/Spider-Man:_Brand_New_Day' },
+      { label: 'Marvel.com - Spider-Man: Brand New Day', url: 'https://www.marvel.com/movies/spider-man-brand-new-day' },
+      { label: 'Wikipedia - Spider-Man: Brand New Day', url: 'https://en.wikipedia.org/wiki/Spider-Man:_Brand_New_Day' },
     ],
     journey: [
       { titleId: 'spider-man-brand-new-day', beat: 'Unleashes erratic telepathy across New York, drawing Peter Parker into confrontation.' },
@@ -1271,8 +1271,8 @@ export const CHARACTERS: Character[] = [
     wikiPage: "Vision_(Marvel_Cinematic_Universe)",
     confidence: 'official',
     sources: [
-      { label: 'Wikipedia — VisionQuest', url: 'https://en.wikipedia.org/wiki/VisionQuest' },
-      { label: 'Marvel.com — VisionQuest', url: 'https://www.marvel.com/tv-shows/visionquest/1' },
+      { label: 'Wikipedia - VisionQuest', url: 'https://en.wikipedia.org/wiki/VisionQuest' },
+      { label: 'Marvel.com - VisionQuest', url: 'https://www.marvel.com/tv-shows/visionquest/1' },
     ],
     journey: [
       { titleId: 'avengers-age-of-ultron', beat: 'Born from J.A.R.V.I.S., Ultron’s vibranium cradle, and the Mind Stone.' },
@@ -1293,7 +1293,7 @@ export const CHARACTERS: Character[] = [
     whoAreThey:
       'Jersey City superhero with mutant Noor genetics wielding both Quantum Bands briefly and uniting young Earth-616 heroes.',
     howTheyGotHere:
-      'Following The Marvels—where Dar-Benn’s Quantum Band rift stranded Monica Rambeau in an X-Men world—Kamala began recruiting Kate Bishop and eyeing Cassie Lang.',
+      'Following The Marvels - where Dar-Benn’s Quantum Band rift stranded Monica Rambeau in an X-Men world - Kamala began recruiting Kate Bishop and eyeing Cassie Lang.',
     lastKnownStatus: 'Building a young Earth-616 hero roster alongside Kate Bishop.',
     firstAppearanceTitleId: 'ms-marvel',
     lastSeenTitleId: 'the-marvels',
@@ -1340,7 +1340,7 @@ export const CHARACTERS: Character[] = [
     doomsdayStatus: 'legacy',
     catalogCode: 'TVA-VOID-BLD',
     whoAreThey:
-      'The original 1998 pre-MCU Daywalker vampire hunter—cemented in multiverse canon as "only ever gonna be one Blade".',
+      'The original 1998 pre-MCU Daywalker vampire hunter, cemented in multiverse canon as "only ever gonna be one Blade".',
     howTheyGotHere:
       'Exiled from his Earth-26320 continuity into The Void, Blade fought alongside Deadpool, Wolverine, Elektra, and Gambit against Cassandra Nova before B-15 promised to restore displaced heroes.',
     lastKnownStatus: 'Void Resistance veteran restored/rehomed via TVA post-Deadpool & Wolverine.',
@@ -1398,9 +1398,9 @@ export const CHARACTERS: Character[] = [
     doomsdayStatus: 'legacy',
     catalogCode: 'TVA-VOID-HT5',
     whoAreThey:
-      'Chris Evans’ pre-Captain America superhero role—the cocky Human Torch from Tim Story’s 2005 Fantastic Four.',
+      'Chris Evans’ pre-Captain America superhero role, the cocky Human Torch from Tim Story’s 2005 Fantastic Four.',
     howTheyGotHere:
-      'Pruned into The Void, where Deadpool briefly mistook him for Captain America before Cassandra Nova fatally flayed him—proving variants share actors across unrelated realities.',
+      'Pruned into The Void, where Deadpool briefly mistook him for Captain America before Cassandra Nova fatally flayed him, proving variants share actors across unrelated realities.',
     lastKnownStatus: 'Killed in The Void by Cassandra Nova (Earth-121698 legacy).',
     firstAppearanceTitleId: 'fantastic-four-2005',
     lastSeenTitleId: 'deadpool-wolverine',
@@ -1428,7 +1428,7 @@ export const CHARACTERS: Character[] = [
     whoAreThey:
       'Earth-688’s Lethal Protector whose Klyntar symbiote hive-mind spans across universes.',
     howTheyGotHere:
-      'Yanked briefly onto Earth-616 during No Way Home and returned to Earth-688 for Venom: The Last Dance—leaving behind a sliver of symbiote on Earth-616.',
+      'Yanked briefly onto Earth-616 during No Way Home and returned to Earth-688 for Venom: The Last Dance, leaving behind a sliver of symbiote on Earth-616.',
     lastKnownStatus: 'Completed Earth-688 trilogy; symbiote sliver unaccounted for on Earth-616.',
     firstAppearanceTitleId: 'venom-2018',
     lastSeenTitleId: 'venom-3-2024',

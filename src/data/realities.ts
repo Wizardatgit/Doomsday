@@ -34,7 +34,7 @@ export const REALITIES: Reality[] = [
     status: 'endangered',
     anchorBeingId: 'franklin-richards',
     summary:
-      'A sleek retro-futuristic 1960s world protected by Reed Richards, Sue Storm, Johnny Storm, and Ben Grimm. Threatened by Galactus over Franklin Richards’ cosmic power—and later infiltrated in secret by Victor von Doom.',
+      'A sleek retro-futuristic 1960s world protected by Reed Richards, Sue Storm, Johnny Storm, and Ben Grimm. Threatened by Galactus over Franklin Richards’ cosmic power, and later infiltrated in secret by Victor von Doom.',
     color: '#0369a1',
     notableEvents: [
       'Four astronauts gain cosmic powers and unite Earth-828 under Future Foundation science',
@@ -75,7 +75,7 @@ export const REALITIES: Reality[] = [
     preferGenuineWiki: false,
     status: 'incursion-risk',
     summary:
-      'The alternate X-Men universe revealed in The Marvels post-credits scene, where Monica Rambeau wakes inside the X-Mansion beside Binary (Maria Rambeau) and Hank McCoy / Beast—referencing Charles Xavier and a gaping spacetime rift.',
+      'The alternate X-Men universe revealed in The Marvels post-credits scene, where Monica Rambeau wakes inside the X-Mansion beside Binary (Maria Rambeau) and Hank McCoy / Beast - referencing Charles Xavier and a gaping spacetime rift.',
     color: '#b45309',
     notableEvents: [
       'Monica seals a spacetime tear from the outside in The Marvels and is stranded across universes',
@@ -94,7 +94,7 @@ export const REALITIES: Reality[] = [
     preferGenuineWiki: true,
     status: 'incursion-risk',
     summary:
-      'A technologically advanced reality where Ultron succeeded and the Illuminati policed multiversal threats—until Wanda Maximoff dreamwalked into 838 and slaughtered most of the council, leaving Mordo and surviving forces aware of Earth-616.',
+      'A technologically advanced reality where Ultron succeeded and the Illuminati policed multiversal threats, until Wanda Maximoff dreamwalked into 838 and slaughtered most of the council, leaving Mordo and surviving forces aware of Earth-616.',
     color: '#c2410c',
     notableEvents: [
       'Earth-838 Doctor Strange triggered an incursion destroying an entire parallel universe',
@@ -226,7 +226,7 @@ export const REALITIES: Reality[] = [
     status: 'intact',
     anchorBeingId: 'miles-morales',
     summary:
-      'The animated Spider-Verse multiverse tracked by Miguel O’Hara’s Spider-Society—explicitly referencing Doctor Strange and Peter Parker’s "little nerd back on Earth-199999/616" as a multiversal anomaly.',
+      'The animated Spider-Verse multiverse tracked by Miguel O’Hara’s Spider-Society, explicitly referencing Doctor Strange and Peter Parker’s "little nerd back on Earth-199999/616" as a multiversal anomaly.',
     color: '#be123c',
     notableEvents: [
       '2018–2023: Alchemax collider tears multiverse; Canon Events model exposed',
@@ -244,7 +244,7 @@ export const REALITIES: Reality[] = [
     preferGenuineWiki: false,
     status: 'intact',
     summary:
-      "The 1990s X-Men: The Animated Series and X-Men '97 reality—key visual and thematic inspiration for Doomsday's comic-accurate X-Men revival (yellow-and-blue Cyclops, Gambit, and Magneto/Xavier dynamics).",
+      "The 1990s X-Men: The Animated Series and X-Men '97 reality - key visual and thematic inspiration for Doomsday's comic-accurate X-Men revival (yellow-and-blue Cyclops, Gambit, and Magneto/Xavier dynamics).",
     color: '#b45309',
     notableEvents: [
       "Genosha attack and Asteroid M crisis splinter the X-Men across time in X-Men '97",
@@ -263,7 +263,7 @@ export const REALITIES: Reality[] = [
     status: 'outside-time',
     anchorBeingId: 'loki',
     summary:
-      'Exists completely outside normal time. After He Who Remains’ Temporal Loom collapsed, Loki took the throne at the End of Time—physically holding infinite living timeline branches together as Yggdrasil while B-15 and Mobius reform the TVA.',
+      'Exists completely outside normal time. After He Who Remains’ Temporal Loom collapsed, Loki took the throne at the End of Time, physically holding infinite living timeline branches together as Yggdrasil while B-15 and Mobius reform the TVA.',
     color: '#b45309',
     notableEvents: [
       'Loki Season 1: Sylvie kills He Who Remains, unleashing the multiverse',
@@ -282,7 +282,7 @@ export const REALITIES: Reality[] = [
     preferGenuineWiki: false,
     status: 'outside-time',
     summary:
-      'Where every pruned timeline, variant, and forgotten pre-MCU Marvel hero lands—guarded by Alioth and formerly ruled by Cassandra Nova. Home to Gambit (Channing Tatum) and the Void Resistance.',
+      'Where every pruned timeline, variant, and forgotten pre-MCU Marvel hero lands - guarded by Alioth and formerly ruled by Cassandra Nova. Home to Gambit (Channing Tatum) and the Void Resistance.',
     color: '#57534e',
     notableEvents: [
       'Houses pruned Variants including Classic Loki, Kid Loki, and Alioth',
@@ -302,7 +302,7 @@ export const REALITIES: Reality[] = [
     status: 'endangered',
     anchorBeingId: 'steve-rogers',
     summary:
-      'The branched timeline created when Steve Rogers stayed in the late 1940s with Peggy Carter after returning the Infinity Stones in Avengers: Endgame—which Doctor Doom considers an unforgivable "stolen life" anomaly.',
+      'The branched timeline created when Steve Rogers stayed in the late 1940s with Peggy Carter after returning the Infinity Stones in Avengers: Endgame, which Doctor Doom considers an unforgivable "stolen life" anomaly.',
     color: '#1d4ed8',
     notableEvents: [
       '1949–present: Steve lives a quiet life married to Peggy Carter in an alternate branch',
@@ -321,7 +321,7 @@ export const ICONIC_PLACES: Place[] = [
     imagePath: './places/watchtower-616.jpg',
     preferGenuineWiki: true,
     summary:
-      'Purchased by Valentina Allegra de Fontaine in Midtown Manhattan, serving as headquarters for the New Avengers (Thunderbolts*)—the exact roof from which they spot the Fantastic Four vessel entering Earth-616.',
+      'Purchased by Valentina Allegra de Fontaine in Midtown Manhattan, serving as headquarters for the New Avengers (Thunderbolts*), the exact roof from which they spot the Fantastic Four vessel entering Earth-616.',
     keyTitleIds: ['the-avengers', 'thunderbolts', 'avengers-doomsday'],
     keyCharacterIds: ['yelena-belova', 'bucky-barnes', 'sentry', 'valentina'],
   },
@@ -333,7 +333,7 @@ export const ICONIC_PLACES: Place[] = [
     imagePath: './places/baxter-828.jpg',
     preferGenuineWiki: true,
     summary:
-      'Retro-1960s headquarters of Reed Richards, Sue Storm, Johnny Storm, Ben Grimm, and Franklin Richards—and the exact room Victor von Doom infiltrates in the First Steps mid-credits scene.',
+      'Retro-1960s headquarters of Reed Richards, Sue Storm, Johnny Storm, Ben Grimm, and Franklin Richards, and the exact room Victor von Doom infiltrates in the First Steps mid-credits scene.',
     keyTitleIds: ['fantastic-four-first-steps', 'avengers-doomsday'],
     keyCharacterIds: ['reed-richards', 'sue-storm', 'franklin-richards', 'doctor-doom'],
   },
@@ -369,7 +369,7 @@ export const ICONIC_PLACES: Place[] = [
     imagePath: './places/the-void.jpg',
     preferGenuineWiki: false,
     summary:
-      'Pruned reality wasteland where Cassandra Nova reigned over discarded heroes—producing the Void Resistance (Gambit, Blade, Elektra) that fed Channing Tatum’s Gambit into Doomsday.',
+      'Pruned reality wasteland where Cassandra Nova reigned over discarded heroes, producing the Void Resistance (Gambit, Blade, Elektra) that fed Channing Tatum’s Gambit into Doomsday.',
     keyTitleIds: ['loki-s1', 'deadpool-wolverine', 'blade-1998', 'elektra-2005'],
     keyCharacterIds: ['gambit', 'blade', 'elektra', 'deadpool', 'wolverine'],
   },
@@ -381,7 +381,7 @@ export const ICONIC_PLACES: Place[] = [
     imagePath: './places/latveria-doom.jpg',
     preferGenuineWiki: true,
     summary:
-      'Sovereign European domain of Victor von Doom—blending arcane mysticism with Stark-tier armor engineering behind Doomsday’s multiversal strike.',
+      'Sovereign European domain of Victor von Doom, blending arcane mysticism with Stark-tier armor engineering behind Doomsday’s multiversal strike.',
     keyTitleIds: ['fantastic-four-first-steps', 'avengers-doomsday'],
     keyCharacterIds: ['doctor-doom', 'franklin-richards'],
   },
@@ -393,7 +393,7 @@ export const ICONIC_PLACES: Place[] = [
     imagePath: './places/wakanda-golden-city.jpg',
     preferGenuineWiki: false,
     summary:
-      'Vibranium-powered kingdom defended by Shuri (Black Panther) and King M’Baku—site of Infinity War’s final stand and strategic pillar of Earth-616’s defense.',
+      'Vibranium-powered kingdom defended by Shuri (Black Panther) and King M’Baku - site of Infinity War’s final stand and strategic pillar of Earth-616’s defense.',
     keyTitleIds: ['black-panther', 'avengers-infinity-war', 'black-panther-wakanda-forever', 'avengers-doomsday'],
     keyCharacterIds: ['shuri', 'mbaku'],
   },
@@ -405,7 +405,7 @@ export const ICONIC_PLACES: Place[] = [
     imagePath: './places/talokan-ocean.jpg',
     preferGenuineWiki: false,
     summary:
-      'Submerged vibranium civilization beneath Mesoamerican cenotes led by Namor and Namora—bound to Wakanda by a mutual-defense pact entering Doomsday.',
+      'Submerged vibranium civilization beneath Mesoamerican cenotes led by Namor and Namora - bound to Wakanda by a mutual-defense pact entering Doomsday.',
     keyTitleIds: ['black-panther-wakanda-forever', 'avengers-doomsday'],
     keyCharacterIds: ['namor', 'namora', 'shuri'],
   },
@@ -441,7 +441,7 @@ export const ICONIC_PLACES: Place[] = [
     imagePath: './places/steve-branch-1940s.jpg',
     preferGenuineWiki: false,
     summary:
-      'The post-war homefront branch Steve Rogers created by returning to dance with Peggy Carter—singled out by Doctor Doom as an intolerable "stolen life".',
+      'The post-war homefront branch Steve Rogers created by returning to dance with Peggy Carter - singled out by Doctor Doom as an intolerable "stolen life".',
     keyTitleIds: ['captain-america-first-avenger', 'agent-carter-series', 'avengers-endgame', 'avengers-doomsday'],
     keyCharacterIds: ['steve-rogers', 'peggy-carter', 'doctor-doom'],
   },
@@ -453,7 +453,7 @@ export const ICONIC_PLACES: Place[] = [
     imagePath: './places/liberty-multiverse.svg',
     preferGenuineWiki: false,
     summary:
-      'Site of the climactic No Way Home battle where three Spider-Men fought across realities—and Liberty Island in X-Men (2000) where Xavier’s team confronted Magneto.',
+      'Site of the climactic No Way Home battle where three Spider-Men fought across realities, and Liberty Island in X-Men (2000) where Xavier’s team confronted Magneto.',
     keyTitleIds: ['x-men-2000', 'spider-man-no-way-home', 'spider-man-brand-new-day'],
     keyCharacterIds: ['peter-parker-616', 'peter-parker-96283', 'peter-parker-120703', 'magneto'],
   },

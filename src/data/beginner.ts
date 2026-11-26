@@ -17,7 +17,7 @@ export const BEGINNER_PRIMER: { step: string; title: string; body: string }[] = 
   {
     step: '01',
     title: 'What Is the Multiverse?',
-    body: 'Instead of one timeline, infinite parallel Earths run side-by-side—each with its own history and heroes. Loki sits outside time holding these branching realities together like a living cosmic tree.',
+    body: 'Instead of one timeline, infinite parallel Earths run side-by-side, each with its own history and heroes. Loki sits outside time holding these branching realities together like a living cosmic tree.',
   },
   {
     step: '02',
@@ -27,7 +27,7 @@ export const BEGINNER_PRIMER: { step: string; title: string; body: string }[] = 
   {
     step: '03',
     title: 'Who Is Doctor Doom (and Why That Face)?',
-    body: 'Victor von Doom is a brilliant armored sorcerer played by Robert Downey Jr.—who previously played Earth-616’s late hero Iron Man. Doom accuses heroes who crossed timelines of living "stolen lives."',
+    body: 'Victor von Doom is a brilliant armored sorcerer played by Robert Downey Jr., who previously played Earth-616’s late hero Iron Man. Doom accuses heroes who crossed timelines of living "stolen lives."',
   },
 ];
 
@@ -38,7 +38,7 @@ export const GLOSSARY_TERMS: { term: string; meaning: string }[] = [
   },
   {
     term: 'Variant',
-    meaning: 'An alternate version of the same character from another timeline or universe—sometimes played by a different actor, sometimes the same one.',
+    meaning: 'An alternate version of the same character from another timeline or universe, sometimes played by a different actor, sometimes the same one.',
   },
   {
     term: 'TVA (Time Variance Authority)',

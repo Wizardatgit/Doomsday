@@ -66,7 +66,7 @@ export function SettingsModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/55 backdrop-blur-[1px] p-4"
+      className="tva-backdrop-fade fixed inset-0 z-50 flex items-center justify-center bg-black/55 backdrop-blur-[1px] p-4"
       onClick={onClose}
     >
       <div
@@ -75,7 +75,7 @@ export function SettingsModal({
         aria-modal="true"
         aria-labelledby="settings-modal-title"
         tabIndex={-1}
-        className="tva-folder w-full max-w-lg rounded-md p-6 space-y-5"
+        className="tva-folder tva-modal-pop w-full max-w-lg rounded-md p-6 space-y-5"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between border-b border-[#cbb895] pb-3">

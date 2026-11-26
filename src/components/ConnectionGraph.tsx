@@ -998,7 +998,7 @@ export function ConnectionGraph({
           <span><strong className="text-sky-400">●</strong> Expanded</span>
         </div>
 
-        {/* Bakelite Bezel Lock-On Telemetry Strip — never obscures CRT nodes */}
+        {/* Bakelite Bezel Lock-On Telemetry Strip - never obscures CRT nodes */}
         <div className="rounded border border-[#3a2d22] bg-[#14100d]/95 px-3 py-2 flex flex-wrap items-center justify-between gap-2">
           {selectedNode ? (
             <>

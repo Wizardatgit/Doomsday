@@ -130,7 +130,7 @@ export function FactionsHub({
         </button>
       </ViewHeroBanner>
 
-      {/* Single-column full-width accordion stack — zero empty side gaps */}
+      {/* Single-column full-width accordion stack - zero empty side gaps */}
       <div className="space-y-4">
         {FACTIONS.map((faction) => {
           const members = membersByFaction.get(faction.id) ?? [];

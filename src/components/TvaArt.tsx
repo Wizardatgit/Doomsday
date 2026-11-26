@@ -51,14 +51,14 @@ export function ImageLightboxProvider({ children }: { children: ReactNode }) {
         <div
           ref={dialogRef}
           tabIndex={-1}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-xs p-4"
+          className="tva-backdrop-fade fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-xs p-4"
           onClick={() => setPayload(null)}
           role="dialog"
           aria-modal="true"
           aria-label={`Full image preview: ${payload.title}`}
         >
           <div
-            className="relative max-w-[94vw] max-h-[92vh] flex flex-col items-center gap-3"
+            className="tva-modal-pop relative max-w-[94vw] max-h-[92vh] flex flex-col items-center gap-3"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -335,7 +335,7 @@ export function EntityVisual({
     return (
       <div
         onClick={clickImageToZoom && showImage ? handleOpenLightbox : undefined}
-        className={`relative tva-polaroid rounded-sm p-1.5 pb-2 shrink-0 flex flex-col gap-1.5 ${sizeCls} ${
+        className={`relative tva-polaroid tva-polaroid-lift rounded-sm p-1.5 pb-2 shrink-0 flex flex-col gap-1.5 ${sizeCls} ${
           clickImageToZoom && showImage ? 'cursor-zoom-in' : ''
         } ${className}`}
       >
@@ -380,7 +380,7 @@ export function EntityVisual({
     );
   }
 
-  // Poster variant (movies/shows) — uncropped object-contain on dark matte
+  // Poster variant (movies/shows) - uncropped object-contain on dark matte
   const posterSize = compact ? 'w-12 h-16' : 'w-20 h-28';
   return (
     <div

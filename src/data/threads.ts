@@ -21,8 +21,8 @@ export const THREADS: PlotThread[] = [
     ],
     confidence: 'official',
     sources: [
-      { label: 'Wikipedia — The Fantastic Four: First Steps', url: 'https://en.wikipedia.org/wiki/The_Fantastic_Four:_First_Steps' },
-      { label: 'Marvel.com — Avengers: Doomsday', url: 'https://www.marvel.com/movies/avengers-doomsday' },
+      { label: 'Wikipedia - The Fantastic Four: First Steps', url: 'https://en.wikipedia.org/wiki/The_Fantastic_Four:_First_Steps' },
+      { label: 'Marvel.com - Avengers: Doomsday', url: 'https://www.marvel.com/movies/avengers-doomsday' },
     ],
   },
   {
@@ -64,8 +64,8 @@ export const THREADS: PlotThread[] = [
     ],
     confidence: 'official',
     sources: [
-      { label: 'Marvel.com — Avengers: Doomsday', url: 'https://www.marvel.com/movies/avengers-doomsday' },
-      { label: 'Wikipedia — Avengers: Doomsday', url: 'https://en.wikipedia.org/wiki/Avengers:_Doomsday' },
+      { label: 'Marvel.com - Avengers: Doomsday', url: 'https://www.marvel.com/movies/avengers-doomsday' },
+      { label: 'Wikipedia - Avengers: Doomsday', url: 'https://en.wikipedia.org/wiki/Avengers:_Doomsday' },
     ],
   },
   {
@@ -76,7 +76,7 @@ export const THREADS: PlotThread[] = [
     summary:
       'Rather than watch infinite branches die when the Temporal Loom overloaded, Loki climbed to the End of Time and physically wove every timeline into Yggdrasil.',
     doomsdayImpact:
-      'Loki literally holds Earth-616, Earth-828, and Earth-10005 together—making his throne ground zero when incursions collide, and setting up a long-awaited reunion with Thor.',
+      'Loki literally holds Earth-616, Earth-828, and Earth-10005 together, making his throne ground zero when incursions collide, and setting up a long-awaited reunion with Thor.',
     originTitleId: 'the-avengers',
     keyTitleIds: ['the-avengers', 'avengers-endgame', 'loki-s1', 'loki-s2', 'avengers-doomsday'],
     characterIds: ['loki', 'thor'],
@@ -94,7 +94,7 @@ export const THREADS: PlotThread[] = [
     category: 'incursion',
     status: 'active',
     summary:
-      'Earth-838 Reed Richards explained that dreamwalking or crossing too deeply between realities creates an Incursion—pushing two universes together until one or both shatter completely.',
+      'Earth-838 Reed Richards explained that dreamwalking or crossing too deeply between realities creates an Incursion - pushing two universes together until one or both shatter completely.',
     doomsdayImpact:
       'Provides the exact physics behind the three-universe crisis in Doomsday (Earth-616, Earth-828, Earth-10005).',
     originTitleId: 'doctor-strange-mom',
@@ -112,7 +112,7 @@ export const THREADS: PlotThread[] = [
     category: 'post-credits',
     status: 'converging',
     summary:
-      'Monica Rambeau sacrificed herself to seal a spacetime tear in The Marvels—waking up on the wrong side inside an alternate X-Mansion beside Hank McCoy (Kelsey Grammer’s Beast).',
+      'Monica Rambeau sacrificed herself to seal a spacetime tear in The Marvels - waking up on the wrong side inside an alternate X-Mansion beside Hank McCoy (Kelsey Grammer’s Beast).',
     doomsdayImpact:
       'Directly links Earth-616’s cosmic Avengers side to the classic Fox X-Men cast confirmed for Doomsday.',
     originTitleId: 'wandavision',
@@ -150,7 +150,7 @@ export const THREADS: PlotThread[] = [
     category: 'faction',
     status: 'converging',
     summary:
-      'President Ross asked Sam Wilson to rebuild the Avengers in Brave New World—only for CIA Director Valentina to publicly unveil the Thunderbolts* as the trademarked "New Avengers" in Watchtower.',
+      'President Ross asked Sam Wilson to rebuild the Avengers in Brave New World - only for CIA Director Valentina to publicly unveil the Thunderbolts* as the trademarked "New Avengers" in Watchtower.',
     doomsdayImpact:
       'Creates built-in Earth-616 tension (with Bucky bridging both sides) right when Earth-828’s ship enters orbit.',
     originTitleId: 'captain-america-brave-new-world',
@@ -187,7 +187,7 @@ export const THREADS: PlotThread[] = [
     category: 'artifact',
     status: 'active',
     summary:
-      'Celestial Tiamut’s frozen body from Eternals yielded Adamantium—sparking an international treaty crisis in Brave New World before Samuel Sterns predicted coming wars with "the others".',
+      'Celestial Tiamut’s frozen body from Eternals yielded Adamantium - sparking an international treaty crisis in Brave New World before Samuel Sterns predicted coming wars with "the others".',
     doomsdayImpact:
       'Introduces Adamantium into Earth-616 (echoing Wolverine’s skeleton) and explicitly warns Sam Wilson of outside-world adversaries.',
     originTitleId: 'eternals',
@@ -237,7 +237,7 @@ export const THREADS: PlotThread[] = [
     ],
     confidence: 'official',
     sources: [
-      { label: 'Wikipedia — Spider-Man: Brand New Day', url: 'https://en.wikipedia.org/wiki/Spider-Man:_Brand_New_Day' },
+      { label: 'Wikipedia - Spider-Man: Brand New Day', url: 'https://en.wikipedia.org/wiki/Spider-Man:_Brand_New_Day' },
     ],
   },
   {
@@ -264,7 +264,7 @@ export const THREADS: PlotThread[] = [
     category: 'mystery',
     status: 'active',
     summary:
-      'After Hex Vision unlocked his archival memories inside Westview, White Vision vanished to rebuild his identity—headlining 2026’s VisionQuest.',
+      'After Hex Vision unlocked his archival memories inside Westview, White Vision vanished to rebuild his identity - headlining 2026’s VisionQuest.',
     doomsdayImpact:
       'Bridges WandaVision and Agatha All Along to Earth-616’s late-2026 readiness before Doomsday.',
     originTitleId: 'wandavision',
@@ -277,8 +277,8 @@ export const THREADS: PlotThread[] = [
     ],
     confidence: 'official',
     sources: [
-      { label: 'Wikipedia — VisionQuest', url: 'https://en.wikipedia.org/wiki/VisionQuest' },
-      { label: 'Marvel.com — VisionQuest', url: 'https://www.marvel.com/tv-shows/visionquest/1' },
+      { label: 'Wikipedia - VisionQuest', url: 'https://en.wikipedia.org/wiki/VisionQuest' },
+      { label: 'Marvel.com - VisionQuest', url: 'https://www.marvel.com/tv-shows/visionquest/1' },
     ],
   },
   {
@@ -309,7 +309,7 @@ export const THREADS: PlotThread[] = [
     summary:
       'UNCONFIRMED THEORY: Fans debate whether Victor von Doom is a true Stark variant whose Earth-828 life diverged, a Doom who hijacked/dreamwalked a Stark vessel, or an unrelated Victor whose face is an intentional psychological weapon against Earth-616’s Avengers.',
     doomsdayImpact:
-      'However explained in the film, Earth-616 heroes—especially Peter Parker, Sam Wilson, and Bruce Banner—must confront a ruthless enemy wearing their fallen savior’s face.',
+      'However explained in the film, Earth-616 heroes - especially Peter Parker, Sam Wilson, and Bruce Banner - must confront a ruthless enemy wearing their fallen savior’s face.',
     originTitleId: 'iron-man',
     keyTitleIds: ['iron-man', 'avengers-endgame', 'fantastic-four-first-steps', 'avengers-doomsday'],
     characterIds: ['doctor-doom', 'tony-stark', 'peter-parker-616', 'steve-rogers'],
@@ -346,7 +346,7 @@ export const THREADS: PlotThread[] = [
     status: 'open-mystery',
     isTheory: true,
     summary:
-      'UNCONFIRMED THEORY: Doctor Doom seeks Franklin Richards’ reality-warping Power Cosmic in order to seize control of Loki’s Multiverse World Tree—turning Doomsday’s collapse into Secret Wars’ Battleworld.',
+      'UNCONFIRMED THEORY: Doctor Doom seeks Franklin Richards’ reality-warping Power Cosmic in order to seize control of Loki’s Multiverse World Tree, turning Doomsday’s collapse into Secret Wars’ Battleworld.',
     doomsdayImpact:
       'Directly bridges Avengers: Doomsday (Dec 2026) into Avengers: Secret Wars (2027).',
     originTitleId: 'loki-s2',

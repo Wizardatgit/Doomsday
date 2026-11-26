@@ -324,6 +324,27 @@ test('RealitiesAtlas segmented filter uses WAI-ARIA toggle-button group (no orph
   assert.match(html, /aria-pressed="true"/);
 });
 
+test('SacredTimeline exposes List/Posters layout switcher, labelled selects, and zero nested buttons', async () => {
+  const { SacredTimeline } = await vite.ssrLoadModule('/src/components/SacredTimeline.tsx');
+  const html = renderToStaticMarkup(
+    React.createElement(SacredTimeline, {
+      watchedSet: new Set<string>(),
+      spoilerShield: false,
+      tmdbApiKey: '',
+      timelinePreset: 'all',
+      onChangePreset: () => {},
+      onToggleWatched: () => {},
+      onMarkEraWatched: () => {},
+      onSelect: () => {},
+    }),
+  );
+  assert.match(html, /role="group"[^>]*aria-label="Timeline layout"/);
+  assert.match(html, /List<\/button>/);
+  assert.match(html, /Posters<\/button>/);
+  assert.match(html, /aria-label="Filter by era"/);
+  assertNoNestedButtons(html, 'SacredTimeline');
+});
+
 test('local SVG place and comic assets are valid, self-contained, and free of scripts or event handlers', () => {
   const svgDirs = [
     path.join(process.cwd(), 'public', 'places'),
@@ -345,4 +366,48 @@ test('local SVG place and comic assets are valid, self-contained, and free of sc
     assert.doesNotMatch(content, /<script\b/i, `${file} must not contain <script`);
     assert.doesNotMatch(content, /\son[a-z]+\s*=/i, `${file} must not contain inline event handlers`);
   }
+});
+
+test('App renders all 4 comic backdrop assets, keeps sidebar and hero day countdowns aligned, and honors reduced-motion rules', async () => {
+  const { App } = await vite.ssrLoadModule('/src/App.tsx');
+  const cleanHtml = renderToStaticMarkup(React.createElement(App)).replace(/<!--\s*-->/g, '');
+
+  const comicFiles = [
+    'comic-portal.jpg',
+    'comic-citadel.svg',
+    'comic-clockwork.svg',
+    'comic-starburst.svg',
+  ];
+  for (const name of comicFiles) {
+    assert.ok(cleanHtml.includes(`src="./comic/${name}"`), `App HTML missing comic backdrop ${name}`);
+    assert.ok(
+      fs.existsSync(path.join(process.cwd(), 'public', 'comic', name)),
+      `Missing public/comic/${name}`,
+    );
+  }
+
+  const sidebarMatch = cleanHtml.match(/\bT-(\d+)D\b/);
+  const heroMatch = cleanHtml.match(/\bT-(\d+) DAYS\b/);
+  assert.ok(sidebarMatch, 'Sidebar T-<days>D countdown not found in rendered App HTML');
+  assert.ok(heroMatch, 'Desk Overview T-<days> DAYS countdown not found in rendered App HTML');
+  assert.equal(sidebarMatch[1], heroMatch[1], 'Sidebar and Desk Overview day countdowns must match');
+
+  const css = fs.readFileSync(path.join(process.cwd(), 'src', 'index.css'), 'utf8');
+  const reducedBlock = css.match(/@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{([\s\S]*?\n)\}/);
+  assert.ok(reducedBlock, 'src/index.css missing @media (prefers-reduced-motion: reduce) block');
+  const blockBody = reducedBlock[1];
+  for (const selector of [
+    '.tva-loom-pulse',
+    '.tva-view-enter',
+    '.tva-backdrop-fade',
+    '.tva-drawer-slide',
+    '.tva-modal-pop',
+    '.tva-stamp-pop',
+    '.tva-branch-drift',
+    '.tva-polaroid-lift',
+  ]) {
+    assert.ok(blockBody.includes(selector), `Reduced-motion block missing ${selector}`);
+  }
+  assert.match(blockBody, /animation:\s*none;/);
+  assert.match(blockBody, /transition:\s*none;/);
 });

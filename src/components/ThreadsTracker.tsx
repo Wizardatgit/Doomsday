@@ -1,9 +1,10 @@
 import { useMemo, useState } from 'react';
 import { ChevronDown, ChevronUp, RotateCcw, Sparkles } from 'lucide-react';
-import { THREADS, getCharacterChipLabel, titlesById } from '../data/index.ts';
+import { THREADS, charactersById, factionsById, getCharacterChipLabel, titlesById } from '../data/index.ts';
 import type { EntityRef, ThreadCategory } from '../data/types.ts';
+import { titleTmdbQuery } from '../lib/tmdb.ts';
 import { Redactable } from './Redactable.tsx';
-import { ViewHeroBanner } from './TvaArt.tsx';
+import { EntityVisual, ViewHeroBanner } from './TvaArt.tsx';
 
 const CATEGORY_ACCENT: Record<ThreadCategory, string> = {
   incursion: '#b91c1c',
@@ -17,11 +18,13 @@ export function ThreadsTracker({
   watchedSet,
   spoilerShield,
   showTheories,
+  tmdbApiKey = '',
   onSelect,
 }: {
   watchedSet: Set<string>;
   spoilerShield: boolean;
   showTheories: boolean;
+  tmdbApiKey?: string;
   onSelect: (ref: EntityRef) => void;
 }) {
   const [category, setCategory] = useState<'all' | ThreadCategory>('all');
@@ -95,6 +98,7 @@ export function ThreadsTracker({
         {visibleThreads.map((th, idx) => {
           const isOpen = expandedIds.has(th.id);
           const accent = CATEGORY_ACCENT[th.category] ?? '#c2410c';
+          const originTitle = titlesById.get(th.originTitleId);
           return (
             <article
               key={th.id}
@@ -104,49 +108,100 @@ export function ThreadsTracker({
               }`}
               style={{ borderLeftColor: accent }}
             >
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-[10px] font-mono-code font-bold text-[#61503e]">
-                    CASE #{String(idx + 1).padStart(2, '0')}
-                  </span>
-                  <span
-                    className="tva-ink-stamp tva-stamp-angled"
-                    style={{ borderColor: accent, color: accent, backgroundColor: `${accent}14` }}
-                  >
-                    {th.category}
-                  </span>
-                  <span className="tva-ink-stamp tva-stamp-angled border-[#047857] bg-[#047857]/10 text-[#065f46]">
-                    {th.status}
-                  </span>
-                  {th.isTheory && (
-                    <span className="tva-ink-stamp border-[#7e22ce] bg-[#7e22ce]/10 text-[#6b21a8]">
-                      <Sparkles className="w-3 h-3" /> Unconfirmed Theory
+              <div className="flex items-start gap-3.5">
+                {originTitle && (
+                  <EntityVisual
+                    variant="poster"
+                    code={`#${String(idx + 1).padStart(2, '0')}`}
+                    title={originTitle.title}
+                    subtitle={`${originTitle.year}`}
+                    accentColor={accent}
+                    emblem={th.id === 'thread-doom-franklin' ? 'doom' : 'tva'}
+                    wikiPage={originTitle.wikiPage}
+                    tmdbQuery={titleTmdbQuery(originTitle)}
+                    tmdbApiKey={tmdbApiKey}
+                    compact
+                    hideZoomTrigger
+                  />
+                )}
+                <div className="min-w-0 flex-1 space-y-2">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="text-[10px] font-mono-code font-bold text-[#61503e]">
+                        CASE #{String(idx + 1).padStart(2, '0')}
+                      </span>
+                      <span
+                        className="tva-ink-stamp tva-stamp-angled"
+                        style={{ borderColor: accent, color: accent, backgroundColor: `${accent}14` }}
+                      >
+                        {th.category}
+                      </span>
+                      <span className="tva-ink-stamp tva-stamp-angled border-[#047857] bg-[#047857]/10 text-[#065f46]">
+                        {th.status}
+                      </span>
+                      {th.isTheory && (
+                        <span className="tva-ink-stamp border-[#7e22ce] bg-[#7e22ce]/10 text-[#6b21a8]">
+                          <Sparkles className="w-3 h-3" /> Unconfirmed Theory
+                        </span>
+                      )}
+                    </div>
+                    <span className="text-[11px] font-mono-code text-[#61503e]">
+                      Origin: {originTitle?.title}
                     </span>
+                  </div>
+
+                  <h2 className="text-lg font-bold text-[#1d1610]">{th.title}</h2>
+
+                  <Redactable
+                    titleIds={th.keyTitleIds}
+                    watchedSet={watchedSet}
+                    spoilerShield={spoilerShield}
+                    label="Thread Details"
+                  >
+                    <p className={`text-xs text-[#1d1610]/85 leading-relaxed ${isOpen ? '' : 'line-clamp-2'}`}>
+                      {th.summary}
+                    </p>
+                    {isOpen && (
+                      <p className="text-xs text-[#047857] font-medium mt-2">
+                        <strong className="font-mono-code uppercase text-[10px] mr-1.5">Doomsday Impact:</strong>
+                        {th.doomsdayImpact}
+                      </p>
+                    )}
+                  </Redactable>
+
+                  {!isOpen && th.characterIds.length > 0 && (
+                    <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+                      {th.characterIds.slice(0, 4).map((cId) => {
+                        const ch = charactersById.get(cId);
+                        const fac = ch ? factionsById.get(ch.factionId) : undefined;
+                        return (
+                          <button
+                            key={cId}
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onSelect({ kind: 'character', id: cId });
+                            }}
+                            className="inline-flex items-center gap-1 rounded bg-[#fffaf0] border border-[#cbb895] px-2 py-0.5 text-[11px] text-[#1d1610] hover:border-[#b45309]"
+                          >
+                            <span
+                              className="w-1.5 h-1.5 rounded-full shrink-0"
+                              style={{ backgroundColor: fac?.color ?? accent }}
+                              aria-hidden="true"
+                            />
+                            {getCharacterChipLabel(cId)}
+                          </button>
+                        );
+                      })}
+                      {th.characterIds.length > 4 && (
+                        <span className="text-[10px] font-mono-code text-[#61503e] px-1">
+                          +{th.characterIds.length - 4} more
+                        </span>
+                      )}
+                    </div>
                   )}
                 </div>
-                <span className="text-[11px] font-mono-code text-[#61503e]">
-                  Origin: {titlesById.get(th.originTitleId)?.title}
-                </span>
               </div>
-
-              <h2 className="text-lg font-bold text-[#1d1610]">{th.title}</h2>
-
-              <Redactable
-                titleIds={th.keyTitleIds}
-                watchedSet={watchedSet}
-                spoilerShield={spoilerShield}
-                label="Thread Details"
-              >
-                <p className={`text-xs text-[#1d1610]/85 leading-relaxed ${isOpen ? '' : 'line-clamp-2'}`}>
-                  {th.summary}
-                </p>
-                {isOpen && (
-                  <p className="text-xs text-[#047857] font-medium mt-2">
-                    <strong className="font-mono-code uppercase text-[10px] mr-1.5">Doomsday Impact:</strong>
-                    {th.doomsdayImpact}
-                  </p>
-                )}
-              </Redactable>
 
               {isOpen && (
                 <>
@@ -164,14 +219,28 @@ export function ThreadsTracker({
                   </div>
 
                   <div className="flex flex-wrap gap-1.5 pt-1">
-                    {th.characterIds.map((cId) => (
-                      <span
-                        key={cId}
-                        className="rounded bg-[#fffaf0] border border-[#cbb895] px-2 py-0.5 text-[11px] text-[#1d1610]"
-                      >
-                        {getCharacterChipLabel(cId)}
-                      </span>
-                    ))}
+                    {th.characterIds.map((cId) => {
+                      const ch = charactersById.get(cId);
+                      const fac = ch ? factionsById.get(ch.factionId) : undefined;
+                      return (
+                        <button
+                          key={cId}
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onSelect({ kind: 'character', id: cId });
+                          }}
+                          className="inline-flex items-center gap-1 rounded bg-[#fffaf0] border border-[#cbb895] px-2 py-0.5 text-[11px] text-[#1d1610] hover:border-[#b45309]"
+                        >
+                          <span
+                            className="w-1.5 h-1.5 rounded-full shrink-0"
+                            style={{ backgroundColor: fac?.color ?? accent }}
+                            aria-hidden="true"
+                          />
+                          {getCharacterChipLabel(cId)}
+                        </button>
+                      );
+                    })}
                   </div>
                 </>
               )}
